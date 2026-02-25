@@ -61,24 +61,6 @@ nix run nixpkgs#aboocode           # oder github:anomalyco/opencode für den neu
 > [!TIP]
 > Entferne Versionen älter als 0.1.x vor der Installation.
 
-### Desktop-App (BETA)
-
-AbooCode ist auch als Desktop-Anwendung verfügbar. Lade sie direkt von der [Releases-Seite](https://github.com/anomalyco/opencode/releases) oder [opencode.ai/download](https://opencode.ai/download) herunter.
-
-| Plattform             | Download                              |
-| --------------------- | ------------------------------------- |
-| macOS (Apple Silicon) | `aboocode-desktop-darwin-aarch64.dmg` |
-| macOS (Intel)         | `aboocode-desktop-darwin-x64.dmg`     |
-| Windows               | `aboocode-desktop-windows-x64.exe`    |
-| Linux                 | `.deb`, `.rpm` oder AppImage          |
-
-```bash
-# macOS (Homebrew)
-brew install --cask aboocode-desktop
-# Windows (Scoop)
-scoop bucket add extras; scoop install extras/aboocode-desktop
-```
-
 #### Installationsverzeichnis
 
 Das Installationsskript beachtet die folgende Prioritätsreihenfolge für den Installationspfad:

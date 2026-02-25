@@ -62,24 +62,6 @@ nix run nixpkgs#aboocode           # ili github:anomalyco/opencode za najnoviji 
 > [!TIP]
 > Ukloni verzije starije od 0.1.x prije instalacije.
 
-### Desktop aplikacija (BETA)
-
-AbooCode je dostupan i kao desktop aplikacija. Preuzmi je direktno sa [stranice izdanja](https://github.com/anomalyco/opencode/releases) ili sa [opencode.ai/download](https://opencode.ai/download).
-
-| Platforma             | Preuzimanje                           |
-| --------------------- | ------------------------------------- |
-| macOS (Apple Silicon) | `aboocode-desktop-darwin-aarch64.dmg` |
-| macOS (Intel)         | `aboocode-desktop-darwin-x64.dmg`     |
-| Windows               | `aboocode-desktop-windows-x64.exe`    |
-| Linux                 | `.deb`, `.rpm`, ili AppImage          |
-
-```bash
-# macOS (Homebrew)
-brew install --cask aboocode-desktop
-# Windows (Scoop)
-scoop bucket add extras; scoop install extras/aboocode-desktop
-```
-
 #### Instalacijski direktorij
 
 Instalacijska skripta koristi sljedeći redoslijed prioriteta za putanju instalacije:

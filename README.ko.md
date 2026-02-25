@@ -61,24 +61,6 @@ nix run nixpkgs#aboocode           # 또는 github:anomalyco/opencode 로 최신
 > [!TIP]
 > 설치 전에 0.1.x 보다 오래된 버전을 제거하세요.
 
-### 데스크톱 앱 (BETA)
-
-AbooCode 는 데스크톱 앱으로도 제공됩니다. [releases page](https://github.com/anomalyco/opencode/releases) 에서 직접 다운로드하거나 [opencode.ai/download](https://opencode.ai/download) 를 이용하세요.
-
-| 플랫폼                | 다운로드                              |
-| --------------------- | ------------------------------------- |
-| macOS (Apple Silicon) | `aboocode-desktop-darwin-aarch64.dmg` |
-| macOS (Intel)         | `aboocode-desktop-darwin-x64.dmg`     |
-| Windows               | `aboocode-desktop-windows-x64.exe`    |
-| Linux                 | `.deb`, `.rpm`, 또는 AppImage         |
-
-```bash
-# macOS (Homebrew)
-brew install --cask aboocode-desktop
-# Windows (Scoop)
-scoop bucket add extras; scoop install extras/aboocode-desktop
-```
-
 #### 설치 디렉터리
 
 설치 스크립트는 설치 경로를 다음 우선순위로 결정합니다.

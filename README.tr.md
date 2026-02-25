@@ -61,24 +61,6 @@ nix run nixpkgs#aboocode           # veya en güncel geliştirme dalı için git
 > [!TIP]
 > Kurulumdan önce 0.1.x'ten eski sürümleri kaldırın.
 
-### Masaüstü Uygulaması (BETA)
-
-AbooCode ayrıca masaüstü uygulaması olarak da mevcuttur. Doğrudan [sürüm sayfasından](https://github.com/anomalyco/opencode/releases) veya [opencode.ai/download](https://opencode.ai/download) adresinden indirebilirsiniz.
-
-| Platform              | İndirme                               |
-| --------------------- | ------------------------------------- |
-| macOS (Apple Silicon) | `aboocode-desktop-darwin-aarch64.dmg` |
-| macOS (Intel)         | `aboocode-desktop-darwin-x64.dmg`     |
-| Windows               | `aboocode-desktop-windows-x64.exe`    |
-| Linux                 | `.deb`, `.rpm` veya AppImage          |
-
-```bash
-# macOS (Homebrew)
-brew install --cask aboocode-desktop
-# Windows (Scoop)
-scoop bucket add extras; scoop install extras/aboocode-desktop
-```
-
 #### Kurulum Dizini (Installation Directory)
 
 Kurulum betiği (install script), kurulum yolu (installation path) için aşağıdaki öncelik sırasını takip eder:
