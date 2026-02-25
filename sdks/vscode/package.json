@@ -2,7 +2,7 @@
   "name": "aboocode",
   "displayName": "aboocode",
   "description": "aboocode for VS Code",
-  "version": "1.2.13",
+  "version": "0.1.0",
   "publisher": "sst-dev",
   "repository": {
     "type": "git",

@@ -23,7 +23,9 @@
       "Bash(grep:*)",
       "Bash(/usr/local/bin/aboo:*)",
       "Bash(gh auth:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(git config http.postBuffer 524288000 && git push -u origin master 2>&1)"
     ]
   }
 }
