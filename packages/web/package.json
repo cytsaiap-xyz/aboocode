@@ -1,5 +1,5 @@
 {
-  "name": "@opencode-ai/web",
+  "name": "@aboocode/web",
   "type": "module",
   "license": "MIT",
   "version": "1.2.13",
@@ -35,7 +35,7 @@
     "vscode-languageserver-types": "3.17.5"
   },
   "devDependencies": {
-    "opencode": "workspace:*",
+    "aboocode": "workspace:*",
     "@types/node": "catalog:",
     "@astrojs/check": "0.9.6",
     "typescript": "catalog:"

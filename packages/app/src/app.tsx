@@ -1,13 +1,13 @@
 import "@/index.css"
-import { Code } from "@opencode-ai/ui/code"
-import { I18nProvider } from "@opencode-ai/ui/context"
-import { CodeComponentProvider } from "@opencode-ai/ui/context/code"
-import { DialogProvider } from "@opencode-ai/ui/context/dialog"
-import { DiffComponentProvider } from "@opencode-ai/ui/context/diff"
-import { MarkedProvider } from "@opencode-ai/ui/context/marked"
-import { Diff } from "@opencode-ai/ui/diff"
-import { Font } from "@opencode-ai/ui/font"
-import { ThemeProvider } from "@opencode-ai/ui/theme"
+import { Code } from "@aboocode/ui/code"
+import { I18nProvider } from "@aboocode/ui/context"
+import { CodeComponentProvider } from "@aboocode/ui/context/code"
+import { DialogProvider } from "@aboocode/ui/context/dialog"
+import { DiffComponentProvider } from "@aboocode/ui/context/diff"
+import { MarkedProvider } from "@aboocode/ui/context/marked"
+import { Diff } from "@aboocode/ui/diff"
+import { Font } from "@aboocode/ui/font"
+import { ThemeProvider } from "@aboocode/ui/theme"
 import { MetaProvider } from "@solidjs/meta"
 import { Navigate, Route, Router } from "@solidjs/router"
 import { ErrorBoundary, type JSX, lazy, type ParentProps, Show, Suspense } from "solid-js"
@@ -58,7 +58,7 @@ function UiI18nBridge(props: ParentProps) {
 
 declare global {
   interface Window {
-    __OPENCODE__?: {
+    __ABOOCODE__?: {
       updaterEnabled?: boolean
       deepLinks?: string[]
       wsl?: boolean

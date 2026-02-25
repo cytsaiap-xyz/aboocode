@@ -1,6 +1,6 @@
 import type {
   Config,
-  OpencodeClient,
+  AboocodeClient,
   Path,
   PermissionRequest,
   Project,
@@ -8,10 +8,10 @@ import type {
   ProviderListResponse,
   QuestionRequest,
   Todo,
-} from "@opencode-ai/sdk/v2/client"
-import { showToast } from "@opencode-ai/ui/toast"
-import { getFilename } from "@opencode-ai/util/path"
-import { retry } from "@opencode-ai/util/retry"
+} from "@aboocode/sdk/v2/client"
+import { showToast } from "@aboocode/ui/toast"
+import { getFilename } from "@aboocode/util/path"
+import { retry } from "@aboocode/util/retry"
 import { batch } from "solid-js"
 import { reconcile, type SetStoreFunction, type Store } from "solid-js/store"
 import type { State, VcsCache } from "./types"
@@ -32,7 +32,7 @@ type GlobalStore = {
 }
 
 export async function bootstrapGlobal(input: {
-  globalSDK: OpencodeClient
+  globalSDK: AboocodeClient
   connectErrorTitle: string
   connectErrorDescription: string
   requestFailedTitle: string
@@ -67,7 +67,7 @@ export async function bootstrapGlobal(input: {
       input.globalSDK.project.list().then((x) => {
         const projects = (x.data ?? [])
           .filter((p) => !!p?.id)
-          .filter((p) => !!p.worktree && !p.worktree.includes("opencode-test"))
+          .filter((p) => !!p.worktree && !p.worktree.includes("aboocode-test"))
           .slice()
           .sort((a, b) => cmp(a.id, b.id))
         input.setGlobalStore("project", projects)
@@ -111,7 +111,7 @@ function groupBySession<T extends { id: string; sessionID: string }>(input: T[])
 
 export async function bootstrapDirectory(input: {
   directory: string
-  sdk: OpencodeClient
+  sdk: AboocodeClient
   store: Store<State>
   setStore: SetStoreFunction<State>
   vcsCache: VcsCache

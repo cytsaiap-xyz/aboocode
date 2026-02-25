@@ -1,36 +1,36 @@
-id = "opencode"
-name = "OpenCode"
+id = "aboocode"
+name = "Aboocode"
 description = "The open source coding agent."
 version = "1.2.13"
 schema_version = 1
 authors = ["Anomaly"]
 repository = "https://github.com/anomalyco/opencode"
 
-[agent_servers.opencode]
-name = "OpenCode"
-icon = "./icons/opencode.svg"
+[agent_servers.aboocode]
+name = "Aboocode"
+icon = "./icons/aboocode.svg"
 
-[agent_servers.opencode.targets.darwin-aarch64]
-archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/opencode-darwin-arm64.zip"
-cmd = "./opencode"
+[agent_servers.aboocode.targets.darwin-aarch64]
+archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/aboocode-darwin-arm64.zip"
+cmd = "./aboocode"
 args = ["acp"]
 
-[agent_servers.opencode.targets.darwin-x86_64]
-archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/opencode-darwin-x64.zip"
-cmd = "./opencode"
+[agent_servers.aboocode.targets.darwin-x86_64]
+archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/aboocode-darwin-x64.zip"
+cmd = "./aboocode"
 args = ["acp"]
 
-[agent_servers.opencode.targets.linux-aarch64]
-archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/opencode-linux-arm64.tar.gz"
-cmd = "./opencode"
+[agent_servers.aboocode.targets.linux-aarch64]
+archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/aboocode-linux-arm64.tar.gz"
+cmd = "./aboocode"
 args = ["acp"]
 
-[agent_servers.opencode.targets.linux-x86_64]
-archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/opencode-linux-x64.tar.gz"
-cmd = "./opencode"
+[agent_servers.aboocode.targets.linux-x86_64]
+archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/aboocode-linux-x64.tar.gz"
+cmd = "./aboocode"
 args = ["acp"]
 
-[agent_servers.opencode.targets.windows-x86_64]
-archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/opencode-windows-x64.zip"
-cmd = "./opencode.exe"
+[agent_servers.aboocode.targets.windows-x86_64]
+archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/aboocode-windows-x64.zip"
+cmd = "./aboocode.exe"
 args = ["acp"]

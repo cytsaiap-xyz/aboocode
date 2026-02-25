@@ -1,5 +1,5 @@
 import type { APIEvent } from "@solidjs/start/server"
-import { Resource } from "@opencode-ai/console-resource"
+import { Resource } from "@aboocode/console-resource"
 import { docs, localeFromRequest, tag } from "~/lib/language"
 
 async function handler(evt: APIEvent) {

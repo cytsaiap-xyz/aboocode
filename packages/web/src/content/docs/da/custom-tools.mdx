@@ -1,9 +1,9 @@
 ---
 title: Brugerdefinerede værktøjer
-description: Opret værktøjer, som LLM kan kalde opencode ind.
+description: Opret værktøjer, som LLM kan kalde aboocode ind.
 ---
 
-Brugerdefinerede værktøjer er funktioner, du opretter, som LLM kan kalde under samtaler. De arbejder sammen med opencodes [built-in tools](/docs/tools) som `read`, `write` og `bash`.
+Brugerdefinerede værktøjer er funktioner, du opretter, som LLM kan kalde under samtaler. De arbejder sammen med aboocodes [built-in tools](/docs/tools) som `read`, `write` og `bash`.
 
 ---
 
@@ -17,8 +17,8 @@ Værktøjer er defineret som **TypeScript**- eller **JavaScript**-filer. Værkt�
 
 De kan definere:
 
-- Lokalt ved at placere dem i biblioteket `.opencode/tools/` i dit projekt.
-- Eller globalt ved at placere dem i `~/.config/opencode/tools/`.
+- Lokalt ved at placere dem i biblioteket `.aboocode/tools/` i dit projekt.
+- Eller globalt ved at placere dem i `~/.config/aboocode/tools/`.
 
 ---
 
@@ -26,7 +26,7 @@ De kan definere:
 
 Den nemmeste måde at oprette værktøjer på er at bruge `tool()`-hjælperen, som giver typesikkerhed og validering.
 
-```ts title=".opencode/tools/database.ts" {1}
+```ts title=".aboocode/tools/database.ts" {1}
 import { tool } from "@opencode-ai/plugin"
 
 export default tool({
@@ -49,7 +49,7 @@ export default tool({
 
 Du kan også eksportere flere værktøjer fra en enkelt fil. Hver eksport bliver **et separat værktøj** med navnet **`<filename>_<exportname>`**:
 
-```ts title=".opencode/tools/math.ts"
+```ts title=".aboocode/tools/math.ts"
 import { tool } from "@opencode-ai/plugin"
 
 export const add = tool({
@@ -112,7 +112,7 @@ export default {
 
 Værktøjer modtager kontekst om den aktuelle session:
 
-```ts title=".opencode/tools/project.ts" {8}
+```ts title=".aboocode/tools/project.ts" {8}
 import { tool } from "@opencode-ai/plugin"
 
 export default tool({
@@ -139,7 +139,7 @@ Du kan skrive dine værktøjer på et hvilket som helst sprog, du ønsker. Her e
 
 Først skal du oprette værktøjet som et Python-script:
 
-```python title=".opencode/tools/add.py"
+```python title=".aboocode/tools/add.py"
 import sys
 
 a = int(sys.argv[1])
@@ -149,7 +149,7 @@ print(a + b)
 
 Opret derefter værktøjsdefinitionen, der kalder den:
 
-```ts title=".opencode/tools/python-add.ts" {10}
+```ts title=".aboocode/tools/python-add.ts" {10}
 import { tool } from "@opencode-ai/plugin"
 import path from "path"
 
@@ -160,7 +160,7 @@ export default tool({
     b: tool.schema.number().describe("Second number"),
   },
   async execute(args, context) {
-    const script = path.join(context.worktree, ".opencode/tools/add.py")
+    const script = path.join(context.worktree, ".aboocode/tools/add.py")
     const result = await Bun.$`python3 ${script} ${args.a} ${args.b}`.text()
     return result.trim()
   },

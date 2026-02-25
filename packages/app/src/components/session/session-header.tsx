@@ -1,15 +1,15 @@
-import { AppIcon } from "@opencode-ai/ui/app-icon"
-import { Button } from "@opencode-ai/ui/button"
-import { DropdownMenu } from "@opencode-ai/ui/dropdown-menu"
-import { Icon } from "@opencode-ai/ui/icon"
-import { IconButton } from "@opencode-ai/ui/icon-button"
-import { Keybind } from "@opencode-ai/ui/keybind"
-import { Popover } from "@opencode-ai/ui/popover"
-import { Spinner } from "@opencode-ai/ui/spinner"
-import { TextField } from "@opencode-ai/ui/text-field"
-import { showToast } from "@opencode-ai/ui/toast"
-import { Tooltip, TooltipKeybind } from "@opencode-ai/ui/tooltip"
-import { getFilename } from "@opencode-ai/util/path"
+import { AppIcon } from "@aboocode/ui/app-icon"
+import { Button } from "@aboocode/ui/button"
+import { DropdownMenu } from "@aboocode/ui/dropdown-menu"
+import { Icon } from "@aboocode/ui/icon"
+import { IconButton } from "@aboocode/ui/icon-button"
+import { Keybind } from "@aboocode/ui/keybind"
+import { Popover } from "@aboocode/ui/popover"
+import { Spinner } from "@aboocode/ui/spinner"
+import { TextField } from "@aboocode/ui/text-field"
+import { showToast } from "@aboocode/ui/toast"
+import { Tooltip, TooltipKeybind } from "@aboocode/ui/tooltip"
+import { getFilename } from "@aboocode/util/path"
 import { useParams } from "@solidjs/router"
 import { createEffect, createMemo, For, onCleanup, Show } from "solid-js"
 import { createStore } from "solid-js/store"
@@ -349,8 +349,8 @@ export function SessionHeader() {
     platform,
   })
 
-  const centerMount = createMemo(() => document.getElementById("opencode-titlebar-center"))
-  const rightMount = createMemo(() => document.getElementById("opencode-titlebar-right"))
+  const centerMount = createMemo(() => document.getElementById("aboocode-titlebar-center"))
+  const rightMount = createMemo(() => document.getElementById("aboocode-titlebar-right"))
 
   return (
     <>

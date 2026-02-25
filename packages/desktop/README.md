@@ -1,6 +1,6 @@
-# OpenCode Desktop
+# Aboocode Desktop
 
-Native OpenCode desktop app, built with Tauri v2.
+Native Aboocode desktop app, built with Tauri v2.
 
 ## Prerequisites
 

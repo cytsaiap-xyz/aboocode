@@ -3,9 +3,9 @@ title: Temas
 description: Seleccione un tema integrado o defina el suyo propio.
 ---
 
-Con OpenCode puede seleccionar uno de varios temas integrados, usar un tema que se adapte al tema de su terminal o definir su propio tema personalizado.
+Con Aboocode puede seleccionar uno de varios temas integrados, usar un tema que se adapte al tema de su terminal o definir su propio tema personalizado.
 
-De forma predeterminada, OpenCode usa nuestro propio tema `opencode`.
+De forma predeterminada, Aboocode usa nuestro propio tema `aboocode`.
 
 ---
 
@@ -23,7 +23,7 @@ Sin soporte de color verdadero, los temas pueden aparecer con una precisión de 
 
 ## Temas integrados
 
-OpenCode viene con varios temas integrados.
+Aboocode viene con varios temas integrados.
 
 | Nombre                 | Descripción                                                                   |
 | ---------------------- | ----------------------------------------------------------------------------- |
@@ -53,7 +53,7 @@ El tema `system` está diseñado para adaptarse automáticamente a la combinaci�
 
 El tema del sistema es para usuarios que:
 
-- Quiere que OpenCode coincida con la apariencia de su terminal
+- Quiere que Aboocode coincida con la apariencia de su terminal
 - Utilice esquemas de color de terminal personalizados
 - Prefiere una apariencia consistente en todas las aplicaciones de terminal
 
@@ -63,7 +63,7 @@ El tema del sistema es para usuarios que:
 
 Puede seleccionar un tema abriendo la selección de tema con el comando `/theme`. O puede especificarlo en su [config](/docs/config).
 
-```json title="opencode.json" {3}
+```json title="aboocode.json" {3}
 {
   "$schema": "https://opencode.ai/config.json",
   "theme": "tokyonight"
@@ -74,7 +74,7 @@ Puede seleccionar un tema abriendo la selección de tema con el comando `/theme`
 
 ## Temas personalizados
 
-OpenCode admite un sistema de temas flexible basado en JSON que permite a los usuarios crear y personalizar temas fácilmente.
+Aboocode admite un sistema de temas flexible basado en JSON que permite a los usuarios crear y personalizar temas fácilmente.
 
 ---
 
@@ -83,9 +83,9 @@ OpenCode admite un sistema de temas flexible basado en JSON que permite a los us
 Los temas se cargan desde varios directorios en el siguiente orden, donde los directorios posteriores anulan los anteriores:
 
 1. **Temas integrados**: están integrados en el binario
-2. **Directorio de configuración de usuario**: definido en `~/.config/opencode/themes/*.json` o `$XDG_CONFIG_HOME/opencode/themes/*.json`
-3. **Directorio raíz del proyecto**: definido en `<project-root>/.opencode/themes/*.json`
-4. **Directorio de trabajo actual** - Definido en `./.opencode/themes/*.json`
+2. **Directorio de configuración de usuario**: definido en `~/.config/aboocode/themes/*.json` o `$XDG_CONFIG_HOME/aboocode/themes/*.json`
+3. **Directorio raíz del proyecto**: definido en `<project-root>/.aboocode/themes/*.json`
+4. **Directorio de trabajo actual** - Definido en `./.aboocode/themes/*.json`
 
 Si varios directorios contienen un tema con el mismo nombre, se utilizará el tema del directorio con mayor prioridad.
 
@@ -98,15 +98,15 @@ Para crear un tema personalizado, cree un archivo JSON en uno de los directorios
 Para temas para todo el usuario:
 
 ```bash no-frame
-mkdir -p ~/.config/opencode/themes
-vim ~/.config/opencode/themes/my-theme.json
+mkdir -p ~/.config/aboocode/themes
+vim ~/.config/aboocode/themes/my-theme.json
 ```
 
 Y para temas específicos del proyecto.
 
 ```bash no-frame
-mkdir -p .opencode/themes
-vim .opencode/themes/my-theme.json
+mkdir -p .aboocode/themes
+vim .aboocode/themes/my-theme.json
 ```
 
 ---

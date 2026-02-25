@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { fn } from "./util/fn"
-import { Resource } from "@opencode-ai/console-resource"
+import { Resource } from "@aboocode/console-resource"
 
 export namespace LiteData {
   const Schema = z.object({

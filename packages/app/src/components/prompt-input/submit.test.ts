@@ -42,18 +42,18 @@ beforeAll(async () => {
     useParams: () => ({}),
   }))
 
-  mock.module("@opencode-ai/sdk/v2/client", () => ({
-    createOpencodeClient: (input: { directory: string }) => {
+  mock.module("@aboocode/sdk/v2/client", () => ({
+    createAboocodeClient: (input: { directory: string }) => {
       createdClients.push(input.directory)
       return clientFor(input.directory)
     },
   }))
 
-  mock.module("@opencode-ai/ui/toast", () => ({
+  mock.module("@aboocode/ui/toast", () => ({
     showToast: () => 0,
   }))
 
-  mock.module("@opencode-ai/util/encode", () => ({
+  mock.module("@aboocode/util/encode", () => ({
     base64Encode: (value: string) => value,
   }))
 

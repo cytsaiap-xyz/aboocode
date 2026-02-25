@@ -1,15 +1,15 @@
 ---
 title: Giriş
-description: opencode kullanmaya başlayın.
+description: aboocode kullanmaya başlayın.
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components"
 import config from "../../../../config.mjs"
 export const console = config.console
 
-[**opencode**](/) açık kaynaklı bir AI kodlama ajanıdır. Terminal tabanlı bir arayüz, masaüstü uygulaması veya IDE uzantısı olarak mevcuttur.
+[**aboocode**](/) açık kaynaklı bir AI kodlama ajanıdır. Terminal tabanlı bir arayüz, masaüstü uygulaması veya IDE uzantısı olarak mevcuttur.
 
-![opencode TUI with the opencode theme](../../../assets/lander/screenshot.png)
+![aboocode TUI with the aboocode theme](../../../assets/lander/screenshot.png)
 
 Başlayalım.
 
@@ -17,7 +17,7 @@ Başlayalım.
 
 #### Ön koşullar
 
-opencode'u terminalinizde kullanmak için ihtiyacınız olacak:
+aboocode'u terminalinizde kullanmak için ihtiyacınız olacak:
 
 1. Şu gibi modern bir terminal emülatörü:
    - [WezTerm](https://wezterm.org), cross-platform
@@ -31,7 +31,7 @@ opencode'u terminalinizde kullanmak için ihtiyacınız olacak:
 
 ## Kurulum
 
-opencode'u kurmanın en kolay yolu kurulum betiğidir.
+aboocode'u kurmanın en kolay yolu kurulum betiğidir.
 
 ```bash
 curl -fsSL https://opencode.ai/install | bash
@@ -45,28 +45,28 @@ Ayrıca aşağıdaki komutlarla da yükleyebilirsiniz:
 
       <TabItem label="npm">
       ```bash
-      npm install -g opencode-ai
+      npm install -g aboocode-ai
       ```
 
           </TabItem>
 
         <TabItem label="Bun">
         ```bash
-        bun install -g opencode-ai
+        bun install -g aboocode-ai
         ```
 
           </TabItem>
 
         <TabItem label="pnpm">
         ```bash
-        pnpm install -g opencode-ai
+        pnpm install -g aboocode-ai
         ```
 
           </TabItem>
 
         <TabItem label="Yarn">
         ```bash
-        yarn global add opencode-ai
+        yarn global add aboocode-ai
         ```
 
       </TabItem>
@@ -76,55 +76,55 @@ Ayrıca aşağıdaki komutlarla da yükleyebilirsiniz:
 - **Homebrew'u macOS ve Linux'ta kullanma**
 
   ```bash
-  brew install anomalyco/tap/opencode
+  brew install anomalyco/tap/aboocode
   ```
 
-  > En güncel sürümler için opencode tap'ini kullanmanızı öneririz. Resmi `brew install opencode` formülü Homebrew ekibi tarafından korunur ve daha sık güncellenir.
+  > En güncel sürümler için aboocode tap'ini kullanmanızı öneririz. Resmi `brew install aboocode` formülü Homebrew ekibi tarafından korunur ve daha sık güncellenir.
 
 - **Paru'yu Arch Linux'ta kullanma**
 
   ```bash
-  sudo pacman -S opencode           # Arch Linux (Stable)
-  paru -S opencode-bin              # Arch Linux (Latest from AUR)
+  sudo pacman -S aboocode           # Arch Linux (Stable)
+  paru -S aboocode-bin              # Arch Linux (Latest from AUR)
   ```
 
 #### Windows
 
 :::tip[Önerilen: WSL kullanın]
-Windows'ta en iyi deneyim için [Windows Subsystem for Linux (WSL)](/docs/windows-wsl) kullanılmasını öneririz. Daha iyi performans ve opencode'un özellikleriyle tam uyumluluğu sağlar.
+Windows'ta en iyi deneyim için [Windows Subsystem for Linux (WSL)](/docs/windows-wsl) kullanılmasını öneririz. Daha iyi performans ve aboocode'un özellikleriyle tam uyumluluğu sağlar.
 :::
 
 - **Chocolatey Kullanımı**
 
   ```bash
-  choco install opencode
+  choco install aboocode
   ```
 
 - **Scoop Kullanımı**
 
   ```bash
-  scoop install opencode
+  scoop install aboocode
   ```
 
 - **NPM kullanarak**
 
   ```bash
-  npm install -g opencode-ai
+  npm install -g aboocode-ai
   ```
 
 - **Mise Kullanımı**
 
   ```bash
-  mise use -g github:anomalyco/opencode
+  mise use -g github:anomalyco/aboocode
   ```
 
 - **Docker'ı kullanma**
 
   ```bash
-  docker run -it --rm ghcr.io/anomalyco/opencode
+  docker run -it --rm ghcr.io/anomalyco/aboocode
   ```
 
-opencode'un Bun kullanılarak Windows'a yüklenmesine yönelik destek şu anda devam etmektedir.
+aboocode'un Bun kullanılarak Windows'a yüklenmesine yönelik destek şu anda devam etmektedir.
 
 İkili dosyayı [Releases](https://github.com/anomalyco/opencode/releases)'dan da alabilirsiniz.
 
@@ -132,12 +132,12 @@ opencode'un Bun kullanılarak Windows'a yüklenmesine yönelik destek şu anda d
 
 ## Yapılandırma
 
-opencode ile herhangi bir LLM sağlayıcısının API anahtarlarını yapılandırarak kullanabilirsiniz.
+aboocode ile herhangi bir LLM sağlayıcısının API anahtarlarını yapılandırarak kullanabilirsiniz.
 
-LLM sağlayıcılarını kullanmaya yeni başlıyorsanız, [OpenCode Zen](/docs/zen) kullanmanızı öneririz.
-opencode ekibi tarafından test edilmiş ve doğrulanmış modellerin seçilmiş bir listesidir.
+LLM sağlayıcılarını kullanmaya yeni başlıyorsanız, [Aboocode Zen](/docs/zen) kullanmanızı öneririz.
+aboocode ekibi tarafından test edilmiş ve doğrulanmış modellerin seçilmiş bir listesidir.
 
-1. TUI'de `/connect` komutunu çalıştırın, opencode'u seçin ve [opencode.ai/auth](https://opencode.ai/auth)'ye gidin.
+1. TUI'de `/connect` komutunu çalıştırın, aboocode'u seçin ve [opencode.ai/auth](https://opencode.ai/auth)'ye gidin.
 
    ```txt
    /connect
@@ -167,32 +167,32 @@ Artık bir sağlayıcı yapılandırdığınıza göre, bir projeye gidebilirsin
 cd /path/to/project
 ```
 
-Ve opencode'u çalıştırın.
+Ve aboocode'u çalıştırın.
 
 ```bash
-opencode
+aboocode
 ```
 
-Daha sonra aşağıdaki komutu çalıştırarak proje için opencode'u başlatın.
+Daha sonra aşağıdaki komutu çalıştırarak proje için aboocode'u başlatın.
 
 ```bash frame="none"
 /init
 ```
 
-Bu, opencode'un projenizi analiz etmesini ve bir `AGENTS.md` dosyası oluşturmasını sağlayacaktır.
+Bu, aboocode'un projenizi analiz etmesini ve bir `AGENTS.md` dosyası oluşturmasını sağlayacaktır.
 proje kökü.
 
 :::tip
 Projenizin `AGENTS.md` dosyasını Git'e göndermelisiniz.
 :::
 
-Bu, opencode'un proje yapısını ve kullanılan kodlama kalıplarını anlamasına yardımcı olur.
+Bu, aboocode'un proje yapısını ve kullanılan kodlama kalıplarını anlamasına yardımcı olur.
 
 ---
 
 ## Kullanım
 
-Artık projeniz üzerinde çalışmak için opencode'u kullanmaya hazırsınız. Dilediğiniz soruyu sorabilirsiniz.
+Artık projeniz üzerinde çalışmak için aboocode'u kullanmaya hazırsınız. Dilediğiniz soruyu sorabilirsiniz.
 
 AI kodlama ajanını kullanmaya yeniyseniz aşağıdaki örnekler yardımcı olabilir.
 
@@ -200,7 +200,7 @@ AI kodlama ajanını kullanmaya yeniyseniz aşağıdaki örnekler yardımcı ola
 
 ### Soru Sorma
 
-opencode'dan kod tabanını size açıklamasını isteyebilirsiniz.
+aboocode'dan kod tabanını size açıklamasını isteyebilirsiniz.
 
 :::tip
 Projedeki dosyaları bulanık aramak için `@` tuşunu kullanın.
@@ -216,11 +216,11 @@ Kod tabanının üzerinde çalışmadığınız bir kısmı varsa bu yararlı ol
 
 ### Özellik Ekleme
 
-opencode'dan projenize yeni özellikler eklemesini isteyebilirsiniz. Yine de öncelikle ondan bir plan oluşturmasını istemenizi öneririz.
+aboocode'dan projenize yeni özellikler eklemesini isteyebilirsiniz. Yine de öncelikle ondan bir plan oluşturmasını istemenizi öneririz.
 
 1. **Bir plan oluşturun**
 
-   opencode, değişiklik yapma özelliğini kapatan bir \_Plan modu_na sahiptir.
+   aboocode, değişiklik yapma özelliğini kapatan bir \_Plan modu_na sahiptir.
    Bu modda, özelliğin nasıl uygulanacağını önerir.
 
    **Sekme** tuşunu kullanarak buna geçin. Bunun için sağ alt köşede bir gösterge göreceksiniz.
@@ -237,14 +237,14 @@ opencode'dan projenize yeni özellikler eklemesini isteyebilirsiniz. Yine de ön
    From this screen, the user can undelete a note or permanently delete it.
    ```
 
-   opencode'un isteğinizi anlaması için yeterli ayrıntı verin.
+   aboocode'un isteğinizi anlaması için yeterli ayrıntı verin.
    Ekibinizdeki junior bir geliştiriciyle konuşur gibi yazmak genelde iyi sonuç verir.
 
    :::tip
-   opencode'a bol bağlam ve örnek verin.
+   aboocode'a bol bağlam ve örnek verin.
    :::
 
-   opencode verdiğiniz görselleri tarayıp prompt'a ekleyebilir.
+   aboocode verdiğiniz görselleri tarayıp prompt'a ekleyebilir.
    Bunu bir görseli terminale sürükleyip bırakarak yapabilirsiniz.
 
 2. **Planı yineleyin**
@@ -260,7 +260,7 @@ opencode'dan projenize yeni özellikler eklemesini isteyebilirsiniz. Yine de ön
    İsteme eklemek için görüntüleri terminale sürükleyip bırakın.
    :::
 
-   opencode verdiğiniz görselleri tarayıp prompt'a ekleyebilir.
+   aboocode verdiğiniz görselleri tarayıp prompt'a ekleyebilir.
    Bunu bir görseli terminale sürükleyip bırakarak yapabilirsiniz.
 
 3. **Özelliği oluşturun**
@@ -281,7 +281,7 @@ opencode'dan projenize yeni özellikler eklemesini isteyebilirsiniz. Yine de ön
 
 ### Değişiklik Yapma
 
-Daha basit değişikliklerde, önce planı incelemeden opencode'dan doğrudan değişiklik yapmasını isteyebilirsiniz.
+Daha basit değişikliklerde, önce planı incelemeden aboocode'dan doğrudan değişiklik yapmasını isteyebilirsiniz.
 
 ```txt frame="none" "@packages/functions/src/settings.ts" "@packages/functions/src/notes.ts"
 We need to add authentication to the /settings route. Take a look at how this is
@@ -289,13 +289,13 @@ handled in the /notes route in @packages/functions/src/notes.ts and implement
 the same logic in @packages/functions/src/settings.ts
 ```
 
-opencode'un doğru değişiklikleri yapması için yeterli ayrıntı verdiğinizden emin olun.
+aboocode'un doğru değişiklikleri yapması için yeterli ayrıntı verdiğinizden emin olun.
 
 ---
 
 ### Değişiklikleri Geri Alma
 
-Diyelim ki opencode'dan bazı değişiklikler yapmasını istediniz.
+Diyelim ki aboocode'dan bazı değişiklikler yapmasını istediniz.
 
 ```txt frame="none" "@packages/functions/src/api/index.ts"
 Can you refactor the function in @packages/functions/src/api/index.ts?
@@ -308,13 +308,13 @@ Ama istediğinin bu olmadığını anlıyorsun. Değişiklikleri **geri alabilir
 /undo
 ```
 
-opencode değişiklikleri geri alır ve orijinal mesajınızı tekrar gösterir.
+aboocode değişiklikleri geri alır ve orijinal mesajınızı tekrar gösterir.
 
 ```txt frame="none" "@packages/functions/src/api/index.ts"
 Can you refactor the function in @packages/functions/src/api/index.ts?
 ```
 
-Buradan komut isteminde ince ayar yapabilir ve opencode'dan tekrar denemesini isteyebilirsiniz.
+Buradan komut isteminde ince ayar yapabilir ve aboocode'dan tekrar denemesini isteyebilirsiniz.
 
 :::tip
 Birden çok değişikliği geri almak için `/undo` komutunu birden çok kez çalıştırabilirsiniz.
@@ -330,7 +330,7 @@ Veya `/redo` komutunu kullanarak değişiklikleri **yeniden yapabilirsiniz**.
 
 ## Paylaşma
 
-opencode ile yaptığınız görüşmeleri [ekibinizle paylaşabilirsiniz](/docs/share).
+aboocode ile yaptığınız görüşmeleri [ekibinizle paylaşabilirsiniz](/docs/share).
 
 ```bash frame="none"
 /share
@@ -342,12 +342,12 @@ Bu, mevcut konuşmaya bir bağlantı oluşturacak ve bunu panonuza kopyalayacakt
 Konuşmalar varsayılan olarak paylaşılmaz.
 :::
 
-İşte opencode'lu bir [örnek konuşma](https://opencode.ai/s/4XP1fce5).
+İşte aboocode'lu bir [örnek konuşma](https://opencode.ai/s/4XP1fce5).
 
 ---
 
 ## Özelleştirme
 
-İşte bu kadar! Artık opencode'u kullanma konusunda profesyonelsiniz.
+İşte bu kadar! Artık aboocode'u kullanma konusunda profesyonelsiniz.
 
-Kendinize göre uyarlamak için [tema seçebilir](/docs/themes), [tuş atamalarını özelleştirebilir](/docs/keybinds), [kod biçimlendirici ayarlayabilir](/docs/formatters), [özel komutlar oluşturabilir](/docs/commands) veya [opencode config](/docs/config) ile oynayabilirsiniz.
+Kendinize göre uyarlamak için [tema seçebilir](/docs/themes), [tuş atamalarını özelleştirebilir](/docs/keybinds), [kod biçimlendirici ayarlayabilir](/docs/formatters), [özel komutlar oluşturabilir](/docs/commands) veya [aboocode config](/docs/config) ile oynayabilirsiniz.

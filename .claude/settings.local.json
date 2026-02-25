@@ -7,7 +7,23 @@
       "Bash(gh api:*)",
       "Bash(git clone:*)",
       "Bash(ls:*)",
-      "Bash(git init:*)"
+      "Bash(git init:*)",
+      "Bash(bun install:*)",
+      "Bash(which node && node --version && which npm && npm --version 2>&1)",
+      "Bash(which npx && npx --version 2>&1)",
+      "Bash(curl -fsSL https://bun.sh/install | bash 2>&1)",
+      "Bash(export:*)",
+      "Bash(export PATH=\"$HOME/.bun/bin:$PATH\" && grep -r '\"opencode\"' packages/*/package.json packages/console/*/package.json packages/sdk/*/package.json 2>/dev/null)",
+      "Bash(cd /Users/steventsai/Documents/Aboocode/packages/aboocode && export PATH=\"$HOME/.bun/bin:$PATH\" && bun run build 2>&1)",
+      "Bash(export PATH=\"$HOME/.bun/bin:$PATH\" && bun run build -- --single --skip-install 2>&1)",
+      "Bash(/Users/steventsai/Documents/Aboocode/packages/aboocode/dist/aboocode-darwin-x64/bin/aboocode:*)",
+      "Bash(/Users/steventsai/Documents/Aboocode/packages/aboocode/dist/aboocode-darwin-x64/bin/aboo:*)",
+      "Bash(cd:*)",
+      "Bash(python3:*)",
+      "Bash(grep:*)",
+      "Bash(/usr/local/bin/aboo:*)",
+      "Bash(gh auth:*)",
+      "Bash(git add:*)"
     ]
   }
 }

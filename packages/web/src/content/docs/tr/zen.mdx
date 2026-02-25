@@ -1,20 +1,20 @@
 ---
 title: Zen
-description: opencode ekibinin sundugu secili model listesi.
+description: aboocode ekibinin sundugu secili model listesi.
 ---
 
 import config from "../../../../config.mjs"
 export const console = config.console
 export const email = `mailto:${config.email}`
 
-OpenCode Zen, opencode ekibi tarafindan test edilip dogrulanmis modellerin listesidir.
+Aboocode Zen, aboocode ekibi tarafindan test edilip dogrulanmis modellerin listesidir.
 
 :::note
-OpenCode Zen su anda beta asamasindadir.
+Aboocode Zen su anda beta asamasindadir.
 :::
 
-Zen, opencode'daki diger provider'lar gibi calisir. OpenCode Zen'e giris yapar ve API anahtarinizi alirsiniz.
-Tamamen istege baglidir; opencode kullanmak icin Zen kullanmak zorunda degilsiniz.
+Zen, aboocode'daki diger provider'lar gibi calisir. Aboocode Zen'e giris yapar ve API anahtarinizi alirsiniz.
+Tamamen istege baglidir; aboocode kullanmak icin Zen kullanmak zorunda degilsiniz.
 
 ---
 
@@ -23,7 +23,7 @@ Tamamen istege baglidir; opencode kullanmak icin Zen kullanmak zorunda degilsini
 Piyasada cok sayida model var, ancak bunlarin sadece bir kismi kodlama ajani olarak iyi calisir. Ayrica provider'larin cogu birbirinden cok farkli sekilde ayarlanir; bu da performans ve kaliteyi ciddi bicimde degistirir.
 
 :::tip
-opencode ile iyi calisan belirli model/provider kombinasyonlarini test ettik.
+aboocode ile iyi calisan belirli model/provider kombinasyonlarini test ettik.
 :::
 
 Bu nedenle OpenRouter benzeri bir servis uzerinden model kullaniyorsaniz, istediginiz modelin en iyi surumunu alip almadiginizdan her zaman emin olamazsiniz.
@@ -34,16 +34,16 @@ Bunu cozmeye yonelik olarak sunlari yaptik:
 2. Daha sonra bazi provider'larla bu modellerin dogru sekilde sunuldugunu dogruladik
 3. Son olarak model/provider kombinasyonlarini benchmark ederek guvenle onerebilecegimiz bir liste olusturduk
 
-OpenCode Zen, bu modellere erisim saglayan bir AI gateway'dir.
+Aboocode Zen, bu modellere erisim saglayan bir AI gateway'dir.
 
 ---
 
 ## Nasil calisir
 
-OpenCode Zen, opencode'daki diger provider'lar gibi calisir.
+Aboocode Zen, aboocode'daki diger provider'lar gibi calisir.
 
-1. **<a href={console}>OpenCode Zen</a>** hesabina giris yapin, odeme bilgilerinizi ekleyin ve API anahtarinizi kopyalayin
-2. TUI'da `/connect` komutunu calistirin, OpenCode Zen'i secin ve API anahtarinizi yapistirin
+1. **<a href={console}>Aboocode Zen</a>** hesabina giris yapin, odeme bilgilerinizi ekleyin ve API anahtarinizi kopyalayin
+2. TUI'da `/connect` komutunu calistirin, Aboocode Zen'i secin ve API anahtarinizi yapistirin
 3. Onerdigimiz model listesini gormek icin TUI'da `/models` calistirin
 
 Ucretlendirme istek basina yapilir ve hesabiniza kredi yukleyebilirsiniz.
@@ -86,8 +86,8 @@ Modellerimize asagidaki API endpoint'leri uzerinden de erisebilirsiniz.
 | Qwen3 Coder 480B   | qwen3-coder        | `https://opencode.ai/zen/v1/chat/completions`      | `@ai-sdk/openai-compatible` |
 | Big Pickle         | big-pickle         | `https://opencode.ai/zen/v1/chat/completions`      | `@ai-sdk/openai-compatible` |
 
-opencode config'inizdeki [model id](/docs/config/#models), `opencode/<model-id>` formatini kullanir.
-Ornegin GPT 5.2 Codex icin config'te `opencode/gpt-5.2-codex` kullanirsiniz.
+aboocode config'inizdeki [model id](/docs/config/#models), `aboocode/<model-id>` formatini kullanir.
+Ornegin GPT 5.2 Codex icin config'te `aboocode/gpt-5.2-codex` kullanirsiniz.
 
 ---
 
@@ -149,10 +149,10 @@ Kredi karti ucretleri maliyetine yansitilir (islem basina %4.4 + $0.30); bunun d
 
 Ucretsiz modeller:
 
-- GLM 4.7 Free, sinirli bir sure icin opencode'da ucretsizdir. Ekip bu surede geri bildirim toplayip modeli iyilestiriyor
-- Kimi K2.5 Free, sinirli bir sure icin opencode'da ucretsizdir. Ekip bu surede geri bildirim toplayip modeli iyilestiriyor
-- MiniMax M2.1 Free, sinirli bir sure icin opencode'da ucretsizdir. Ekip bu surede geri bildirim toplayip modeli iyilestiriyor
-- Big Pickle, sinirli bir sure icin opencode'da ucretsiz olan gizli bir modeldir. Ekip bu surede geri bildirim toplayip modeli iyilestiriyor
+- GLM 4.7 Free, sinirli bir sure icin aboocode'da ucretsizdir. Ekip bu surede geri bildirim toplayip modeli iyilestiriyor
+- Kimi K2.5 Free, sinirli bir sure icin aboocode'da ucretsizdir. Ekip bu surede geri bildirim toplayip modeli iyilestiriyor
+- MiniMax M2.1 Free, sinirli bir sure icin aboocode'da ucretsizdir. Ekip bu surede geri bildirim toplayip modeli iyilestiriyor
+- Big Pickle, sinirli bir sure icin aboocode'da ucretsiz olan gizli bir modeldir. Ekip bu surede geri bildirim toplayip modeli iyilestiriyor
 
 Sorunuz varsa <a href={email}>bize ulasin</a>.
 
@@ -230,9 +230,9 @@ Ornegin kurulusunuzun zaten OpenAI veya Anthropic anahtari varsa Zen'in sagladig
 
 ## Hedefler
 
-OpenCode Zen'i su amaclarla olusturduk:
+Aboocode Zen'i su amaclarla olusturduk:
 
 1. Kodlama ajanlari icin en iyi model/provider kombinasyonlarini **benchmark etmek**
 2. Performansi dusurmeden veya daha ucuz provider'a yonlendirmeden **en yuksek kaliteye** erismek
 3. Maliyetine satarak fiyat dususlerini kullaniciya yansitmak ve yalnizca islem ucretlerini kapsayan pay birakmak
-4. Herhangi bir kodlama ajaniyla kullanima izin vererek **kilitlenmeyi onlemek** ve opencode'da diger provider'lari her zaman acik tutmak
+4. Herhangi bir kodlama ajaniyla kullanima izin vererek **kilitlenmeyi onlemek** ve aboocode'da diger provider'lari her zaman acik tutmak

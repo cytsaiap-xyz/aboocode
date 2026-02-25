@@ -1,6 +1,6 @@
 ---
 title: SDK
-description: Типобезопасный JS-клиент для сервера opencode.
+description: Типобезопасный JS-клиент для сервера aboocode.
 ---
 
 import config from "../../../../config.mjs"
@@ -25,12 +25,12 @@ npm install @opencode-ai/sdk
 
 ## Создать клиента
 
-Создайте экземпляр opencode:
+Создайте экземпляр aboocode:
 
 ```javascript
-import { createOpencode } from "@opencode-ai/sdk"
+import { createAboocode } from "@opencode-ai/sdk"
 
-const { client } = await createOpencode()
+const { client } = await createAboocode()
 ```
 
 Это запускает и сервер, и клиент.
@@ -49,12 +49,12 @@ const { client } = await createOpencode()
 
 ## Конфигурация
 
-Вы можете передать объект конфигурации для настройки поведения. Экземпляр по-прежнему получает ваш `opencode.json`, но вы можете переопределить или добавить встроенную конфигурацию:
+Вы можете передать объект конфигурации для настройки поведения. Экземпляр по-прежнему получает ваш `aboocode.json`, но вы можете переопределить или добавить встроенную конфигурацию:
 
 ```javascript
-import { createOpencode } from "@opencode-ai/sdk"
+import { createAboocode } from "@opencode-ai/sdk"
 
-const opencode = await createOpencode({
+const aboocode = await createAboocode({
   hostname: "127.0.0.1",
   port: 4096,
   config: {
@@ -62,19 +62,19 @@ const opencode = await createOpencode({
   },
 })
 
-console.log(`Server running at ${opencode.server.url}`)
+console.log(`Server running at ${aboocode.server.url}`)
 
-opencode.server.close()
+aboocode.server.close()
 ```
 
 ## Только клиент
 
-Если у вас уже есть работающий экземпляр opencode, вы можете создать экземпляр клиента для подключения к нему:
+Если у вас уже есть работающий экземпляр aboocode, вы можете создать экземпляр клиента для подключения к нему:
 
 ```javascript
-import { createOpencodeClient } from "@opencode-ai/sdk"
+import { createAboocodeClient } from "@opencode-ai/sdk"
 
-const client = createOpencodeClient({
+const client = createAboocodeClient({
   baseUrl: "http://localhost:4096",
 })
 ```
@@ -304,7 +304,7 @@ await client.session.prompt({
 ```javascript
 // Search and read files
 const textResults = await client.find.text({
-  query: { pattern: "function.*opencode" },
+  query: { pattern: "function.*aboocode" },
 })
 
 const files = await client.find.files({

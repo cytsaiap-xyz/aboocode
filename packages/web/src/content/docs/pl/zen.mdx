@@ -1,21 +1,21 @@
 ---
 title: Zen
-description: Wyselekcjonowana lista modeli dostarczonych przez opencode.
+description: Wyselekcjonowana lista modeli dostarczonych przez aboocode.
 ---
 
 import config from "../../../../config.mjs"
 export const console = config.console
 export const email = `mailto:${config.email}`
 
-OpenCode Zen to lista przetestowanych i zweryfikowanych modeli udostępniona przez zespół opencode.
+Aboocode Zen to lista przetestowanych i zweryfikowanych modeli udostępniona przez zespół aboocode.
 
 :::note
-OpenCode Zen is currently in beta.
+Aboocode Zen is currently in beta.
 :::
 
-Zen działa jak każdy inny dostawca opencode. Logujesz się do OpenCode Zen i dostajesz
+Zen działa jak każdy inny dostawca aboocode. Logujesz się do Aboocode Zen i dostajesz
 Twój klucz API. Jest **całkowicie opcjonalny** i nie musisz go używać, aby z niego korzystać
-opencode.
+aboocode.
 
 ---
 
@@ -26,7 +26,7 @@ działa dobrze jako agenci kodujący. Dodatkowo większość dostawców jest
 skonfigurowana bardzo różnie; więc otrzymujesz zupełnie inną wydajność i jakość.
 
 :::tip
-Przetestowaliśmy wybraną grupę modeli i dostawców, którzy dobrze współpracują z opencode.
+Przetestowaliśmy wybraną grupę modeli i dostawców, którzy dobrze współpracują z aboocode.
 :::
 
 Jeśli więc używasz modelu za pośrednictwem czegoś takiego jak OpenRouter, nigdy nie będzie to możliwe
@@ -41,17 +41,17 @@ Aby to naprawić, zrobiliśmy kilka rzeczy:
 3. Na koniec porównaliśmy kombinację modelu/dostawcy i otrzymaliśmy wynik
    z listą, którą z przyjemnością polecamy.
 
-OpenCode Zen to brama AI, która zapewnia dostęp do tych modeli.
+Aboocode Zen to brama AI, która zapewnia dostęp do tych modeli.
 
 ---
 
 ## Jak to działa
 
-OpenCode Zen działa jak każdy inny dostawca opencode.
+Aboocode Zen działa jak każdy inny dostawca aboocode.
 
-1. Logujesz się do **<a href={console}>OpenCode Zen</a>**, dodajesz swoje rozliczenia
+1. Logujesz się do **<a href={console}>Aboocode Zen</a>**, dodajesz swoje rozliczenia
    szczegóły i skopiuj klucz API.
-2. Uruchamiasz polecenie `/connect` w TUI, wybierasz OpenCode Zen i wklejasz klucz API.
+2. Uruchamiasz polecenie `/connect` w TUI, wybierasz Aboocode Zen i wklejasz klucz API.
 3. Uruchom `/models` w TUI, aby zobaczyć listę zalecanych przez nas modeli.
 
 Opłata jest pobierana za każde żądanie i możesz dodać kredyty do swojego konta.
@@ -94,9 +94,9 @@ Dostęp do naszych modeli można również uzyskać za pośrednictwem następuj�
 | Qwen3 Coder 480B   | qwen3-coder          | `https://opencode.ai/zen/v1/chat/completions`      | `@ai-sdk/openai-compatible` |
 | Big Pickle         | big-pickle           | `https://opencode.ai/zen/v1/chat/completions`      | `@ai-sdk/openai-compatible` |
 
-[Identyfikator modelu](/docs/config/#models) w konfiguracji opencode
-używa formatu `opencode/<model-id>`. Na przykład w przypadku Kodeksu GPT 5.2 zrobiłbyś to
-użyj `opencode/gpt-5.2-codex` w swojej konfiguracji.
+[Identyfikator modelu](/docs/config/#models) w konfiguracji aboocode
+używa formatu `aboocode/<model-id>`. Na przykład w przypadku Kodeksu GPT 5.2 zrobiłbyś to
+użyj `aboocode/gpt-5.2-codex` w swojej konfiguracji.
 
 ---
 
@@ -158,10 +158,10 @@ Opłaty za karty kredytowe są przenoszone na koszt (4,4% + 0,30 USD za transakc
 
 Darmowe modele:
 
-- GLM 4.7 Free jest dostępny na platformie opencode przez ograniczony czas. Zespół wykorzystuje ten czas na zbieranie opinii i ulepszanie modelu.
-- Kimi K2.5 Free jest dostępny na opencode przez ograniczony czas. Zespół wykorzystuje ten czas na zbieranie opinii i ulepszanie modelu.
-- MiniMax M2.1 Free jest dostępny na platformie opencode przez ograniczony czas. Zespół wykorzystuje ten czas na zbieranie opinii i ulepszanie modelu.
-- Big Pickle to ukryty model, który jest bezpłatny w opencode przez ograniczony czas. Zespół wykorzystuje ten czas na zbieranie opinii i ulepszanie modelu.
+- GLM 4.7 Free jest dostępny na platformie aboocode przez ograniczony czas. Zespół wykorzystuje ten czas na zbieranie opinii i ulepszanie modelu.
+- Kimi K2.5 Free jest dostępny na aboocode przez ograniczony czas. Zespół wykorzystuje ten czas na zbieranie opinii i ulepszanie modelu.
+- MiniMax M2.1 Free jest dostępny na platformie aboocode przez ograniczony czas. Zespół wykorzystuje ten czas na zbieranie opinii i ulepszanie modelu.
+- Big Pickle to ukryty model, który jest bezpłatny w aboocode przez ograniczony czas. Zespół wykorzystuje ten czas na zbieranie opinii i ulepszanie modelu.
 
 <a href={email}>Skontaktuj się z nami</a>, jeśli masz jakieś pytania.
 
@@ -246,9 +246,9 @@ i chcesz go używać zamiast tego, który zapewnia Zen.
 
 ## Cele
 
-Stworzyliśmy OpenCode Zen, aby:
+Stworzyliśmy Aboocode Zen, aby:
 
 1. **Testować** (Benchmark) najlepsze modele/dostawców dla agentów kodujących.
 2. Miej dostęp do opcji **najwyższej jakości**, a nie obniżaj wydajności ani nie kieruj się do tańszych dostawców.
 3. Przekaż wszelkie **obniżki cen**, sprzedając po kosztach; więc jedyną marżą jest pokrycie naszych opłat manipulacyjnych.
-4. Nie **nie blokuj**, umożliwiając używanie go z dowolnym innym agentem kodującym. I zawsze pozwalaj na korzystanie z opencode dowolnego innego dostawcy.
+4. Nie **nie blokuj**, umożliwiając używanie go z dowolnym innym agentem kodującym. I zawsze pozwalaj na korzystanie z aboocode dowolnego innego dostawcy.

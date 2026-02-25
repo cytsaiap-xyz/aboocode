@@ -1,19 +1,19 @@
 import type { APIEvent } from "@solidjs/start/server"
-import { and, Database, eq, isNull, lt, or, sql } from "@opencode-ai/console-core/drizzle/index.js"
-import { KeyTable } from "@opencode-ai/console-core/schema/key.sql.js"
-import { BillingTable, LiteTable, SubscriptionTable, UsageTable } from "@opencode-ai/console-core/schema/billing.sql.js"
-import { centsToMicroCents } from "@opencode-ai/console-core/util/price.js"
-import { getMonthlyBounds, getWeekBounds } from "@opencode-ai/console-core/util/date.js"
-import { Identifier } from "@opencode-ai/console-core/identifier.js"
-import { Billing } from "@opencode-ai/console-core/billing.js"
-import { Actor } from "@opencode-ai/console-core/actor.js"
-import { WorkspaceTable } from "@opencode-ai/console-core/schema/workspace.sql.js"
-import { ZenData } from "@opencode-ai/console-core/model.js"
-import { Subscription } from "@opencode-ai/console-core/subscription.js"
-import { BlackData } from "@opencode-ai/console-core/black.js"
-import { UserTable } from "@opencode-ai/console-core/schema/user.sql.js"
-import { ModelTable } from "@opencode-ai/console-core/schema/model.sql.js"
-import { ProviderTable } from "@opencode-ai/console-core/schema/provider.sql.js"
+import { and, Database, eq, isNull, lt, or, sql } from "@aboocode/console-core/drizzle/index.js"
+import { KeyTable } from "@aboocode/console-core/schema/key.sql.js"
+import { BillingTable, LiteTable, SubscriptionTable, UsageTable } from "@aboocode/console-core/schema/billing.sql.js"
+import { centsToMicroCents } from "@aboocode/console-core/util/price.js"
+import { getMonthlyBounds, getWeekBounds } from "@aboocode/console-core/util/date.js"
+import { Identifier } from "@aboocode/console-core/identifier.js"
+import { Billing } from "@aboocode/console-core/billing.js"
+import { Actor } from "@aboocode/console-core/actor.js"
+import { WorkspaceTable } from "@aboocode/console-core/schema/workspace.sql.js"
+import { ZenData } from "@aboocode/console-core/model.js"
+import { Subscription } from "@aboocode/console-core/subscription.js"
+import { BlackData } from "@aboocode/console-core/black.js"
+import { UserTable } from "@aboocode/console-core/schema/user.sql.js"
+import { ModelTable } from "@aboocode/console-core/schema/model.sql.js"
+import { ProviderTable } from "@aboocode/console-core/schema/provider.sql.js"
 import { logger } from "./logger"
 import {
   AuthError,
@@ -33,8 +33,8 @@ import { createRateLimiter } from "./rateLimiter"
 import { createDataDumper } from "./dataDumper"
 import { createTrialLimiter } from "./trialLimiter"
 import { createStickyTracker } from "./stickyProviderTracker"
-import { LiteData } from "@opencode-ai/console-core/lite.js"
-import { Resource } from "@opencode-ai/console-resource"
+import { LiteData } from "@aboocode/console-core/lite.js"
+import { Resource } from "@aboocode/console-resource"
 
 type ZenData = Awaited<ReturnType<typeof ZenData.list>>
 type RetryOptions = {
@@ -62,7 +62,7 @@ export async function handler(
   const MAX_429_RETRIES = 3
   const ADMIN_WORKSPACES = [
     "wrk_01K46JDFR0E75SG2Q8K172KF3Y", // frank
-    "wrk_01K6W1A3VE0KMNVSCQT43BG2SX", // opencode bench
+    "wrk_01K6W1A3VE0KMNVSCQT43BG2SX", // aboocode bench
   ]
 
   try {
@@ -71,10 +71,10 @@ export async function handler(
     const model = opts.parseModel(url, body)
     const isStream = opts.parseIsStream(url, body)
     const ip = input.request.headers.get("x-real-ip") ?? ""
-    const sessionId = input.request.headers.get("x-opencode-session") ?? ""
-    const requestId = input.request.headers.get("x-opencode-request") ?? ""
-    const projectId = input.request.headers.get("x-opencode-project") ?? ""
-    const ocClient = input.request.headers.get("x-opencode-client") ?? ""
+    const sessionId = input.request.headers.get("x-aboocode-session") ?? ""
+    const requestId = input.request.headers.get("x-aboocode-request") ?? ""
+    const projectId = input.request.headers.get("x-aboocode-project") ?? ""
+    const ocClient = input.request.headers.get("x-aboocode-client") ?? ""
     logger.metric({
       is_tream: isStream,
       session: sessionId,
@@ -135,10 +135,10 @@ export async function handler(
           })
           headers.delete("host")
           headers.delete("content-length")
-          headers.delete("x-opencode-request")
-          headers.delete("x-opencode-session")
-          headers.delete("x-opencode-project")
-          headers.delete("x-opencode-client")
+          headers.delete("x-aboocode-request")
+          headers.delete("x-aboocode-session")
+          headers.delete("x-aboocode-project")
+          headers.delete("x-aboocode-client")
           return headers
         })(),
         body: reqBody,

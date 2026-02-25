@@ -3,7 +3,7 @@ title: Outils
 description: Gérez les outils qu'un LLM peut utiliser.
 ---
 
-Les outils permettent au LLM d'effectuer des actions dans votre base de code. OpenCode est livré avec un ensemble d'outils intégrés, mais vous pouvez l'étendre avec [outils personnalisés](/docs/custom-tools) ou [serveurs MCP](/docs/mcp-servers).
+Les outils permettent au LLM d'effectuer des actions dans votre base de code. Aboocode est livré avec un ensemble d'outils intégrés, mais vous pouvez l'étendre avec [outils personnalisés](/docs/custom-tools) ou [serveurs MCP](/docs/mcp-servers).
 
 Par défaut, tous les outils sont **activés** et n'ont pas besoin d'autorisation pour s'exécuter. Vous pouvez contrôler le comportement de l'outil via [permissions](/docs/permissions).
 
@@ -13,7 +13,7 @@ Par défaut, tous les outils sont **activés** et n'ont pas besoin d'autorisatio
 
 Utilisez le champ `permission` pour contrôler le comportement de l'outil. Vous pouvez autoriser, refuser ou exiger une approbation pour chaque outil.
 
-```json title="opencode.json"
+```json title="aboocode.json"
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -26,7 +26,7 @@ Utilisez le champ `permission` pour contrôler le comportement de l'outil. Vous 
 
 Vous pouvez également utiliser des caractères génériques pour contrôler plusieurs outils à la fois. Par exemple, pour exiger l'approbation de tous les outils d'un serveur MCP :
 
-```json title="opencode.json"
+```json title="aboocode.json"
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -41,7 +41,7 @@ Vous pouvez également utiliser des caractères génériques pour contrôler plu
 
 ## Intégré
 
-Voici tous les outils intégrés disponibles dans OpenCode.
+Voici tous les outils intégrés disponibles dans Aboocode.
 
 ---
 
@@ -49,7 +49,7 @@ Voici tous les outils intégrés disponibles dans OpenCode.
 
 Exécutez des commandes shell dans votre environnement de projet.
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -66,7 +66,7 @@ Cet outil permet au LLM d'exécuter des commandes de terminal telles que `npm in
 
 Modifiez les fichiers existants en utilisant des remplacements de chaînes exacts.
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -83,7 +83,7 @@ Cet outil effectue des modifications précises des fichiers en remplaçant les c
 
 Créez de nouveaux fichiers ou écrasez ceux existants.
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -104,7 +104,7 @@ L'outil `write` est contrôlé par l'autorisation `edit`, qui couvre toutes les 
 
 Lisez le contenu du fichier à partir de votre base de code.
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -121,7 +121,7 @@ Cet outil lit les fichiers et renvoie leur contenu. Il prend en charge la lectur
 
 Recherchez le contenu du fichier à l’aide d’expressions régulières.
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -138,7 +138,7 @@ Recherche rapide de contenu dans votre base de code. Prend en charge la syntaxe 
 
 Recherchez des fichiers par correspondance de modèles.
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -155,7 +155,7 @@ Recherchez des fichiers à l'aide de modèles globaux tels que `**/*.js` ou `src
 
 Répertoriez les fichiers et les répertoires dans un chemin donné.
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -173,10 +173,10 @@ Cet outil répertorie le contenu du répertoire. Il accepte les modèles globaux
 Interagissez avec vos serveurs LSP configurés pour obtenir des fonctionnalités d'intelligence du code telles que des définitions, des références, des informations de survol et une hiérarchie d'appels.
 
 :::note
-Cet outil n'est disponible que lorsque `OPENCODE_EXPERIMENTAL_LSP_TOOL=true` (ou `OPENCODE_EXPERIMENTAL=true`).
+Cet outil n'est disponible que lorsque `ABOOCODE_EXPERIMENTAL_LSP_TOOL=true` (ou `ABOOCODE_EXPERIMENTAL=true`).
 :::
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -195,7 +195,7 @@ Pour configurer les serveurs LSP disponibles pour votre projet, consultez [LSP S
 
 Appliquez des correctifs aux fichiers.
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -216,7 +216,7 @@ L'outil `patch` est contrôlé par l'autorisation `edit`, qui couvre toutes les 
 
 Chargez une [skill](/docs/skills) (un fichier `SKILL.md`) et renvoyez son contenu dans la conversation.
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -231,7 +231,7 @@ Chargez une [skill](/docs/skills) (un fichier `SKILL.md`) et renvoyez son conten
 
 Gérez les listes de tâches pendant les sessions de codage.
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -252,7 +252,7 @@ Cet outil est désactivé par défaut pour les sous-agents, mais vous pouvez l'a
 
 Lisez les listes de tâches existantes.
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -273,7 +273,7 @@ Cet outil est désactivé par défaut pour les sous-agents, mais vous pouvez l'a
 
 Récupérer du contenu Web.
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -291,17 +291,17 @@ Permet au LLM de récupérer et de lire des pages Web. Utile pour rechercher de 
 Recherchez des informations sur le Web.
 
 :::note
-Cet outil n'est disponible que lors de l'utilisation du fournisseur OpenCode ou lorsque la variable d'environnement `OPENCODE_ENABLE_EXA` est définie sur une valeur véridique (par exemple, `true` ou `1`).
+Cet outil n'est disponible que lors de l'utilisation du fournisseur Aboocode ou lorsque la variable d'environnement `ABOOCODE_ENABLE_EXA` est définie sur une valeur véridique (par exemple, `true` ou `1`).
 
-À activer lors du lancement de OpenCode :
+À activer lors du lancement de Aboocode :
 
 ```bash
-OPENCODE_ENABLE_EXA=1 opencode
+ABOOCODE_ENABLE_EXA=1 aboocode
 ```
 
 :::
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {
@@ -324,7 +324,7 @@ Utilisez `websearch` lorsque vous avez besoin de rechercher des informations (d�
 
 Posez des questions à l'utilisateur pendant l'exécution.
 
-```json title="opencode.json" {4}
+```json title="aboocode.json" {4}
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": {

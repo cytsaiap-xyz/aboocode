@@ -1379,7 +1379,7 @@ export type KeybindsConfig = {
 export type LogLevel = "DEBUG" | "INFO" | "WARN" | "ERROR"
 
 /**
- * Server configuration for opencode serve and web commands
+ * Server configuration for aboocode serve and web commands
  */
 export type ServerConfig = {
   /**
@@ -1395,7 +1395,7 @@ export type ServerConfig = {
    */
   mdns?: boolean
   /**
-   * Custom domain name for mDNS service (default: opencode.local)
+   * Custom domain name for mDNS service (default: aboocode.local)
    */
   mdnsDomain?: string
   /**
