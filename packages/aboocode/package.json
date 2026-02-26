@@ -4,7 +4,31 @@
   "name": "aboocode",
   "type": "module",
   "license": "MIT",
+  "description": "AI-powered development tool for the terminal",
   "private": true,
+  "files": [
+    "bin",
+    "postinstall.mjs",
+    "LICENSE",
+    "README.md"
+  ],
+  "keywords": [
+    "ai",
+    "coding",
+    "agent",
+    "terminal",
+    "cli",
+    "development"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anomalyco/opencode",
+    "directory": "packages/aboocode"
+  },
+  "homepage": "https://github.com/anomalyco/opencode",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "typecheck": "tsgo --noEmit",
     "test": "bun test --timeout 30000",
@@ -16,12 +40,12 @@
     "format": "echo 'Formatting code...' && bun run --prettier --write src/**/*.ts",
     "docs": "echo 'Generating documentation...' && find src -name '*.ts' -exec echo 'Processing: {}' \\;",
     "deploy": "echo 'Deploying application...' && bun run build && echo 'Deployment completed successfully'",
-    "db": "bun drizzle-kit"
+    "db": "bun drizzle-kit",
+    "publish": "bun run script/publish.ts"
   },
   "bin": {
     "aboo": "./bin/aboo"
   },
-  "randomField": "this-is-a-random-value-12345",
   "exports": {
     "./*": "./src/*.ts"
   },
