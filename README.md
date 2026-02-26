@@ -128,6 +128,37 @@ Aboocode includes two built-in agents you can switch between with the `Tab` key.
 Also included is a **general** subagent for complex searches and multistep tasks.
 This is used internally and can be invoked using `@general` in messages.
 
+### Publishing to npm
+
+To publish all packages (`aboocode`, `aboocode-ai`, and platform-specific binaries) to npm:
+
+1. **Switch to master** and make sure it's up to date:
+
+```bash
+git checkout master
+git pull origin master
+```
+
+2. **Build** the binary:
+
+```bash
+cd packages/aboocode
+bun run script/build.ts --skip-install --single
+```
+
+3. **Run the publish script** directly (do NOT use `npm publish`):
+
+```bash
+bun run script/publish.ts
+```
+
+> **Important:** Do not run `npm publish` directly — it will publish the raw `package.json` which contains `workspace:*` dependencies that npm cannot resolve. The publish script creates clean package.json files for each published package.
+
+This publishes:
+- `aboocode` — the main installable package
+- `aboocode-ai` — wrapper package with postinstall
+- `aboocode-<platform>` — platform-specific binary packages (e.g. `aboocode-linux-x64`)
+
 ### Contributing
 
 If you're interested in contributing to Aboocode, please read our [contributing docs](./CONTRIBUTING.md) before submitting a pull request.
