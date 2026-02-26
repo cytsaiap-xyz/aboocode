@@ -19,19 +19,30 @@ await $`mkdir -p ./dist/${pkg.name}`
 await $`cp -r ./bin ./dist/${pkg.name}/bin`
 await $`cp ./script/postinstall.mjs ./dist/${pkg.name}/postinstall.mjs`
 await Bun.file(`./dist/${pkg.name}/LICENSE`).write(await Bun.file("../../LICENSE").text())
+await Bun.file(`./dist/${pkg.name}/README.md`).write(await Bun.file("../../README.md").text())
 
 await Bun.file(`./dist/${pkg.name}/package.json`).write(
   JSON.stringify(
     {
       name: pkg.name + "-ai",
+      version: version,
+      description: "AI-powered development tool for the terminal",
+      license: pkg.license,
       bin: {
-        [pkg.name]: `./bin/${pkg.name}`,
+        aboo: "./bin/aboo",
       },
       scripts: {
-        postinstall: "bun ./postinstall.mjs || node ./postinstall.mjs",
+        postinstall: "node ./postinstall.mjs",
       },
-      version: version,
-      license: pkg.license,
+      repository: {
+        type: "git",
+        url: "https://github.com/anomalyco/opencode",
+      },
+      homepage: "https://github.com/anomalyco/opencode",
+      keywords: ["ai", "coding", "agent", "terminal", "cli", "development"],
+      engines: {
+        node: ">=18",
+      },
       optionalDependencies: binaries,
     },
     null,
