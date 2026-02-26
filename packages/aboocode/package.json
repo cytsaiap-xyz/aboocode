@@ -5,7 +5,7 @@
   "type": "module",
   "license": "MIT",
   "description": "AI-powered development tool for the terminal",
-  "private": true,
+  "private": false,
   "files": [
     "bin",
     "postinstall.mjs",
