@@ -1,19 +1,22 @@
-<p align="center">
-  <a href="https://opencode.ai">
-    <picture>
-      <source srcset="packages/console/app/src/asset/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
-      <source srcset="packages/console/app/src/asset/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
-      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="Aboocode logo">
-    </picture>
-  </a>
-</p>
 <p align="center">The open source AI coding agent.</p>
 
 ---
 
 ### Installation
 
-#### Quick Install (recommended)
+#### npm (recommended)
+
+```bash
+npm install -g aboocode-ai
+```
+
+Then run:
+
+```bash
+aboo
+```
+
+#### Quick Install (from source)
 
 ```bash
 git clone https://github.com/cytsaiap-xyz/aboocode.git
