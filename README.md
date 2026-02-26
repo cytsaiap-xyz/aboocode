@@ -13,22 +13,21 @@
 
 ### Installation
 
-#### One-Line Install (recommended)
+#### Quick Install (recommended)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/cytsaiap-xyz/aboocode/master/install.sh | bash
+git clone https://github.com/cytsaiap-xyz/aboocode.git
+cd aboocode
+./install.sh
 ```
 
-This will clone the repo, install dependencies, build the binary, and add `aboo` to your PATH.
+This will install dependencies, build the binary, and add `aboo` to your PATH.
 
 You can customize the install location:
 
 ```bash
-# Change where the source is cloned (default: ~/.aboocode)
-ABOOCODE_INSTALL_DIR=~/my-aboocode curl -fsSL https://raw.githubusercontent.com/cytsaiap-xyz/aboocode/master/install.sh | bash
-
 # Change where the binary is linked (default: /usr/local/bin)
-ABOOCODE_BIN_DIR=~/.local/bin curl -fsSL https://raw.githubusercontent.com/cytsaiap-xyz/aboocode/master/install.sh | bash
+ABOOCODE_BIN_DIR=~/.local/bin ./install.sh
 ```
 
 #### Manual Install (from source)

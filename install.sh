@@ -2,12 +2,9 @@
 set -euo pipefail
 
 # Aboocode Installer
-# Clones, builds, and installs aboocode from source.
+# Run from inside the cloned repo to build and install aboocode.
 
-REPO_URL="https://github.com/cytsaiap-xyz/aboocode.git"
-INSTALL_DIR="${ABOOCODE_INSTALL_DIR:-$HOME/.aboocode}"
 BIN_DIR="${ABOOCODE_BIN_DIR:-/usr/local/bin}"
-MIN_BUN_VERSION="1.3.9"
 
 # Colors
 RED='\033[0;31m'
@@ -20,6 +17,20 @@ info()  { echo -e "${CYAN}[info]${NC} $1"; }
 ok()    { echo -e "${GREEN}[ok]${NC} $1"; }
 warn()  { echo -e "${YELLOW}[warn]${NC} $1"; }
 error() { echo -e "${RED}[error]${NC} $1"; exit 1; }
+
+# --- Find repo root ---
+find_repo_root() {
+  # Script could be run as ./install.sh from repo root, or from a subdirectory
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+  if [ -f "$SCRIPT_DIR/packages/aboocode/package.json" ]; then
+    REPO_DIR="$SCRIPT_DIR"
+  else
+    error "Cannot find aboocode source. Please run this script from the repo root."
+  fi
+
+  ok "Source directory: $REPO_DIR"
+}
 
 # --- Detect platform ---
 detect_platform() {
@@ -44,24 +55,9 @@ detect_platform() {
 }
 
 # --- Check prerequisites ---
-check_git() {
-  if ! command -v git &>/dev/null; then
-    error "git is required but not installed. Please install git first."
-  fi
-  ok "git found"
-}
-
 check_bun() {
   if ! command -v bun &>/dev/null; then
-    warn "Bun is not installed."
-    info "Installing Bun..."
-    curl -fsSL https://bun.sh/install | bash
-    export BUN_INSTALL="$HOME/.bun"
-    export PATH="$BUN_INSTALL/bin:$PATH"
-
-    if ! command -v bun &>/dev/null; then
-      error "Failed to install Bun. Please install it manually: https://bun.sh"
-    fi
+    error "Bun is required but not installed. Please install it first: https://bun.sh"
   fi
 
   local bun_version
@@ -69,25 +65,10 @@ check_bun() {
   ok "Bun $bun_version found"
 }
 
-# --- Clone or update repo ---
-clone_repo() {
-  if [ -d "$INSTALL_DIR" ]; then
-    info "Aboocode directory exists at $INSTALL_DIR"
-    info "Pulling latest changes..."
-    cd "$INSTALL_DIR"
-    git pull --ff-only || warn "Could not fast-forward. Using existing code."
-  else
-    info "Cloning aboocode to $INSTALL_DIR..."
-    git clone "$REPO_URL" "$INSTALL_DIR"
-    cd "$INSTALL_DIR"
-  fi
-  ok "Source ready at $INSTALL_DIR"
-}
-
 # --- Install dependencies ---
 install_deps() {
   info "Installing dependencies..."
-  cd "$INSTALL_DIR"
+  cd "$REPO_DIR"
   bun install
   ok "Dependencies installed"
 }
@@ -95,7 +76,7 @@ install_deps() {
 # --- Build binary ---
 build_binary() {
   info "Building aboocode for $PLATFORM..."
-  cd "$INSTALL_DIR"
+  cd "$REPO_DIR"
   bun run --bun packages/aboocode/script/build.ts --single
 
   local dist_dir="packages/aboocode/dist/aboocode-${PLATFORM}"
@@ -111,8 +92,7 @@ build_binary() {
 
 # --- Install to PATH ---
 install_binary() {
-  local dist_dir="$INSTALL_DIR/packages/aboocode/dist/aboocode-${PLATFORM}"
-  local binary="$dist_dir/bin/aboo"
+  local binary="$REPO_DIR/packages/aboocode/dist/aboocode-${PLATFORM}/bin/aboo"
   local target="$BIN_DIR/aboo"
 
   info "Installing aboo to $BIN_DIR..."
@@ -152,10 +132,9 @@ main() {
   echo -e "${CYAN}=== Aboocode Installer ===${NC}"
   echo ""
 
+  find_repo_root
   detect_platform
-  check_git
   check_bun
-  clone_repo
   install_deps
   build_binary
   install_binary
@@ -165,7 +144,7 @@ main() {
   echo ""
   echo "  Run aboocode:    aboo"
   echo "  Run in a dir:    aboo /path/to/project"
-  echo "  Update later:    cd $INSTALL_DIR && git pull && bun install && bun run --bun packages/aboocode/script/build.ts --single"
+  echo "  Update later:    cd $REPO_DIR && git pull && ./install.sh"
   echo ""
 }
 
