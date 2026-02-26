@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "aboocode",
   "type": "module",
   "license": "MIT",
@@ -22,10 +22,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/anomalyco/opencode",
+    "url": "https://github.com/cytsaiap-xyz/aboocode",
     "directory": "packages/aboocode"
   },
-  "homepage": "https://github.com/anomalyco/opencode",
+  "homepage": "https://github.com/cytsaiap-xyz/aboocode",
   "engines": {
     "node": ">=18"
   },
