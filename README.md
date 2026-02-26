@@ -52,6 +52,37 @@ bun dev .
 
 Replace `<platform>` with your platform (e.g., `darwin-arm64`, `linux-x64`).
 
+#### Use `aboo` Command Globally
+
+After installing from source, you can make the `aboo` command available system-wide:
+
+**Option 1: Bun link (recommended for development)**
+
+```bash
+cd packages/aboocode
+bun link
+```
+
+**Option 2: Symlink the standalone binary**
+
+```bash
+# Build first
+./packages/aboocode/script/build.ts --single
+
+# Symlink to your PATH
+ln -s $(pwd)/packages/aboocode/dist/aboocode-<platform>/bin/aboo /usr/local/bin/aboo
+```
+
+**Option 3: Shell alias**
+
+Add to your `~/.zshrc` or `~/.bashrc`:
+
+```bash
+alias aboo="bun run --cwd /path/to/aboocode dev"
+```
+
+Then run `aboo` from anywhere to start Aboocode.
+
 #### Available Commands
 
 | Command | Description |
