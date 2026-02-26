@@ -7,10 +7,6 @@ import { Flag } from "../flag/flag"
 import { lazy } from "@/util/lazy"
 import { Filesystem } from "../util/filesystem"
 
-// Try to import bundled snapshot (generated at build time)
-// Falls back to undefined in dev mode when snapshot doesn't exist
-/* @ts-ignore */
-
 export namespace ModelsDev {
   const log = Log.create({ service: "models.dev" })
   const filepath = path.join(Global.Path.cache, "models.json")
@@ -88,11 +84,6 @@ export namespace ModelsDev {
   export const Data = lazy(async () => {
     const result = await Filesystem.readJson(Flag.ABOOCODE_MODELS_PATH ?? filepath).catch(() => {})
     if (result) return result
-    // @ts-ignore
-    const snapshot = await import("./models-snapshot")
-      .then((m) => m.snapshot as Record<string, unknown>)
-      .catch(() => undefined)
-    if (snapshot) return snapshot
     if (Flag.ABOOCODE_DISABLE_MODELS_FETCH) return {}
     const json = await fetch(`${url()}/api.json`).then((x) => x.text())
     return JSON.parse(json)
