@@ -225,6 +225,40 @@ export namespace Agent {
         ),
         prompt: PROMPT_SUMMARY,
       },
+      "memory-extractor": {
+        name: "memory-extractor",
+        mode: "primary",
+        options: {},
+        native: true,
+        hidden: true,
+        temperature: 0.3,
+        permission: PermissionNext.merge(
+          defaults,
+          PermissionNext.fromConfig({
+            "*": "deny",
+          }),
+          user,
+        ),
+        prompt: `You are a memory extraction agent. Your job is to analyze a coding session conversation and extract important memories that should be preserved for future sessions.
+
+Extract memories as a JSON array. Each memory should have:
+- type: "decision" | "pattern" | "bugfix" | "lesson" | "feature" | "note"
+- category: "solution" | "knowledge"
+- title: Short descriptive title (max 200 chars)
+- content: Detailed content (max 1000 chars)
+- tags: Array of relevant tags
+
+Focus on:
+- Architectural decisions made and their rationale
+- Bugs found and how they were fixed
+- Patterns established or discovered
+- Lessons learned from mistakes
+- Important features implemented
+
+Skip trivial actions like file reads or simple searches. Only extract genuinely useful knowledge.
+
+Respond ONLY with a JSON array of extracted memories. If nothing worth remembering, respond with [].`,
+      },
       orchestrator: {
         name: "orchestrator",
         description: "Multi-agent orchestrator. Plans and delegates complex tasks across a team of specialized agents.",

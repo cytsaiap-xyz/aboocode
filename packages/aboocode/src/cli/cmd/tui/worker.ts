@@ -10,6 +10,7 @@ import { GlobalBus } from "@/bus/global"
 import { createAboocodeClient, type Event } from "@aboocode/sdk/v2"
 import type { BunWebSocketData } from "hono/bun"
 import { Flag } from "@/flag/flag"
+import { Memory } from "@/memory"
 
 await Log.init({
   print: process.argv.includes("--print-logs"),
@@ -36,6 +37,9 @@ process.on("uncaughtException", (e) => {
 GlobalBus.on("event", (event) => {
   Rpc.emit("global.event", event)
 })
+
+// Initialize memory system
+Memory.init()
 
 let server: Bun.Server<BunWebSocketData> | undefined
 
