@@ -15,6 +15,7 @@ for (const filepath of new Bun.Glob("*/package.json").scanSync({ cwd: "./dist" }
 console.log("binaries", binaries)
 const version = Object.values(binaries)[0]
 
+// Build clean aboocode-ai wrapper package
 await $`mkdir -p ./dist/${pkg.name}`
 await $`cp -r ./bin ./dist/${pkg.name}/bin`
 await $`cp ./script/postinstall.mjs ./dist/${pkg.name}/postinstall.mjs`
@@ -50,6 +51,40 @@ await Bun.file(`./dist/${pkg.name}/package.json`).write(
   ),
 )
 
+// Build clean aboocode main package (without workspace deps)
+const mainPkgDir = `./dist/${pkg.name}-main`
+await $`mkdir -p ${mainPkgDir}`
+await $`cp -r ./bin ${mainPkgDir}/bin`
+await $`cp ./script/postinstall.mjs ${mainPkgDir}/postinstall.mjs`
+await Bun.file(`${mainPkgDir}/LICENSE`).write(await Bun.file("../../LICENSE").text())
+await Bun.file(`${mainPkgDir}/README.md`).write(await Bun.file("../../README.md").text())
+
+await Bun.file(`${mainPkgDir}/package.json`).write(
+  JSON.stringify(
+    {
+      name: pkg.name,
+      version: pkg.version,
+      description: pkg.description,
+      license: pkg.license,
+      bin: {
+        aboo: "./bin/aboo",
+      },
+      scripts: {
+        postinstall: "node ./postinstall.mjs",
+      },
+      repository: pkg.repository,
+      homepage: pkg.homepage,
+      keywords: pkg.keywords,
+      engines: {
+        node: ">=18",
+      },
+      optionalDependencies: binaries,
+    },
+    null,
+    2,
+  ),
+)
+
 const tasks = Object.entries(binaries).map(async ([name]) => {
   if (process.platform !== "win32") {
     await $`chmod -R 755 .`.cwd(`./dist/${name}`)
@@ -59,6 +94,7 @@ const tasks = Object.entries(binaries).map(async ([name]) => {
 })
 await Promise.all(tasks)
 await $`cd ./dist/${pkg.name} && bun pm pack && npm publish *.tgz --access public --tag ${Script.channel}`
+await $`cd ${mainPkgDir} && bun pm pack && npm publish *.tgz --access public --tag latest`
 
 // registries
 if (!Script.preview) {
