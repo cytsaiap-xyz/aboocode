@@ -36,9 +36,9 @@ await Bun.file(`./dist/${pkg.name}/package.json`).write(
       },
       repository: {
         type: "git",
-        url: "https://github.com/anomalyco/opencode",
+        url: "https://github.com/cytsaiap-xyz/aboocode",
       },
-      homepage: "https://github.com/anomalyco/opencode",
+      homepage: "https://github.com/cytsaiap-xyz/aboocode",
       keywords: ["ai", "coding", "agent", "terminal", "cli", "development"],
       engines: {
         node: ">=18",
