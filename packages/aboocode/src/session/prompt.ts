@@ -656,7 +656,15 @@ export namespace SessionPrompt {
       await Plugin.trigger("experimental.chat.messages.transform", {}, { messages: msgs })
 
       // Build system prompt, adding structured output instruction if needed
-      const system = [...(await SystemPrompt.environment(model)), ...(await InstructionPrompt.system())]
+      const memoryContext = await (async () => {
+        try {
+          const { Memory } = await import("../memory")
+          return await Memory.buildContext()
+        } catch {
+          return []
+        }
+      })()
+      const system = [...(await SystemPrompt.environment(model)), ...(await InstructionPrompt.system()), ...memoryContext]
       const format = lastUser.format ?? { type: "text" }
       if (format.type === "json_schema") {
         system.push(STRUCTURED_OUTPUT_SYSTEM_PROMPT)

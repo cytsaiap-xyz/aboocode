@@ -148,6 +148,16 @@ export namespace SessionCompaction {
       { sessionID: input.sessionID },
       { context: [], prompt: undefined },
     )
+    // Inject memory context into compaction so memories survive summarization
+    try {
+      const { Memory } = await import("../memory")
+      const memoryContext = await Memory.buildContext({ limit: 10 })
+      for (const ctx of memoryContext) {
+        ;(compacting.context as string[]).push(ctx)
+      }
+    } catch {
+      // Memory system not available, skip
+    }
     const defaultPrompt = `Provide a detailed prompt for continuing our conversation above.
 Focus on information that would be helpful for continuing the conversation, including what we did, what we're doing, which files we're working on, and what we're going to do next.
 The summary that you construct will be used so that another agent can read it and continue the work.
