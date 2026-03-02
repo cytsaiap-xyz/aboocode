@@ -1,0 +1,8 @@
+Show the current state of the memory system:
+
+1. List all loaded instruction files (ABOO.md, CLAUDE.md, AGENTS.md, etc.) and rule files
+2. Show the memory directory path and list its contents
+3. Show whether auto-extract is enabled or disabled
+4. Offer to toggle auto-extract, open the memory directory, or create/edit MEMORY.md
+
+If the user provided arguments: $ARGUMENTS

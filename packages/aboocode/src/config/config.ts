@@ -1211,13 +1211,12 @@ export namespace Config {
             .boolean()
             .optional()
             .describe("Auto-extract memories from sessions when idle (default: true)"),
-          maxMemories: z.number().optional().describe("Maximum memories per project (default: 500)"),
-          contextLimit: z
-            .number()
-            .optional()
-            .describe("Maximum memories injected into system prompt (default: 5)"),
         })
         .optional(),
+      abooMdExcludes: z
+        .array(z.string())
+        .optional()
+        .describe("Glob patterns to exclude instruction files (ABOO.md/CLAUDE.md) from loading"),
     })
     .strict()
     .meta({

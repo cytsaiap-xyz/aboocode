@@ -116,6 +116,10 @@ export const ReadTool = Tool.define("read", {
     }
 
     const instructions = await InstructionPrompt.resolve(ctx.messages, filepath, ctx.messageID)
+    const matchedRules = await InstructionPrompt.resolveRules(filepath, ctx.messageID)
+    for (const rule of matchedRules) {
+      instructions.push({ filepath: rule.filepath, content: "Rule from: " + rule.filepath + "\n" + rule.content })
+    }
 
     // Exclude SVG (XML-based) and vnd.fastbidsheet (.fbs extension, commonly FlatBuffers schema files)
     const mime = Filesystem.mimeType(filepath)

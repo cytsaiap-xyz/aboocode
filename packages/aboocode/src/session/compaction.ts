@@ -151,7 +151,7 @@ export namespace SessionCompaction {
     // Inject memory context into compaction so memories survive summarization
     try {
       const { Memory } = await import("../memory")
-      const memoryContext = await Memory.buildContext({ limit: 10 })
+      const memoryContext = await Memory.buildContext()
       for (const ctx of memoryContext) {
         ;(compacting.context as string[]).push(ctx)
       }

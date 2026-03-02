@@ -3,10 +3,8 @@ import { Agent } from "@/agent/agent"
 import { Provider } from "@/provider/provider"
 import { LLM } from "@/session/llm"
 import { MessageV2 } from "@/session/message-v2"
-import { Instance } from "@/project/instance"
 import { Config } from "@/config/config"
-import { Memory } from "./index"
-import type { MemoryTypes } from "./types"
+import { MarkdownStore } from "./markdown-store"
 
 const log = Log.create({ service: "memory.extract" })
 
@@ -69,6 +67,11 @@ export async function extractMemories(sessionID: string): Promise<void> {
     if (!lastUserMsg) return
     const userInfo = lastUserMsg.info as MessageV2.User
 
+    // Read existing MEMORY.md content for context
+    const existingContent = MarkdownStore.readMemory()
+
+    const prompt = `${existingContent ? `Current MEMORY.md content:\n${existingContent}\n\n` : ""}Conversation summary:\n${summary}`
+
     const result = await LLM.stream({
       agent,
       user: userInfo,
@@ -82,7 +85,7 @@ export async function extractMemories(sessionID: string): Promise<void> {
       messages: [
         {
           role: "user",
-          content: summary,
+          content: prompt,
         },
       ],
     })
@@ -92,33 +95,15 @@ export async function extractMemories(sessionID: string): Promise<void> {
       return null
     })
 
-    if (!text) return
+    if (!text || text.trim().length === 0) return
 
-    // Parse extracted memories from LLM response
-    const extracted = parseExtractedMemories(text)
-    if (extracted.length === 0) return
-
-    // Store each extracted memory
-    let stored = 0
-    for (const mem of extracted) {
-      try {
-        await Memory.add({
-          title: mem.title,
-          content: mem.content,
-          type: mem.type,
-          category: mem.category,
-          tags: mem.tags,
-          sessionID,
-        })
-        stored++
-      } catch (e) {
-        // Likely duplicate or limit reached
-        log.debug("skipped memory", { title: mem.title, error: e })
-      }
-    }
+    // Append the extracted notes to MEMORY.md
+    const existing = MarkdownStore.readMemory()
+    const updated = existing ? existing.trimEnd() + "\n\n" + text.trim() + "\n" : text.trim() + "\n"
+    MarkdownStore.writeMemory(updated)
 
     extractedSessions.set(sessionID, Date.now())
-    log.info("extracted memories", { sessionID, extracted: extracted.length, stored })
+    log.info("extracted memories to MEMORY.md", { sessionID })
   } catch (e) {
     log.error("memory extraction failed", { error: e })
   }
@@ -150,44 +135,4 @@ function buildConversationSummary(messages: MessageV2.WithParts[]): string {
   }
 
   return lines.join("\n")
-}
-
-function parseExtractedMemories(text: string): MemoryTypes.ExtractedMemory[] {
-  try {
-    // Try to parse as JSON array
-    const jsonMatch = text.match(/\[[\s\S]*\]/)
-    if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0])
-      if (Array.isArray(parsed)) {
-        return parsed
-          .filter(
-            (item: any) =>
-              item &&
-              typeof item.title === "string" &&
-              typeof item.content === "string" &&
-              typeof item.type === "string",
-          )
-          .map((item: any) => ({
-            type: validateType(item.type),
-            category: validateCategory(item.category),
-            title: item.title.slice(0, 200),
-            content: item.content.slice(0, 1000),
-            tags: Array.isArray(item.tags) ? item.tags.filter((t: any) => typeof t === "string").slice(0, 10) : [],
-          }))
-      }
-    }
-  } catch {
-    log.debug("failed to parse extraction result as JSON")
-  }
-  return []
-}
-
-function validateType(type: string): MemoryTypes.MemoryType {
-  const valid: MemoryTypes.MemoryType[] = ["decision", "pattern", "bugfix", "lesson", "feature", "note"]
-  return valid.includes(type as any) ? (type as MemoryTypes.MemoryType) : "note"
-}
-
-function validateCategory(category: string): MemoryTypes.MemoryCategory {
-  const valid: MemoryTypes.MemoryCategory[] = ["solution", "knowledge"]
-  return valid.includes(category as any) ? (category as MemoryTypes.MemoryCategory) : "knowledge"
 }
