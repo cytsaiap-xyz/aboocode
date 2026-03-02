@@ -14,7 +14,7 @@ export const MemorySearchTool = Tool.define("memory_search", {
     limit: z.number().optional().describe("Max results to return (default: 20)"),
   }),
   async execute(params) {
-    const results = Memory.search(params.query, {
+    const results = await Memory.search(params.query, {
       limit: params.limit,
       type: params.type as MemoryTypes.MemoryType | undefined,
     })
@@ -65,7 +65,7 @@ export const MemoryRecentTool = Tool.define("memory_recent", {
     limit: z.number().optional().describe("Number of memories to return (default: 10)"),
   }),
   async execute(params) {
-    const results = Memory.recent(params.limit)
+    const results = await Memory.recent(params.limit)
     if (results.length === 0) {
       return { title: "memory_recent", output: "No memories found for this project.", metadata: { count: 0 } }
     }
@@ -83,7 +83,7 @@ export const MemoryDeleteTool = Tool.define("memory_delete", {
     id: z.string().describe("The memory ID to delete (e.g., mem_abc123)"),
   }),
   async execute(params) {
-    Memory.remove(params.id)
+    await Memory.remove(params.id)
     return {
       title: "memory_delete",
       output: `Memory ${params.id} deleted.`,
@@ -96,7 +96,7 @@ export const MemoryStatsTool = Tool.define("memory_stats", {
   description: "Show statistics about the project's memory system including counts by type and category.",
   parameters: z.object({}),
   async execute() {
-    const s = Memory.stats()
+    const s = await Memory.stats()
     const lines = [
       `Memories: ${s.memories.total}`,
       ...Object.entries(s.memories.byType).map(([type, count]) => `  ${type}: ${count}`),
@@ -139,7 +139,7 @@ export const MemoryEntitySearchTool = Tool.define("memory_entity_search", {
     limit: z.number().optional().describe("Max results (default: 20)"),
   }),
   async execute(params) {
-    const results = Memory.searchEntities(params.query, { limit: params.limit })
+    const results = await Memory.searchEntities(params.query, { limit: params.limit })
     if (results.length === 0) {
       return { title: "memory_entity_search", output: "No entities found.", metadata: { count: 0 } }
     }

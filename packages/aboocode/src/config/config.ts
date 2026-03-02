@@ -1216,6 +1216,10 @@ export namespace Config {
             .number()
             .optional()
             .describe("Maximum memories injected into system prompt (default: 5)"),
+          storageBackend: z
+            .enum(["sqlite", "json"])
+            .optional()
+            .describe("Storage backend for memories: 'sqlite' (default) or 'json' (file-based)"),
         })
         .optional(),
     })
