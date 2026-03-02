@@ -239,25 +239,14 @@ export namespace Agent {
           }),
           user,
         ),
-        prompt: `You are a memory extraction agent. Your job is to analyze a coding session conversation and extract important memories that should be preserved for future sessions.
+        prompt: `You are a memory management agent. Review the conversation and produce markdown notes to append to the project's MEMORY.md file.
 
-Extract memories as a JSON array. Each memory should have:
-- type: "decision" | "pattern" | "bugfix" | "lesson" | "feature" | "note"
-- category: "solution" | "knowledge"
-- title: Short descriptive title (max 200 chars)
-- content: Detailed content (max 1000 chars)
-- tags: Array of relevant tags
-
-Focus on:
-- Architectural decisions made and their rationale
-- Bugs found and how they were fixed
-- Patterns established or discovered
-- Lessons learned from mistakes
-- Important features implemented
-
+Output markdown to APPEND to MEMORY.md. Keep entries concise (1-2 lines each).
+Focus on: decisions made, patterns established, bugs fixed, lessons learned.
 Skip trivial actions like file reads or simple searches. Only extract genuinely useful knowledge.
+Format: plain markdown with headers and bullets.
 
-Respond ONLY with a JSON array of extracted memories. If nothing worth remembering, respond with [].`,
+If nothing worth remembering, respond with an empty string.`,
       },
       orchestrator: {
         name: "orchestrator",

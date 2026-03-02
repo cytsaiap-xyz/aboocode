@@ -1,30 +1,40 @@
-import type { MemoryTypes } from "./types"
+import { MarkdownStore } from "./markdown-store"
 
 const MEMORY_INSTRUCTION = `## Project Memory
 
-You have access to a persistent memory system that stores knowledge from previous sessions.
+You have a persistent memory directory at \`{memoryDir}/\`. Its contents persist across conversations.
 
-**Before starting any new task, planning, or writing code:**
-- Use \`memory_search\` to find relevant decisions, patterns, bugfixes, and lessons from previous sessions
-- Check if similar work has been done before to avoid repeating mistakes or contradicting past decisions
+As you work, consult your memory files to build on previous experience.
 
-**While working:**
-- Use \`memory_add\` to record important decisions, patterns discovered, bugs fixed, or lessons learned
-- Use \`memory_entity_add\` and \`memory_relation_add\` to track project components and their relationships
+**MEMORY.md** is the main index file — it's loaded into your context automatically (first 200 lines).
+- Read topic files with the Read tool when you need details
+- Write/edit memory files to save important knowledge
+- Keep MEMORY.md concise; move detailed notes to topic files
 
-**Recent memories from this project:**`
+**Before starting any new task:**
+- Review the memory context below for relevant decisions, patterns, and lessons`
 
-export function buildContextStrings(memories: MemoryTypes.MemoryEntry[]): string[] {
-  if (memories.length === 0) {
-    return [
-      `## Project Memory\n\nYou have access to a persistent memory system. Use \`memory_search\` before starting new tasks to find relevant context from previous sessions. Use \`memory_add\` to record important decisions and lessons learned.`,
-    ]
+const MEMORY_INSTRUCTION_EMPTY = `## Project Memory
+
+You have a persistent memory directory at \`{memoryDir}/\`.
+No memories have been recorded yet. As you work, save important decisions, patterns, and lessons to MEMORY.md in the memory directory.`
+
+export function buildContextStrings(): string[] {
+  const content = MarkdownStore.readMemory()
+  const memoryDir = MarkdownStore.getDir()
+
+  if (!content) {
+    return [MEMORY_INSTRUCTION_EMPTY.replace("{memoryDir}", memoryDir)]
   }
 
-  const lines = memories.map((m) => {
-    const tags = m.tags.length > 0 ? ` (${m.tags.join(", ")})` : ""
-    return `- [${m.type}] ${m.title}${tags}\n  ${m.content}`
-  })
+  const lines = content.split("\n").slice(0, 200)
+  const topicFiles = MarkdownStore.listTopicFiles()
+  const topicNote =
+    topicFiles.length > 0
+      ? `\n\nTopic files available: ${topicFiles.join(", ")}`
+      : ""
 
-  return [`${MEMORY_INSTRUCTION}\n\n${lines.join("\n")}`]
+  return [
+    `${MEMORY_INSTRUCTION.replace("{memoryDir}", memoryDir)}${topicNote}\n\n${lines.join("\n")}`,
+  ]
 }

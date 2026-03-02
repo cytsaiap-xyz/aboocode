@@ -39,16 +39,6 @@ import {
   ListTeamTool,
   DisbandTeamTool,
 } from "./team"
-import {
-  MemorySearchTool,
-  MemoryAddTool,
-  MemoryRecentTool,
-  MemoryDeleteTool,
-  MemoryStatsTool,
-  MemoryEntityAddTool,
-  MemoryEntitySearchTool,
-  MemoryRelationAddTool,
-} from "./memory"
 
 export namespace ToolRegistry {
   const log = Log.create({ service: "tool.registry" })
@@ -177,14 +167,6 @@ export namespace ToolRegistry {
       DelegateTasksTool,
       ListTeamTool,
       DisbandTeamTool,
-      MemorySearchTool,
-      MemoryAddTool,
-      MemoryRecentTool,
-      MemoryDeleteTool,
-      MemoryStatsTool,
-      MemoryEntityAddTool,
-      MemoryEntitySearchTool,
-      MemoryRelationAddTool,
       ...custom,
     ]
   }
