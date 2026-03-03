@@ -67,7 +67,7 @@ export namespace Config {
     return merged
   }
 
-  export const state = Instance.state(async () => {
+  async function initState() {
     const auth = await Auth.all()
 
     // Config loading order (low -> high precedence): https://opencode.ai/docs/config#precedence-order
@@ -258,11 +258,22 @@ export namespace Config {
       directories,
       deps,
     }
-  })
+  }
+
+  export const state = Instance.state(initState)
 
   export async function waitForDependencies() {
     const deps = await state().then((x) => x.deps)
     await Promise.all(deps)
+  }
+
+  export async function reload() {
+    log.info("reloading config")
+    const s = await state()
+    const fresh = await initState()
+    s.config = fresh.config
+    s.deps = fresh.deps
+    log.info("config reloaded")
   }
 
   export async function installDependencies(dir: string) {
