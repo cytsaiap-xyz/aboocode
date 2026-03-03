@@ -14,7 +14,7 @@ export namespace HotReload {
     Reloaded: BusEvent.define(
       "hot-reload.reloaded",
       z.object({
-        type: z.enum(["tool", "skill", "agent"]),
+        type: z.enum(["tool", "skill", "agent", "config"]),
         files: z.array(z.string()),
       }),
     ),
@@ -39,6 +39,12 @@ export namespace HotReload {
     return /^(agent|agents)\//.test(rel) && /\.md$/.test(rel)
   }
 
+  function isConfigFile(file: string): boolean {
+    const rel = relative(file)
+    if (!rel) return false
+    return rel === "aboocode.json" || rel === "aboocode.jsonc"
+  }
+
   let configDirs: string[] = []
 
   function relative(file: string): string | undefined {
@@ -51,7 +57,7 @@ export namespace HotReload {
   }
 
   // Debounce state
-  const pending = new Map<string, { timer: ReturnType<typeof setTimeout>; type: "tool" | "skill" | "agent" }>()
+  const pending = new Map<string, { timer: ReturnType<typeof setTimeout>; type: "tool" | "skill" | "agent" | "config" }>()
 
   // Agents directory gets immediate reload (no debounce) for team workflow
   function isAgentsDir(file: string): boolean {
@@ -65,10 +71,11 @@ export namespace HotReload {
   }
 
   async function handleChange(file: string, event: "add" | "change" | "unlink") {
-    let type: "tool" | "skill" | "agent" | undefined
+    let type: "tool" | "skill" | "agent" | "config" | undefined
     if (isToolFile(file)) type = "tool"
     else if (isSkillFile(file)) type = "skill"
     else if (isAgentFile(file)) type = "agent"
+    else if (isConfigFile(file)) type = "config"
 
     if (!type) return
 
@@ -95,7 +102,7 @@ export namespace HotReload {
     })
   }
 
-  async function doReload(type: "tool" | "skill" | "agent", files: string[]) {
+  async function doReload(type: "tool" | "skill" | "agent" | "config", files: string[]) {
     log.info("reloading", { type, files })
     try {
       // Dynamic imports to avoid circular dependencies
@@ -108,6 +115,17 @@ export namespace HotReload {
       } else if (type === "agent") {
         const { Agent } = await import("../agent/agent")
         await Agent.reload()
+      } else if (type === "config") {
+        // Config changes cascade to all registries since they depend on config
+        await Config.reload()
+        const { Agent } = await import("../agent/agent")
+        const { Skill } = await import("../skill/skill")
+        const { ToolRegistry } = await import("../tool/registry")
+        const { Command } = await import("../command")
+        await Agent.reload()
+        await Skill.reload()
+        await ToolRegistry.reload()
+        await Command.reload()
       }
 
       Bus.publish(Event.Reloaded, { type, files })
