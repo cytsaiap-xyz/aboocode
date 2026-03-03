@@ -340,6 +340,17 @@ export const { use: useSync, provider: SyncProvider } = createSimpleContext({
           setStore("vcs", { branch: event.properties.branch })
           break
         }
+
+        case "hot-reload.reloaded": {
+          const type = event.properties.type
+          if (type === "agent") {
+            sdk.client.app.agents().then((x) => setStore("agent", reconcile(x.data ?? [])))
+          }
+          if (type === "skill" || type === "tool") {
+            sdk.client.command.list().then((x) => setStore("command", reconcile(x.data ?? [])))
+          }
+          break
+        }
       }
     })
 
