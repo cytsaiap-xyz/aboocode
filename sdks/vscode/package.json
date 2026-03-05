@@ -1,8 +1,8 @@
 {
   "name": "aboocode",
   "displayName": "aboocode",
-  "description": "aboocode for VS Code",
-  "version": "0.1.0",
+  "description": "AI coding agent for VS Code — chat, code actions, and session management powered by aboocode",
+  "version": "0.2.0",
   "publisher": "sst-dev",
   "repository": {
     "type": "git",
@@ -18,15 +18,45 @@
     "vscode": "^1.94.0"
   },
   "categories": [
+    "AI",
+    "Chat",
+    "Machine Learning",
     "Other"
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "aboocode",
+          "title": "Aboocode",
+          "icon": "images/button-dark.svg"
+        }
+      ]
+    },
+    "views": {
+      "aboocode": [
+        {
+          "type": "webview",
+          "id": "aboocode.chatView",
+          "name": "Chat"
+        },
+        {
+          "id": "aboocode.sessionsView",
+          "name": "Sessions"
+        },
+        {
+          "id": "aboocode.changesView",
+          "name": "Changes"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "aboocode.openTerminal",
         "title": "Open aboocode",
+        "category": "Aboocode",
         "icon": {
           "light": "images/button-dark.svg",
           "dark": "images/button-light.svg"
@@ -35,6 +65,7 @@
       {
         "command": "aboocode.openNewTerminal",
         "title": "Open aboocode in new tab",
+        "category": "Aboocode",
         "icon": {
           "light": "images/button-dark.svg",
           "dark": "images/button-light.svg"
@@ -42,7 +73,74 @@
       },
       {
         "command": "aboocode.addFilepathToTerminal",
-        "title": "Add Filepath to Terminal"
+        "title": "Insert file reference in terminal",
+        "category": "Aboocode"
+      },
+      {
+        "command": "aboocode.addFilepathToChat",
+        "title": "Insert file reference in chat",
+        "category": "Aboocode"
+      },
+      {
+        "command": "aboocode.startServer",
+        "title": "Start Server",
+        "category": "Aboocode"
+      },
+      {
+        "command": "aboocode.stopServer",
+        "title": "Stop Server",
+        "category": "Aboocode"
+      },
+      {
+        "command": "aboocode.restartServer",
+        "title": "Restart Server",
+        "category": "Aboocode"
+      },
+      {
+        "command": "aboocode.newSession",
+        "title": "New Chat Session",
+        "category": "Aboocode",
+        "icon": "$(add)"
+      },
+      {
+        "command": "aboocode.switchSession",
+        "title": "Switch Session",
+        "category": "Aboocode"
+      },
+      {
+        "command": "aboocode.selectModel",
+        "title": "Select Model",
+        "category": "Aboocode"
+      },
+      {
+        "command": "aboocode.explainSelection",
+        "title": "Explain Selection",
+        "category": "Aboocode"
+      },
+      {
+        "command": "aboocode.fixSelection",
+        "title": "Fix Selection",
+        "category": "Aboocode"
+      },
+      {
+        "command": "aboocode.refactorSelection",
+        "title": "Refactor Selection",
+        "category": "Aboocode"
+      },
+      {
+        "command": "aboocode.addTestsForSelection",
+        "title": "Add Tests for Selection",
+        "category": "Aboocode"
+      },
+      {
+        "command": "aboocode.openSettings",
+        "title": "Open Settings",
+        "category": "Aboocode"
+      },
+      {
+        "command": "aboocode.showQuickPick",
+        "title": "Show Quick Actions",
+        "category": "Aboocode"
       }
     ],
     "menus": {
@@ -51,12 +149,44 @@
           "command": "aboocode.openNewTerminal",
           "group": "navigation"
         }
+      ],
+      "editor/context": [
+        {
+          "command": "aboocode.explainSelection",
+          "group": "aboocode@1",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "aboocode.fixSelection",
+          "group": "aboocode@2",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "aboocode.refactorSelection",
+          "group": "aboocode@3",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "aboocode.addTestsForSelection",
+          "group": "aboocode@4",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "aboocode.addFilepathToChat",
+          "group": "aboocode@5"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "aboocode.newSession",
+          "when": "view == aboocode.sessionsView",
+          "group": "navigation"
+        }
       ]
     },
     "keybindings": [
       {
         "command": "aboocode.openTerminal",
-        "title": "Run aboocode",
         "key": "cmd+escape",
         "mac": "cmd+escape",
         "win": "ctrl+escape",
@@ -64,7 +194,6 @@
       },
       {
         "command": "aboocode.openNewTerminal",
-        "title": "Run aboocode",
         "key": "cmd+shift+escape",
         "mac": "cmd+shift+escape",
         "win": "ctrl+shift+escape",
@@ -72,13 +201,57 @@
       },
       {
         "command": "aboocode.addFilepathToTerminal",
-        "title": "aboocode: Insert At-Mentioned",
         "key": "cmd+alt+k",
         "mac": "cmd+alt+k",
         "win": "ctrl+alt+K",
         "linux": "ctrl+alt+K"
+      },
+      {
+        "command": "aboocode.chatView.focus",
+        "key": "cmd+shift+a",
+        "mac": "cmd+shift+a",
+        "win": "ctrl+shift+a",
+        "linux": "ctrl+shift+a"
+      },
+      {
+        "command": "aboocode.explainSelection",
+        "key": "cmd+shift+e",
+        "mac": "cmd+shift+e",
+        "win": "ctrl+shift+e",
+        "linux": "ctrl+shift+e",
+        "when": "editorHasSelection"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Aboocode",
+      "properties": {
+        "aboocode.serverPath": {
+          "type": "string",
+          "default": "aboocode",
+          "description": "Path to the aboocode binary"
+        },
+        "aboocode.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically start the aboocode server when VS Code opens"
+        },
+        "aboocode.port": {
+          "type": "number",
+          "default": 0,
+          "description": "Preferred port for the aboocode server (0 = auto)"
+        },
+        "aboocode.defaultProvider": {
+          "type": "string",
+          "default": "",
+          "description": "Default AI provider ID"
+        },
+        "aboocode.defaultModel": {
+          "type": "string",
+          "default": "",
+          "description": "Default AI model ID"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "bun run package",
@@ -86,6 +259,7 @@
     "watch:esbuild": "node esbuild.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
     "package": "bun run check-types && bun run lint && node esbuild.js --production",
+    "package:vsix": "node esbuild.js --production && vsce package --no-dependencies",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "bun run compile-tests && bun run compile && bun run lint",
@@ -99,6 +273,7 @@
     "@types/node": "20.x",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@typescript-eslint/parser": "^8.31.1",
+    "@vscode/vsce": "^3.2.0",
     "eslint": "^9.25.1",
     "esbuild": "^0.25.3",
     "typescript": "^5.8.3",
