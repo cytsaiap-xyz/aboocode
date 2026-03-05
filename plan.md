@@ -191,12 +191,37 @@ The extension spawns `aboocode serve --port <port>` as a background child proces
 - Use `@vscode/test-electron` to run extension tests
 - Test commands, webview rendering, code actions
 
-**Step 7.3 — Packaging & distribution**
+**Step 7.3 — Build VSIX package**
+- File: `sdks/vscode/scripts/build-vsix.sh` (new)
+- Prerequisites:
+  - Install `@vscode/vsce` globally or as a dev dependency (`npm install -D @vscode/vsce`)
+  - Ensure `package.json` has required fields: `name`, `publisher`, `version`, `engines.vscode`, `main`
+- Build steps:
+  1. Run `bun install` to install dependencies
+  2. Run `node esbuild.js --production` to bundle the extension into `dist/extension.js`
+  3. Add `.vscodeignore` to exclude dev/source files from the package:
+     ```
+     .vscode/
+     src/
+     node_modules/
+     .gitignore
+     tsconfig.json
+     esbuild.js
+     **/*.ts
+     !dist/**
+     ```
+  4. Run `vsce package --no-dependencies` to produce `aboocode-<version>.vsix`
+- The `.vsix` file can then be:
+  - Installed locally: `code --install-extension aboocode-<version>.vsix`
+  - Shared with others for manual installation
+  - Uploaded to the VS Code Marketplace via `vsce publish`
+- Add an npm script in `package.json`: `"package": "node esbuild.js --production && vsce package --no-dependencies"`
+
+**Step 7.4 — Marketplace distribution**
 - Update `package.json` with proper metadata, categories (`["AI", "Chat", "Machine Learning"]`)
-- Bundle with esbuild (already configured)
-- Add `.vscodeignore` to exclude dev files
-- Package with `vsce package`
-- Publish to VS Code Marketplace
+- Add extension icon (`images/icon.png`, 128x128 minimum)
+- Add `CHANGELOG.md` for version history
+- Publish with `vsce publish` (requires a Personal Access Token from Azure DevOps)
 
 ---
 
@@ -228,6 +253,8 @@ Files to modify:
 sdks/vscode/src/extension.ts   # Wire up all new components
 sdks/vscode/package.json        # Commands, views, config, keybindings
 sdks/vscode/esbuild.js          # Bundle webview assets
+sdks/vscode/.vscodeignore        # Exclude dev files from VSIX
+sdks/vscode/scripts/build-vsix.sh # Build script for VSIX packaging
 ```
 
 ---
