@@ -563,6 +563,7 @@ export namespace SessionPrompt {
 
       // normal processing
       const agent = await Agent.get(lastUser.agent)
+      if (!agent) throw new Error(`Agent "${lastUser.agent}" not found. It may have been removed or renamed.`)
       const maxSteps = agent.steps ?? Infinity
       const isLastStep = step >= maxSteps
       msgs = await insertReminders({
@@ -985,7 +986,7 @@ export namespace SessionPrompt {
         created: Date.now(),
       },
       tools: input.tools,
-      agent: agent.name,
+      agent: input.agent ?? agent.name,
       model,
       system: input.system,
       format: input.format,

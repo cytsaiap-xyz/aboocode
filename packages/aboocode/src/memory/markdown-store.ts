@@ -3,6 +3,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync } from 
 import { Global } from "@/global"
 import { Instance } from "@/project/instance"
 import { Log } from "@/util/log"
+import { UsageLog } from "@/usage-log"
+import { DebugLog } from "@/debug-log"
 
 const log = Log.create({ service: "memory.markdown-store" })
 
@@ -21,10 +23,13 @@ export namespace MarkdownStore {
   }
 
   export function readMemory(projectID?: string): string {
+    UsageLog.record("memory.markdown-store", "readMemory")
     const filePath = getMemoryPath(projectID)
     if (!existsSync(filePath)) return ""
     try {
-      return readFileSync(filePath, "utf-8")
+      const content = readFileSync(filePath, "utf-8")
+      DebugLog.memoryStoreRead(filePath, content.length)
+      return content
     } catch (e) {
       log.error("failed to read MEMORY.md", { path: filePath, error: e })
       return ""
@@ -32,6 +37,7 @@ export namespace MarkdownStore {
   }
 
   export function writeMemory(content: string, projectID?: string): void {
+    UsageLog.record("memory.markdown-store", "writeMemory", { contentLength: content.length })
     const filePath = getMemoryPath(projectID)
     const dir = path.dirname(filePath)
     if (!existsSync(dir)) {
@@ -39,6 +45,7 @@ export namespace MarkdownStore {
     }
     try {
       writeFileSync(filePath, content, "utf-8")
+      DebugLog.memoryStoreWrite(filePath, content.length)
     } catch (e) {
       log.error("failed to write MEMORY.md", { path: filePath, error: e })
       throw e
@@ -46,6 +53,7 @@ export namespace MarkdownStore {
   }
 
   export function listTopicFiles(projectID?: string): string[] {
+    UsageLog.record("memory.markdown-store", "listTopicFiles")
     const dir = getDir(projectID)
     try {
       return readdirSync(dir)
@@ -57,6 +65,7 @@ export namespace MarkdownStore {
   }
 
   export function readTopicFile(name: string, projectID?: string): string {
+    UsageLog.record("memory.markdown-store", "readTopicFile", { name })
     const filePath = path.join(getDir(projectID), name)
     if (!existsSync(filePath)) return ""
     try {
@@ -68,6 +77,7 @@ export namespace MarkdownStore {
   }
 
   export function writeTopicFile(name: string, content: string, projectID?: string): void {
+    UsageLog.record("memory.markdown-store", "writeTopicFile", { name })
     const filePath = path.join(getDir(projectID), name)
     try {
       writeFileSync(filePath, content, "utf-8")

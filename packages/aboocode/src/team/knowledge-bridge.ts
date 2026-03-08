@@ -1,6 +1,7 @@
 import { Instance } from "../project/instance"
 import { Filesystem } from "../util/filesystem"
 import { Log } from "../util/log"
+import { UsageLog } from "../usage-log"
 import path from "path"
 
 export namespace KnowledgeBridge {
@@ -28,6 +29,7 @@ export namespace KnowledgeBridge {
       }
     }
 
+    UsageLog.record("team.knowledge-bridge", "loadKnowledgeContext", { filesLoaded: context.length })
     return context
   }
 

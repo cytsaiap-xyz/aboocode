@@ -12,6 +12,7 @@ import {
   DisbandTeamTool,
   DelegateTaskTool,
   DelegateTasksTool,
+  DiscussTool,
 } from "../../src/tool/team"
 import type { Tool } from "../../src/tool/tool"
 
@@ -544,6 +545,93 @@ describe("Team tool workflow integration", () => {
   })
 })
 
+describe("DiscussTool", () => {
+  test("has correct tool id", () => {
+    expect(DiscussTool.id).toBe("discuss")
+  })
+
+  test("initializes with correct parameters", async () => {
+    const tool = await DiscussTool.init()
+    expect(tool.description).toContain("discussion")
+    expect(tool.parameters.shape.topic).toBeDefined()
+    expect(tool.parameters.shape.agents).toBeDefined()
+    expect(tool.parameters.shape.max_rounds).toBeDefined()
+  })
+
+  test("returns error when no team exists", async () => {
+    await using tmp = await tmpdir()
+    await Instance.provide({
+      directory: tmp.path,
+      fn: async () => {
+        const tool = await DiscussTool.init()
+        const ctx = makeCtx("no-discuss-team")
+        const result = await tool.execute(
+          { topic: "Architecture", agents: ["agent-a", "agent-b"] },
+          ctx,
+        )
+
+        expect(result.title).toBe("Error")
+        expect(result.output).toContain("No team found")
+      },
+    })
+  })
+
+  test("returns error when team is not finalized", async () => {
+    await using tmp = await tmpdir()
+    await Instance.provide({
+      directory: tmp.path,
+      fn: async () => {
+        const planTool = await PlanTeamTool.init()
+        const ctx = makeCtx("discuss-not-finalized")
+        await planTool.execute({ task_summary: "Test project" }, ctx)
+
+        const tool = await DiscussTool.init()
+        const result = await tool.execute(
+          { topic: "Architecture", agents: ["agent-a", "agent-b"] },
+          ctx,
+        )
+
+        expect(result.title).toBe("Error")
+        expect(result.output).toContain("not finalized")
+      },
+    })
+  })
+
+  test("returns error when agent not found", async () => {
+    await using tmp = await tmpdir()
+    await Instance.provide({
+      directory: tmp.path,
+      fn: async () => {
+        const planTool = await PlanTeamTool.init()
+        const addTool = await AddAgentTool.init()
+        const finalizeTool = await FinalizeTeamTool.init()
+        const ctx = makeCtx("discuss-missing-agent")
+
+        await planTool.execute({ task_summary: "Test project" }, ctx)
+        await addTool.execute(
+          { agent_id: "real-agent", name: "Real Agent", description: "Exists", system_prompt: "Be real" },
+          ctx,
+        )
+        await addTool.execute(
+          { agent_id: "real-agent-2", name: "Real Agent 2", description: "Also exists", system_prompt: "Be real too" },
+          ctx,
+        )
+        await finalizeTool.execute({}, ctx)
+
+        const tool = await DiscussTool.init()
+        const result = await tool.execute(
+          { topic: "Architecture", agents: ["real-agent", "ghost-agent"] },
+          ctx,
+        )
+
+        expect(result.title).toBe("Error")
+        expect(result.output).toContain("ghost-agent")
+        expect(result.output).toContain("not found")
+      },
+    })
+  })
+})
+
 describe("Team tools are registered", () => {
   test("all team tools have unique IDs", () => {
     const ids = [
@@ -554,8 +642,9 @@ describe("Team tools are registered", () => {
       DelegateTasksTool.id,
       ListTeamTool.id,
       DisbandTeamTool.id,
+      DiscussTool.id,
     ]
-    expect(new Set(ids).size).toBe(7)
+    expect(new Set(ids).size).toBe(8)
     expect(ids).toEqual([
       "plan_team",
       "add_agent",
@@ -564,6 +653,7 @@ describe("Team tools are registered", () => {
       "delegate_tasks",
       "list_team",
       "disband_team",
+      "discuss",
     ])
   })
 })

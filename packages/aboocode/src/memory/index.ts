@@ -5,6 +5,8 @@ import { Log } from "@/util/log"
 import { SessionStatus } from "@/session/status"
 import { Session } from "@/session"
 import { buildContextStrings } from "./context"
+import { UsageLog } from "@/usage-log"
+import { DebugLog } from "@/debug-log"
 
 const log = Log.create({ service: "memory" })
 
@@ -32,15 +34,20 @@ export namespace Memory {
    * Read MEMORY.md (first 200 lines) and build context strings for injection.
    */
   export async function buildContext(): Promise<string[]> {
+    UsageLog.record("memory", "buildContext")
     if (!(await isEnabled())) return []
-    return buildContextStrings()
+    const ctx = buildContextStrings()
+    DebugLog.memoryBuildContext(ctx.length)
+    return ctx
   }
 
   /**
    * Append a note to MEMORY.md (used by auto-extraction).
    */
   export async function append(note: string): Promise<void> {
+    UsageLog.record("memory", "append", { noteLength: note.length })
     if (!(await isEnabled())) return
+    DebugLog.memoryAppend(note.length, note)
     const existing = MarkdownStore.readMemory()
     const updated = existing ? existing.trimEnd() + "\n\n" + note.trim() + "\n" : note.trim() + "\n"
     MarkdownStore.writeMemory(updated)
@@ -54,6 +61,8 @@ export namespace Memory {
   export function init(): void {
     if (initialized) return
     initialized = true
+    UsageLog.record("memory", "init")
+    DebugLog.memoryInit()
 
     Bus.subscribe(SessionStatus.Event.Status, async (event) => {
       if (event.properties.status.type !== "idle") return

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake Game</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #111827;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+
+      .score {
+        color: #f3f4f6;
+        font-size: 24px;
+        margin-bottom: 16px;
+        font-weight: 600;
+      }
+
+      canvas {
+        border: 2px solid #374151;
+        background: #111827;
+      }
+
+      .gameover {
+        color: #ef4444;
+        font-size: 18px;
+        margin-top: 16px;
+        text-align: center;
+      }
+
+      .restart {
+        color: #9ca3af;
+        font-size: 14px;
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="score" id="score">Score: 0</div>
+    <canvas id="game" width="400" height="400"></canvas>
+    <div class="gameover" id="gameover" style="display: none">Game Over!</div>
+    <div class="restart" id="restart" style="display: none">Press SPACE to restart</div>
+
+    <script>
+      const canvas = document.getElementById("game")
+      const ctx = canvas.getContext("2d")
+      const scoreEl = document.getElementById("score")
+      const gameoverEl = document.getElementById("gameover")
+      const restartEl = document.getElementById("restart")
+
+      const CELL = 20
+      const GRID = 20
+      const FPS = 10
+      const DELTA = 1000 / FPS
+
+      const snake = [{ x: 10, y: 10 }]
+      let direction = { x: 1, y: 0 }
+      let nextDirection = { x: 1, y: 0 }
+      let food = randomFood()
+      let score = 0
+      let running = true
+      let lastTime = 0
+
+      function randomFood() {
+        const pos = { x: Math.floor(Math.random() * GRID), y: Math.floor(Math.random() * GRID) }
+        const collision = snake.some((s) => s.x === pos.x && s.y === pos.y)
+        if (collision) return randomFood()
+        return pos
+      }
+
+      function drawCell(x, y, color) {
+        ctx.fillStyle = color
+        ctx.fillRect(x * CELL, y * CELL, CELL - 1, CELL - 1)
+      }
+
+      function draw() {
+        ctx.fillStyle = "#111827"
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+        drawCell(food.x, food.y, "#ef4444")
+
+        snake.forEach((s, i) => {
+          const color = i === 0 ? "#22c55e" : "#16a34a"
+          drawCell(s.x, s.y, color)
+        })
+      }
+
+      function update() {
+        direction = nextDirection
+
+        const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y }
+
+        if (head.x < 0 || head.x >= GRID || head.y < 0 || head.y >= GRID) {
+          gameOver()
+          return
+        }
+
+        const selfCollision = snake.some((s) => s.x === head.x && s.y === head.y)
+        if (selfCollision) {
+          gameOver()
+          return
+        }
+
+        snake.unshift(head)
+
+        if (head.x === food.x && head.y === food.y) {
+          score += 10
+          scoreEl.textContent = `Score: ${score}`
+          food = randomFood()
+          return
+        }
+
+        snake.pop()
+      }
+
+      function gameOver() {
+        running = false
+        gameoverEl.style.display = "block"
+        restartEl.style.display = "block"
+      }
+
+      function reset() {
+        snake.length = 0
+        snake.push({ x: 10, y: 10 })
+        direction = { x: 1, y: 0 }
+        nextDirection = { x: 1, y: 0 }
+        food = randomFood()
+        score = 0
+        scoreEl.textContent = "Score: 0"
+        running = true
+        gameoverEl.style.display = "none"
+        restartEl.style.display = "none"
+        lastTime = 0
+        requestAnimationFrame(loop)
+      }
+
+      function loop(timestamp) {
+        if (!running) return
+
+        const elapsed = timestamp - lastTime
+
+        if (elapsed >= DELTA) {
+          lastTime = timestamp
+          update()
+          draw()
+        }
+
+        requestAnimationFrame(loop)
+      }
+
+      function isOpposite(dir1, dir2) {
+        return dir1.x === -dir2.x && dir1.y === -dir2.y
+      }
+
+      document.addEventListener("keydown", (e) => {
+        const key = e.key
+
+        if (!running && key === " ") {
+          e.preventDefault()
+          reset()
+          return
+        }
+
+        if (!running) return
+
+        const map = {
+          ArrowUp: { x: 0, y: -1 },
+          ArrowDown: { x: 0, y: 1 },
+          ArrowLeft: { x: -1, y: 0 },
+          ArrowRight: { x: 1, y: 0 },
+        }
+
+        const newDir = map[key]
+        if (!newDir) return
+
+        e.preventDefault()
+
+        if (isOpposite(newDir, direction)) return
+
+        nextDirection = newDir
+      })
+
+      requestAnimationFrame(loop)
+    </script>
+  </body>
+</html>

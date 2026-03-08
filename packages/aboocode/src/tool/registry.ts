@@ -38,6 +38,7 @@ import {
   DelegateTasksTool,
   ListTeamTool,
   DisbandTeamTool,
+  DiscussTool,
 } from "./team"
 
 export namespace ToolRegistry {
@@ -167,6 +168,7 @@ export namespace ToolRegistry {
       DelegateTasksTool,
       ListTeamTool,
       DisbandTeamTool,
+      DiscussTool,
       ...custom,
     ]
   }

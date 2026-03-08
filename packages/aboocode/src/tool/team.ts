@@ -1,6 +1,7 @@
 import z from "zod"
 import path from "path"
 import fs from "fs/promises"
+import { generateObject, type ModelMessage } from "ai"
 import { Tool } from "./tool"
 import { TeamManager } from "../team/manager"
 import { Agent } from "../agent/agent"
@@ -10,7 +11,10 @@ import { Instance } from "../project/instance"
 import { Config } from "../config/config"
 import { Skill } from "../skill/skill"
 import { KnowledgeBridge } from "../team/knowledge-bridge"
+import { Provider } from "../provider/provider"
 import { Log } from "../util/log"
+import { UsageLog } from "../usage-log"
+import { DebugLog } from "../debug-log"
 
 const log = Log.create({ service: "tool.team" })
 
@@ -25,6 +29,7 @@ export const PlanTeamTool = Tool.define<
     task_summary: z.string().describe("A clear summary of the overall task the team needs to accomplish"),
   }),
   async execute(args, ctx) {
+    UsageLog.record("tool.team", "plan_team", { sessionID: ctx.sessionID, taskSummary: args.task_summary })
     const team = TeamManager.startTeam(ctx.sessionID, args.task_summary)
     return {
       title: "Team Planning Started",
@@ -57,6 +62,7 @@ export const AddAgentTool = Tool.define<
     skills: z.array(z.string()).optional().describe("Skill names to assign to this agent"),
   }),
   async execute(args, ctx) {
+    UsageLog.record("tool.team", "add_agent", { sessionID: ctx.sessionID, agentId: args.agent_id })
     const team = TeamManager.getTeam(ctx.sessionID)
     if (!team) {
       return {
@@ -153,6 +159,7 @@ export const FinalizeTeamTool = Tool.define<z.ZodObject<{}>, {}>("finalize_team"
     "Finalize the team after adding all agents. Validates that at least 2 agents exist and confirms they are all loaded. Must be called before delegate_task or delegate_tasks.",
   parameters: z.object({}),
   async execute(_args, ctx) {
+    UsageLog.record("tool.team", "finalize_team", { sessionID: ctx.sessionID })
     const team = TeamManager.getTeam(ctx.sessionID)
     if (!team) {
       return {
@@ -211,6 +218,7 @@ export const DelegateTaskTool = Tool.define<
     task: z.string().describe("Detailed description of the task for the agent"),
   }),
   async execute(args, ctx) {
+    UsageLog.record("tool.team", "delegate_task", { sessionID: ctx.sessionID, agentId: args.agent_id })
     const agent = await Agent.get(args.agent_id)
     if (!agent) {
       return {
@@ -220,6 +228,7 @@ export const DelegateTaskTool = Tool.define<
       }
     }
 
+    DebugLog.teamDelegateTask(ctx.sessionID, args.agent_id, args.task)
     log.info("delegating task", { agent: args.agent_id, task: args.task })
 
     // Create child session
@@ -246,12 +255,14 @@ export const DelegateTaskTool = Tool.define<
         .map((p) => p.text)
         .join("\n")
 
+      DebugLog.teamDelegateTaskDone(ctx.sessionID, args.agent_id, "success", output || "(No text output)")
       return {
         title: `Task Complete: ${args.agent_id}`,
         output: `Agent "${args.agent_id}" completed the task.\n\nSession: ${childSession.id}\n\n## Result\n${output || "(No text output)"}`,
         metadata: { sessionID: childSession.id },
       }
     } catch (error: any) {
+      DebugLog.teamDelegateTaskDone(ctx.sessionID, args.agent_id, "error", error.message)
       return {
         title: `Task Failed: ${args.agent_id}`,
         output: `Agent "${args.agent_id}" failed: ${error.message}`,
@@ -288,6 +299,8 @@ export const DelegateTasksTool = Tool.define<
     ),
   }),
   async execute(args, ctx) {
+    UsageLog.record("tool.team", "delegate_tasks", { sessionID: ctx.sessionID, delegationCount: args.delegations.length })
+    DebugLog.teamDelegateTasks(ctx.sessionID, args.delegations)
     const maxConcurrent = 5
     const results: Record<string, { status: "success" | "error"; output: string; sessionID?: string }> = {}
 
@@ -397,6 +410,7 @@ export const DelegateTasksTool = Tool.define<
       }
     }
 
+    DebugLog.teamDelegateTasksDone(ctx.sessionID, results)
     // Format output
     const lines: string[] = [`## Parallel Execution Results (${Object.keys(results).length} tasks)`]
     for (const [agentId, result] of Object.entries(results)) {
@@ -419,6 +433,7 @@ export const ListTeamTool = Tool.define<z.ZodObject<{}>, {}>("list_team", {
   description: "List all agents in the current team and their status.",
   parameters: z.object({}),
   async execute(_args, ctx) {
+    UsageLog.record("tool.team", "list_team", { sessionID: ctx.sessionID })
     const team = TeamManager.getTeam(ctx.sessionID)
     if (!team) {
       return {
@@ -450,6 +465,7 @@ export const DisbandTeamTool = Tool.define<z.ZodObject<{}>, {}>("disband_team", 
     "Disband the team and delete all dynamically-created agent files. Call this when the team's work is complete.",
   parameters: z.object({}),
   async execute(_args, ctx) {
+    UsageLog.record("tool.team", "disband_team", { sessionID: ctx.sessionID })
     const team = TeamManager.getTeam(ctx.sessionID)
     if (!team) {
       return {
@@ -480,13 +496,320 @@ export const DisbandTeamTool = Tool.define<z.ZodObject<{}>, {}>("disband_team", 
     // Reload agents to pick up deletions
     await Agent.reload()
 
-    // Clean up team state
+    // Clean up team state — pass deleted files to debug log
+    DebugLog.teamDisbanded(ctx.sessionID, deleted)
     TeamManager.disbandTeam(ctx.sessionID)
 
     return {
       title: "Team Disbanded",
       output: `Team disbanded. ${deleted.length} agent files deleted:\n${deleted.map((f) => `- ${f}`).join("\n")}\n\nAll team agents have been removed from the system.`,
       metadata: { deleted },
+    }
+  },
+})
+
+// ─── discuss ───
+
+interface TranscriptEntry {
+  agent_id: string
+  name: string
+  content: string
+  round: number
+}
+
+const ModeratorDecisionSchema = z.object({
+  action: z.enum(["continue", "conclude"]),
+  next_agent_id: z.string().optional(),
+  prompt_for_agent: z.string().optional(),
+  reasoning: z.string(),
+  summary: z.string().optional(),
+  key_points: z.array(z.string()).optional(),
+})
+
+type ModeratorDecision = z.infer<typeof ModeratorDecisionSchema>
+
+const MODERATOR_PROMPT = `You are a discussion moderator facilitating a collaborative conversation between specialized agents.
+
+Your job is to:
+1. Review the discussion transcript so far
+2. Decide who should speak next based on relevance, expertise, and recency (avoid having the same agent speak twice in a row)
+3. Provide a focused prompt/question for the next speaker to address
+4. Conclude the discussion when: consensus is reached, all perspectives have been explored, or agents are repeating themselves
+
+When concluding, provide a clear summary of the discussion and key points/decisions reached.
+
+If this is the first round, pick the agent whose expertise is most relevant to the topic to speak first.`
+
+async function moderatorDecide(input: {
+  topic: string
+  agents: { id: string; name: string; description: string }[]
+  transcript: TranscriptEntry[]
+  round: number
+  maxRounds: number
+  forceConclude?: boolean
+}): Promise<ModeratorDecision> {
+  const defaultModel = await Provider.defaultModel()
+  const model = await Provider.getModel(defaultModel.providerID, defaultModel.modelID)
+  const language = await Provider.getLanguage(model)
+
+  const agentList = input.agents.map((a) => `- ${a.id} (${a.name}): ${a.description}`).join("\n")
+
+  const transcriptText =
+    input.transcript.length > 0
+      ? input.transcript.map((t) => `[Round ${t.round}] ${t.name} (${t.agent_id}):\n${t.content}`).join("\n\n")
+      : "(No discussion yet — this is the opening round)"
+
+  const userContent = [
+    `## Topic\n${input.topic}`,
+    `## Available Agents\n${agentList}`,
+    `## Transcript\n${transcriptText}`,
+    `## Status\nRound ${input.round} of ${input.maxRounds}`,
+    input.forceConclude
+      ? "\n## INSTRUCTION: Maximum rounds reached. You MUST conclude the discussion now. Set action to \"conclude\" and provide a summary and key_points."
+      : "",
+  ].join("\n\n")
+
+  const result = await generateObject({
+    temperature: 0.3,
+    messages: [
+      { role: "system", content: MODERATOR_PROMPT } as ModelMessage,
+      { role: "user", content: userContent } as ModelMessage,
+    ],
+    model: language,
+    schema: ModeratorDecisionSchema,
+  })
+
+  return result.object
+}
+
+async function agentSpeak(input: {
+  agentId: string
+  topic: string
+  prompt: string
+  transcript: TranscriptEntry[]
+  sessionID: string
+  abort: AbortSignal
+}): Promise<string> {
+  const childSession = await Session.create({
+    parentID: input.sessionID,
+    title: `Discussion: ${input.agentId}`,
+  })
+
+  const onAbort = () => SessionPrompt.cancel(childSession.id)
+  input.abort.addEventListener("abort", onAbort, { once: true })
+
+  try {
+    const transcriptContext =
+      input.transcript.length > 0
+        ? input.transcript.map((t) => `**${t.name}** (round ${t.round}):\n${t.content}`).join("\n\n")
+        : ""
+
+    const taskText = [
+      `## Discussion Topic\n${input.topic}`,
+      transcriptContext ? `## Discussion So Far\n${transcriptContext}` : "",
+      `## Your Turn\n${input.prompt}`,
+      "\nProvide your perspective concisely. Build on what others have said. Be specific and actionable.",
+    ]
+      .filter(Boolean)
+      .join("\n\n")
+
+    const result = await SessionPrompt.prompt({
+      sessionID: childSession.id,
+      agent: input.agentId,
+      parts: [{ type: "text", text: taskText }],
+    })
+
+    return result.parts
+      .filter((p): p is { type: "text"; text: string } & Record<string, any> => p.type === "text")
+      .map((p) => p.text)
+      .join("\n")
+  } catch (error: any) {
+    return `(Agent failed to respond: ${error.message})`
+  } finally {
+    input.abort.removeEventListener("abort", onAbort)
+  }
+}
+
+function formatConclusion(input: {
+  topic: string
+  summary: string
+  keyPoints: string[]
+  transcript: TranscriptEntry[]
+  rounds: number
+}): string {
+  const lines: string[] = []
+
+  lines.push(`## Discussion Conclusion`)
+  lines.push(`**Topic:** ${input.topic}`)
+  lines.push(`**Rounds:** ${input.rounds}`)
+  lines.push("")
+  lines.push(`### Summary`)
+  lines.push(input.summary)
+  lines.push("")
+
+  if (input.keyPoints.length > 0) {
+    lines.push(`### Key Points`)
+    for (const point of input.keyPoints) {
+      lines.push(`- ${point}`)
+    }
+    lines.push("")
+  }
+
+  lines.push(`### Full Transcript`)
+  for (const entry of input.transcript) {
+    lines.push(`\n**[Round ${entry.round}] ${entry.name}:**`)
+    lines.push(entry.content)
+  }
+
+  return lines.join("\n")
+}
+
+export const DiscussTool = Tool.define<
+  z.ZodObject<{
+    topic: z.ZodString
+    agents: z.ZodArray<z.ZodString>
+    max_rounds: z.ZodOptional<z.ZodNumber>
+  }>,
+  {}
+>("discuss", {
+  description:
+    "Start a moderated discussion between team agents. The orchestrator acts as moderator, dynamically choosing who speaks next based on the conversation. Use this for collaborative deliberation before implementation — architecture decisions, design reviews, trade-off analysis.",
+  parameters: z.object({
+    topic: z.string().describe("The topic or question for the agents to discuss"),
+    agents: z.array(z.string()).min(2).describe("Agent IDs to participate in the discussion"),
+    max_rounds: z
+      .number()
+      .int()
+      .min(2)
+      .max(10)
+      .optional()
+      .describe("Maximum discussion rounds (default 5, max 10)"),
+  }),
+  async execute(args, ctx) {
+    UsageLog.record("tool.team", "discuss", { sessionID: ctx.sessionID, topic: args.topic, agentCount: args.agents.length })
+    const maxRounds = args.max_rounds ?? 5
+
+    // Validate team is active
+    const team = TeamManager.getTeam(ctx.sessionID)
+    if (!team) {
+      return {
+        title: "Error",
+        output: "No team found. Call plan_team first.",
+        metadata: {},
+      }
+    }
+    if (team.status !== "active") {
+      return {
+        title: "Error",
+        output: "Team is not finalized. Call finalize_team before starting a discussion.",
+        metadata: {},
+      }
+    }
+
+    // Validate all agents exist
+    const agentInfos: { id: string; name: string; description: string }[] = []
+    for (const agentId of args.agents) {
+      const agent = await Agent.get(agentId)
+      if (!agent) {
+        return {
+          title: "Error",
+          output: `Agent "${agentId}" not found. Make sure the agent was created with add_agent.`,
+          metadata: {},
+        }
+      }
+      agentInfos.push({ id: agentId, name: agent.name, description: agent.description ?? "" })
+    }
+
+    DebugLog.teamDiscuss(ctx.sessionID, args.topic, args.agents)
+    log.info("starting discussion", { topic: args.topic, agents: args.agents, maxRounds })
+
+    const transcript: TranscriptEntry[] = []
+    let round = 1
+
+    while (round <= maxRounds) {
+      // Ask moderator who speaks next (or conclude)
+      const decision = await moderatorDecide({
+        topic: args.topic,
+        agents: agentInfos,
+        transcript,
+        round,
+        maxRounds,
+        forceConclude: round > maxRounds,
+      })
+
+      if (decision.action === "conclude") {
+        DebugLog.teamDiscussDone(ctx.sessionID, round - 1, decision.summary ?? "Discussion concluded.")
+        return {
+          title: "Discussion Complete",
+          output: formatConclusion({
+            topic: args.topic,
+            summary: decision.summary ?? "Discussion concluded.",
+            keyPoints: decision.key_points ?? [],
+            transcript,
+            rounds: round - 1,
+          }),
+          metadata: { rounds: round - 1, participants: args.agents },
+        }
+      }
+
+      // Validate next_agent_id
+      let nextAgentId = decision.next_agent_id
+      if (!nextAgentId || !args.agents.includes(nextAgentId)) {
+        // Fallback: pick least-recently-speaking agent
+        const speakCounts = new Map<string, number>()
+        for (const id of args.agents) speakCounts.set(id, 0)
+        for (const entry of transcript) {
+          speakCounts.set(entry.agent_id, (speakCounts.get(entry.agent_id) ?? 0) + 1)
+        }
+        nextAgentId = args.agents.reduce((a, b) => ((speakCounts.get(a) ?? 0) <= (speakCounts.get(b) ?? 0) ? a : b))
+      }
+
+      const nextAgent = agentInfos.find((a) => a.id === nextAgentId)!
+      const prompt = decision.prompt_for_agent ?? `Share your perspective on: ${args.topic}`
+
+      log.info("discussion turn", { round, agent: nextAgentId, prompt })
+
+      // Agent speaks
+      const response = await agentSpeak({
+        agentId: nextAgentId,
+        topic: args.topic,
+        prompt,
+        transcript,
+        sessionID: ctx.sessionID,
+        abort: ctx.abort,
+      })
+
+      transcript.push({
+        agent_id: nextAgentId,
+        name: nextAgent.name,
+        content: response,
+        round,
+      })
+
+      round++
+    }
+
+    // Force conclude at max rounds
+    const finalDecision = await moderatorDecide({
+      topic: args.topic,
+      agents: agentInfos,
+      transcript,
+      round,
+      maxRounds,
+      forceConclude: true,
+    })
+
+    DebugLog.teamDiscussDone(ctx.sessionID, maxRounds, finalDecision.summary ?? "Discussion concluded after reaching maximum rounds.")
+    return {
+      title: "Discussion Complete",
+      output: formatConclusion({
+        topic: args.topic,
+        summary: finalDecision.summary ?? "Discussion concluded after reaching maximum rounds.",
+        keyPoints: finalDecision.key_points ?? [],
+        transcript,
+        rounds: maxRounds,
+      }),
+      metadata: { rounds: maxRounds, participants: args.agents },
     }
   },
 })

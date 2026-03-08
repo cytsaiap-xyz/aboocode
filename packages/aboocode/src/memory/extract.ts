@@ -5,6 +5,8 @@ import { LLM } from "@/session/llm"
 import { MessageV2 } from "@/session/message-v2"
 import { Config } from "@/config/config"
 import { MarkdownStore } from "./markdown-store"
+import { UsageLog } from "@/usage-log"
+import { DebugLog } from "@/debug-log"
 
 const log = Log.create({ service: "memory.extract" })
 
@@ -12,6 +14,7 @@ const log = Log.create({ service: "memory.extract" })
 const extractedSessions = new Map<string, number>()
 
 export async function extractMemories(sessionID: string): Promise<void> {
+  UsageLog.record("memory", "extractMemories", { sessionID })
   const lastExtracted = extractedSessions.get(sessionID) ?? 0
   const config = await Config.get()
 
@@ -21,11 +24,17 @@ export async function extractMemories(sessionID: string): Promise<void> {
     messages.push(msg)
   }
 
-  if (messages.length === 0) return
+  if (messages.length === 0) {
+    DebugLog.memoryExtractSkipped(sessionID, "no messages")
+    return
+  }
 
   // Filter to messages since last extraction
   const newMessages = messages.filter((m) => m.info.time.created > lastExtracted)
-  if (newMessages.length < 3) return
+  if (newMessages.length < 3) {
+    DebugLog.memoryExtractSkipped(sessionID, `only ${newMessages.length} new messages (need >=3)`)
+    return
+  }
 
   // Check if there were meaningful actions (not just reads)
   const hasMeaningfulAction = newMessages.some((m) =>
@@ -37,7 +46,12 @@ export async function extractMemories(sessionID: string): Promise<void> {
         (p as MessageV2.ToolPart).tool !== "Grep",
     ),
   )
-  if (!hasMeaningfulAction) return
+  if (!hasMeaningfulAction) {
+    DebugLog.memoryExtractSkipped(sessionID, "no meaningful actions (only read/glob/grep)")
+    return
+  }
+
+  DebugLog.memoryExtractStart(sessionID, newMessages.length)
 
   // Build conversation summary for LLM
   const summary = buildConversationSummary(newMessages)
@@ -95,7 +109,10 @@ export async function extractMemories(sessionID: string): Promise<void> {
       return null
     })
 
-    if (!text || text.trim().length === 0) return
+    if (!text || text.trim().length === 0) {
+      DebugLog.memoryExtractSkipped(sessionID, "LLM returned empty text")
+      return
+    }
 
     // Append the extracted notes to MEMORY.md
     const existing = MarkdownStore.readMemory()
@@ -103,6 +120,7 @@ export async function extractMemories(sessionID: string): Promise<void> {
     MarkdownStore.writeMemory(updated)
 
     extractedSessions.set(sessionID, Date.now())
+    DebugLog.memoryExtractDone(sessionID, text.trim().length, text.trim())
     log.info("extracted memories to MEMORY.md", { sessionID })
   } catch (e) {
     log.error("memory extraction failed", { error: e })
