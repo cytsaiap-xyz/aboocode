@@ -7,6 +7,7 @@ import { Session } from "@/session"
 import { buildContextStrings } from "./context"
 import { UsageLog } from "@/usage-log"
 import { DebugLog } from "@/debug-log"
+import { Observer } from "./observer"
 
 const log = Log.create({ service: "memory" })
 
@@ -64,12 +65,19 @@ export namespace Memory {
     UsageLog.record("memory", "init")
     DebugLog.memoryInit()
 
+    // Start background observer (meeting recorder)
+    Observer.init()
+
     Bus.subscribe(SessionStatus.Event.Status, async (event) => {
       if (event.properties.status.type !== "idle") return
       try {
         if (!(await isEnabled())) return
         const config = await Config.get()
         if (config.memory?.autoExtract === false) return
+
+        // Observer merges session notes to MEMORY.md on idle
+        await Observer.mergeToMemory(event.properties.sessionID)
+        Observer.cleanup(event.properties.sessionID)
 
         // Dynamic import to avoid circular dependency
         const { extractMemories } = await import("./extract")
@@ -81,6 +89,6 @@ export namespace Memory {
 
     // No session deletion cleanup needed for markdown store — files persist
 
-    log.info("memory system initialized")
+    log.info("memory system initialized (with observer)")
   }
 }

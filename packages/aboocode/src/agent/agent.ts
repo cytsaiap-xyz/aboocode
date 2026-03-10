@@ -14,6 +14,7 @@ import PROMPT_EXPLORE from "./prompt/explore.txt"
 import PROMPT_SUMMARY from "./prompt/summary.txt"
 import PROMPT_TITLE from "./prompt/title.txt"
 import PROMPT_ORCHESTRATOR from "./prompt/orchestrator.txt"
+import PROMPT_OBSERVER from "./prompt/observer.txt"
 import { PermissionNext } from "@/permission/next"
 import { mergeDeep, pipe, sortBy, values } from "remeda"
 import { Global } from "@/global"
@@ -247,6 +248,22 @@ Skip trivial actions like file reads or simple searches. Only extract genuinely 
 Format: plain markdown with headers and bullets.
 
 If nothing worth remembering, respond with an empty string.`,
+      },
+      "session-observer": {
+        name: "session-observer",
+        mode: "primary",
+        options: {},
+        native: true,
+        hidden: true,
+        temperature: 0.3,
+        permission: PermissionNext.merge(
+          defaults,
+          PermissionNext.fromConfig({
+            "*": "deny",
+          }),
+          user,
+        ),
+        prompt: PROMPT_OBSERVER,
       },
       orchestrator: {
         name: "orchestrator",
