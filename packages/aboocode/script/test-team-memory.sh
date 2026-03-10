@@ -38,7 +38,7 @@ echo ""
 # Ensure aboo is built
 echo "[1/5] Building aboocode..."
 cd "$PKG_DIR"
-if ! bun run build 2>&1 | tail -3; then
+if ! npm run build 2>&1 | tail -3; then
   echo "ERROR: Build failed. Please fix build errors first."
   exit 1
 fi

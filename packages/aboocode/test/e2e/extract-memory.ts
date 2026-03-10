@@ -2,7 +2,7 @@
  * Helper script: manually trigger memory extraction for a session.
  *
  * Usage:
- *   bun run --conditions=browser ./test/e2e/extract-memory.ts <sessionID> [workDir]
+ *   npx tsx ./test/e2e/extract-memory.ts <sessionID> [workDir]
  *
  * This is needed because Memory.init() only runs in TUI mode,
  * so auto-extraction doesn't trigger in CLI `run` mode.
@@ -23,7 +23,7 @@ import { UsageLog } from "@/usage-log"
 const sessionID = process.argv[2]
 const workDir = process.argv[3]
 if (!sessionID) {
-  console.error("Usage: bun run extract-memory.ts <sessionID> [workDir]")
+  console.error("Usage: npx tsx extract-memory.ts <sessionID> [workDir]")
   process.exit(1)
 }
 

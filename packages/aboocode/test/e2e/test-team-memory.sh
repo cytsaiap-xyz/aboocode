@@ -98,7 +98,7 @@ After both complete, call disband_team to clean up.
 Do NOT create any other files. Keep it minimal.'
 
 info "Running orchestrator prompt..."
-if bun run --cwd "$ABOO_DIR" dev run \
+if npm run --prefix "$ABOO_DIR" dev -- run \
   --agent orchestrator \
   --dir "$WORK_DIR" \
   "$TEAM_PROMPT" 2>&1 | tee /tmp/aboo-test1.log; then
@@ -146,7 +146,7 @@ Important project conventions to remember:
 - Prefer readonly arrays'
 
 info "Running memory prompt..."
-if bun run --cwd "$ABOO_DIR" dev run \
+if npm run --prefix "$ABOO_DIR" dev -- run \
   --dir "$WORK_DIR" \
   "$MEMORY_PROMPT" 2>&1 | tee /tmp/aboo-test2.log; then
   info "Test 2 command completed"

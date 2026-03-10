@@ -119,7 +119,7 @@ Project conventions (IMPORTANT — remember these):
 Build the complete game. Make sure both files are fully functional.'
 
 info "Running game build prompt..."
-if bun run --cwd "$ABOO_DIR" dev run \
+if npm run --prefix "$ABOO_DIR" dev -- run \
   --dir "$WORK_DIR" \
   --format json \
   "$GAME_PROMPT" 2>&1 | tee /tmp/aboo-game.log; then
@@ -151,7 +151,7 @@ else
   info "Session ID: $SESSION_ID"
   info "Triggering memory extraction..."
 
-  if bun run --cwd "$ABOO_DIR" --conditions=browser \
+  if npx --prefix "$ABOO_DIR" tsx \
     ./test/e2e/extract-memory.ts "$SESSION_ID" "$WORK_DIR" 2>&1 | tee /tmp/aboo-extract.log; then
     info "Extraction script completed"
   else
@@ -227,7 +227,7 @@ header "Step 5: Follow-up Session (memory context)"
 FOLLOWUP_PROMPT='What coding conventions and project patterns do you know about from memory? List them.'
 
 info "Running follow-up prompt..."
-FOLLOWUP_OUTPUT=$(bun run --cwd "$ABOO_DIR" dev run \
+FOLLOWUP_OUTPUT=$(npm run --prefix "$ABOO_DIR" dev -- run \
   --dir "$WORK_DIR" \
   "$FOLLOWUP_PROMPT" 2>&1 | tee /tmp/aboo-followup.log)
 
