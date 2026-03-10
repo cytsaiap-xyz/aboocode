@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "name": "aboocode",
   "type": "module",
   "license": "MIT",
@@ -33,7 +33,7 @@
     "typecheck": "tsgo --noEmit",
     "test": "node --test --timeout 30000",
     "build": "node script/build.ts",
-    "dev": "node --conditions=browser ./src/index.ts",
+    "dev": "bun --conditions=browser ./src/index.ts",
     "clean": "rm -rf node_modules dist",
     "lint": "npx eslint src/",
     "db": "npx drizzle-kit",

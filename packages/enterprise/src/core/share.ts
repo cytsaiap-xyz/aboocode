@@ -59,11 +59,21 @@ export namespace Share {
     const share = await get(body.id)
     if (!share) throw new Errors.NotFound(body.id)
     if (share.secret !== body.secret) throw new Errors.InvalidSecret(body.id)
-    await Storage.remove(["share", body.id])
-    const list = await Storage.list({ prefix: ["share_data", body.id] })
-    for (const item of list) {
+    // Delete payload data first to minimize orphaned sensitive data if interrupted
+    const events = await Storage.list({ prefix: ["share_event", body.id] })
+    for (const item of events) {
       await Storage.remove(item)
     }
+    const compactions = await Storage.list({ prefix: ["share_compaction", body.id] })
+    for (const item of compactions) {
+      await Storage.remove(item)
+    }
+    const legacy = await Storage.list({ prefix: ["share_data", body.id] })
+    for (const item of legacy) {
+      await Storage.remove(item)
+    }
+    // Delete metadata last
+    await Storage.remove(["share", body.id])
   })
 
   export const sync = fn(

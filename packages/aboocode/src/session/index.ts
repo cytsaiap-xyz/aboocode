@@ -647,24 +647,26 @@ export namespace Session {
 
   export const remove = fn(Identifier.schema("session"), async (sessionID) => {
     const project = Instance.project
-    try {
-      const session = await get(sessionID)
-      for (const child of await children(sessionID)) {
-        await remove(child.id)
+    const session = await get(sessionID)
+    // Delete all children, collecting errors so one failure doesn't block siblings
+    const childSessions = await children(sessionID)
+    const childResults = await Promise.allSettled(childSessions.map((child) => remove(child.id)))
+    const childErrors = childResults.filter((r) => r.status === "rejected")
+    if (childErrors.length > 0) {
+      for (const err of childErrors) {
+        log.error("child session deletion failed", { error: (err as PromiseRejectedResult).reason })
       }
-      await unshare(sessionID).catch(() => {})
-      // CASCADE delete handles messages and parts automatically
-      Database.use((db) => {
-        db.delete(SessionTable).where(eq(SessionTable.id, sessionID)).run()
-        Database.effect(() =>
-          Bus.publish(Event.Deleted, {
-            info: session,
-          }),
-        )
-      })
-    } catch (e) {
-      log.error(e)
     }
+    await unshare(sessionID).catch(() => {})
+    // CASCADE delete handles messages and parts automatically
+    Database.use((db) => {
+      db.delete(SessionTable).where(eq(SessionTable.id, sessionID)).run()
+      Database.effect(() =>
+        Bus.publish(Event.Deleted, {
+          info: session,
+        }),
+      )
+    })
   })
 
   export const updateMessage = fn(MessageV2.Info, async (msg) => {

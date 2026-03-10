@@ -21,63 +21,81 @@ export namespace ShareNext {
   export async function init() {
     if (disabled) return
     Bus.subscribe(Session.Event.Updated, async (evt) => {
-      await sync(evt.properties.info.id, [
-        {
-          type: "session",
-          data: evt.properties.info,
-        },
-      ])
-    })
-    Bus.subscribe(MessageV2.Event.Updated, async (evt) => {
-      await sync(evt.properties.info.sessionID, [
-        {
-          type: "message",
-          data: evt.properties.info,
-        },
-      ])
-      if (evt.properties.info.role === "user") {
-        await sync(evt.properties.info.sessionID, [
+      try {
+        await sync(evt.properties.info.id, [
           {
-            type: "model",
-            data: [
-              await Provider.getModel(evt.properties.info.model.providerID, evt.properties.info.model.modelID).then(
-                (m) => m,
-              ),
-            ],
+            type: "session",
+            data: evt.properties.info,
           },
         ])
+      } catch (e) {
+        log.error("share sync failed", { error: e })
+      }
+    })
+    Bus.subscribe(MessageV2.Event.Updated, async (evt) => {
+      try {
+        await sync(evt.properties.info.sessionID, [
+          {
+            type: "message",
+            data: evt.properties.info,
+          },
+        ])
+        if (evt.properties.info.role === "user") {
+          await sync(evt.properties.info.sessionID, [
+            {
+              type: "model",
+              data: [
+                await Provider.getModel(evt.properties.info.model.providerID, evt.properties.info.model.modelID).then(
+                  (m) => m,
+                ),
+              ],
+            },
+          ])
+        }
+      } catch (e) {
+        log.error("share sync failed", { error: e })
       }
     })
     Bus.subscribe(MessageV2.Event.PartUpdated, async (evt) => {
-      await sync(evt.properties.part.sessionID, [
-        {
-          type: "part",
-          data: evt.properties.part,
-        },
-      ])
+      try {
+        await sync(evt.properties.part.sessionID, [
+          {
+            type: "part",
+            data: evt.properties.part,
+          },
+        ])
+      } catch (e) {
+        log.error("share sync failed", { error: e })
+      }
     })
     Bus.subscribe(Session.Event.Diff, async (evt) => {
-      await sync(evt.properties.sessionID, [
-        {
-          type: "session_diff",
-          data: evt.properties.diff,
-        },
-      ])
+      try {
+        await sync(evt.properties.sessionID, [
+          {
+            type: "session_diff",
+            data: evt.properties.diff,
+          },
+        ])
+      } catch (e) {
+        log.error("share sync failed", { error: e })
+      }
     })
   }
 
   export async function create(sessionID: string) {
     if (disabled) return { id: "", url: "", secret: "" }
     log.info("creating share", { sessionID })
-    const result = await fetch(`${await url()}/api/share`, {
+    const response = await fetch(`${await url()}/api/share`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ sessionID: sessionID }),
     })
-      .then((x) => x.json())
-      .then((x) => x as { id: string; url: string; secret: string })
+    if (!response.ok) {
+      throw new Error(`Failed to create share: ${response.status}`)
+    }
+    const result = (await response.json()) as { id: string; url: string; secret: string }
     Database.use((db) =>
       db
         .insert(SessionShareTable)
@@ -122,39 +140,66 @@ export namespace ShareNext {
         data: SDK.Model[]
       }
 
+  function dataKey(item: Data): string {
+    switch (item.type) {
+      case "session":
+        return "session"
+      case "message":
+        return `message/${(item.data as SDK.Message).id}`
+      case "part":
+        return `part/${(item.data as SDK.Part).messageID}/${(item.data as SDK.Part).id}`
+      case "session_diff":
+        return "session_diff"
+      case "model":
+        return "model"
+    }
+  }
+
   const queue = new Map<string, { timeout: NodeJS.Timeout; data: Map<string, Data> }>()
   async function sync(sessionID: string, data: Data[]) {
     if (disabled) return
     const existing = queue.get(sessionID)
     if (existing) {
       for (const item of data) {
-        existing.data.set("id" in item ? (item.id as string) : ulid(), item)
+        existing.data.set(dataKey(item), item)
       }
       return
     }
 
     const dataMap = new Map<string, Data>()
     for (const item of data) {
-      dataMap.set("id" in item ? (item.id as string) : ulid(), item)
+      dataMap.set(dataKey(item), item)
     }
 
     const timeout = setTimeout(async () => {
       const queued = queue.get(sessionID)
       if (!queued) return
-      queue.delete(sessionID)
       const share = get(sessionID)
-      if (!share) return
+      if (!share) {
+        queue.delete(sessionID)
+        return
+      }
 
-      await fetch(`${await url()}/api/share/${share.id}/sync`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          secret: share.secret,
-          data: Array.from(queued.data.values()),
-        }),
-      })
+      try {
+        const response = await fetch(`${await url()}/api/share/${share.id}/sync`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            secret: share.secret,
+            data: Array.from(queued.data.values()),
+          }),
+        })
+        if (!response.ok) {
+          log.error("share sync request failed", { status: response.status, shareID: share.id })
+          return // keep queue entry for next attempt
+        }
+        queue.delete(sessionID)
+      } catch (e) {
+        log.error("share sync fetch error", { error: e, shareID: share.id })
+        // keep queue entry so data is not lost
+      }
     }, 1000)
     queue.set(sessionID, { timeout, data: dataMap })
   }
@@ -164,7 +209,7 @@ export namespace ShareNext {
     log.info("removing share", { sessionID })
     const share = get(sessionID)
     if (!share) return
-    await fetch(`${await url()}/api/share/${share.id}`, {
+    const response = await fetch(`${await url()}/api/share/${share.id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -173,6 +218,10 @@ export namespace ShareNext {
         secret: share.secret,
       }),
     })
+    if (!response.ok) {
+      log.error("share remove request failed", { status: response.status, shareID: share.id })
+      throw new Error(`Failed to remove share: ${response.status}`)
+    }
     Database.use((db) => db.delete(SessionShareTable).where(eq(SessionShareTable.session_id, sessionID)).run())
   }
 
