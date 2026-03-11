@@ -179,6 +179,7 @@ for (const item of targets) {
   })
 
   await $`rm -rf ./dist/${name}/bin/tui`
+  const binaryFile = item.os === "win32" ? "aboo.exe" : "aboo"
   await Bun.file(`dist/${name}/package.json`).write(
     JSON.stringify(
       {
@@ -186,6 +187,9 @@ for (const item of targets) {
         version: Script.version,
         os: [item.os],
         cpu: [item.arch],
+        bin: {
+          aboo: `./bin/${binaryFile}`,
+        },
       },
       null,
       2,

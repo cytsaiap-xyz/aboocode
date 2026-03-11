@@ -98,34 +98,26 @@ function symlinkBinary(sourcePath, binaryName) {
 }
 
 async function main() {
-  try {
-    if (os.platform() === "win32") {
-      // On Windows, the .exe is already included in the package and bin field points to it
-      // No postinstall setup needed
-      console.log("Windows detected: binary setup not needed (using packaged .exe)")
-      return
-    }
-
-    // On non-Windows platforms, just verify the binary package exists
-    // Don't replace the wrapper script - it handles binary execution
-    const { binaryPath } = findBinary()
-    const target = path.join(__dirname, "bin", ".aboocode")
-    if (fs.existsSync(target)) fs.unlinkSync(target)
-    try {
-      fs.linkSync(binaryPath, target)
-    } catch {
-      fs.copyFileSync(binaryPath, target)
-    }
-    fs.chmodSync(target, 0o755)
-  } catch (error) {
-    console.error("Failed to setup aboocode binary:", error.message)
-    process.exit(1)
+  if (os.platform() === "win32") {
+    console.log("Windows detected: binary setup not needed (using packaged .exe)")
+    return
   }
+
+  const { binaryPath } = findBinary()
+  console.log(`Found binary at: ${binaryPath}`)
+  const target = path.join(__dirname, "bin", ".aboocode")
+  if (fs.existsSync(target)) fs.unlinkSync(target)
+  try {
+    fs.linkSync(binaryPath, target)
+  } catch {
+    fs.copyFileSync(binaryPath, target)
+  }
+  fs.chmodSync(target, 0o755)
+  console.log(`aboocode binary cached at: ${target}`)
 }
 
-try {
-  main()
-} catch (error) {
+main().catch((error) => {
   console.error("Postinstall script error:", error.message)
+  // Exit 0 so npm install doesn't fail if postinstall can't find the binary
   process.exit(0)
-}
+})
