@@ -1,0 +1,33 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 91
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-91.json`
+
+Pre-resolved import data for this batch:
+```json
+{"README.md": [], "script/beta.ts": [], "script/changelog.ts": [], "script/duplicate-pr.ts": [], "script/format.ts": [], "script/generate.ts": [], "script/hooks": [], "script/publish.ts": [], "script/release": [], "script/stats.ts": [], "script/sync-zed.ts": [], "script/version.ts": ["script/changelog.ts"], "SECURITY.md": [], "specs/project.md": [], "specs/session-composer-refactor-plan.md": [], "sst-env.d.ts": [], "sst.config.ts": [], "STATS.md": [], "tsconfig.json": [], "turbo.json": []}
+```
+
+Files to analyze:
+1. `README.md` (180 lines, fileCategory: `docs`)
+2. `script/beta.ts` (201 lines, fileCategory: `code`)
+3. `script/changelog.ts` (306 lines, fileCategory: `code`)
+4. `script/duplicate-pr.ts` (79 lines, fileCategory: `code`)
+5. `script/format.ts` (5 lines, fileCategory: `code`)
+6. `script/generate.ts` (9 lines, fileCategory: `code`)
+7. `script/hooks` (19 lines, fileCategory: `code`)
+8. `script/publish.ts` (83 lines, fileCategory: `code`)
+9. `script/release` (5 lines, fileCategory: `code`)
+10. `script/stats.ts` (225 lines, fileCategory: `code`)
+11. `script/sync-zed.ts` (130 lines, fileCategory: `code`)
+12. `script/version.ts` (34 lines, fileCategory: `code`)
+13. `SECURITY.md` (47 lines, fileCategory: `docs`)
+14. `specs/project.md` (64 lines, fileCategory: `docs`)
+15. `specs/session-composer-refactor-plan.md` (240 lines, fileCategory: `docs`)
+16. `sst-env.d.ts` (304 lines, fileCategory: `code`)
+17. `sst.config.ts` (23 lines, fileCategory: `code`)
+18. `STATS.md` (217 lines, fileCategory: `docs`)
+19. `tsconfig.json` (5 lines, fileCategory: `config`)
+20. `turbo.json` (22 lines, fileCategory: `config`)

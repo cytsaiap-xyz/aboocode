@@ -1,0 +1,77 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode`
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 0
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-0.json`
+
+Pre-resolved import data for this batch (use this for all import edge creation — do NOT re-resolve imports from source):
+```json
+{
+  ".claude/settings.local.json": [],
+  "AGENTS.md": [],
+  "bunfig.toml": [],
+  "CONTRIBUTING.md": [],
+  "docs/memory-system-plan.md": [],
+  "flake.nix": [],
+  "github/action.yml": [],
+  "github/index.ts": [],
+  "github/package.json": [],
+  "github/README.md": [],
+  "github/script/publish": [],
+  "github/script/release": [],
+  "github/sst-env.d.ts": [],
+  "github/tsconfig.json": [],
+  "infra/app.ts": [
+    "infra/stage.ts"
+  ],
+  "infra/console.ts": [
+    "infra/stage.ts",
+    "infra/app.ts"
+  ],
+  "infra/enterprise.ts": [
+    "infra/secret.ts",
+    "infra/stage.ts"
+  ],
+  "infra/secret.ts": [],
+  "infra/stage.ts": [],
+  "install": [],
+  "install.sh": [],
+  "nix/desktop.nix": [],
+  "nix/hashes.json": [],
+  "nix/node_modules.nix": [],
+  "nix/opencode.nix": []
+}
+```
+
+Files to analyze in this batch:
+1. `.claude/settings.local.json` (70 lines, fileCategory: `config`)
+2. `AGENTS.md` (113 lines, fileCategory: `docs`)
+3. `bunfig.toml` (6 lines, fileCategory: `config`)
+4. `CONTRIBUTING.md` (311 lines, fileCategory: `docs`)
+5. `docs/memory-system-plan.md` (324 lines, fileCategory: `docs`)
+6. `flake.nix` (76 lines, fileCategory: `code`)
+7. `github/action.yml` (79 lines, fileCategory: `config`)
+8. `github/index.ts` (1052 lines, fileCategory: `code`)
+9. `github/package.json` (20 lines, fileCategory: `config`)
+10. `github/README.md` (166 lines, fileCategory: `docs`)
+11. `github/script/publish` (14 lines, fileCategory: `code`)
+12. `github/script/release` (40 lines, fileCategory: `code`)
+13. `github/sst-env.d.ts` (9 lines, fileCategory: `code`)
+14. `github/tsconfig.json` (29 lines, fileCategory: `config`)
+15. `infra/app.ts` (68 lines, fileCategory: `code`)
+16. `infra/console.ts` (247 lines, fileCategory: `code`)
+17. `infra/enterprise.ts` (17 lines, fileCategory: `code`)
+18. `infra/secret.ts` (4 lines, fileCategory: `code`)
+19. `infra/stage.ts` (19 lines, fileCategory: `code`)
+20. `install` (460 lines, fileCategory: `code`)
+21. `install.sh` (151 lines, fileCategory: `script`)
+22. `nix/desktop.nix` (100 lines, fileCategory: `code`)
+23. `nix/hashes.json` (8 lines, fileCategory: `config`)
+24. `nix/node_modules.nix` (83 lines, fileCategory: `code`)
+25. `nix/opencode.nix` (97 lines, fileCategory: `code`)
+
+**Additional context from main session:**
+
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml

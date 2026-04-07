@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 61
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-61.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/ui/src/custom-elements.d.ts": [], "packages/ui/src/hooks/create-auto-scroll.tsx": [], "packages/ui/src/hooks/index.ts": [], "packages/ui/src/hooks/use-filtered-list.tsx": [], "packages/ui/src/i18n/ar.ts": [], "packages/ui/src/i18n/br.ts": [], "packages/ui/src/i18n/bs.ts": ["packages/ui/src/i18n/en.ts"], "packages/ui/src/i18n/da.ts": [], "packages/ui/src/i18n/de.ts": ["packages/ui/src/i18n/en.ts"], "packages/ui/src/i18n/en.ts": [], "packages/ui/src/i18n/es.ts": [], "packages/ui/src/i18n/fr.ts": [], "packages/ui/src/i18n/ja.ts": [], "packages/ui/src/i18n/ko.ts": [], "packages/ui/src/i18n/no.ts": ["packages/ui/src/i18n/en.ts"], "packages/ui/src/i18n/pl.ts": [], "packages/ui/src/i18n/ru.ts": [], "packages/ui/src/i18n/th.ts": [], "packages/ui/src/i18n/zh.ts": ["packages/ui/src/i18n/en.ts"], "packages/ui/src/i18n/zht.ts": ["packages/ui/src/i18n/en.ts"], "packages/ui/src/pierre/index.ts": [], "packages/ui/src/pierre/virtualizer.ts": [], "packages/ui/src/pierre/worker.ts": [], "packages/ui/src/styles/animations.css": [], "packages/ui/src/styles/base.css": []}
+```
+
+Files to analyze:
+1. `packages/ui/src/custom-elements.d.ts` (17 lines, fileCategory: `code`)
+2. `packages/ui/src/hooks/create-auto-scroll.tsx` (244 lines, fileCategory: `code`)
+3. `packages/ui/src/hooks/index.ts` (2 lines, fileCategory: `code`)
+4. `packages/ui/src/hooks/use-filtered-list.tsx` (129 lines, fileCategory: `code`)
+5. `packages/ui/src/i18n/ar.ts` (118 lines, fileCategory: `code`)
+6. `packages/ui/src/i18n/br.ts` (118 lines, fileCategory: `code`)
+7. `packages/ui/src/i18n/bs.ts` (122 lines, fileCategory: `code`)
+8. `packages/ui/src/i18n/da.ts` (117 lines, fileCategory: `code`)
+9. `packages/ui/src/i18n/de.ts` (121 lines, fileCategory: `code`)
+10. `packages/ui/src/i18n/en.ts` (118 lines, fileCategory: `code`)
+11. `packages/ui/src/i18n/es.ts` (118 lines, fileCategory: `code`)
+12. `packages/ui/src/i18n/fr.ts` (118 lines, fileCategory: `code`)
+13. `packages/ui/src/i18n/ja.ts` (117 lines, fileCategory: `code`)
+14. `packages/ui/src/i18n/ko.ts` (118 lines, fileCategory: `code`)
+15. `packages/ui/src/i18n/no.ts` (121 lines, fileCategory: `code`)
+16. `packages/ui/src/i18n/pl.ts` (117 lines, fileCategory: `code`)
+17. `packages/ui/src/i18n/ru.ts` (117 lines, fileCategory: `code`)
+18. `packages/ui/src/i18n/th.ts` (119 lines, fileCategory: `code`)
+19. `packages/ui/src/i18n/zh.ts` (122 lines, fileCategory: `code`)
+20. `packages/ui/src/i18n/zht.ts` (122 lines, fileCategory: `code`)
+21. `packages/ui/src/pierre/index.ts` (159 lines, fileCategory: `code`)
+22. `packages/ui/src/pierre/virtualizer.ts` (100 lines, fileCategory: `code`)
+23. `packages/ui/src/pierre/worker.ts` (52 lines, fileCategory: `code`)
+24. `packages/ui/src/styles/animations.css` (141 lines, fileCategory: `markup`)
+25. `packages/ui/src/styles/base.css` (393 lines, fileCategory: `markup`)

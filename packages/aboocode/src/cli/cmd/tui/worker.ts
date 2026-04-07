@@ -10,7 +10,6 @@ import { GlobalBus } from "@/bus/global"
 import { createAboocodeClient, type Event } from "@aboocode/sdk/v2"
 import type { BunWebSocketData } from "hono/bun"
 import { Flag } from "@/flag/flag"
-import { Memory } from "@/memory"
 
 await Log.init({
   print: process.argv.includes("--print-logs"),
@@ -38,8 +37,9 @@ GlobalBus.on("event", (event) => {
   Rpc.emit("global.event", event)
 })
 
-// Initialize memory system
-Memory.init()
+// Memory.init() is deferred — it depends on Instance context which is only
+// available inside Instance.provide(). The memory system initializes lazily
+// when the first session starts (via session hooks in prompt.ts).
 
 let server: Bun.Server<BunWebSocketData> | undefined
 

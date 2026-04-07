@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 38
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-38.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/console/app/src/routes/workspace/[id]/provider-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/provider-section.tsx": ["packages/console/app/src/routes/workspace/[id]/provider-section.module.css"], "packages/console/app/src/routes/workspace/[id]/settings/index.tsx": ["packages/console/app/src/routes/workspace/[id]/settings/settings-section.tsx"], "packages/console/app/src/routes/workspace/[id]/settings/settings-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/settings/settings-section.tsx": ["packages/console/app/src/routes/workspace/[id]/settings/settings-section.module.css"], "packages/console/app/src/routes/workspace/[id]/usage-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/usage-section.tsx": ["packages/console/app/src/routes/workspace/common.tsx", "packages/console/app/src/routes/workspace/[id]/usage-section.module.css"], "packages/console/app/src/routes/workspace/common.tsx": [], "packages/console/app/src/routes/zen/go/v1/chat/completions.ts": [], "packages/console/app/src/routes/zen/go/v1/messages.ts": [], "packages/console/app/src/routes/zen/index.css": [], "packages/console/app/src/routes/zen/index.tsx": ["packages/console/app/src/routes/workspace/common.tsx"], "packages/console/app/src/routes/zen/util/dataDumper.ts": [], "packages/console/app/src/routes/zen/util/error.ts": [], "packages/console/app/src/routes/zen/util/handler.ts": ["packages/console/app/src/routes/zen/util/logger.ts", "packages/console/app/src/routes/zen/util/provider/provider.ts", "packages/console/app/src/routes/zen/util/provider/anthropic.ts", "packages/console/app/src/routes/zen/util/provider/google.ts", "packages/console/app/src/routes/zen/util/provider/openai.ts", "packages/console/app/src/routes/zen/util/provider/openai-compatible.ts", "packages/console/app/src/routes/zen/util/rateLimiter.ts", "packages/console/app/src/routes/zen/util/dataDumper.ts", "packages/console/app/src/routes/zen/util/trialLimiter.ts", "packages/console/app/src/routes/zen/util/stickyProviderTracker.ts"], "packages/console/app/src/routes/zen/util/logger.ts": [], "packages/console/app/src/routes/zen/util/provider/anthropic.ts": ["packages/console/app/src/routes/zen/util/provider/provider.ts"], "packages/console/app/src/routes/zen/util/provider/google.ts": ["packages/console/app/src/routes/zen/util/provider/provider.ts"], "packages/console/app/src/routes/zen/util/provider/openai-compatible.ts": ["packages/console/app/src/routes/zen/util/provider/provider.ts"], "packages/console/app/src/routes/zen/util/provider/openai.ts": ["packages/console/app/src/routes/zen/util/provider/provider.ts"], "packages/console/app/src/routes/zen/util/provider/provider.ts": [], "packages/console/app/src/routes/zen/util/rateLimiter.ts": ["packages/console/app/src/routes/zen/util/error.ts", "packages/console/app/src/routes/zen/util/logger.ts"], "packages/console/app/src/routes/zen/util/stickyProviderTracker.ts": [], "packages/console/app/src/routes/zen/util/trialLimiter.ts": ["packages/console/app/src/routes/zen/util/provider/provider.ts"], "packages/console/app/src/routes/zen/v1/chat/completions.ts": []}
+```
+
+Files to analyze:
+1. `packages/console/app/src/routes/workspace/[id]/provider-section.module.css` (139 lines, fileCategory: `markup`)
+2. `packages/console/app/src/routes/workspace/[id]/provider-section.tsx` (197 lines, fileCategory: `code`)
+3. `packages/console/app/src/routes/workspace/[id]/settings/index.tsx` (12 lines, fileCategory: `code`)
+4. `packages/console/app/src/routes/workspace/[id]/settings/settings-section.module.css` (95 lines, fileCategory: `markup`)
+5. `packages/console/app/src/routes/workspace/[id]/settings/settings-section.tsx` (126 lines, fileCategory: `code`)
+6. `packages/console/app/src/routes/workspace/[id]/usage-section.module.css` (186 lines, fileCategory: `markup`)
+7. `packages/console/app/src/routes/workspace/[id]/usage-section.tsx` (218 lines, fileCategory: `code`)
+8. `packages/console/app/src/routes/workspace/common.tsx` (123 lines, fileCategory: `code`)
+9. `packages/console/app/src/routes/zen/go/v1/chat/completions.ts` (13 lines, fileCategory: `code`)
+10. `packages/console/app/src/routes/zen/go/v1/messages.ts` (13 lines, fileCategory: `code`)
+11. `packages/console/app/src/routes/zen/index.css` (868 lines, fileCategory: `markup`)
+12. `packages/console/app/src/routes/zen/index.tsx` (338 lines, fileCategory: `code`)
+13. `packages/console/app/src/routes/zen/util/dataDumper.ts` (45 lines, fileCategory: `code`)
+14. `packages/console/app/src/routes/zen/util/error.ts` (16 lines, fileCategory: `code`)
+15. `packages/console/app/src/routes/zen/util/handler.ts` (995 lines, fileCategory: `code`)
+16. `packages/console/app/src/routes/zen/util/logger.ts` (13 lines, fileCategory: `code`)
+17. `packages/console/app/src/routes/zen/util/provider/anthropic.ts` (754 lines, fileCategory: `code`)
+18. `packages/console/app/src/routes/zen/util/provider/google.ts` (77 lines, fileCategory: `code`)
+19. `packages/console/app/src/routes/zen/util/provider/openai-compatible.ts` (549 lines, fileCategory: `code`)
+20. `packages/console/app/src/routes/zen/util/provider/openai.ts` (633 lines, fileCategory: `code`)
+21. `packages/console/app/src/routes/zen/util/provider/provider.ts` (212 lines, fileCategory: `code`)
+22. `packages/console/app/src/routes/zen/util/rateLimiter.ts` (84 lines, fileCategory: `code`)
+23. `packages/console/app/src/routes/zen/util/stickyProviderTracker.ts` (17 lines, fileCategory: `code`)
+24. `packages/console/app/src/routes/zen/util/trialLimiter.ts` (50 lines, fileCategory: `code`)
+25. `packages/console/app/src/routes/zen/v1/chat/completions.ts` (13 lines, fileCategory: `code`)

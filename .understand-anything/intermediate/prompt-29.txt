@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 29
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-29.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/app/src/pages/directory-layout.tsx": [], "packages/app/src/pages/error.tsx": [], "packages/app/src/pages/home.tsx": [], "packages/app/src/pages/layout.tsx": ["packages/app/src/pages/layout/deep-links.ts", "packages/app/src/pages/layout/inline-editor.tsx", "packages/app/src/pages/layout/sidebar-workspace-helpers.ts", "packages/app/src/pages/layout/sidebar-project.tsx", "packages/app/src/pages/layout/sidebar-shell.tsx"], "packages/app/src/pages/layout/deep-links.ts": [], "packages/app/src/pages/layout/helpers.test.ts": ["packages/app/src/pages/layout/deep-links.ts", "packages/app/src/pages/layout/helpers.ts"], "packages/app/src/pages/layout/helpers.ts": [], "packages/app/src/pages/layout/inline-editor.tsx": [], "packages/app/src/pages/layout/sidebar-items.tsx": [], "packages/app/src/pages/layout/sidebar-project-helpers.test.ts": ["packages/app/src/pages/layout/sidebar-project-helpers.ts"], "packages/app/src/pages/layout/sidebar-project-helpers.ts": [], "packages/app/src/pages/layout/sidebar-project.tsx": ["packages/app/src/pages/layout/sidebar-items.tsx", "packages/app/src/pages/layout/helpers.ts", "packages/app/src/pages/layout/sidebar-project-helpers.ts"], "packages/app/src/pages/layout/sidebar-shell-helpers.ts": [], "packages/app/src/pages/layout/sidebar-shell.test.ts": ["packages/app/src/pages/layout/sidebar-shell-helpers.ts"], "packages/app/src/pages/layout/sidebar-shell.tsx": ["packages/app/src/pages/layout/sidebar-shell-helpers.ts"], "packages/app/src/pages/layout/sidebar-workspace-helpers.ts": [], "packages/app/src/pages/layout/sidebar-workspace.test.ts": ["packages/app/src/pages/layout/sidebar-workspace-helpers.ts"], "packages/app/src/pages/layout/sidebar-workspace.tsx": ["packages/app/src/pages/layout/sidebar-items.tsx", "packages/app/src/pages/layout/helpers.ts"], "packages/app/src/pages/session.tsx": [], "packages/app/src/pages/session/composer/index.ts": [], "packages/app/src/pages/session/composer/session-composer-region.tsx": [], "packages/app/src/pages/session/composer/session-composer-state.ts": [], "packages/app/src/pages/session/composer/session-permission-dock.tsx": [], "packages/app/src/pages/session/composer/session-question-dock.tsx": [], "packages/app/src/pages/session/composer/session-todo-dock.tsx": []}
+```
+
+Files to analyze:
+1. `packages/app/src/pages/directory-layout.tsx` (69 lines, fileCategory: `code`)
+2. `packages/app/src/pages/error.tsx` (317 lines, fileCategory: `code`)
+3. `packages/app/src/pages/home.tsx` (131 lines, fileCategory: `code`)
+4. `packages/app/src/pages/layout.tsx` (2064 lines, fileCategory: `code`)
+5. `packages/app/src/pages/layout/deep-links.ts` (34 lines, fileCategory: `code`)
+6. `packages/app/src/pages/layout/helpers.test.ts` (92 lines, fileCategory: `code`)
+7. `packages/app/src/pages/layout/helpers.ts` (70 lines, fileCategory: `code`)
+8. `packages/app/src/pages/layout/inline-editor.tsx` (126 lines, fileCategory: `code`)
+9. `packages/app/src/pages/layout/sidebar-items.tsx` (399 lines, fileCategory: `code`)
+10. `packages/app/src/pages/layout/sidebar-project-helpers.test.ts` (63 lines, fileCategory: `code`)
+11. `packages/app/src/pages/layout/sidebar-project-helpers.ts` (11 lines, fileCategory: `code`)
+12. `packages/app/src/pages/layout/sidebar-project.tsx` (382 lines, fileCategory: `code`)
+13. `packages/app/src/pages/layout/sidebar-shell-helpers.ts` (1 lines, fileCategory: `code`)
+14. `packages/app/src/pages/layout/sidebar-shell.test.ts` (13 lines, fileCategory: `code`)
+15. `packages/app/src/pages/layout/sidebar-shell.tsx` (106 lines, fileCategory: `code`)
+16. `packages/app/src/pages/layout/sidebar-workspace-helpers.ts` (2 lines, fileCategory: `code`)
+17. `packages/app/src/pages/layout/sidebar-workspace.test.ts` (13 lines, fileCategory: `code`)
+18. `packages/app/src/pages/layout/sidebar-workspace.tsx` (533 lines, fileCategory: `code`)
+19. `packages/app/src/pages/session.tsx` (1126 lines, fileCategory: `code`)
+20. `packages/app/src/pages/session/composer/index.ts` (3 lines, fileCategory: `code`)
+21. `packages/app/src/pages/session/composer/session-composer-region.tsx` (128 lines, fileCategory: `code`)
+22. `packages/app/src/pages/session/composer/session-composer-state.ts` (158 lines, fileCategory: `code`)
+23. `packages/app/src/pages/session/composer/session-permission-dock.tsx` (74 lines, fileCategory: `code`)
+24. `packages/app/src/pages/session/composer/session-question-dock.tsx` (427 lines, fileCategory: `code`)
+25. `packages/app/src/pages/session/composer/session-todo-dock.tsx` (211 lines, fileCategory: `code`)

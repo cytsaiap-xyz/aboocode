@@ -1,0 +1,495 @@
+{
+  "nodes": [
+    {
+      "id": "file:nix/scripts/canonicalize-node-modules.ts",
+      "type": "file",
+      "name": "canonicalize-node-modules.ts",
+      "filePath": "nix/scripts/canonicalize-node-modules.ts",
+      "summary": "Deduplicates Bun's internal node_modules by selecting the highest semver version of each package and rebuilding symlinks under a canonical directory.",
+      "tags": ["script", "build-system", "utility", "dependency-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:nix/scripts/normalize-bun-binaries.ts",
+      "type": "file",
+      "name": "normalize-bun-binaries.ts",
+      "filePath": "nix/scripts/normalize-bun-binaries.ts",
+      "summary": "Rebuilds .bin symlinks inside Bun's internal node_modules cache by reading package.json bin fields and creating normalized symlinks for each binary.",
+      "tags": ["script", "build-system", "utility", "dependency-management"],
+      "complexity": "moderate",
+      "languageNotes": "Uses Bun-specific APIs (Bun.file, Bun.semver) for filesystem and semver operations."
+    },
+    {
+      "id": "function:nix/scripts/normalize-bun-binaries.ts:collectPackages",
+      "type": "function",
+      "name": "collectPackages",
+      "filePath": "nix/scripts/normalize-bun-binaries.ts",
+      "lineRange": [50, 74],
+      "summary": "Walks a node_modules directory collecting all package directories including scoped packages.",
+      "tags": ["utility", "filesystem", "traversal"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:nix/scripts/normalize-bun-binaries.ts:linkBinary",
+      "type": "function",
+      "name": "linkBinary",
+      "filePath": "nix/scripts/normalize-bun-binaries.ts",
+      "lineRange": [85, 104],
+      "summary": "Creates a relative symlink from a .bin directory to a package's binary file, handling deduplication via a seen set.",
+      "tags": ["utility", "filesystem", "symlink"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "package.json",
+      "summary": "Root monorepo package.json defining workspaces, shared dependency catalog, dev tooling (turbo, husky, prettier), and workspace dependencies for the aboocode project.",
+      "tags": ["configuration", "build-system", "monorepo", "dependency-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:packages/aboocode/AGENTS.md",
+      "type": "document",
+      "name": "AGENTS.md",
+      "filePath": "packages/aboocode/AGENTS.md",
+      "summary": "Brief agent-facing guide describing the project's database layer using Drizzle ORM with SQLite and migration conventions.",
+      "tags": ["documentation", "database", "development"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/bin/aboo",
+      "type": "file",
+      "name": "aboo",
+      "filePath": "packages/aboocode/bin/aboo",
+      "summary": "CLI entry point script that locates the correct platform-specific aboocode binary based on OS, architecture, and AVX2/musl support, then executes it with pass-through arguments.",
+      "tags": ["entry-point", "cli", "platform-detection", "binary-launcher"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/bin/aboo:supportsAvx2",
+      "type": "function",
+      "name": "supportsAvx2",
+      "filePath": "packages/aboocode/bin/aboo",
+      "lineRange": [56, 104],
+      "summary": "Detects whether the current CPU supports AVX2 instructions by parsing /proc/cpuinfo on Linux or running sysctl on macOS.",
+      "tags": ["platform-detection", "cpu-feature", "utility"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/bin/aboo:findBinary",
+      "type": "function",
+      "name": "findBinary",
+      "filePath": "packages/aboocode/bin/aboo",
+      "lineRange": [151, 167],
+      "summary": "Traverses parent directories to find the platform-specific native binary by searching node_modules for the matching platform package.",
+      "tags": ["binary-resolution", "filesystem", "utility"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/bin/aboocode",
+      "type": "file",
+      "name": "aboocode",
+      "filePath": "packages/aboocode/bin/aboocode",
+      "summary": "Alias CLI entry point (identical to bin/aboo) that locates and launches the correct platform-specific native binary for the aboocode tool.",
+      "tags": ["entry-point", "cli", "platform-detection", "binary-launcher"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/aboocode/bin/opencode",
+      "type": "file",
+      "name": "opencode",
+      "filePath": "packages/aboocode/bin/opencode",
+      "summary": "Backward-compatible CLI entry point (identical to bin/aboo) preserving the original 'opencode' command name for users migrating from the upstream project.",
+      "tags": ["entry-point", "cli", "platform-detection", "backward-compatibility"],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:packages/aboocode/BUN_SHELL_MIGRATION_PLAN.md",
+      "type": "document",
+      "name": "BUN_SHELL_MIGRATION_PLAN.md",
+      "filePath": "packages/aboocode/BUN_SHELL_MIGRATION_PLAN.md",
+      "summary": "Phased migration plan for replacing child_process spawns with Bun shell APIs, covering a proposed process utility API, rollout phases, validation strategy, and risk mitigation.",
+      "tags": ["documentation", "migration-plan", "development", "architecture"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/bunfig.toml",
+      "type": "config",
+      "name": "bunfig.toml",
+      "filePath": "packages/aboocode/bunfig.toml",
+      "summary": "Bun runtime configuration specifying preload scripts and test-specific preload settings for the aboocode package.",
+      "tags": ["configuration", "bun-runtime", "testing"],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:packages/aboocode/Dockerfile",
+      "type": "service",
+      "name": "Dockerfile",
+      "filePath": "packages/aboocode/Dockerfile",
+      "summary": "Multi-stage multi-architecture Docker build producing a minimal Alpine container with the aboocode binary, supporting both amd64 and arm64 targets with ripgrep included.",
+      "tags": ["containerization", "infrastructure", "deployment", "multi-arch"],
+      "complexity": "moderate",
+      "languageNotes": "Uses ARG TARGETARCH with dynamic FROM to select the correct architecture stage at build time."
+    },
+    {
+      "id": "file:packages/aboocode/drizzle.config.ts",
+      "type": "file",
+      "name": "drizzle.config.ts",
+      "filePath": "packages/aboocode/drizzle.config.ts",
+      "summary": "Drizzle ORM configuration for SQLite, pointing schema discovery at src/**/*.sql.ts files and outputting migrations to the migration directory.",
+      "tags": ["configuration", "database", "orm", "migration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:packages/aboocode/IMPLEMENTATION_PLAN.md",
+      "type": "document",
+      "name": "IMPLEMENTATION_PLAN.md",
+      "filePath": "packages/aboocode/IMPLEMENTATION_PLAN.md",
+      "summary": "Detailed implementation plan for the aboocode fork covering rebranding, hot-reload for agents/skills/tools, agent-team integration, parallel subagent execution, and verification phases.",
+      "tags": ["documentation", "architecture", "implementation-plan", "development"],
+      "complexity": "complex"
+    },
+    {
+      "id": "table:packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql:project",
+      "type": "table",
+      "name": "project",
+      "filePath": "packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql",
+      "summary": "Core project table storing workspace metadata including worktree path, VCS type, name, icon, and sandbox configuration.",
+      "tags": ["database", "migration", "data-model"],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql:session",
+      "type": "table",
+      "name": "session",
+      "filePath": "packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql",
+      "summary": "Session table tracking conversation sessions with project association, sharing state, diff summaries, and archival timestamps.",
+      "tags": ["database", "migration", "data-model", "session-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql:message",
+      "type": "table",
+      "name": "message",
+      "filePath": "packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql",
+      "summary": "Message table storing conversation messages linked to sessions with JSON data payload.",
+      "tags": ["database", "migration", "data-model"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/aboocode/migration/20260127222353_familiar_lady_ursula/snapshot.json",
+      "type": "config",
+      "name": "snapshot.json",
+      "filePath": "packages/aboocode/migration/20260127222353_familiar_lady_ursula/snapshot.json",
+      "summary": "Drizzle migration snapshot capturing the initial database schema DDL state for the familiar_lady_ursula migration.",
+      "tags": ["configuration", "database", "migration", "snapshot"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:packages/aboocode/migration/20260211171708_add_project_commands/migration.sql:empty",
+      "type": "table",
+      "name": "add_project_commands",
+      "filePath": "packages/aboocode/migration/20260211171708_add_project_commands/migration.sql",
+      "summary": "Empty migration placeholder for the add_project_commands schema change, with actual DDL captured only in the snapshot.",
+      "tags": ["database", "migration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/aboocode/migration/20260211171708_add_project_commands/snapshot.json",
+      "type": "config",
+      "name": "snapshot.json",
+      "filePath": "packages/aboocode/migration/20260211171708_add_project_commands/snapshot.json",
+      "summary": "Drizzle migration snapshot for the add_project_commands migration, recording cumulative DDL state after adding project command support.",
+      "tags": ["configuration", "database", "migration", "snapshot"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:packages/aboocode/migration/20260213144116_wakeful_the_professor/migration.sql:control_account",
+      "type": "table",
+      "name": "control_account",
+      "filePath": "packages/aboocode/migration/20260213144116_wakeful_the_professor/migration.sql",
+      "summary": "Creates the control_account table for storing OAuth credentials with email and URL as composite primary key, supporting token refresh and expiry tracking.",
+      "tags": ["database", "migration", "authentication", "data-model"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/aboocode/migration/20260213144116_wakeful_the_professor/snapshot.json",
+      "type": "config",
+      "name": "snapshot.json",
+      "filePath": "packages/aboocode/migration/20260213144116_wakeful_the_professor/snapshot.json",
+      "summary": "Drizzle migration snapshot for the wakeful_the_professor migration including the control_account table definition.",
+      "tags": ["configuration", "database", "migration", "snapshot"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:packages/aboocode/migration/20260226000000_add_memory_tables/migration.sql:memory",
+      "type": "table",
+      "name": "memory",
+      "filePath": "packages/aboocode/migration/20260226000000_add_memory_tables/migration.sql",
+      "summary": "Memory table storing categorized knowledge entries (facts, preferences, patterns) linked to projects and optionally to sessions, with tag support.",
+      "tags": ["database", "migration", "memory-system", "data-model"],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:packages/aboocode/migration/20260226000000_add_memory_tables/migration.sql:entity",
+      "type": "table",
+      "name": "entity",
+      "filePath": "packages/aboocode/migration/20260226000000_add_memory_tables/migration.sql",
+      "summary": "Entity table for the knowledge graph storing named entities with types, observations, and tags, linked to projects via foreign key.",
+      "tags": ["database", "migration", "memory-system", "knowledge-graph"],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:packages/aboocode/migration/20260226000000_add_memory_tables/migration.sql:relation",
+      "type": "table",
+      "name": "relation",
+      "filePath": "packages/aboocode/migration/20260226000000_add_memory_tables/migration.sql",
+      "summary": "Relation table connecting entities in the knowledge graph with typed, described relationships, enabling a project-scoped entity-relation model.",
+      "tags": ["database", "migration", "memory-system", "knowledge-graph"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/aboocode/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "packages/aboocode/package.json",
+      "summary": "Main aboocode package manifest defining CLI binary entry points (aboo, aboocode, opencode), build scripts, dependencies including Drizzle ORM, Vercel AI SDK, and tree-sitter, with platform-specific optional dependencies.",
+      "tags": ["configuration", "build-system", "cli", "dependency-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/parsers-config.ts",
+      "type": "file",
+      "name": "parsers-config.ts",
+      "filePath": "packages/aboocode/parsers-config.ts",
+      "summary": "Tree-sitter parser configuration mapping language file types to WASM parser URLs and syntax highlighting/locals queries from nvim-treesitter for the TUI code viewer.",
+      "tags": ["configuration", "syntax-highlighting", "tree-sitter", "parser"],
+      "complexity": "complex",
+      "languageNotes": "Exports a default object with parser configs referencing remote WASM binaries and SCM query files from tree-sitter and nvim-treesitter repos."
+    },
+    {
+      "id": "file:packages/aboocode/postinstall.mjs",
+      "type": "file",
+      "name": "postinstall.mjs",
+      "filePath": "packages/aboocode/postinstall.mjs",
+      "summary": "npm postinstall script that detects the current platform/architecture, finds the matching native binary from platform-specific packages, and hard-links or copies it to bin/.aboocode for fast CLI startup.",
+      "tags": ["script", "postinstall", "platform-detection", "binary-setup"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/postinstall.mjs:detectPlatformAndArch",
+      "type": "function",
+      "name": "detectPlatformAndArch",
+      "filePath": "packages/aboocode/postinstall.mjs",
+      "lineRange": [12, 48],
+      "summary": "Maps Node.js os.platform() and os.arch() values to normalized platform and architecture strings used for binary package lookup.",
+      "tags": ["platform-detection", "utility"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/postinstall.mjs:findBinary",
+      "type": "function",
+      "name": "findBinary",
+      "filePath": "packages/aboocode/postinstall.mjs",
+      "lineRange": [50, 69],
+      "summary": "Resolves the platform-specific binary package via require.resolve and returns the path to the native binary executable.",
+      "tags": ["binary-resolution", "platform-detection", "utility"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/postinstall.mjs:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "packages/aboocode/postinstall.mjs",
+      "lineRange": [100, 124],
+      "summary": "Orchestrates the postinstall process: skips on Windows, finds the platform binary, and creates a hard link (or copy) at bin/.aboocode.",
+      "tags": ["postinstall", "binary-setup", "orchestration"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:packages/aboocode/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "packages/aboocode/README.md",
+      "summary": "Project README covering installation, usage, configuration, development workflow, agent team system, memory system, debug logging, and E2E test instructions for aboocode.",
+      "tags": ["documentation", "entry-point", "overview", "getting-started"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/script/build.ts",
+      "type": "file",
+      "name": "build.ts",
+      "filePath": "packages/aboocode/script/build.ts",
+      "summary": "Cross-platform build script that compiles aboocode into native binaries for 10 target combinations (Linux/macOS/Windows, x64/arm64, glibc/musl, AVX2/baseline) using Bun.build with embedded migrations and optional GitHub release upload.",
+      "tags": ["build-system", "script", "cross-compilation", "deployment"],
+      "complexity": "complex",
+      "languageNotes": "Uses Bun.build compile mode to produce standalone native binaries with bundled migrations and worker scripts."
+    },
+    {
+      "id": "file:packages/aboocode/script/check-migrations.ts",
+      "type": "file",
+      "name": "check-migrations.ts",
+      "filePath": "packages/aboocode/script/check-migrations.ts",
+      "summary": "CI guard script that runs drizzle-kit check to verify the schema is in sync with migrations, failing with actionable guidance if drift is detected.",
+      "tags": ["script", "database", "migration", "ci-cd"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:nix/scripts/normalize-bun-binaries.ts",
+      "target": "function:nix/scripts/normalize-bun-binaries.ts:collectPackages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:nix/scripts/normalize-bun-binaries.ts",
+      "target": "function:nix/scripts/normalize-bun-binaries.ts:linkBinary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/bin/aboo",
+      "target": "function:packages/aboocode/bin/aboo:supportsAvx2",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/bin/aboo",
+      "target": "function:packages/aboocode/bin/aboo:findBinary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/postinstall.mjs",
+      "target": "function:packages/aboocode/postinstall.mjs:detectPlatformAndArch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/postinstall.mjs",
+      "target": "function:packages/aboocode/postinstall.mjs:findBinary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/postinstall.mjs",
+      "target": "function:packages/aboocode/postinstall.mjs:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/script/build.ts",
+      "target": "config:packages/aboocode/package.json",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "config:package.json",
+      "target": "config:packages/aboocode/package.json",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/package.json",
+      "target": "file:packages/aboocode/bin/aboo",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/package.json",
+      "target": "file:packages/aboocode/bin/aboocode",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/package.json",
+      "target": "file:packages/aboocode/bin/opencode",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "service:packages/aboocode/Dockerfile",
+      "target": "file:packages/aboocode/script/build.ts",
+      "type": "deploys",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "document:packages/aboocode/README.md",
+      "target": "file:packages/aboocode/bin/aboo",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:packages/aboocode/AGENTS.md",
+      "target": "file:packages/aboocode/drizzle.config.ts",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/aboocode/script/check-migrations.ts",
+      "target": "file:packages/aboocode/drizzle.config.ts",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/bunfig.toml",
+      "target": "config:packages/aboocode/package.json",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "table:packages/aboocode/migration/20260226000000_add_memory_tables/migration.sql:memory",
+      "target": "table:packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql:project",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:packages/aboocode/migration/20260226000000_add_memory_tables/migration.sql:entity",
+      "target": "table:packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql:project",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:packages/aboocode/migration/20260226000000_add_memory_tables/migration.sql:relation",
+      "target": "table:packages/aboocode/migration/20260226000000_add_memory_tables/migration.sql:entity",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql:message",
+      "target": "table:packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql:session",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql:session",
+      "target": "table:packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql:project",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

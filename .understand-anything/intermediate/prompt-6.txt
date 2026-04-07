@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 6
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-6.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/aboocode/src/cli/cmd/tui/context/theme/kanagawa.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/lucent-orng.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/material.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/matrix.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/mercury.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/monokai.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/nightowl.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/nord.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/one-dark.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/orng.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/osaka-jade.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/palenight.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/rosepine.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/solarized.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/synthwave84.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/tokyonight.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/vercel.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/vesper.json": [], "packages/aboocode/src/cli/cmd/tui/context/theme/zenburn.json": [], "packages/aboocode/src/cli/cmd/tui/event.ts": [], "packages/aboocode/src/cli/cmd/tui/routes/home.tsx": ["packages/aboocode/src/cli/cmd/tui/component/logo.tsx", "packages/aboocode/src/cli/cmd/tui/component/tips.tsx", "packages/aboocode/src/cli/cmd/tui/context/sync.tsx", "packages/aboocode/src/cli/cmd/tui/ui/toast.tsx", "packages/aboocode/src/cli/cmd/tui/context/args.tsx", "packages/aboocode/src/cli/cmd/tui/context/directory.ts", "packages/aboocode/src/cli/cmd/tui/context/prompt.tsx", "packages/aboocode/src/cli/cmd/tui/context/kv.tsx", "packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx"], "packages/aboocode/src/cli/cmd/tui/routes/session/dialog-fork-from-timeline.tsx": ["packages/aboocode/src/cli/cmd/tui/ui/dialog.tsx"], "packages/aboocode/src/cli/cmd/tui/routes/session/dialog-message.tsx": [], "packages/aboocode/src/cli/cmd/tui/routes/session/dialog-subagent.tsx": [], "packages/aboocode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx": ["packages/aboocode/src/cli/cmd/tui/routes/session/dialog-message.tsx", "packages/aboocode/src/cli/cmd/tui/ui/dialog.tsx", "packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx"]}
+```
+
+Files to analyze:
+1. `packages/aboocode/src/cli/cmd/tui/context/theme/kanagawa.json` (77 lines, fileCategory: `config`)
+2. `packages/aboocode/src/cli/cmd/tui/context/theme/lucent-orng.json` (237 lines, fileCategory: `config`)
+3. `packages/aboocode/src/cli/cmd/tui/context/theme/material.json` (235 lines, fileCategory: `config`)
+4. `packages/aboocode/src/cli/cmd/tui/context/theme/matrix.json` (77 lines, fileCategory: `config`)
+5. `packages/aboocode/src/cli/cmd/tui/context/theme/mercury.json` (252 lines, fileCategory: `config`)
+6. `packages/aboocode/src/cli/cmd/tui/context/theme/monokai.json` (221 lines, fileCategory: `config`)
+7. `packages/aboocode/src/cli/cmd/tui/context/theme/nightowl.json` (221 lines, fileCategory: `config`)
+8. `packages/aboocode/src/cli/cmd/tui/context/theme/nord.json` (223 lines, fileCategory: `config`)
+9. `packages/aboocode/src/cli/cmd/tui/context/theme/one-dark.json` (84 lines, fileCategory: `config`)
+10. `packages/aboocode/src/cli/cmd/tui/context/theme/orng.json` (249 lines, fileCategory: `config`)
+11. `packages/aboocode/src/cli/cmd/tui/context/theme/osaka-jade.json` (93 lines, fileCategory: `config`)
+12. `packages/aboocode/src/cli/cmd/tui/context/theme/palenight.json` (222 lines, fileCategory: `config`)
+13. `packages/aboocode/src/cli/cmd/tui/context/theme/rosepine.json` (234 lines, fileCategory: `config`)
+14. `packages/aboocode/src/cli/cmd/tui/context/theme/solarized.json` (223 lines, fileCategory: `config`)
+15. `packages/aboocode/src/cli/cmd/tui/context/theme/synthwave84.json` (226 lines, fileCategory: `config`)
+16. `packages/aboocode/src/cli/cmd/tui/context/theme/tokyonight.json` (243 lines, fileCategory: `config`)
+17. `packages/aboocode/src/cli/cmd/tui/context/theme/vercel.json` (245 lines, fileCategory: `config`)
+18. `packages/aboocode/src/cli/cmd/tui/context/theme/vesper.json` (218 lines, fileCategory: `config`)
+19. `packages/aboocode/src/cli/cmd/tui/context/theme/zenburn.json` (223 lines, fileCategory: `config`)
+20. `packages/aboocode/src/cli/cmd/tui/event.ts` (48 lines, fileCategory: `code`)
+21. `packages/aboocode/src/cli/cmd/tui/routes/home.tsx` (145 lines, fileCategory: `code`)
+22. `packages/aboocode/src/cli/cmd/tui/routes/session/dialog-fork-from-timeline.tsx` (64 lines, fileCategory: `code`)
+23. `packages/aboocode/src/cli/cmd/tui/routes/session/dialog-message.tsx` (109 lines, fileCategory: `code`)
+24. `packages/aboocode/src/cli/cmd/tui/routes/session/dialog-subagent.tsx` (26 lines, fileCategory: `code`)
+25. `packages/aboocode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx` (47 lines, fileCategory: `code`)

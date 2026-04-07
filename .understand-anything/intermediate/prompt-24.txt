@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 24
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-24.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/app/src/components/dialog-select-provider.tsx": ["packages/app/src/components/dialog-connect-provider.tsx", "packages/app/src/components/dialog-custom-provider.tsx"], "packages/app/src/components/dialog-select-server.tsx": [], "packages/app/src/components/dialog-settings.tsx": ["packages/app/src/components/settings-general.tsx", "packages/app/src/components/settings-keybinds.tsx", "packages/app/src/components/settings-providers.tsx", "packages/app/src/components/settings-models.tsx"], "packages/app/src/components/file-tree.test.ts": [], "packages/app/src/components/file-tree.tsx": [], "packages/app/src/components/link.tsx": [], "packages/app/src/components/model-tooltip.tsx": [], "packages/app/src/components/prompt-input.tsx": ["packages/app/src/components/prompt-input/editor-dom.ts", "packages/app/src/components/prompt-input/attachments.ts", "packages/app/src/components/prompt-input/submit.ts", "packages/app/src/components/prompt-input/slash-popover.tsx", "packages/app/src/components/prompt-input/context-items.tsx", "packages/app/src/components/prompt-input/image-attachments.tsx", "packages/app/src/components/prompt-input/drag-overlay.tsx", "packages/app/src/components/prompt-input/placeholder.ts"], "packages/app/src/components/prompt-input/attachments.ts": ["packages/app/src/components/prompt-input/editor-dom.ts"], "packages/app/src/components/prompt-input/build-request-parts.test.ts": ["packages/app/src/components/prompt-input/build-request-parts.ts"], "packages/app/src/components/prompt-input/build-request-parts.ts": [], "packages/app/src/components/prompt-input/context-items.tsx": [], "packages/app/src/components/prompt-input/drag-overlay.tsx": [], "packages/app/src/components/prompt-input/editor-dom.test.ts": ["packages/app/src/components/prompt-input/editor-dom.ts"], "packages/app/src/components/prompt-input/editor-dom.ts": [], "packages/app/src/components/prompt-input/history.test.ts": [], "packages/app/src/components/prompt-input/history.ts": [], "packages/app/src/components/prompt-input/image-attachments.tsx": [], "packages/app/src/components/prompt-input/placeholder.test.ts": ["packages/app/src/components/prompt-input/placeholder.ts"], "packages/app/src/components/prompt-input/placeholder.ts": [], "packages/app/src/components/prompt-input/slash-popover.tsx": [], "packages/app/src/components/prompt-input/submit.test.ts": [], "packages/app/src/components/prompt-input/submit.ts": ["packages/app/src/components/prompt-input/build-request-parts.ts", "packages/app/src/components/prompt-input/editor-dom.ts"], "packages/app/src/components/server/server-row.tsx": [], "packages/app/src/components/session-context-usage.tsx": []}
+```
+
+Files to analyze:
+1. `packages/app/src/components/dialog-select-provider.tsx` (85 lines, fileCategory: `code`)
+2. `packages/app/src/components/dialog-select-server.tsx` (544 lines, fileCategory: `code`)
+3. `packages/app/src/components/dialog-settings.tsx` (73 lines, fileCategory: `code`)
+4. `packages/app/src/components/file-tree.test.ts` (78 lines, fileCategory: `code`)
+5. `packages/app/src/components/file-tree.tsx` (513 lines, fileCategory: `code`)
+6. `packages/app/src/components/link.tsx` (26 lines, fileCategory: `code`)
+7. `packages/app/src/components/model-tooltip.tsx` (91 lines, fileCategory: `code`)
+8. `packages/app/src/components/prompt-input.tsx` (1411 lines, fileCategory: `code`)
+9. `packages/app/src/components/prompt-input/attachments.ts` (180 lines, fileCategory: `code`)
+10. `packages/app/src/components/prompt-input/build-request-parts.test.ts` (277 lines, fileCategory: `code`)
+11. `packages/app/src/components/prompt-input/build-request-parts.ts` (179 lines, fileCategory: `code`)
+12. `packages/app/src/components/prompt-input/context-items.tsx` (88 lines, fileCategory: `code`)
+13. `packages/app/src/components/prompt-input/drag-overlay.tsx` (25 lines, fileCategory: `code`)
+14. `packages/app/src/components/prompt-input/editor-dom.test.ts` (99 lines, fileCategory: `code`)
+15. `packages/app/src/components/prompt-input/editor-dom.ts` (148 lines, fileCategory: `code`)
+16. `packages/app/src/components/prompt-input/history.test.ts` (100 lines, fileCategory: `code`)
+17. `packages/app/src/components/prompt-input/history.ts` (169 lines, fileCategory: `code`)
+18. `packages/app/src/components/prompt-input/image-attachments.tsx` (58 lines, fileCategory: `code`)
+19. `packages/app/src/components/prompt-input/placeholder.test.ts` (48 lines, fileCategory: `code`)
+20. `packages/app/src/components/prompt-input/placeholder.ts` (15 lines, fileCategory: `code`)
+21. `packages/app/src/components/prompt-input/slash-popover.tsx` (141 lines, fileCategory: `code`)
+22. `packages/app/src/components/prompt-input/submit.test.ts` (184 lines, fileCategory: `code`)
+23. `packages/app/src/components/prompt-input/submit.ts` (421 lines, fileCategory: `code`)
+24. `packages/app/src/components/server/server-row.tsx` (86 lines, fileCategory: `code`)
+25. `packages/app/src/components/session-context-usage.tsx` (117 lines, fileCategory: `code`)

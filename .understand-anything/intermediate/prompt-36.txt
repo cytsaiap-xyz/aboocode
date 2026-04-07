@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 36
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-36.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/console/app/src/routes/enterprise/index.css": [], "packages/console/app/src/routes/enterprise/index.tsx": [], "packages/console/app/src/routes/index.css": [], "packages/console/app/src/routes/index.tsx": ["packages/console/app/src/component/icon.tsx"], "packages/console/app/src/routes/legal/privacy-policy/index.css": [], "packages/console/app/src/routes/legal/privacy-policy/index.tsx": [], "packages/console/app/src/routes/legal/terms-of-service/index.css": [], "packages/console/app/src/routes/legal/terms-of-service/index.tsx": [], "packages/console/app/src/routes/openapi.json.ts": [], "packages/console/app/src/routes/s/[id].ts": [], "packages/console/app/src/routes/stripe/webhook.ts": [], "packages/console/app/src/routes/t/[...path].tsx": [], "packages/console/app/src/routes/temp.tsx": ["packages/console/app/src/component/icon.tsx"], "packages/console/app/src/routes/user-menu.css": [], "packages/console/app/src/routes/user-menu.tsx": [], "packages/console/app/src/routes/workspace-picker.css": [], "packages/console/app/src/routes/workspace-picker.tsx": [], "packages/console/app/src/routes/workspace.css": [], "packages/console/app/src/routes/workspace.tsx": ["packages/console/app/src/component/icon.tsx", "packages/console/app/src/routes/workspace-picker.tsx", "packages/console/app/src/routes/user-menu.tsx"], "packages/console/app/src/routes/workspace/[id].css": [], "packages/console/app/src/routes/workspace/[id].tsx": ["packages/console/app/src/routes/workspace/common.tsx"], "packages/console/app/src/routes/workspace/[id]/billing/billing-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/billing/billing-section.tsx": ["packages/console/app/src/routes/workspace/[id]/billing/billing-section.module.css", "packages/console/app/src/routes/workspace/common.tsx"], "packages/console/app/src/routes/workspace/[id]/billing/black-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/billing/black-section.tsx": ["packages/console/app/src/routes/workspace/common.tsx", "packages/console/app/src/routes/workspace/[id]/billing/black-section.module.css", "packages/console/app/src/routes/workspace/[id]/billing/black-waitlist-section.module.css"]}
+```
+
+Files to analyze:
+1. `packages/console/app/src/routes/enterprise/index.css` (580 lines, fileCategory: `markup`)
+2. `packages/console/app/src/routes/enterprise/index.tsx` (235 lines, fileCategory: `code`)
+3. `packages/console/app/src/routes/index.css` (1255 lines, fileCategory: `markup`)
+4. `packages/console/app/src/routes/index.tsx` (841 lines, fileCategory: `code`)
+5. `packages/console/app/src/routes/legal/privacy-policy/index.css` (344 lines, fileCategory: `markup`)
+6. `packages/console/app/src/routes/legal/privacy-policy/index.tsx` (1515 lines, fileCategory: `code`)
+7. `packages/console/app/src/routes/legal/terms-of-service/index.css` (255 lines, fileCategory: `markup`)
+8. `packages/console/app/src/routes/legal/terms-of-service/index.tsx` (516 lines, fileCategory: `code`)
+9. `packages/console/app/src/routes/openapi.json.ts` (8 lines, fileCategory: `code`)
+10. `packages/console/app/src/routes/s/[id].ts` (29 lines, fileCategory: `code`)
+11. `packages/console/app/src/routes/stripe/webhook.ts` (369 lines, fileCategory: `code`)
+12. `packages/console/app/src/routes/t/[...path].tsx` (27 lines, fileCategory: `code`)
+13. `packages/console/app/src/routes/temp.tsx` (180 lines, fileCategory: `code`)
+14. `packages/console/app/src/routes/user-menu.css` (19 lines, fileCategory: `markup`)
+15. `packages/console/app/src/routes/user-menu.tsx` (37 lines, fileCategory: `code`)
+16. `packages/console/app/src/routes/workspace-picker.css` (75 lines, fileCategory: `markup`)
+17. `packages/console/app/src/routes/workspace-picker.tsx` (125 lines, fileCategory: `code`)
+18. `packages/console/app/src/routes/workspace.css` (108 lines, fileCategory: `markup`)
+19. `packages/console/app/src/routes/workspace.tsx` (41 lines, fileCategory: `code`)
+20. `packages/console/app/src/routes/workspace/[id].css` (338 lines, fileCategory: `markup`)
+21. `packages/console/app/src/routes/workspace/[id].tsx` (69 lines, fileCategory: `code`)
+22. `packages/console/app/src/routes/workspace/[id]/billing/billing-section.module.css` (186 lines, fileCategory: `markup`)
+23. `packages/console/app/src/routes/workspace/[id]/billing/billing-section.tsx` (252 lines, fileCategory: `code`)
+24. `packages/console/app/src/routes/workspace/[id]/billing/black-section.module.css` (143 lines, fileCategory: `markup`)
+25. `packages/console/app/src/routes/workspace/[id]/billing/black-section.tsx` (291 lines, fileCategory: `code`)

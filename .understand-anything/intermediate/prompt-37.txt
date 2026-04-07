@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 37
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-37.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/console/app/src/routes/workspace/[id]/billing/black-waitlist-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/billing/index.tsx": ["packages/console/app/src/routes/workspace/[id]/billing/monthly-limit-section.tsx", "packages/console/app/src/routes/workspace/[id]/billing/billing-section.tsx", "packages/console/app/src/routes/workspace/[id]/billing/reload-section.tsx", "packages/console/app/src/routes/workspace/[id]/billing/payment-section.tsx", "packages/console/app/src/routes/workspace/[id]/billing/black-section.tsx", "packages/console/app/src/routes/workspace/[id]/billing/lite-section.tsx", "packages/console/app/src/routes/workspace/common.tsx"], "packages/console/app/src/routes/workspace/[id]/billing/lite-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/billing/lite-section.tsx": ["packages/console/app/src/routes/workspace/common.tsx", "packages/console/app/src/routes/workspace/[id]/billing/lite-section.module.css"], "packages/console/app/src/routes/workspace/[id]/billing/monthly-limit-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/billing/monthly-limit-section.tsx": ["packages/console/app/src/routes/workspace/[id]/billing/monthly-limit-section.module.css", "packages/console/app/src/routes/workspace/common.tsx"], "packages/console/app/src/routes/workspace/[id]/billing/payment-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/billing/payment-section.tsx": ["packages/console/app/src/routes/workspace/common.tsx", "packages/console/app/src/routes/workspace/[id]/billing/payment-section.module.css"], "packages/console/app/src/routes/workspace/[id]/billing/reload-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/billing/reload-section.tsx": ["packages/console/app/src/routes/workspace/[id]/billing/reload-section.module.css", "packages/console/app/src/routes/workspace/common.tsx"], "packages/console/app/src/routes/workspace/[id]/graph-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/graph-section.tsx": ["packages/console/app/src/routes/workspace/[id]/graph-section.module.css"], "packages/console/app/src/routes/workspace/[id]/index.tsx": ["packages/console/app/src/routes/workspace/[id]/new-user-section.tsx", "packages/console/app/src/routes/workspace/[id]/usage-section.tsx", "packages/console/app/src/routes/workspace/[id]/model-section.tsx", "packages/console/app/src/routes/workspace/[id]/provider-section.tsx", "packages/console/app/src/routes/workspace/[id]/graph-section.tsx", "packages/console/app/src/routes/workspace/common.tsx"], "packages/console/app/src/routes/workspace/[id]/keys/index.tsx": ["packages/console/app/src/routes/workspace/[id]/keys/key-section.tsx"], "packages/console/app/src/routes/workspace/[id]/keys/key-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/keys/key-section.tsx": ["packages/console/app/src/routes/workspace/common.tsx", "packages/console/app/src/routes/workspace/[id]/keys/key-section.module.css"], "packages/console/app/src/routes/workspace/[id]/members/index.tsx": ["packages/console/app/src/routes/workspace/[id]/members/member-section.tsx"], "packages/console/app/src/routes/workspace/[id]/members/member-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/members/member-section.tsx": ["packages/console/app/src/routes/workspace/[id]/members/member-section.module.css", "packages/console/app/src/routes/workspace/[id]/members/role-dropdown.tsx"], "packages/console/app/src/routes/workspace/[id]/members/role-dropdown.css": [], "packages/console/app/src/routes/workspace/[id]/members/role-dropdown.tsx": [], "packages/console/app/src/routes/workspace/[id]/model-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/model-section.tsx": ["packages/console/app/src/routes/workspace/[id]/model-section.module.css", "packages/console/app/src/routes/workspace/common.tsx"], "packages/console/app/src/routes/workspace/[id]/new-user-section.module.css": [], "packages/console/app/src/routes/workspace/[id]/new-user-section.tsx": ["packages/console/app/src/routes/workspace/[id]/new-user-section.module.css"]}
+```
+
+Files to analyze:
+1. `packages/console/app/src/routes/workspace/[id]/billing/black-waitlist-section.module.css` (24 lines, fileCategory: `markup`)
+2. `packages/console/app/src/routes/workspace/[id]/billing/index.tsx` (38 lines, fileCategory: `code`)
+3. `packages/console/app/src/routes/workspace/[id]/billing/lite-section.module.css` (191 lines, fileCategory: `markup`)
+4. `packages/console/app/src/routes/workspace/[id]/billing/lite-section.tsx` (286 lines, fileCategory: `code`)
+5. `packages/console/app/src/routes/workspace/[id]/billing/monthly-limit-section.module.css` (97 lines, fileCategory: `markup`)
+6. `packages/console/app/src/routes/workspace/[id]/billing/monthly-limit-section.tsx` (146 lines, fileCategory: `code`)
+7. `packages/console/app/src/routes/workspace/[id]/billing/payment-section.module.css` (94 lines, fileCategory: `markup`)
+8. `packages/console/app/src/routes/workspace/[id]/billing/payment-section.tsx` (130 lines, fileCategory: `code`)
+9. `packages/console/app/src/routes/workspace/[id]/billing/reload-section.module.css` (262 lines, fileCategory: `markup`)
+10. `packages/console/app/src/routes/workspace/[id]/billing/reload-section.tsx` (220 lines, fileCategory: `code`)
+11. `packages/console/app/src/routes/workspace/[id]/graph-section.module.css` (146 lines, fileCategory: `markup`)
+12. `packages/console/app/src/routes/workspace/[id]/graph-section.tsx` (516 lines, fileCategory: `code`)
+13. `packages/console/app/src/routes/workspace/[id]/index.tsx` (88 lines, fileCategory: `code`)
+14. `packages/console/app/src/routes/workspace/[id]/keys/index.tsx` (12 lines, fileCategory: `code`)
+15. `packages/console/app/src/routes/workspace/[id]/keys/key-section.module.css` (198 lines, fileCategory: `markup`)
+16. `packages/console/app/src/routes/workspace/[id]/keys/key-section.tsx` (180 lines, fileCategory: `code`)
+17. `packages/console/app/src/routes/workspace/[id]/members/index.tsx` (12 lines, fileCategory: `code`)
+18. `packages/console/app/src/routes/workspace/[id]/members/member-section.module.css` (250 lines, fileCategory: `markup`)
+19. `packages/console/app/src/routes/workspace/[id]/members/member-section.tsx` (369 lines, fileCategory: `code`)
+20. `packages/console/app/src/routes/workspace/[id]/members/role-dropdown.css` (73 lines, fileCategory: `markup`)
+21. `packages/console/app/src/routes/workspace/[id]/members/role-dropdown.tsx` (46 lines, fileCategory: `code`)
+22. `packages/console/app/src/routes/workspace/[id]/model-section.module.css` (174 lines, fileCategory: `markup`)
+23. `packages/console/app/src/routes/workspace/[id]/model-section.tsx` (181 lines, fileCategory: `code`)
+24. `packages/console/app/src/routes/workspace/[id]/new-user-section.module.css` (144 lines, fileCategory: `markup`)
+25. `packages/console/app/src/routes/workspace/[id]/new-user-section.tsx` (109 lines, fileCategory: `code`)

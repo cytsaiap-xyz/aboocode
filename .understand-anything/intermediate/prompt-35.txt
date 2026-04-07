@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 35
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-35.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/console/app/src/routes/auth/status.ts": [], "packages/console/app/src/routes/bench/[id].tsx": [], "packages/console/app/src/routes/bench/index.tsx": [], "packages/console/app/src/routes/bench/submission.ts": [], "packages/console/app/src/routes/black.css": [], "packages/console/app/src/routes/black.tsx": [], "packages/console/app/src/routes/black/_subscribe/[plan].tsx": ["packages/console/app/src/routes/black/common.tsx"], "packages/console/app/src/routes/black/common.tsx": [], "packages/console/app/src/routes/black/index.tsx": ["packages/console/app/src/routes/black/common.tsx"], "packages/console/app/src/routes/black/workspace.css": [], "packages/console/app/src/routes/black/workspace.tsx": [], "packages/console/app/src/routes/brand/index.css": [], "packages/console/app/src/routes/brand/index.tsx": [], "packages/console/app/src/routes/changelog.json.ts": [], "packages/console/app/src/routes/changelog/index.css": [], "packages/console/app/src/routes/changelog/index.tsx": [], "packages/console/app/src/routes/debug/index.ts": [], "packages/console/app/src/routes/desktop-feedback.ts": [], "packages/console/app/src/routes/discord.ts": [], "packages/console/app/src/routes/docs/[...path].ts": [], "packages/console/app/src/routes/docs/index.ts": [], "packages/console/app/src/routes/download/[channel]/[platform].ts": ["packages/console/app/src/routes/download/types.ts"], "packages/console/app/src/routes/download/index.css": [], "packages/console/app/src/routes/download/index.tsx": ["packages/console/app/src/routes/download/types.ts"], "packages/console/app/src/routes/download/types.ts": []}
+```
+
+Files to analyze:
+1. `packages/console/app/src/routes/auth/status.ts` (8 lines, fileCategory: `code`)
+2. `packages/console/app/src/routes/bench/[id].tsx` (376 lines, fileCategory: `code`)
+3. `packages/console/app/src/routes/bench/index.tsx` (89 lines, fileCategory: `code`)
+4. `packages/console/app/src/routes/bench/submission.ts` (30 lines, fileCategory: `code`)
+5. `packages/console/app/src/routes/black.css` (842 lines, fileCategory: `markup`)
+6. `packages/console/app/src/routes/black.tsx` (284 lines, fileCategory: `code`)
+7. `packages/console/app/src/routes/black/_subscribe/[plan].tsx` (478 lines, fileCategory: `code`)
+8. `packages/console/app/src/routes/black/common.tsx` (66 lines, fileCategory: `code`)
+9. `packages/console/app/src/routes/black/index.tsx` (121 lines, fileCategory: `code`)
+10. `packages/console/app/src/routes/black/workspace.css` (215 lines, fileCategory: `markup`)
+11. `packages/console/app/src/routes/black/workspace.tsx` (239 lines, fileCategory: `code`)
+12. `packages/console/app/src/routes/brand/index.css` (557 lines, fileCategory: `markup`)
+13. `packages/console/app/src/routes/brand/index.tsx` (315 lines, fileCategory: `code`)
+14. `packages/console/app/src/routes/changelog.json.ts` (31 lines, fileCategory: `code`)
+15. `packages/console/app/src/routes/changelog/index.css` (605 lines, fileCategory: `markup`)
+16. `packages/console/app/src/routes/changelog/index.tsx` (177 lines, fileCategory: `code`)
+17. `packages/console/app/src/routes/debug/index.ts` (14 lines, fileCategory: `code`)
+18. `packages/console/app/src/routes/desktop-feedback.ts` (6 lines, fileCategory: `code`)
+19. `packages/console/app/src/routes/discord.ts` (6 lines, fileCategory: `code`)
+20. `packages/console/app/src/routes/docs/[...path].ts` (29 lines, fileCategory: `code`)
+21. `packages/console/app/src/routes/docs/index.ts` (29 lines, fileCategory: `code`)
+22. `packages/console/app/src/routes/download/[channel]/[platform].ts` (42 lines, fileCategory: `code`)
+23. `packages/console/app/src/routes/download/index.css` (752 lines, fileCategory: `markup`)
+24. `packages/console/app/src/routes/download/index.tsx` (487 lines, fileCategory: `code`)
+25. `packages/console/app/src/routes/download/types.ts` (5 lines, fileCategory: `code`)

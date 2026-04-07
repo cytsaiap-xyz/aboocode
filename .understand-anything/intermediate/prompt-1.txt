@@ -1,0 +1,71 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode`
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 1
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-1.json`
+
+Pre-resolved import data for this batch (use this for all import edge creation — do NOT re-resolve imports from source):
+```json
+{
+  "nix/scripts/canonicalize-node-modules.ts": [],
+  "nix/scripts/normalize-bun-binaries.ts": [],
+  "package.json": [],
+  "packages/aboocode/AGENTS.md": [],
+  "packages/aboocode/bin/aboo": [],
+  "packages/aboocode/bin/aboocode": [],
+  "packages/aboocode/bin/opencode": [],
+  "packages/aboocode/BUN_SHELL_MIGRATION_PLAN.md": [],
+  "packages/aboocode/bunfig.toml": [],
+  "packages/aboocode/Dockerfile": [],
+  "packages/aboocode/drizzle.config.ts": [],
+  "packages/aboocode/IMPLEMENTATION_PLAN.md": [],
+  "packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql": [],
+  "packages/aboocode/migration/20260127222353_familiar_lady_ursula/snapshot.json": [],
+  "packages/aboocode/migration/20260211171708_add_project_commands/migration.sql": [],
+  "packages/aboocode/migration/20260211171708_add_project_commands/snapshot.json": [],
+  "packages/aboocode/migration/20260213144116_wakeful_the_professor/migration.sql": [],
+  "packages/aboocode/migration/20260213144116_wakeful_the_professor/snapshot.json": [],
+  "packages/aboocode/migration/20260226000000_add_memory_tables/migration.sql": [],
+  "packages/aboocode/package.json": [],
+  "packages/aboocode/parsers-config.ts": [],
+  "packages/aboocode/postinstall.mjs": [],
+  "packages/aboocode/README.md": [],
+  "packages/aboocode/script/build.ts": [
+    "packages/aboocode/package.json"
+  ],
+  "packages/aboocode/script/check-migrations.ts": []
+}
+```
+
+Files to analyze in this batch:
+1. `nix/scripts/canonicalize-node-modules.ts` (101 lines, fileCategory: `code`)
+2. `nix/scripts/normalize-bun-binaries.ts` (130 lines, fileCategory: `code`)
+3. `package.json` (111 lines, fileCategory: `config`)
+4. `packages/aboocode/AGENTS.md` (10 lines, fileCategory: `docs`)
+5. `packages/aboocode/bin/aboo` (179 lines, fileCategory: `code`)
+6. `packages/aboocode/bin/aboocode` (179 lines, fileCategory: `code`)
+7. `packages/aboocode/bin/opencode` (179 lines, fileCategory: `code`)
+8. `packages/aboocode/BUN_SHELL_MIGRATION_PLAN.md` (136 lines, fileCategory: `docs`)
+9. `packages/aboocode/bunfig.toml` (7 lines, fileCategory: `config`)
+10. `packages/aboocode/Dockerfile` (18 lines, fileCategory: `infra`)
+11. `packages/aboocode/drizzle.config.ts` (10 lines, fileCategory: `code`)
+12. `packages/aboocode/IMPLEMENTATION_PLAN.md` (300 lines, fileCategory: `docs`)
+13. `packages/aboocode/migration/20260127222353_familiar_lady_ursula/migration.sql` (89 lines, fileCategory: `data`)
+14. `packages/aboocode/migration/20260127222353_familiar_lady_ursula/snapshot.json` (796 lines, fileCategory: `config`)
+15. `packages/aboocode/migration/20260211171708_add_project_commands/migration.sql` (0 lines, fileCategory: `data`)
+16. `packages/aboocode/migration/20260211171708_add_project_commands/snapshot.json` (806 lines, fileCategory: `config`)
+17. `packages/aboocode/migration/20260213144116_wakeful_the_professor/migration.sql` (11 lines, fileCategory: `data`)
+18. `packages/aboocode/migration/20260213144116_wakeful_the_professor/snapshot.json` (897 lines, fileCategory: `config`)
+19. `packages/aboocode/migration/20260226000000_add_memory_tables/migration.sql` (41 lines, fileCategory: `data`)
+20. `packages/aboocode/package.json` (158 lines, fileCategory: `config`)
+21. `packages/aboocode/parsers-config.ts` (254 lines, fileCategory: `code`)
+22. `packages/aboocode/postinstall.mjs` (131 lines, fileCategory: `code`)
+23. `packages/aboocode/README.md` (106 lines, fileCategory: `docs`)
+24. `packages/aboocode/script/build.ts` (212 lines, fileCategory: `code`)
+25. `packages/aboocode/script/check-migrations.ts` (16 lines, fileCategory: `code`)
+
+**Additional context from main session:**
+
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml

@@ -15,6 +15,7 @@ import { Config } from "@/config/config"
 import { SessionCompaction } from "./compaction"
 import { PermissionNext } from "@/permission/next"
 import { Question } from "@/question"
+import { Transition } from "./transition"
 
 export namespace SessionProcessor {
   const DOOM_LOOP_THRESHOLD = 3
@@ -34,6 +35,7 @@ export namespace SessionProcessor {
     let blocked = false
     let attempt = 0
     let needsCompaction = false
+    let outputTruncated = false
 
     const result = {
       get message() {
@@ -42,9 +44,10 @@ export namespace SessionProcessor {
       partFromToolCall(toolCallID: string) {
         return toolcalls[toolCallID]
       },
-      async process(streamInput: LLM.StreamInput) {
+      async process(streamInput: LLM.StreamInput): Promise<Transition.Result> {
         log.info("process")
         needsCompaction = false
+        outputTruncated = false
         const shouldBreak = (await Config.get()).experimental?.continue_loop_on_deny !== true
         while (true) {
           try {
@@ -180,12 +183,17 @@ export namespace SessionProcessor {
                 case "tool-result": {
                   const match = toolcalls[value.toolCallId]
                   if (match && match.state.status === "running") {
+                    // Apply token budget trimming to large tool outputs
+                    const { TokenBudget } = await import("./token-budget")
+                    const toolResultBudget = 100_000 // ~25k tokens
+                    const trimmedOutput = TokenBudget.trimToolResult(value.output.output, toolResultBudget)
+
                     await Session.updatePart({
                       ...match,
                       state: {
                         status: "completed",
                         input: value.input ?? match.state.input,
-                        output: value.output.output,
+                        output: trimmedOutput,
                         metadata: value.output.metadata,
                         title: value.output.title,
                         time: {
@@ -197,6 +205,18 @@ export namespace SessionProcessor {
                     })
 
                     delete toolcalls[value.toolCallId]
+
+                    // Harness trace: tool completed
+                    const { HarnessTrace } = await import("./harness-trace")
+                    await HarnessTrace.toolExec(input.sessionID, match.tool, "completed")
+
+                    // Track tool call progress
+                    const { TaskProgress } = await import("./task-progress")
+                    TaskProgress.recordToolCall({
+                      sessionID: input.sessionID,
+                      agent: input.assistantMessage.agent ?? "unknown",
+                      tool: match.tool,
+                    })
                   }
                   break
                 }
@@ -282,6 +302,10 @@ export namespace SessionProcessor {
                   if (await SessionCompaction.isOverflow({ tokens: usage.tokens, model: input.model })) {
                     needsCompaction = true
                   }
+                  // Detect output truncation (max_output_tokens hit)
+                  if (value.finishReason === "length") {
+                    outputTruncated = true
+                  }
                   break
 
                 case "text-start":
@@ -327,7 +351,7 @@ export namespace SessionProcessor {
                     )
                     currentText.text = textOutput.text
                     currentText.time = {
-                      start: Date.now(),
+                      start: currentText.time?.start ?? Date.now(),
                       end: Date.now(),
                     }
                     if (value.providerMetadata) currentText.metadata = value.providerMetadata
@@ -353,17 +377,26 @@ export namespace SessionProcessor {
               stack: JSON.stringify(e.stack),
             })
             const error = MessageV2.fromError(e, { providerID: input.model.providerID })
-            if (MessageV2.ContextOverflowError.isInstance(error)) {
-              // TODO: Handle context overflow error
+
+            // Classify error using failure taxonomy
+            const { Failure } = await import("./failure")
+            const failure = Failure.classify(e)
+            const recovery = Failure.recover(failure)
+
+            if (recovery.action === "compact") {
+              needsCompaction = true
+              break
             }
+
+            // Existing retry logic (enhanced with failure classification)
             const retry = SessionRetry.retryable(error)
-            if (retry !== undefined) {
+            if (retry !== undefined || recovery.action === "retry") {
               attempt++
-              const delay = SessionRetry.delay(attempt, error.name === "APIError" ? error : undefined)
+              const delay = recovery.delay ?? SessionRetry.delay(attempt, error.name === "APIError" ? error : undefined)
               SessionStatus.set(input.sessionID, {
                 type: "retry",
                 attempt,
-                message: retry,
+                message: retry ?? failure.message,
                 next: Date.now() + delay,
               })
               await SessionRetry.sleep(delay, input.abort).catch(() => {})
@@ -409,11 +442,14 @@ export namespace SessionProcessor {
           }
           input.assistantMessage.time.completed = Date.now()
           await Session.updateMessage(input.assistantMessage)
-          if (needsCompaction) return "compact"
-          if (blocked) return "stop"
-          if (input.assistantMessage.error) return "stop"
-          return "continue"
+          if (blocked) return Transition.terminal("permission_blocked")
+          if (input.assistantMessage.error) return Transition.terminal("model_error", input.assistantMessage.error)
+          if (needsCompaction) return Transition.cont("reactive_compact")
+          if (outputTruncated) return Transition.cont("max_output_tokens_recovery")
+          return Transition.cont("tool_use")
         }
+        // Unreachable — while(true) always returns or continues
+        return Transition.cont("tool_use")
       },
     }
     return result

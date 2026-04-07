@@ -1192,6 +1192,29 @@ export namespace Config {
             .min(0)
             .optional()
             .describe("Token buffer for compaction. Leaves enough window to avoid overflow during compaction."),
+          proactiveThreshold: z
+            .number()
+            .min(0.5)
+            .max(1)
+            .optional()
+            .describe("Fraction of max input tokens at which proactive compaction triggers (default: 0.8)"),
+          reactiveThreshold: z
+            .number()
+            .min(0.5)
+            .max(1)
+            .optional()
+            .describe("Fraction of max input tokens at which reactive (emergency) compaction triggers (default: 0.95)"),
+        })
+        .optional(),
+      stopHooks: z
+        .object({
+          requireBuild: z.boolean().optional().describe("Require build to pass before completion (default: false)"),
+          requireTests: z.boolean().optional().describe("Require tests to pass before completion (default: false)"),
+          requireVerification: z
+            .boolean()
+            .optional()
+            .describe("Require verification agent to run before completion (default: false)"),
+          requireLint: z.boolean().optional().describe("Require lint to pass before completion (default: false)"),
         })
         .optional(),
       experimental: z
@@ -1222,6 +1245,20 @@ export namespace Config {
             .boolean()
             .optional()
             .describe("Auto-extract memories from sessions when idle (default: true)"),
+        })
+        .optional(),
+      coordinator: z
+        .object({
+          proactive: z
+            .boolean()
+            .optional()
+            .describe("Enable proactive coordinator mode for orchestrator agent (default: false)"),
+          maxRounds: z
+            .number()
+            .int()
+            .positive()
+            .optional()
+            .describe("Maximum proactive evaluation rounds per session (default: 10)"),
         })
         .optional(),
       abooMdExcludes: z

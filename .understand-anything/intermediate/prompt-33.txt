@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 33
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-33.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/console/app/src/component/header-context-menu.css": [], "packages/console/app/src/component/header.tsx": [], "packages/console/app/src/component/icon.tsx": [], "packages/console/app/src/component/language-picker.css": [], "packages/console/app/src/component/language-picker.tsx": [], "packages/console/app/src/component/legal.tsx": [], "packages/console/app/src/component/locale-links.tsx": [], "packages/console/app/src/component/modal.css": [], "packages/console/app/src/component/modal.tsx": [], "packages/console/app/src/component/spotlight.css": [], "packages/console/app/src/component/spotlight.tsx": [], "packages/console/app/src/config.ts": [], "packages/console/app/src/context/auth.session.ts": [], "packages/console/app/src/context/auth.ts": [], "packages/console/app/src/context/auth.withActor.ts": ["packages/console/app/src/context/auth.ts"], "packages/console/app/src/context/i18n.tsx": [], "packages/console/app/src/context/language.tsx": [], "packages/console/app/src/entry-client.tsx": [], "packages/console/app/src/entry-server.tsx": [], "packages/console/app/src/global.d.ts": [], "packages/console/app/src/i18n/ar.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/br.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/da.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/de.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/en.ts": []}
+```
+
+Files to analyze:
+1. `packages/console/app/src/component/header-context-menu.css` (64 lines, fileCategory: `markup`)
+2. `packages/console/app/src/component/header.tsx` (288 lines, fileCategory: `code`)
+3. `packages/console/app/src/component/icon.tsx` (258 lines, fileCategory: `code`)
+4. `packages/console/app/src/component/language-picker.css` (136 lines, fileCategory: `markup`)
+5. `packages/console/app/src/component/language-picker.tsx` (41 lines, fileCategory: `code`)
+6. `packages/console/app/src/component/legal.tsx` (29 lines, fileCategory: `code`)
+7. `packages/console/app/src/component/locale-links.tsx` (37 lines, fileCategory: `code`)
+8. `packages/console/app/src/component/modal.css` (67 lines, fileCategory: `markup`)
+9. `packages/console/app/src/component/modal.tsx` (25 lines, fileCategory: `code`)
+10. `packages/console/app/src/component/spotlight.css` (16 lines, fileCategory: `markup`)
+11. `packages/console/app/src/component/spotlight.tsx` (821 lines, fileCategory: `code`)
+12. `packages/console/app/src/config.ts` (30 lines, fileCategory: `code`)
+13. `packages/console/app/src/context/auth.session.ts` (1 lines, fileCategory: `code`)
+14. `packages/console/app/src/context/auth.ts` (117 lines, fileCategory: `code`)
+15. `packages/console/app/src/context/auth.withActor.ts` (8 lines, fileCategory: `code`)
+16. `packages/console/app/src/context/i18n.tsx` (28 lines, fileCategory: `code`)
+17. `packages/console/app/src/context/language.tsx` (73 lines, fileCategory: `code`)
+18. `packages/console/app/src/entry-client.tsx` (5 lines, fileCategory: `code`)
+19. `packages/console/app/src/entry-server.tsx` (38 lines, fileCategory: `code`)
+20. `packages/console/app/src/global.d.ts` (6 lines, fileCategory: `code`)
+21. `packages/console/app/src/i18n/ar.ts` (626 lines, fileCategory: `code`)
+22. `packages/console/app/src/i18n/br.ts` (634 lines, fileCategory: `code`)
+23. `packages/console/app/src/i18n/da.ts` (630 lines, fileCategory: `code`)
+24. `packages/console/app/src/i18n/de.ts` (634 lines, fileCategory: `code`)
+25. `packages/console/app/src/i18n/en.ts` (627 lines, fileCategory: `code`)

@@ -1,0 +1,967 @@
+{
+  "nodes": [
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/attach.ts",
+      "type": "file",
+      "name": "attach.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/attach.ts",
+      "summary": "CLI command definition for attaching to a running Aboocode server, handling authentication, directory resolution, and session continuation options.",
+      "tags": ["cli", "command", "api-handler", "entry-point", "networking"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/border.tsx",
+      "type": "file",
+      "name": "border.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/border.tsx",
+      "summary": "Defines reusable border character configurations (EmptyBorder and SplitBorder) for TUI box drawing throughout the interface.",
+      "tags": ["utility", "component", "ui-styling", "tui"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-agent.tsx",
+      "type": "file",
+      "name": "dialog-agent.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-agent.tsx",
+      "summary": "SolidJS dialog component for selecting an AI agent from available agents, displaying name and description in a searchable list.",
+      "tags": ["component", "dialog", "agent-selection", "tui"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx",
+      "type": "file",
+      "name": "dialog-command.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx",
+      "summary": "Provides a command palette system with registerable commands, keyboard shortcut bindings, slash commands, and a searchable dialog for the TUI. Acts as the central command dispatch mechanism.",
+      "tags": ["component", "command-palette", "event-handler", "service", "tui"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-mcp.tsx",
+      "type": "file",
+      "name": "dialog-mcp.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-mcp.tsx",
+      "summary": "Dialog component for managing MCP (Model Context Protocol) servers, allowing users to toggle servers on/off and view their connection status.",
+      "tags": ["component", "dialog", "mcp", "service", "tui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx",
+      "type": "file",
+      "name": "dialog-model.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx",
+      "summary": "Model selection dialog with favorites, recents, fuzzy search, and provider grouping. Supports free-tier indicators and connects to the provider dialog for adding new API keys.",
+      "tags": ["component", "dialog", "model-selection", "tui", "service"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "type": "file",
+      "name": "dialog-provider.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "summary": "Provider authentication dialog managing OAuth flows (auto and code-based), API key entry, and provider selection. Handles the full auth lifecycle for connecting LLM providers like OpenAI, Anthropic, and Aboocode Zen.",
+      "tags": ["component", "dialog", "authentication", "service", "tui"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx",
+      "type": "file",
+      "name": "dialog-session-list.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx",
+      "summary": "Searchable session list dialog with date-grouped entries, delete confirmation, rename capability, and real-time working status indicators.",
+      "tags": ["component", "dialog", "session-management", "tui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-session-rename.tsx",
+      "type": "file",
+      "name": "dialog-session-rename.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-session-rename.tsx",
+      "summary": "Simple prompt dialog for renaming an existing session, pre-filling the current title and updating via the SDK.",
+      "tags": ["component", "dialog", "session-management", "tui"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-skill.tsx",
+      "type": "file",
+      "name": "dialog-skill.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-skill.tsx",
+      "summary": "Searchable dialog for selecting from available skills, fetching the skill list from the SDK and displaying descriptions.",
+      "tags": ["component", "dialog", "skill-selection", "tui"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-stash.tsx",
+      "type": "file",
+      "name": "dialog-stash.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-stash.tsx",
+      "summary": "Dialog for browsing and restoring stashed prompts, with relative timestamps, line count previews, and keybind-triggered delete with confirmation.",
+      "tags": ["component", "dialog", "prompt-management", "tui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-status.tsx",
+      "type": "file",
+      "name": "dialog-status.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-status.tsx",
+      "summary": "Status overview dialog displaying MCP server health, LSP server connections, active formatters, and installed plugins with color-coded status indicators.",
+      "tags": ["component", "dialog", "status-display", "tui", "monitoring"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-tag.tsx",
+      "type": "file",
+      "name": "dialog-tag.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-tag.tsx",
+      "summary": "File autocomplete dialog that queries the SDK for matching files based on a filter string, used for tagging files in context.",
+      "tags": ["component", "dialog", "autocomplete", "tui"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-theme-list.tsx",
+      "type": "file",
+      "name": "dialog-theme-list.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-theme-list.tsx",
+      "summary": "Theme picker dialog with live preview on cursor movement, reverting to the original theme on cancel and persisting the selection on confirm.",
+      "tags": ["component", "dialog", "theme-selection", "tui"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/logo.tsx",
+      "type": "file",
+      "name": "logo.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/logo.tsx",
+      "summary": "Renders the ASCII art logo with shadow effects using half-block characters and theme-aware coloring for the TUI splash screen.",
+      "tags": ["component", "ui-styling", "branding", "tui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx",
+      "type": "file",
+      "name": "autocomplete.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx",
+      "summary": "Complex autocomplete overlay supporting @ file/agent mentions and / slash commands with fuzzy search, frecency-based sorting, directory expansion, MCP resources, keyboard and mouse navigation, and extmark-based inline decorations.",
+      "tags": ["component", "autocomplete", "service", "tui", "event-handler"],
+      "complexity": "complex",
+      "languageNotes": "Heavily uses SolidJS reactive primitives (createMemo, createResource, createEffect) combined with imperative DOM-like cursor manipulation through the OpenTUI text input API."
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/frecency.tsx",
+      "type": "file",
+      "name": "frecency.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/prompt/frecency.tsx",
+      "summary": "Provides a frecency scoring system for file access patterns, persisting scores to a JSONL file and using time-decay weighting to rank recently and frequently accessed files.",
+      "tags": ["service", "utility", "data-model", "tui", "ranking"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx",
+      "type": "file",
+      "name": "history.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx",
+      "summary": "Manages prompt history with JSONL persistence, supporting up/down navigation through previous inputs and automatic corruption self-healing on load.",
+      "tags": ["service", "data-model", "utility", "tui", "persistence"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "type": "file",
+      "name": "index.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "summary": "Main prompt input component orchestrating text entry, autocomplete, shell mode, history navigation, image/text paste handling, extmark-based file/agent decorations, command submission, and retry status display. The central user input surface of the TUI.",
+      "tags": ["component", "entry-point", "event-handler", "tui", "service"],
+      "complexity": "complex",
+      "languageNotes": "Uses SolidJS stores with produce for immutable-style mutations of complex nested prompt state including extmark tracking and part management."
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/stash.tsx",
+      "type": "file",
+      "name": "stash.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/prompt/stash.tsx",
+      "summary": "Prompt stash service for saving and restoring in-progress prompts with JSONL file persistence, supporting push, pop, list, and indexed removal operations.",
+      "tags": ["service", "data-model", "utility", "tui", "persistence"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/spinner.tsx",
+      "type": "file",
+      "name": "spinner.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/spinner.tsx",
+      "summary": "Reusable spinner component with braille animation frames, respecting the animations_enabled setting to fall back to a static indicator.",
+      "tags": ["component", "utility", "ui-styling", "tui"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/textarea-keybindings.ts",
+      "type": "file",
+      "name": "textarea-keybindings.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/textarea-keybindings.ts",
+      "summary": "Maps user-configurable keybind settings to OpenTUI textarea action bindings, covering all standard text editing operations like movement, selection, and deletion.",
+      "tags": ["utility", "configuration", "keybinding", "tui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/tips.tsx",
+      "type": "file",
+      "name": "tips.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/tips.tsx",
+      "summary": "Displays a randomly selected tip from a comprehensive list of 100+ usage tips, parsing highlight markup into themed inline spans.",
+      "tags": ["component", "ui-styling", "documentation", "tui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/component/todo-item.tsx",
+      "type": "file",
+      "name": "todo-item.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/todo-item.tsx",
+      "summary": "Renders a single todo/task item with status-dependent icons and color highlighting for in-progress, completed, and pending states.",
+      "tags": ["component", "ui-styling", "tui"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/context/args.tsx",
+      "type": "file",
+      "name": "args.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/args.tsx",
+      "summary": "Defines the Args SolidJS context provider for passing CLI arguments (model, agent, prompt, session continuation) through the TUI component tree.",
+      "tags": ["context", "type-definition", "tui", "configuration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx:init",
+      "type": "function",
+      "name": "init",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx",
+      "lineRange": [32, 112],
+      "summary": "Initializes the command palette state including registration, keyboard shortcut matching, slash command generation, and suspend/resume logic.",
+      "tags": ["factory", "event-handler", "command-palette", "tui"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx:CommandProvider",
+      "type": "function",
+      "name": "CommandProvider",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx",
+      "lineRange": [122, 139],
+      "summary": "SolidJS context provider component that wraps children with the command palette, listening for the command_list keybind to open the palette.",
+      "tags": ["component", "context", "command-palette"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx:createDialogProviderOptions",
+      "type": "function",
+      "name": "createDialogProviderOptions",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "lineRange": [26, 95],
+      "summary": "Creates reactive options list for the provider selection dialog, handling OAuth, code-based auth, and API key flows for each provider.",
+      "tags": ["factory", "authentication", "service"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx:AutoMethod",
+      "type": "function",
+      "name": "AutoMethod",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "lineRange": [108, 158],
+      "summary": "Renders the automatic OAuth authorization flow UI, showing the authorization URL, instructions, and waiting for the callback to complete.",
+      "tags": ["component", "authentication", "tui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx:CodeMethod",
+      "type": "function",
+      "name": "CodeMethod",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "lineRange": [166, 202],
+      "summary": "Renders the code-based OAuth flow UI with a text prompt for entering the authorization code and error display on invalid codes.",
+      "tags": ["component", "authentication", "tui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx:ApiMethod",
+      "type": "function",
+      "name": "ApiMethod",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "lineRange": [208, 259],
+      "summary": "Renders the API key entry UI with provider-specific instructions for Aboocode Zen and Go, saving the key through the SDK.",
+      "tags": ["component", "authentication", "tui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx:Autocomplete",
+      "type": "function",
+      "name": "Autocomplete",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx",
+      "lineRange": [66, 667],
+      "summary": "Main autocomplete component managing file search, agent mentions, slash commands, fuzzy matching, keyboard/mouse navigation, directory expansion, and extmark-based inline part insertion.",
+      "tags": ["component", "autocomplete", "event-handler", "tui"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/prompt/frecency.tsx:calculateFrecency",
+      "type": "function",
+      "name": "calculateFrecency",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/prompt/frecency.tsx",
+      "lineRange": [9, 14],
+      "summary": "Calculates a frecency score using time-decay weighting based on frequency and days since last access.",
+      "tags": ["utility", "ranking", "algorithm"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx:Prompt",
+      "type": "function",
+      "name": "Prompt",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "lineRange": [61, 1155],
+      "summary": "Main prompt input component handling text entry, autocomplete integration, shell mode, history navigation, paste handling for images and large text, extmark management, command/slash submission, and retry status display.",
+      "tags": ["component", "entry-point", "event-handler", "tui"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-status.tsx:DialogStatus",
+      "type": "function",
+      "name": "DialogStatus",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-status.tsx",
+      "lineRange": [10, 167],
+      "summary": "Renders the system status view showing MCP servers, LSP servers, formatters, and plugins with color-coded connection states.",
+      "tags": ["component", "dialog", "status-display", "tui"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx:DialogModel",
+      "type": "function",
+      "name": "DialogModel",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx",
+      "lineRange": [18, 165],
+      "summary": "Renders the model selection dialog with favorites, recents, provider grouping, fuzzy search, and integration with the provider dialog for connecting new providers.",
+      "tags": ["component", "dialog", "model-selection", "tui"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/tips.tsx:Tips",
+      "type": "function",
+      "name": "Tips",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/tips.tsx",
+      "lineRange": [33, 49],
+      "summary": "Renders a randomly selected tip with inline highlight formatting using theme colors.",
+      "tags": ["component", "ui-styling", "tui"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/tips.tsx:parse",
+      "type": "function",
+      "name": "parse",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/tips.tsx",
+      "lineRange": [9, 31],
+      "summary": "Parses highlight markup tags in tip strings into structured parts for themed rendering.",
+      "tags": ["utility", "parsing", "tui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/logo.tsx:Logo",
+      "type": "function",
+      "name": "Logo",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/logo.tsx",
+      "lineRange": [12, 85],
+      "summary": "Renders the ASCII logo with shadow markers interpreted as half-block characters with theme-derived colors.",
+      "tags": ["component", "branding", "tui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/textarea-keybindings.ts:useTextareaKeybindings",
+      "type": "function",
+      "name": "useTextareaKeybindings",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/textarea-keybindings.ts",
+      "lineRange": [61, 73],
+      "summary": "SolidJS hook that returns a reactive memo of textarea keybindings derived from the user's keybind configuration.",
+      "tags": ["hook", "keybinding", "tui"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx:DialogSessionList",
+      "type": "function",
+      "name": "DialogSessionList",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx",
+      "lineRange": [15, 108],
+      "summary": "Renders a searchable session list with date grouping, delete confirmation, rename support, and working status spinners.",
+      "tags": ["component", "dialog", "session-management", "tui"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/attach.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/attach.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/attach.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/win32.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-mcp.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/keybind.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/sdk.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/dialog-prompt.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/link.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/toast.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/keybind.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/sdk.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-session-rename.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/kv.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/util/signal.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/spinner.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-session-rename.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/sdk.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-stash.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-stash.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/keybind.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-stash.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/stash.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-status.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-theme-list.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/dialog-select.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-theme-list.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-theme-list.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/dialog.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/frecency.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/frecency.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/stash.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-stash.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/exit.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/util/clipboard.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/event.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/spinner.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/dialog-alert.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/toast.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/kv.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/textarea-keybindings.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-skill.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/stash.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/stash.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/spinner.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/spinner.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/kv.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/textarea-keybindings.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/keybind.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/todo-item.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/args.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx:init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx:CommandProvider",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx:CommandProvider",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx:createDialogProviderOptions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx:createDialogProviderOptions",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx:AutoMethod",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx:CodeMethod",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx:ApiMethod",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx:Autocomplete",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx:Autocomplete",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/frecency.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/prompt/frecency.tsx:calculateFrecency",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx:Prompt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx:Prompt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-status.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-status.tsx:DialogStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-status.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-status.tsx:DialogStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx:DialogModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx:DialogModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/tips.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/tips.tsx:Tips",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/tips.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/tips.tsx:Tips",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/tips.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/tips.tsx:parse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/logo.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/logo.tsx:Logo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/logo.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/logo.tsx:Logo",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/textarea-keybindings.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/textarea-keybindings.ts:useTextareaKeybindings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/textarea-keybindings.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/textarea-keybindings.ts:useTextareaKeybindings",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx:DialogSessionList",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx:DialogSessionList",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/frecency.tsx",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

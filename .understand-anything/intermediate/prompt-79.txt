@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 79
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-79.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/web/src/content/docs/nb/network.mdx": [], "packages/web/src/content/docs/nb/permissions.mdx": [], "packages/web/src/content/docs/nb/plugins.mdx": [], "packages/web/src/content/docs/nb/providers.mdx": [], "packages/web/src/content/docs/nb/rules.mdx": [], "packages/web/src/content/docs/nb/sdk.mdx": [], "packages/web/src/content/docs/nb/server.mdx": [], "packages/web/src/content/docs/nb/share.mdx": [], "packages/web/src/content/docs/nb/skills.mdx": [], "packages/web/src/content/docs/nb/themes.mdx": [], "packages/web/src/content/docs/nb/tools.mdx": [], "packages/web/src/content/docs/nb/troubleshooting.mdx": [], "packages/web/src/content/docs/nb/tui.mdx": [], "packages/web/src/content/docs/nb/web.mdx": [], "packages/web/src/content/docs/nb/windows-wsl.mdx": [], "packages/web/src/content/docs/nb/zen.mdx": [], "packages/web/src/content/docs/network.mdx": [], "packages/web/src/content/docs/permissions.mdx": [], "packages/web/src/content/docs/pl/acp.mdx": [], "packages/web/src/content/docs/pl/agents.mdx": [], "packages/web/src/content/docs/pl/cli.mdx": [], "packages/web/src/content/docs/pl/commands.mdx": [], "packages/web/src/content/docs/pl/config.mdx": [], "packages/web/src/content/docs/pl/custom-tools.mdx": [], "packages/web/src/content/docs/pl/ecosystem.mdx": []}
+```
+
+Files to analyze:
+1. `packages/web/src/content/docs/nb/network.mdx` (57 lines, fileCategory: `code`)
+2. `packages/web/src/content/docs/nb/permissions.mdx` (237 lines, fileCategory: `code`)
+3. `packages/web/src/content/docs/nb/plugins.mdx` (385 lines, fileCategory: `code`)
+4. `packages/web/src/content/docs/nb/providers.mdx` (1889 lines, fileCategory: `code`)
+5. `packages/web/src/content/docs/nb/rules.mdx` (180 lines, fileCategory: `code`)
+6. `packages/web/src/content/docs/nb/sdk.mdx` (391 lines, fileCategory: `code`)
+7. `packages/web/src/content/docs/nb/server.mdx` (287 lines, fileCategory: `code`)
+8. `packages/web/src/content/docs/nb/share.mdx` (128 lines, fileCategory: `code`)
+9. `packages/web/src/content/docs/nb/skills.mdx` (222 lines, fileCategory: `code`)
+10. `packages/web/src/content/docs/nb/themes.mdx` (369 lines, fileCategory: `code`)
+11. `packages/web/src/content/docs/nb/tools.mdx` (379 lines, fileCategory: `code`)
+12. `packages/web/src/content/docs/nb/troubleshooting.mdx` (225 lines, fileCategory: `code`)
+13. `packages/web/src/content/docs/nb/tui.mdx` (390 lines, fileCategory: `code`)
+14. `packages/web/src/content/docs/nb/web.mdx` (105 lines, fileCategory: `code`)
+15. `packages/web/src/content/docs/nb/windows-wsl.mdx` (113 lines, fileCategory: `code`)
+16. `packages/web/src/content/docs/nb/zen.mdx` (254 lines, fileCategory: `code`)
+17. `packages/web/src/content/docs/network.mdx` (57 lines, fileCategory: `code`)
+18. `packages/web/src/content/docs/permissions.mdx` (237 lines, fileCategory: `code`)
+19. `packages/web/src/content/docs/pl/acp.mdx` (158 lines, fileCategory: `code`)
+20. `packages/web/src/content/docs/pl/agents.mdx` (746 lines, fileCategory: `code`)
+21. `packages/web/src/content/docs/pl/cli.mdx` (603 lines, fileCategory: `code`)
+22. `packages/web/src/content/docs/pl/commands.mdx` (323 lines, fileCategory: `code`)
+23. `packages/web/src/content/docs/pl/config.mdx` (680 lines, fileCategory: `code`)
+24. `packages/web/src/content/docs/pl/custom-tools.mdx` (170 lines, fileCategory: `code`)
+25. `packages/web/src/content/docs/pl/ecosystem.mdx` (76 lines, fileCategory: `code`)

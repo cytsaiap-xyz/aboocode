@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 47
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-47.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/containers/base/Dockerfile": [], "packages/containers/bun-node/Dockerfile": [], "packages/containers/publish/Dockerfile": [], "packages/containers/README.md": [], "packages/containers/rust/Dockerfile": [], "packages/containers/script/build.ts": [], "packages/containers/tauri-linux/Dockerfile": [], "packages/containers/tsconfig.json": [], "packages/desktop/AGENTS.md": [], "packages/desktop/index.html": [], "packages/desktop/package.json": [], "packages/desktop/README.md": [], "packages/desktop/scripts/copy-bundles.ts": ["packages/desktop/scripts/utils.ts"], "packages/desktop/scripts/predev.ts": ["packages/desktop/scripts/utils.ts"], "packages/desktop/scripts/prepare.ts": ["packages/desktop/scripts/utils.ts"], "packages/desktop/scripts/utils.ts": [], "packages/desktop/src-tauri/assets/nsis-header.bmp": [], "packages/desktop/src-tauri/assets/nsis-sidebar.bmp": [], "packages/desktop/src-tauri/build.rs": [], "packages/desktop/src-tauri/capabilities/default.json": [], "packages/desktop/src-tauri/Cargo.toml": [], "packages/desktop/src-tauri/entitlements.plist": [], "packages/desktop/src-tauri/icons/beta/android/mipmap-anydpi-v26/ic_launcher.xml": [], "packages/desktop/src-tauri/icons/beta/android/values/ic_launcher_background.xml": [], "packages/desktop/src-tauri/icons/beta/icon.icns": []}
+```
+
+Files to analyze:
+1. `packages/containers/base/Dockerfile` (18 lines, fileCategory: `infra`)
+2. `packages/containers/bun-node/Dockerfile` (24 lines, fileCategory: `infra`)
+3. `packages/containers/publish/Dockerfile` (10 lines, fileCategory: `infra`)
+4. `packages/containers/README.md` (38 lines, fileCategory: `docs`)
+5. `packages/containers/rust/Dockerfile` (13 lines, fileCategory: `infra`)
+6. `packages/containers/script/build.ts` (77 lines, fileCategory: `code`)
+7. `packages/containers/tauri-linux/Dockerfile` (12 lines, fileCategory: `infra`)
+8. `packages/containers/tsconfig.json` (8 lines, fileCategory: `config`)
+9. `packages/desktop/AGENTS.md` (4 lines, fileCategory: `docs`)
+10. `packages/desktop/index.html` (24 lines, fileCategory: `markup`)
+11. `packages/desktop/package.json` (44 lines, fileCategory: `config`)
+12. `packages/desktop/README.md` (32 lines, fileCategory: `docs`)
+13. `packages/desktop/scripts/copy-bundles.ts` (12 lines, fileCategory: `code`)
+14. `packages/desktop/scripts/predev.ts` (15 lines, fileCategory: `code`)
+15. `packages/desktop/scripts/prepare.ts` (19 lines, fileCategory: `code`)
+16. `packages/desktop/scripts/utils.ts` (53 lines, fileCategory: `code`)
+17. `packages/desktop/src-tauri/assets/nsis-header.bmp` (110 lines, fileCategory: `code`)
+18. `packages/desktop/src-tauri/assets/nsis-sidebar.bmp` (1023 lines, fileCategory: `code`)
+19. `packages/desktop/src-tauri/build.rs` (3 lines, fileCategory: `code`)
+20. `packages/desktop/src-tauri/capabilities/default.json` (52 lines, fileCategory: `config`)
+21. `packages/desktop/src-tauri/Cargo.toml` (75 lines, fileCategory: `config`)
+22. `packages/desktop/src-tauri/entitlements.plist` (30 lines, fileCategory: `code`)
+23. `packages/desktop/src-tauri/icons/beta/android/mipmap-anydpi-v26/ic_launcher.xml` (4 lines, fileCategory: `config`)
+24. `packages/desktop/src-tauri/icons/beta/android/values/ic_launcher_background.xml` (3 lines, fileCategory: `config`)
+25. `packages/desktop/src-tauri/icons/beta/icon.icns` (1536 lines, fileCategory: `code`)

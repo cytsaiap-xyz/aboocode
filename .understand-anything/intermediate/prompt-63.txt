@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 63
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-63.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/ui/src/theme/themes/onedarkpro.json": [], "packages/ui/src/theme/themes/shadesofpurple.json": [], "packages/ui/src/theme/themes/solarized.json": [], "packages/ui/src/theme/themes/tokyonight.json": [], "packages/ui/src/theme/themes/vesper.json": [], "packages/ui/src/theme/types.ts": [], "packages/ui/sst-env.d.ts": [], "packages/ui/tsconfig.json": [], "packages/ui/vite.config.ts": [], "packages/util/package.json": [], "packages/util/src/array.ts": [], "packages/util/src/binary.ts": [], "packages/util/src/encode.ts": [], "packages/util/src/error.ts": [], "packages/util/src/fn.ts": [], "packages/util/src/identifier.ts": [], "packages/util/src/iife.ts": [], "packages/util/src/lazy.ts": [], "packages/util/src/path.ts": [], "packages/util/src/retry.ts": [], "packages/util/src/slug.ts": [], "packages/util/sst-env.d.ts": [], "packages/util/tsconfig.json": [], "packages/web/astro.config.mjs": [], "packages/web/config.mjs": []}
+```
+
+Files to analyze:
+1. `packages/ui/src/theme/themes/onedarkpro.json` (131 lines, fileCategory: `config`)
+2. `packages/ui/src/theme/themes/shadesofpurple.json` (131 lines, fileCategory: `config`)
+3. `packages/ui/src/theme/themes/solarized.json` (131 lines, fileCategory: `config`)
+4. `packages/ui/src/theme/themes/tokyonight.json` (155 lines, fileCategory: `config`)
+5. `packages/ui/src/theme/themes/vesper.json` (131 lines, fileCategory: `config`)
+6. `packages/ui/src/theme/types.ts` (53 lines, fileCategory: `code`)
+7. `packages/ui/sst-env.d.ts` (9 lines, fileCategory: `code`)
+8. `packages/ui/tsconfig.json` (21 lines, fileCategory: `config`)
+9. `packages/ui/vite.config.ts` (59 lines, fileCategory: `code`)
+10. `packages/util/package.json` (20 lines, fileCategory: `config`)
+11. `packages/util/src/array.ts` (10 lines, fileCategory: `code`)
+12. `packages/util/src/binary.ts` (41 lines, fileCategory: `code`)
+13. `packages/util/src/encode.ts` (51 lines, fileCategory: `code`)
+14. `packages/util/src/error.ts` (54 lines, fileCategory: `code`)
+15. `packages/util/src/fn.ts` (11 lines, fileCategory: `code`)
+16. `packages/util/src/identifier.ts` (48 lines, fileCategory: `code`)
+17. `packages/util/src/iife.ts` (3 lines, fileCategory: `code`)
+18. `packages/util/src/lazy.ts` (11 lines, fileCategory: `code`)
+19. `packages/util/src/path.ts` (37 lines, fileCategory: `code`)
+20. `packages/util/src/retry.ts` (41 lines, fileCategory: `code`)
+21. `packages/util/src/slug.ts` (74 lines, fileCategory: `code`)
+22. `packages/util/sst-env.d.ts` (9 lines, fileCategory: `code`)
+23. `packages/util/tsconfig.json` (14 lines, fileCategory: `config`)
+24. `packages/web/astro.config.mjs` (321 lines, fileCategory: `code`)
+25. `packages/web/config.mjs` (14 lines, fileCategory: `code`)

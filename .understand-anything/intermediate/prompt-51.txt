@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 51
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-51.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/enterprise/src/core/storage.ts": [], "packages/enterprise/src/custom-elements.d.ts": [], "packages/enterprise/src/entry-client.tsx": [], "packages/enterprise/src/entry-server.tsx": [], "packages/enterprise/src/global.d.ts": [], "packages/enterprise/src/routes/[...404].tsx": [], "packages/enterprise/src/routes/api/[...path].ts": [], "packages/enterprise/src/routes/index.tsx": [], "packages/enterprise/src/routes/share.tsx": [], "packages/enterprise/src/routes/share/[shareID].tsx": ["packages/enterprise/src/routes/[...404].tsx"], "packages/enterprise/sst-env.d.ts": [], "packages/enterprise/test-debug.ts": ["packages/enterprise/src/core/share.ts", "packages/enterprise/src/core/storage.ts"], "packages/enterprise/test/core/share.test.ts": ["packages/enterprise/src/core/share.ts", "packages/enterprise/src/core/storage.ts"], "packages/enterprise/test/core/storage.test.ts": ["packages/enterprise/src/core/storage.ts"], "packages/enterprise/tsconfig.json": [], "packages/enterprise/vite.config.ts": [], "packages/extensions/zed/extension.toml": [], "packages/function/package.json": [], "packages/function/src/api.ts": [], "packages/function/sst-env.d.ts": [], "packages/function/tsconfig.json": [], "packages/plugin/package.json": [], "packages/plugin/script/publish.ts": [], "packages/plugin/src/example.ts": ["packages/plugin/src/index.ts", "packages/plugin/src/tool.ts"], "packages/plugin/src/index.ts": ["packages/plugin/src/shell.ts", "packages/plugin/src/tool.ts"]}
+```
+
+Files to analyze:
+1. `packages/enterprise/src/core/storage.ts` (129 lines, fileCategory: `code`)
+2. `packages/enterprise/src/custom-elements.d.ts` (17 lines, fileCategory: `code`)
+3. `packages/enterprise/src/entry-client.tsx` (4 lines, fileCategory: `code`)
+4. `packages/enterprise/src/entry-server.tsx` (39 lines, fileCategory: `code`)
+5. `packages/enterprise/src/global.d.ts` (5 lines, fileCategory: `code`)
+6. `packages/enterprise/src/routes/[...404].tsx` (25 lines, fileCategory: `code`)
+7. `packages/enterprise/src/routes/api/[...path].ts` (154 lines, fileCategory: `code`)
+8. `packages/enterprise/src/routes/index.tsx` (3 lines, fileCategory: `code`)
+9. `packages/enterprise/src/routes/share.tsx` (5 lines, fileCategory: `code`)
+10. `packages/enterprise/src/routes/share/[shareID].tsx` (474 lines, fileCategory: `code`)
+11. `packages/enterprise/sst-env.d.ts` (284 lines, fileCategory: `code`)
+12. `packages/enterprise/test-debug.ts` (40 lines, fileCategory: `code`)
+13. `packages/enterprise/test/core/share.test.ts` (262 lines, fileCategory: `code`)
+14. `packages/enterprise/test/core/storage.test.ts` (64 lines, fileCategory: `code`)
+15. `packages/enterprise/tsconfig.json` (20 lines, fileCategory: `config`)
+16. `packages/enterprise/vite.config.ts` (36 lines, fileCategory: `code`)
+17. `packages/extensions/zed/extension.toml` (36 lines, fileCategory: `config`)
+18. `packages/function/package.json` (20 lines, fileCategory: `config`)
+19. `packages/function/src/api.ts` (401 lines, fileCategory: `code`)
+20. `packages/function/sst-env.d.ts` (284 lines, fileCategory: `code`)
+21. `packages/function/tsconfig.json` (9 lines, fileCategory: `config`)
+22. `packages/plugin/package.json` (28 lines, fileCategory: `config`)
+23. `packages/plugin/script/publish.ts` (22 lines, fileCategory: `code`)
+24. `packages/plugin/src/example.ts` (18 lines, fileCategory: `code`)
+25. `packages/plugin/src/index.ts` (234 lines, fileCategory: `code`)

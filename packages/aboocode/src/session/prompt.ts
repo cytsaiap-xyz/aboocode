@@ -45,6 +45,7 @@ import { LLM } from "./llm"
 import { iife } from "@/util/iife"
 import { Shell } from "@/shell/shell"
 import { Truncate } from "@/tool/truncation"
+import { Transition } from "./transition"
 
 // @ts-ignore
 globalThis.AI_SDK_LOG_WARNINGS = false
@@ -58,6 +59,13 @@ IMPORTANT:
 - This tool provides your final answer - no further actions are taken after calling it`
 
 const STRUCTURED_OUTPUT_SYSTEM_PROMPT = `IMPORTANT: The user has requested structured output. You MUST use the StructuredOutput tool to provide your final response. Do NOT respond with plain text - you MUST call the StructuredOutput tool with your answer formatted according to the schema.`
+
+export class PromptCancelledError extends Error {
+  constructor(public readonly sessionID: string) {
+    super(`Prompt cancelled by hook for session ${sessionID}`)
+    this.name = "PromptCancelledError"
+  }
+}
 
 export namespace SessionPrompt {
   const log = Log.create({ service: "session.prompt" })
@@ -159,6 +167,21 @@ export namespace SessionPrompt {
     const session = await Session.get(input.sessionID)
     await SessionRevert.cleanup(session)
 
+    // Fire prompt.submit hook — plugins can modify or cancel user input
+    const textPart = input.parts?.find((p): p is { type: "text"; text: string } => p.type === "text")
+    if (textPart) {
+      const submitResult = await Plugin.trigger(
+        "prompt.submit",
+        { sessionID: input.sessionID, text: textPart.text },
+        { text: textPart.text, cancel: false },
+      )
+      if (submitResult.cancel) {
+        log.info("prompt cancelled by hook", { sessionID: input.sessionID })
+        throw new PromptCancelledError(input.sessionID)
+      }
+      textPart.text = submitResult.text
+    }
+
     const message = await createUserMessage(input)
     await Session.touch(input.sessionID)
 
@@ -184,7 +207,10 @@ export namespace SessionPrompt {
     return loop({ sessionID: input.sessionID })
   })
 
-  export async function resolvePromptParts(template: string): Promise<PromptInput["parts"]> {
+  export async function resolvePromptParts(
+    template: string,
+    options?: { sessionID?: string },
+  ): Promise<PromptInput["parts"]> {
     const parts: PromptInput["parts"] = [
       {
         type: "text",
@@ -193,6 +219,10 @@ export namespace SessionPrompt {
     ]
     const files = ConfigMarkdown.files(template)
     const seen = new Set<string>()
+    // Use isolation-aware root when a session context is provided
+    const effectiveRoot = options?.sessionID
+      ? (await import("../agent/isolation-path")).IsolationPath.root(options.sessionID)
+      : Instance.worktree
     await Promise.all(
       files.map(async (match) => {
         const name = match[1]
@@ -200,7 +230,7 @@ export namespace SessionPrompt {
         seen.add(name)
         const filepath = name.startsWith("~/")
           ? path.join(os.homedir(), name.slice(2))
-          : path.resolve(Instance.worktree, name)
+          : path.resolve(effectiveRoot, name)
 
         const stats = await fs.stat(filepath).catch(() => undefined)
         if (!stats) {
@@ -284,17 +314,33 @@ export namespace SessionPrompt {
 
     using _ = defer(() => cancel(sessionID))
 
+    // Fire session.start hook
+    const session = await Session.get(sessionID)
+    let sessionAgent = "build" // Refined to lastUser.agent once known
+    await Plugin.trigger(
+      "session.start",
+      { sessionID, agent: sessionAgent, isResume: !!resume_existing },
+      {},
+    )
+
     // Structured output state
     // Note: On session resumption, state is reset but outputFormat is preserved
     // on the user message and will be retrieved from lastUser below
     let structuredOutput: unknown | undefined
 
     let step = 0
-    const session = await Session.get(sessionID)
+    let outputRecoveryAttempts = 0
+    let compactRetries = 0
+    let terminalReason: Transition.Terminal["reason"] = "completed"
+    const { HarnessTrace } = await import("./harness-trace")
+    await HarnessTrace.loopStart(sessionID, sessionAgent, "pending")
     while (true) {
       SessionStatus.set(sessionID, { type: "busy" })
       log.info("loop", { step, sessionID })
-      if (abort.aborted) break
+      if (abort.aborted) {
+        terminalReason = "aborted_streaming"
+        break
+      }
       let msgs = await MessageV2.filterCompacted(MessageV2.stream(sessionID))
 
       let lastUser: MessageV2.User | undefined
@@ -315,12 +361,14 @@ export namespace SessionPrompt {
       }
 
       if (!lastUser) throw new Error("No user message found in stream. This should never happen.")
+      sessionAgent = lastUser.agent ?? sessionAgent
       if (
         lastAssistant?.finish &&
         !["tool-calls", "unknown"].includes(lastAssistant.finish) &&
         lastUser.id < lastAssistant.id
       ) {
-        log.info("exiting loop", { sessionID })
+        log.info("exiting loop", { sessionID, reason: "completed" })
+        terminalReason = "completed"
         break
       }
 
@@ -359,7 +407,10 @@ export namespace SessionPrompt {
           sessionID,
           auto: task.auto,
         })
-        if (result === "stop") break
+        if (result === "stop") {
+          terminalReason = "completed"
+          break
+        }
         continue
       }
 
@@ -546,6 +597,9 @@ export namespace SessionPrompt {
         continue
       }
 
+      // Phase 0: Micro-compact old tool results before building model messages
+      await SessionCompaction.microCompact({ sessionID })
+
       // context overflow, needs compaction
       if (
         lastFinished &&
@@ -561,6 +615,35 @@ export namespace SessionPrompt {
         continue
       }
 
+      // Drain completed background tasks and inject notifications
+      const { BackgroundTasks } = await import("./background")
+      const bgCompleted = BackgroundTasks.drain(sessionID)
+      if (bgCompleted.length > 0) {
+        for (const bgTask of bgCompleted) {
+          const notifyMsg: MessageV2.User = {
+            id: Identifier.ascending("message"),
+            sessionID,
+            role: "user",
+            time: { created: Date.now() },
+            agent: lastUser.agent,
+            model: lastUser.model,
+          }
+          await Session.updateMessage(notifyMsg)
+          const statusText = bgTask.status === "completed" ? "completed" : "failed"
+          const resultText = bgTask.result ?? bgTask.error ?? "(no output)"
+          await Session.updatePart({
+            id: Identifier.ascending("part"),
+            messageID: notifyMsg.id,
+            sessionID,
+            type: "text",
+            text: `<task-notification>\n<task-id>${bgTask.taskID}</task-id>\nBackground task "${bgTask.description}" (@${bgTask.agentType}) ${statusText}.\nOutput file: .aboocode/tasks/${bgTask.sessionID}/${bgTask.taskID}.md\n\n<result>\n${resultText.slice(0, 2000)}\n</result>\n</task-notification>`,
+            synthetic: true,
+          } satisfies MessageV2.TextPart)
+        }
+        // Reload messages so the model sees the injected notifications
+        msgs = await MessageV2.filterCompacted(MessageV2.stream(sessionID))
+      }
+
       // normal processing
       const agent = await Agent.get(lastUser.agent)
       if (!agent) throw new Error(`Agent "${lastUser.agent}" not found. It may have been removed or renamed.`)
@@ -572,6 +655,12 @@ export namespace SessionPrompt {
         session,
       })
 
+      // Resolve isolation context for this session (if spawned by task tool)
+      const { AgentIsolation } = await import("../agent/isolation")
+      const sessionIsolation = AgentIsolation.get(sessionID)
+      const effectiveCwd = sessionIsolation?.cwd ?? Instance.directory
+      const effectiveRoot = sessionIsolation?.root ?? Instance.worktree
+
       const processor = SessionProcessor.create({
         assistantMessage: (await Session.updateMessage({
           id: Identifier.ascending("message"),
@@ -581,8 +670,8 @@ export namespace SessionPrompt {
           agent: agent.name,
           variant: lastUser.variant,
           path: {
-            cwd: Instance.directory,
-            root: Instance.worktree,
+            cwd: effectiveCwd,
+            root: effectiveRoot,
           },
           cost: 0,
           tokens: {
@@ -656,6 +745,42 @@ export namespace SessionPrompt {
 
       await Plugin.trigger("experimental.chat.messages.transform", {}, { messages: msgs })
 
+      // Proactive token budget check — trigger compaction before hitting limits
+      const { TokenBudget } = await import("./token-budget")
+      const budget = await TokenBudget.fromModel(model)
+      const modelMessages = MessageV2.toModelMessages(msgs, model)
+      budget.currentEstimate = TokenBudget.estimate(modelMessages)
+      TokenBudget.logStatus(budget)
+      // Publish budget state in session status so UI/API can observe it
+      SessionStatus.set(sessionID, {
+        type: "busy",
+        budget: {
+          currentEstimate: budget.currentEstimate,
+          maxInputTokens: budget.maxInputTokens,
+          percentage: budget.maxInputTokens > 0 ? Math.round((budget.currentEstimate / budget.maxInputTokens) * 100) : 0,
+        },
+      })
+      if (TokenBudget.shouldReactiveCompact(budget)) {
+        log.info("reactive compaction triggered by token budget", { sessionID })
+        await SessionCompaction.create({
+          sessionID,
+          agent: lastUser.agent,
+          model: lastUser.model,
+          auto: true,
+        })
+        continue
+      }
+      if (TokenBudget.shouldCompact(budget) && !lastFinished?.summary) {
+        log.info("proactive compaction triggered by token budget", { sessionID })
+        await SessionCompaction.create({
+          sessionID,
+          agent: lastUser.agent,
+          model: lastUser.model,
+          auto: true,
+        })
+        continue
+      }
+
       // Build system prompt, adding structured output instruction if needed
       const memoryContext = await (async () => {
         try {
@@ -665,13 +790,21 @@ export namespace SessionPrompt {
           return []
         }
       })()
-      const system = [...(await SystemPrompt.environment(model)), ...(await InstructionPrompt.system()), ...memoryContext]
+      // Use cache-boundary-aware prompt split: stable prefix (cacheable) then dynamic suffix
+      const promptParts2 = await SystemPrompt.build(model)
+      const system = [...promptParts2.prefix, ...promptParts2.suffix, ...(await InstructionPrompt.system()), ...memoryContext]
+      // Phase 3: Inject identity context after compaction
+      const identityPrompt = SessionCompaction.buildIdentityPrompt(sessionID)
+      if (identityPrompt) {
+        system.push(identityPrompt)
+        SessionCompaction.clearPostCompaction(sessionID)
+      }
       const format = lastUser.format ?? { type: "text" }
       if (format.type === "json_schema") {
         system.push(STRUCTURED_OUTPUT_SYSTEM_PROMPT)
       }
 
-      const result = await processor.process({
+      let result: Transition.Result = await processor.process({
         user: lastUser,
         agent,
         abort,
@@ -694,11 +827,11 @@ export namespace SessionPrompt {
       })
 
       // If structured output was captured, save it and exit immediately
-      // This takes priority because the StructuredOutput tool was called successfully
       if (structuredOutput !== undefined) {
         processor.message.structured = structuredOutput
         processor.message.finish = processor.message.finish ?? "stop"
         await Session.updateMessage(processor.message)
+        terminalReason = "structured_output"
         break
       }
 
@@ -707,27 +840,140 @@ export namespace SessionPrompt {
 
       if (modelFinished && !processor.message.error) {
         if (format.type === "json_schema") {
-          // Model stopped without calling StructuredOutput tool
           processor.message.error = new MessageV2.StructuredOutputError({
             message: "Model did not produce structured output",
             retries: 0,
           }).toObject()
           await Session.updateMessage(processor.message)
+          terminalReason = "structured_output_missing"
           break
         }
       }
 
-      if (result === "stop") break
-      if (result === "compact") {
-        await SessionCompaction.create({
-          sessionID,
-          agent: lastUser.agent,
-          model: lastUser.model,
-          auto: true,
-        })
+      // If the model finished (stop/end_turn) but processor returned continue,
+      // treat it as a terminal "completed" — the processor only tracks errors/compaction,
+      // the finish reason is on the message itself.
+      if (modelFinished && result.type === "continue" && result.reason === "tool_use") {
+        result = Transition.terminal("completed")
       }
-      continue
+
+      // Handle typed transition from processor
+      await HarnessTrace.processorResult(sessionID, result)
+      if (result.type === "terminal") {
+        log.info("loop terminal", { reason: result.reason, sessionID })
+
+        // For terminal "completed" or "model_error", run quality gate + stop hook
+        if (result.reason === "completed" || result.reason === "model_error" || result.reason === "permission_blocked") {
+          // Only run quality gate on non-error stops
+          if (result.reason !== "model_error") {
+            const { QualityGate } = await import("../hook/quality-gate")
+            const gateResult = await QualityGate.evaluate({
+              sessionID,
+              agent: lastUser.agent,
+              reason: processor.message.error ? "error" : "model_done",
+            })
+
+            await HarnessTrace.qualityGate(sessionID, gateResult.action, gateResult.message as string | undefined)
+            const stopResult = await Plugin.trigger(
+              "session.stop",
+              { sessionID, agent: lastUser.agent, reason: processor.message.error ? "error" : "model_done" },
+              {
+                action: (gateResult.action === "block" ? "block" : "proceed") as "proceed" | "block",
+                message: gateResult.message as string | undefined,
+              },
+            )
+            await HarnessTrace.stopHook(sessionID, stopResult.action)
+            if (stopResult.action === "block" && stopResult.message) {
+              const blockMsg: MessageV2.User = {
+                id: Identifier.ascending("message"),
+                sessionID,
+                role: "user",
+                time: { created: Date.now() },
+                agent: lastUser.agent,
+                model: lastUser.model,
+              }
+              await Session.updateMessage(blockMsg)
+              await Session.updatePart({
+                id: Identifier.ascending("part"),
+                messageID: blockMsg.id,
+                sessionID,
+                type: "text",
+                text: stopResult.message,
+                synthetic: true,
+              } satisfies MessageV2.TextPart)
+              continue // stop_hook_blocking: continue loop
+            }
+          }
+        }
+
+        terminalReason = result.reason
+        break
+      }
+
+      // Handle continue transitions
+      log.info("loop continue", { reason: result.reason, sessionID })
+
+      switch (result.reason) {
+        case "reactive_compact": {
+          compactRetries++
+          await HarnessTrace.compaction(sessionID, compactRetries)
+          if (compactRetries > 2) {
+            log.error("reactive compaction exhausted", { sessionID, attempts: compactRetries })
+            terminalReason = "prompt_too_long"
+            break
+          }
+          await SessionCompaction.create({
+            sessionID,
+            agent: lastUser.agent,
+            model: lastUser.model,
+            auto: true,
+          })
+          continue
+        }
+
+        case "max_output_tokens_recovery": {
+          outputRecoveryAttempts++
+          await HarnessTrace.outputRecovery(sessionID, outputRecoveryAttempts)
+          if (outputRecoveryAttempts > 3) {
+            log.warn("output recovery exhausted", { sessionID, attempts: outputRecoveryAttempts })
+            terminalReason = "completed"
+            break
+          }
+          const continueMsg: MessageV2.User = {
+            id: Identifier.ascending("message"),
+            sessionID,
+            role: "user",
+            time: { created: Date.now() },
+            agent: lastUser.agent,
+            model: lastUser.model,
+          }
+          await Session.updateMessage(continueMsg)
+          await Session.updatePart({
+            id: Identifier.ascending("part"),
+            messageID: continueMsg.id,
+            sessionID,
+            type: "text",
+            text: "Output limit hit. Continue exactly where you left off.",
+            synthetic: true,
+          } satisfies MessageV2.TextPart)
+          continue
+        }
+
+        case "tool_use":
+        default:
+          continue
+      }
+      // If we reach here from a break inside the switch, exit the outer loop
+      break
     }
+    // Fire session.end hook with actual terminal reason
+    await HarnessTrace.loopEnd(sessionID, terminalReason)
+    await HarnessTrace.sessionEnd(sessionID, sessionAgent, terminalReason)
+    await Plugin.trigger(
+      "session.end",
+      { sessionID, agent: sessionAgent, reason: terminalReason },
+      {},
+    )
     SessionCompaction.prune({ sessionID })
     for await (const item of MessageV2.stream(sessionID)) {
       if (item.info.role === "user") continue
@@ -795,10 +1041,29 @@ export namespace SessionPrompt {
       },
     })
 
-    for (const item of await ToolRegistry.tools(
+    let registeredTools = await ToolRegistry.tools(
       { modelID: input.model.api.id, providerID: input.model.providerID },
       input.agent,
-    )) {
+    )
+
+    // Agent-level tool filtering
+    if (input.agent.allowedTools?.length) {
+      const allowed = new Set(input.agent.allowedTools)
+      registeredTools = registeredTools.filter((t) => allowed.has(t.id))
+    }
+    if (input.agent.disallowedTools?.length) {
+      const disallowed = new Set(input.agent.disallowedTools)
+      registeredTools = registeredTools.filter((t) => !disallowed.has(t.id))
+    }
+
+    // Agent isolation enforcement: filter tools based on resolved isolation mode
+    const { AgentIsolation } = await import("../agent/isolation")
+    const isolationMode = AgentIsolation.resolve(input.agent)
+    if (isolationMode !== "shared") {
+      registeredTools = registeredTools.filter((t) => !AgentIsolation.isToolBlocked(t.id, isolationMode))
+    }
+
+    for (const item of registeredTools) {
       const schema = ProviderTransform.schema(input.model, z.toJSONSchema(item.parameters))
       tools[item.id] = tool({
         id: item.id as any,
@@ -1847,7 +2112,7 @@ NOTE: At any point in time through this workflow you should feel free to ask the
       throw error
     }
 
-    const templateParts = await resolvePromptParts(template)
+    const templateParts = await resolvePromptParts(template, { sessionID: input.sessionID })
     const isSubtask = (agent.mode === "subagent" && command.subtask !== false) || command.subtask === true
     const parts = isSubtask
       ? [

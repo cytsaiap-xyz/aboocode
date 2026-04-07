@@ -25,7 +25,7 @@
     },
     "packages/aboocode": {
       "name": "aboocode",
-      "version": "0.3.0",
+      "version": "0.8.1",
       "bin": {
         "aboo": "./bin/aboo",
       },

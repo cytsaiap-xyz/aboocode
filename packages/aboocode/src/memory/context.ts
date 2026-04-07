@@ -15,12 +15,17 @@ As you work, consult your memory files to build on previous experience.
 - Session notes from the background observer are in \`sessions/\` subfolder
 
 **Before starting any new task:**
-- Review the memory context below for relevant decisions, patterns, and lessons`
+- Review the memory context below for relevant decisions and user preferences
+- Memory may be stale — verify claims about files, functions, or flags against current code before acting on them
+- A memory that names a specific file path, function, or flag may have been renamed or removed — check before recommending
+
+**What to save (durable):** user preferences, role, feedback, project goals, decisions with rationale, external references, recurring workflows, debugging lessons
+**What NOT to save (derivable):** file structure, architecture summaries, coding conventions, dependency info, recent commits, session recaps, implementation details`
 
 const MEMORY_INSTRUCTION_EMPTY = `## Project Memory
 
 You have a persistent memory directory at \`{memoryDir}/\`.
-No memories have been recorded yet. As you work, save important decisions, patterns, and lessons to MEMORY.md in the memory directory.
+No memories have been recorded yet. As you work, save important non-derivable knowledge (user preferences, project goals, key decisions) to MEMORY.md in the memory directory.
 A background observer is recording session notes automatically.`
 
 /**

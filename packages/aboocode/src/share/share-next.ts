@@ -61,7 +61,7 @@ export namespace ShareNext {
         await sync(evt.properties.part.sessionID, [
           {
             type: "part",
-            data: evt.properties.part,
+            data: evt.properties.part as any,
           },
         ])
       } catch (e) {
@@ -245,7 +245,7 @@ export namespace ShareNext {
         type: "message" as const,
         data: x.info,
       })),
-      ...messages.flatMap((x) => x.parts.map((y) => ({ type: "part" as const, data: y }))),
+      ...messages.flatMap((x) => x.parts.map((y) => ({ type: "part" as const, data: y as any }))),
       {
         type: "session_diff",
         data: diffs,

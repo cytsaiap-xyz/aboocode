@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 62
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-62.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/ui/src/styles/colors.css": [], "packages/ui/src/styles/index.css": [], "packages/ui/src/styles/tailwind/colors.css": [], "packages/ui/src/styles/tailwind/index.css": [], "packages/ui/src/styles/tailwind/utilities.css": [], "packages/ui/src/styles/theme.css": [], "packages/ui/src/styles/utilities.css": [], "packages/ui/src/theme/color.ts": ["packages/ui/src/theme/types.ts"], "packages/ui/src/theme/context.tsx": ["packages/ui/src/theme/types.ts", "packages/ui/src/theme/resolve.ts", "packages/ui/src/theme/default-themes.ts", "packages/ui/src/context/helper.tsx"], "packages/ui/src/theme/default-themes.ts": ["packages/ui/src/theme/types.ts", "packages/ui/src/theme/themes/oc-1.json", "packages/ui/src/theme/themes/oc-2.json", "packages/ui/src/theme/themes/tokyonight.json", "packages/ui/src/theme/themes/dracula.json", "packages/ui/src/theme/themes/monokai.json", "packages/ui/src/theme/themes/solarized.json", "packages/ui/src/theme/themes/nord.json", "packages/ui/src/theme/themes/catppuccin.json", "packages/ui/src/theme/themes/ayu.json", "packages/ui/src/theme/themes/onedarkpro.json", "packages/ui/src/theme/themes/shadesofpurple.json", "packages/ui/src/theme/themes/nightowl.json", "packages/ui/src/theme/themes/vesper.json", "packages/ui/src/theme/themes/carbonfox.json", "packages/ui/src/theme/themes/gruvbox.json", "packages/ui/src/theme/themes/aura.json"], "packages/ui/src/theme/desktop-theme.schema.json": [], "packages/ui/src/theme/index.ts": [], "packages/ui/src/theme/loader.ts": ["packages/ui/src/theme/types.ts", "packages/ui/src/theme/resolve.ts"], "packages/ui/src/theme/resolve.ts": ["packages/ui/src/theme/types.ts", "packages/ui/src/theme/color.ts"], "packages/ui/src/theme/themes/aura.json": [], "packages/ui/src/theme/themes/ayu.json": [], "packages/ui/src/theme/themes/carbonfox.json": [], "packages/ui/src/theme/themes/catppuccin.json": [], "packages/ui/src/theme/themes/dracula.json": [], "packages/ui/src/theme/themes/gruvbox.json": [], "packages/ui/src/theme/themes/monokai.json": [], "packages/ui/src/theme/themes/nightowl.json": [], "packages/ui/src/theme/themes/nord.json": [], "packages/ui/src/theme/themes/oc-1.json": [], "packages/ui/src/theme/themes/oc-2.json": []}
+```
+
+Files to analyze:
+1. `packages/ui/src/styles/colors.css` (772 lines, fileCategory: `markup`)
+2. `packages/ui/src/styles/index.css` (59 lines, fileCategory: `markup`)
+3. `packages/ui/src/styles/tailwind/colors.css` (244 lines, fileCategory: `markup`)
+4. `packages/ui/src/styles/tailwind/index.css` (78 lines, fileCategory: `markup`)
+5. `packages/ui/src/styles/tailwind/utilities.css` (118 lines, fileCategory: `markup`)
+6. `packages/ui/src/styles/theme.css` (606 lines, fileCategory: `markup`)
+7. `packages/ui/src/styles/utilities.css` (118 lines, fileCategory: `markup`)
+8. `packages/ui/src/theme/color.ts` (194 lines, fileCategory: `code`)
+9. `packages/ui/src/theme/context.tsx` (180 lines, fileCategory: `code`)
+10. `packages/ui/src/theme/default-themes.ts` (53 lines, fileCategory: `code`)
+11. `packages/ui/src/theme/desktop-theme.schema.json` (104 lines, fileCategory: `data`)
+12. `packages/ui/src/theme/index.ts` (47 lines, fileCategory: `code`)
+13. `packages/ui/src/theme/loader.ts` (103 lines, fileCategory: `code`)
+14. `packages/ui/src/theme/resolve.ts` (326 lines, fileCategory: `code`)
+15. `packages/ui/src/theme/themes/aura.json` (131 lines, fileCategory: `config`)
+16. `packages/ui/src/theme/themes/ayu.json` (133 lines, fileCategory: `config`)
+17. `packages/ui/src/theme/themes/carbonfox.json` (122 lines, fileCategory: `config`)
+18. `packages/ui/src/theme/themes/catppuccin.json` (131 lines, fileCategory: `config`)
+19. `packages/ui/src/theme/themes/dracula.json` (131 lines, fileCategory: `config`)
+20. `packages/ui/src/theme/themes/gruvbox.json` (132 lines, fileCategory: `config`)
+21. `packages/ui/src/theme/themes/monokai.json` (131 lines, fileCategory: `config`)
+22. `packages/ui/src/theme/themes/nightowl.json` (131 lines, fileCategory: `config`)
+23. `packages/ui/src/theme/themes/nord.json` (131 lines, fileCategory: `config`)
+24. `packages/ui/src/theme/themes/oc-1.json` (537 lines, fileCategory: `config`)
+25. `packages/ui/src/theme/themes/oc-2.json` (532 lines, fileCategory: `config`)

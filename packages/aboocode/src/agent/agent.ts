@@ -15,6 +15,7 @@ import PROMPT_SUMMARY from "./prompt/summary.txt"
 import PROMPT_TITLE from "./prompt/title.txt"
 import PROMPT_ORCHESTRATOR from "./prompt/orchestrator.txt"
 import PROMPT_OBSERVER from "./prompt/observer.txt"
+import PROMPT_VERIFICATION from "./prompt/verification.txt"
 import { PermissionNext } from "@/permission/next"
 import { mergeDeep, pipe, sortBy, values } from "remeda"
 import { Global } from "@/global"
@@ -50,6 +51,14 @@ export namespace Agent {
       prompt: z.string().optional(),
       options: z.record(z.string(), z.any()),
       steps: z.number().int().positive().optional(),
+      allowedTools: z.string().array().optional().describe("If set, only these tools are available to this agent"),
+      disallowedTools: z.string().array().optional().describe("If set, these tools are excluded for this agent"),
+      isolation: z
+        .enum(["shared", "read_only", "temp", "worktree"])
+        .optional()
+        .describe("Workspace isolation mode for this agent"),
+      backgroundCapable: z.boolean().optional().describe("Whether this agent can run as a background task"),
+      maxTurns: z.number().int().positive().optional().describe("Maximum conversation turns for this agent"),
     })
     .meta({
       ref: "Agent",
@@ -58,6 +67,23 @@ export namespace Agent {
 
   async function buildOrchestratorPrompt(): Promise<string> {
     let prompt = PROMPT_ORCHESTRATOR
+
+    // Inject coordinator mode config
+    const cfg = await Config.get()
+    const coordinator = cfg.coordinator
+    if (coordinator?.proactive) {
+      const maxRounds = coordinator.maxRounds ?? 10
+      prompt = prompt.replace(
+        "coordinator.proactive: true",
+        `coordinator.proactive: true (ENABLED — max ${maxRounds} rounds)`,
+      )
+    } else {
+      // Replace the coordinator section hint to make disabled state explicit
+      prompt = prompt.replace(
+        "When coordinator mode is disabled (default), operate reactively — only respond to explicit user requests.",
+        "Coordinator mode is DISABLED. Operate reactively — only respond to explicit user requests. Do NOT take proactive actions.",
+      )
+    }
 
     // Inject available skills
     const skills = await Skill.all()
@@ -155,6 +181,8 @@ export namespace Agent {
       },
       explore: {
         name: "explore",
+        isolation: "read_only",
+        backgroundCapable: true,
         permission: PermissionNext.merge(
           defaults,
           PermissionNext.fromConfig({
@@ -162,7 +190,7 @@ export namespace Agent {
             grep: "allow",
             glob: "allow",
             list: "allow",
-            bash: "allow",
+            // bash is blocked by isToolBlocked() for read_only agents (Phase 3)
             webfetch: "allow",
             websearch: "allow",
             codesearch: "allow",
@@ -243,8 +271,21 @@ export namespace Agent {
         prompt: `You are a memory management agent. Review the conversation and produce markdown notes to append to the project's MEMORY.md file.
 
 Output markdown to APPEND to MEMORY.md. Keep entries concise (1-2 lines each).
-Focus on: decisions made, patterns established, bugs fixed, lessons learned.
-Skip trivial actions like file reads or simple searches. Only extract genuinely useful knowledge.
+
+Focus ONLY on durable, non-derivable facts:
+- User preferences, role, and feedback about how to work
+- Project goals, constraints, deadlines, and external drivers
+- Decisions with non-obvious rationale (the "why" behind a choice)
+- Lessons learned from debugging (root cause insights, not the fix itself)
+- References to external systems (issue trackers, dashboards, docs)
+
+Do NOT save any of the following — they can be derived from code or git history:
+- Architecture summaries, design overviews, or code patterns
+- Coding conventions, style rules, or file structure descriptions
+- File paths, function signatures, or implementation details
+- Technology stack or dependency information
+- Session recaps or activity logs
+
 Format: plain markdown with headers and bullets.
 
 If nothing worth remembering, respond with an empty string.`,
@@ -271,6 +312,8 @@ If nothing worth remembering, respond with an empty string.`,
         mode: "primary",
         native: true,
         prompt: await buildOrchestratorPrompt(),
+        // Enforce maxTurns from coordinator config as a runtime safety net
+        steps: cfg.coordinator?.proactive ? (cfg.coordinator.maxRounds ?? 10) * 3 : undefined,
         permission: PermissionNext.merge(
           defaults,
           PermissionNext.fromConfig({
@@ -285,6 +328,37 @@ If nothing worth remembering, respond with an empty string.`,
             disband_team: "allow",
             question: "allow",
             skill: "allow",
+          }),
+          user,
+        ),
+        options: {},
+      },
+      verification: {
+        name: "verification",
+        description:
+          "Independent verification agent. Runs actual commands to check work correctness. Reports PASS/FAIL/PARTIAL with evidence. Cannot modify project files.",
+        mode: "subagent",
+        native: true,
+        temperature: 0.3,
+        isolation: "read_only",
+        backgroundCapable: true,
+        prompt: PROMPT_VERIFICATION,
+        permission: PermissionNext.merge(
+          defaults,
+          PermissionNext.fromConfig({
+            "*": "deny",
+            read: "allow",
+            grep: "allow",
+            glob: "allow",
+            // bash is blocked by isToolBlocked() for read_only agents (Phase 3)
+            webfetch: "allow",
+            write: "deny",
+            edit: "deny",
+            apply_patch: "deny",
+            external_directory: {
+              "*": "ask",
+              ...Object.fromEntries(whitelistedDirs.map((dir) => [dir, "allow"])),
+            },
           }),
           user,
         ),
@@ -334,6 +408,11 @@ If nothing worth remembering, respond with an empty string.`,
           ...(data.model ? { model: Provider.parseModel(data.model) } : {}),
           ...(data.temperature !== undefined ? { temperature: data.temperature } : {}),
           ...(data.steps !== undefined ? { steps: data.steps } : {}),
+          ...(data.isolation ? { isolation: data.isolation } : {}),
+          ...(data.backgroundCapable !== undefined ? { backgroundCapable: data.backgroundCapable } : {}),
+          ...(data.allowedTools ? { allowedTools: data.allowedTools } : {}),
+          ...(data.disallowedTools ? { disallowedTools: data.disallowedTools } : {}),
+          ...(data.maxTurns !== undefined ? { maxTurns: data.maxTurns } : {}),
         }
       }
     }
@@ -460,6 +539,11 @@ If nothing worth remembering, respond with an empty string.`,
           ...(data.model ? { model: Provider.parseModel(data.model) } : {}),
           ...(data.temperature !== undefined ? { temperature: data.temperature } : {}),
           ...(data.steps !== undefined ? { steps: data.steps } : {}),
+          ...(data.isolation ? { isolation: data.isolation } : {}),
+          ...(data.backgroundCapable !== undefined ? { backgroundCapable: data.backgroundCapable } : {}),
+          ...(data.allowedTools ? { allowedTools: data.allowedTools } : {}),
+          ...(data.disallowedTools ? { disallowedTools: data.disallowedTools } : {}),
+          ...(data.maxTurns !== undefined ? { maxTurns: data.maxTurns } : {}),
         }
       }
     }

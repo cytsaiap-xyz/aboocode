@@ -368,6 +368,35 @@ export namespace MessageV2 {
   })
   export type User = z.infer<typeof User>
 
+  export const NotificationPart = PartBase.extend({
+    type: z.literal("notification"),
+    source: z.enum(["task", "hook", "system", "mcp"]),
+    taskID: z.string().optional(),
+    content: z.string(),
+    severity: z.enum(["info", "warning", "error"]),
+  }).meta({
+    ref: "NotificationPart",
+  })
+  export type NotificationPart = z.infer<typeof NotificationPart>
+
+  export const CompactBoundaryPart = PartBase.extend({
+    type: z.literal("compact_boundary"),
+    summarizedMessageCount: z.number(),
+    summaryText: z.string(),
+  }).meta({
+    ref: "CompactBoundaryPart",
+  })
+  export type CompactBoundaryPart = z.infer<typeof CompactBoundaryPart>
+
+  export const TombstonePart = PartBase.extend({
+    type: z.literal("tombstone"),
+    originalMessageID: z.string(),
+    reason: z.string(),
+  }).meta({
+    ref: "TombstonePart",
+  })
+  export type TombstonePart = z.infer<typeof TombstonePart>
+
   export const Part = z
     .discriminatedUnion("type", [
       TextPart,
@@ -382,6 +411,9 @@ export namespace MessageV2 {
       AgentPart,
       RetryPart,
       CompactionPart,
+      NotificationPart,
+      CompactBoundaryPart,
+      TombstonePart,
     ])
     .meta({
       ref: "Part",
@@ -799,7 +831,7 @@ export namespace MessageV2 {
       if (
         msg.info.role === "user" &&
         completed.has(msg.info.id) &&
-        msg.parts.some((part) => part.type === "compaction")
+        msg.parts.some((part) => part.type === "compaction" || part.type === "compact_boundary")
       )
         break
       if (msg.info.role === "assistant" && msg.info.summary && msg.info.finish) completed.add(msg.info.parentID)

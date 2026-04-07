@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 42
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-42.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/console/core/migrations/20251007043715_panoramic_harrier/snapshot.json": [], "packages/console/core/migrations/20251007230438_ordinary_ultragirl/migration.sql": [], "packages/console/core/migrations/20251007230438_ordinary_ultragirl/snapshot.json": [], "packages/console/core/migrations/20251008161718_outgoing_outlaw_kid/migration.sql": [], "packages/console/core/migrations/20251008161718_outgoing_outlaw_kid/snapshot.json": [], "packages/console/core/migrations/20251009021849_white_doctor_doom/migration.sql": [], "packages/console/core/migrations/20251009021849_white_doctor_doom/snapshot.json": [], "packages/console/core/migrations/20251016175624_cynical_jack_flag/migration.sql": [], "packages/console/core/migrations/20251016175624_cynical_jack_flag/snapshot.json": [], "packages/console/core/migrations/20251016214520_short_bulldozer/migration.sql": [], "packages/console/core/migrations/20251016214520_short_bulldozer/snapshot.json": [], "packages/console/core/migrations/20251017015733_narrow_blindfold/migration.sql": [], "packages/console/core/migrations/20251017015733_narrow_blindfold/snapshot.json": [], "packages/console/core/migrations/20251017024232_slimy_energizer/migration.sql": [], "packages/console/core/migrations/20251017024232_slimy_energizer/snapshot.json": [], "packages/console/core/migrations/20251031163113_messy_jackal/migration.sql": [], "packages/console/core/migrations/20251031163113_messy_jackal/snapshot.json": [], "packages/console/core/migrations/20251125223403_famous_magik/migration.sql": [], "packages/console/core/migrations/20251125223403_famous_magik/snapshot.json": [], "packages/console/core/migrations/20251228182259_striped_forge/migration.sql": [], "packages/console/core/migrations/20251228182259_striped_forge/snapshot.json": [], "packages/console/core/migrations/20260105034337_broken_gamora/migration.sql": [], "packages/console/core/migrations/20260105034337_broken_gamora/snapshot.json": [], "packages/console/core/migrations/20260106204919_odd_misty_knight/migration.sql": [], "packages/console/core/migrations/20260106204919_odd_misty_knight/snapshot.json": []}
+```
+
+Files to analyze:
+1. `packages/console/core/migrations/20251007043715_panoramic_harrier/snapshot.json` (1245 lines, fileCategory: `config`)
+2. `packages/console/core/migrations/20251007230438_ordinary_ultragirl/migration.sql` (10 lines, fileCategory: `data`)
+3. `packages/console/core/migrations/20251007230438_ordinary_ultragirl/snapshot.json` (1359 lines, fileCategory: `config`)
+4. `packages/console/core/migrations/20251008161718_outgoing_outlaw_kid/migration.sql` (11 lines, fileCategory: `data`)
+5. `packages/console/core/migrations/20251008161718_outgoing_outlaw_kid/snapshot.json` (1487 lines, fileCategory: `config`)
+6. `packages/console/core/migrations/20251009021849_white_doctor_doom/migration.sql` (0 lines, fileCategory: `data`)
+7. `packages/console/core/migrations/20251009021849_white_doctor_doom/snapshot.json` (1501 lines, fileCategory: `config`)
+8. `packages/console/core/migrations/20251016175624_cynical_jack_flag/migration.sql` (0 lines, fileCategory: `data`)
+9. `packages/console/core/migrations/20251016175624_cynical_jack_flag/snapshot.json` (1515 lines, fileCategory: `config`)
+10. `packages/console/core/migrations/20251016214520_short_bulldozer/migration.sql` (10 lines, fileCategory: `data`)
+11. `packages/console/core/migrations/20251016214520_short_bulldozer/snapshot.json` (1637 lines, fileCategory: `config`)
+12. `packages/console/core/migrations/20251017015733_narrow_blindfold/migration.sql` (2 lines, fileCategory: `data`)
+13. `packages/console/core/migrations/20251017015733_narrow_blindfold/snapshot.json` (1623 lines, fileCategory: `config`)
+14. `packages/console/core/migrations/20251017024232_slimy_energizer/migration.sql` (1 lines, fileCategory: `data`)
+15. `packages/console/core/migrations/20251017024232_slimy_energizer/snapshot.json` (1635 lines, fileCategory: `config`)
+16. `packages/console/core/migrations/20251031163113_messy_jackal/migration.sql` (1 lines, fileCategory: `data`)
+17. `packages/console/core/migrations/20251031163113_messy_jackal/snapshot.json` (1663 lines, fileCategory: `config`)
+18. `packages/console/core/migrations/20251125223403_famous_magik/migration.sql` (8 lines, fileCategory: `data`)
+19. `packages/console/core/migrations/20251125223403_famous_magik/snapshot.json` (1743 lines, fileCategory: `config`)
+20. `packages/console/core/migrations/20251228182259_striped_forge/migration.sql` (11 lines, fileCategory: `data`)
+21. `packages/console/core/migrations/20251228182259_striped_forge/snapshot.json` (1867 lines, fileCategory: `config`)
+22. `packages/console/core/migrations/20260105034337_broken_gamora/migration.sql` (0 lines, fileCategory: `data`)
+23. `packages/console/core/migrations/20260105034337_broken_gamora/snapshot.json` (1887 lines, fileCategory: `config`)
+24. `packages/console/core/migrations/20260106204919_odd_misty_knight/migration.sql` (6 lines, fileCategory: `data`)
+25. `packages/console/core/migrations/20260106204919_odd_misty_knight/snapshot.json` (1939 lines, fileCategory: `config`)

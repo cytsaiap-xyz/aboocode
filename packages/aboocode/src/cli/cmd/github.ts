@@ -403,7 +403,7 @@ jobs:
           persist-credentials: false
 
       - name: Run aboocode
-        uses: anomalyco/opencode/github@latest${envStr}
+        uses: cytsaiap-xyz/aboocode/github@latest${envStr}
         with:
           model: ${provider}/${model}`,
             )

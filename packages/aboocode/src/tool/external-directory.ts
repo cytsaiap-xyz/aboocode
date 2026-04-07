@@ -1,6 +1,7 @@
 import path from "path"
 import type { Tool } from "./tool"
 import { Instance } from "../project/instance"
+import { IsolationPath } from "../agent/isolation-path"
 
 type Kind = "file" | "directory"
 
@@ -14,6 +15,15 @@ export async function assertExternalDirectory(ctx: Tool.Context, target?: string
 
   if (options?.bypass) return
 
+  // Use isolation-aware containment check when a session context exists.
+  // For temp/worktree agents, this checks against the isolated root
+  // instead of the parent project, preventing escape via crafted absolute paths.
+  if (IsolationPath.contains(ctx.sessionID, target)) return
+
+  // Fallback: also allow if it's within the main project (for shared sessions
+  // where IsolationPath.contains delegates to Instance.containsPath anyway,
+  // this is a no-op; for isolated sessions, this prevents false positives
+  // when tools reference project-level config files).
   if (Instance.containsPath(target)) return
 
   const kind = options?.kind ?? "file"

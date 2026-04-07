@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 67
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-67.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/web/src/content/docs/bs/ecosystem.mdx": [], "packages/web/src/content/docs/bs/enterprise.mdx": [], "packages/web/src/content/docs/bs/formatters.mdx": [], "packages/web/src/content/docs/bs/github.mdx": [], "packages/web/src/content/docs/bs/gitlab.mdx": [], "packages/web/src/content/docs/bs/ide.mdx": [], "packages/web/src/content/docs/bs/index.mdx": [], "packages/web/src/content/docs/bs/keybinds.mdx": [], "packages/web/src/content/docs/bs/lsp.mdx": [], "packages/web/src/content/docs/bs/mcp-servers.mdx": [], "packages/web/src/content/docs/bs/models.mdx": [], "packages/web/src/content/docs/bs/modes.mdx": [], "packages/web/src/content/docs/bs/network.mdx": [], "packages/web/src/content/docs/bs/permissions.mdx": [], "packages/web/src/content/docs/bs/plugins.mdx": [], "packages/web/src/content/docs/bs/providers.mdx": [], "packages/web/src/content/docs/bs/rules.mdx": [], "packages/web/src/content/docs/bs/sdk.mdx": [], "packages/web/src/content/docs/bs/server.mdx": [], "packages/web/src/content/docs/bs/share.mdx": [], "packages/web/src/content/docs/bs/skills.mdx": [], "packages/web/src/content/docs/bs/themes.mdx": [], "packages/web/src/content/docs/bs/tools.mdx": [], "packages/web/src/content/docs/bs/troubleshooting.mdx": [], "packages/web/src/content/docs/bs/tui.mdx": []}
+```
+
+Files to analyze:
+1. `packages/web/src/content/docs/bs/ecosystem.mdx` (72 lines, fileCategory: `code`)
+2. `packages/web/src/content/docs/bs/enterprise.mdx` (165 lines, fileCategory: `code`)
+3. `packages/web/src/content/docs/bs/formatters.mdx` (124 lines, fileCategory: `code`)
+4. `packages/web/src/content/docs/bs/github.mdx` (311 lines, fileCategory: `code`)
+5. `packages/web/src/content/docs/bs/gitlab.mdx` (188 lines, fileCategory: `code`)
+6. `packages/web/src/content/docs/bs/ide.mdx` (47 lines, fileCategory: `code`)
+7. `packages/web/src/content/docs/bs/index.mdx` (322 lines, fileCategory: `code`)
+8. `packages/web/src/content/docs/bs/keybinds.mdx` (190 lines, fileCategory: `code`)
+9. `packages/web/src/content/docs/bs/lsp.mdx` (180 lines, fileCategory: `code`)
+10. `packages/web/src/content/docs/bs/mcp-servers.mdx` (482 lines, fileCategory: `code`)
+11. `packages/web/src/content/docs/bs/models.mdx` (201 lines, fileCategory: `code`)
+12. `packages/web/src/content/docs/bs/modes.mdx` (316 lines, fileCategory: `code`)
+13. `packages/web/src/content/docs/bs/network.mdx` (51 lines, fileCategory: `code`)
+14. `packages/web/src/content/docs/bs/permissions.mdx` (230 lines, fileCategory: `code`)
+15. `packages/web/src/content/docs/bs/plugins.mdx` (371 lines, fileCategory: `code`)
+16. `packages/web/src/content/docs/bs/providers.mdx` (1895 lines, fileCategory: `code`)
+17. `packages/web/src/content/docs/bs/rules.mdx` (180 lines, fileCategory: `code`)
+18. `packages/web/src/content/docs/bs/sdk.mdx` (391 lines, fileCategory: `code`)
+19. `packages/web/src/content/docs/bs/server.mdx` (284 lines, fileCategory: `code`)
+20. `packages/web/src/content/docs/bs/share.mdx` (127 lines, fileCategory: `code`)
+21. `packages/web/src/content/docs/bs/skills.mdx` (222 lines, fileCategory: `code`)
+22. `packages/web/src/content/docs/bs/themes.mdx` (369 lines, fileCategory: `code`)
+23. `packages/web/src/content/docs/bs/tools.mdx` (379 lines, fileCategory: `code`)
+24. `packages/web/src/content/docs/bs/troubleshooting.mdx` (300 lines, fileCategory: `code`)
+25. `packages/web/src/content/docs/bs/tui.mdx` (393 lines, fileCategory: `code`)

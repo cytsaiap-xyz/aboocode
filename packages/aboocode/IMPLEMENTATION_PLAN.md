@@ -2,7 +2,7 @@
 
 ## Context
 
-Build "Aboocode" - a terminal UI AI coding assistant based on anomalyco/opencode with three key enhancements: hot-reloadable agents/skills/tools, integrated multi-agent team orchestration (from opencode-agent-team), and parallel subagent execution. The approach is to fork opencode and modify it rather than build from scratch.
+Build "Aboocode" - a terminal UI AI coding assistant based on cytsaiap-xyz/aboocode with three key enhancements: hot-reloadable agents/skills/tools, integrated multi-agent team orchestration (from opencode-agent-team), and parallel subagent execution. The approach is to fork opencode and modify it rather than build from scratch.
 
 **User decisions:**
 - Config directories: `.aboocode/` (clean break, no `.opencode/` compat)

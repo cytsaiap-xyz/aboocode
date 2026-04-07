@@ -76,7 +76,9 @@ export const BashTool = Tool.define("bash", async () => {
         ),
     }),
     async execute(params, ctx) {
-      const cwd = params.workdir || Instance.directory
+      // Use isolation context cwd if available (for temp/worktree agents)
+      const { IsolationPath } = await import("../agent/isolation-path")
+      const cwd = params.workdir || IsolationPath.cwd(ctx.sessionID)
       if (params.timeout !== undefined && params.timeout < 0) {
         throw new Error(`Invalid timeout value: ${params.timeout}. Timeout must be a positive number.`)
       }
@@ -162,6 +164,18 @@ export const BashTool = Tool.define("bash", async () => {
           always: Array.from(always),
           metadata: {},
         })
+      }
+
+      // Enforce read_only isolation: block destructive shell commands
+      const { AgentIsolation } = await import("../agent/isolation")
+      const sessionIsolation = AgentIsolation.get(ctx.sessionID)
+      if (sessionIsolation && !AgentIsolation.shellAllowed(params.command, sessionIsolation.mode)) {
+        const blockedOutput = `Command blocked: this agent runs in ${sessionIsolation.mode} isolation mode and cannot execute destructive commands.`
+        return {
+          title: params.description,
+          metadata: { output: blockedOutput, exit: 1 as number | null, description: params.description },
+          output: blockedOutput,
+        }
       }
 
       const shellEnv = await Plugin.trigger(

@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 43
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-43.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/console/core/migrations/20260107000117_flat_nightmare/migration.sql": [], "packages/console/core/migrations/20260107000117_flat_nightmare/snapshot.json": [], "packages/console/core/migrations/20260107022356_lame_calypso/migration.sql": [], "packages/console/core/migrations/20260107022356_lame_calypso/snapshot.json": [], "packages/console/core/migrations/20260107041522_tiny_captain_midlands/migration.sql": [], "packages/console/core/migrations/20260107041522_tiny_captain_midlands/snapshot.json": [], "packages/console/core/migrations/20260107055817_cuddly_diamondback/migration.sql": [], "packages/console/core/migrations/20260107055817_cuddly_diamondback/snapshot.json": [], "packages/console/core/migrations/20260108224422_charming_black_bolt/migration.sql": [], "packages/console/core/migrations/20260108224422_charming_black_bolt/snapshot.json": [], "packages/console/core/migrations/20260109000245_huge_omega_red/migration.sql": [], "packages/console/core/migrations/20260109000245_huge_omega_red/snapshot.json": [], "packages/console/core/migrations/20260109001625_mean_frank_castle/migration.sql": [], "packages/console/core/migrations/20260109001625_mean_frank_castle/snapshot.json": [], "packages/console/core/migrations/20260109014234_noisy_domino/migration.sql": [], "packages/console/core/migrations/20260109014234_noisy_domino/snapshot.json": [], "packages/console/core/migrations/20260109040130_bumpy_mephistopheles/migration.sql": [], "packages/console/core/migrations/20260109040130_bumpy_mephistopheles/snapshot.json": [], "packages/console/core/migrations/20260113215232_jazzy_green_goblin/migration.sql": [], "packages/console/core/migrations/20260113215232_jazzy_green_goblin/snapshot.json": [], "packages/console/core/migrations/20260113223840_aromatic_agent_zero/migration.sql": [], "packages/console/core/migrations/20260113223840_aromatic_agent_zero/snapshot.json": [], "packages/console/core/migrations/20260116213606_gigantic_hardball/migration.sql": [], "packages/console/core/migrations/20260116213606_gigantic_hardball/snapshot.json": [], "packages/console/core/migrations/20260116224745_numerous_annihilus/migration.sql": []}
+```
+
+Files to analyze:
+1. `packages/console/core/migrations/20260107000117_flat_nightmare/migration.sql` (6 lines, fileCategory: `data`)
+2. `packages/console/core/migrations/20260107000117_flat_nightmare/snapshot.json` (2037 lines, fileCategory: `config`)
+3. `packages/console/core/migrations/20260107022356_lame_calypso/migration.sql` (1 lines, fileCategory: `data`)
+4. `packages/console/core/migrations/20260107022356_lame_calypso/snapshot.json` (2037 lines, fileCategory: `config`)
+5. `packages/console/core/migrations/20260107041522_tiny_captain_midlands/migration.sql` (0 lines, fileCategory: `data`)
+6. `packages/console/core/migrations/20260107041522_tiny_captain_midlands/snapshot.json` (2037 lines, fileCategory: `config`)
+7. `packages/console/core/migrations/20260107055817_cuddly_diamondback/migration.sql` (0 lines, fileCategory: `data`)
+8. `packages/console/core/migrations/20260107055817_cuddly_diamondback/snapshot.json` (2053 lines, fileCategory: `config`)
+9. `packages/console/core/migrations/20260108224422_charming_black_bolt/migration.sql` (13 lines, fileCategory: `data`)
+10. `packages/console/core/migrations/20260108224422_charming_black_bolt/snapshot.json` (2203 lines, fileCategory: `config`)
+11. `packages/console/core/migrations/20260109000245_huge_omega_red/migration.sql` (5 lines, fileCategory: `data`)
+12. `packages/console/core/migrations/20260109000245_huge_omega_red/snapshot.json` (2153 lines, fileCategory: `config`)
+13. `packages/console/core/migrations/20260109001625_mean_frank_castle/migration.sql` (1 lines, fileCategory: `data`)
+14. `packages/console/core/migrations/20260109001625_mean_frank_castle/snapshot.json` (2153 lines, fileCategory: `config`)
+15. `packages/console/core/migrations/20260109014234_noisy_domino/migration.sql` (0 lines, fileCategory: `data`)
+16. `packages/console/core/migrations/20260109014234_noisy_domino/snapshot.json` (2167 lines, fileCategory: `config`)
+17. `packages/console/core/migrations/20260109040130_bumpy_mephistopheles/migration.sql` (0 lines, fileCategory: `data`)
+18. `packages/console/core/migrations/20260109040130_bumpy_mephistopheles/snapshot.json` (2181 lines, fileCategory: `config`)
+19. `packages/console/core/migrations/20260113215232_jazzy_green_goblin/migration.sql` (0 lines, fileCategory: `data`)
+20. `packages/console/core/migrations/20260113215232_jazzy_green_goblin/snapshot.json` (2195 lines, fileCategory: `config`)
+21. `packages/console/core/migrations/20260113223840_aromatic_agent_zero/migration.sql` (0 lines, fileCategory: `data`)
+22. `packages/console/core/migrations/20260113223840_aromatic_agent_zero/snapshot.json` (2209 lines, fileCategory: `config`)
+23. `packages/console/core/migrations/20260116213606_gigantic_hardball/migration.sql` (0 lines, fileCategory: `data`)
+24. `packages/console/core/migrations/20260116213606_gigantic_hardball/snapshot.json` (2223 lines, fileCategory: `config`)
+25. `packages/console/core/migrations/20260116224745_numerous_annihilus/migration.sql` (0 lines, fileCategory: `data`)

@@ -887,6 +887,14 @@ export type EventVcsBranchUpdated = {
   }
 }
 
+export type EventHotReloadReloaded = {
+  type: "hot-reload.reloaded"
+  properties: {
+    type?: "tool" | "skill" | "agent" | "config"
+    files?: Array<string>
+  }
+}
+
 export type Pty = {
   id: string
   title: string
@@ -979,6 +987,7 @@ export type Event =
   | EventSessionDiff
   | EventSessionError
   | EventVcsBranchUpdated
+  | EventHotReloadReloaded
   | EventPtyCreated
   | EventPtyUpdated
   | EventPtyExited

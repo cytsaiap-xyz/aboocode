@@ -146,6 +146,20 @@ export namespace DebugLog {
     log("MEMORY", "store:write", `file: ${filePath}\nsize: ${contentLength} chars`)
   }
 
+  /** Write a free-form line to the debug log (observer, etc.) */
+  export function line(text: string): void {
+    try {
+      const logPath = getLogPath()
+      const dir = path.dirname(logPath)
+      if (!existsSync(dir)) {
+        mkdirSync(dir, { recursive: true })
+      }
+      appendFileSync(logPath, `${text}\n`)
+    } catch {
+      // Fire-and-forget
+    }
+  }
+
   // ── Utility ──
 
   export function read(): string {

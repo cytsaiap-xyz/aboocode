@@ -1,0 +1,442 @@
+{
+  "nodes": [
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/kanagawa.json",
+      "type": "config",
+      "name": "kanagawa.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/kanagawa.json",
+      "summary": "Kanagawa color theme definition for the TUI, inspired by the famous wave painting, with dark/light mode color mappings for UI elements, syntax highlighting, diffs, and markdown rendering.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/lucent-orng.json",
+      "type": "config",
+      "name": "lucent-orng.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/lucent-orng.json",
+      "summary": "Lucent Orange color theme for the TUI providing warm orange-accented dark/light mode palettes for UI elements, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/material.json",
+      "type": "config",
+      "name": "material.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/material.json",
+      "summary": "Material Design-inspired color theme for the TUI with dark/light mode color mappings for all UI surfaces, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/matrix.json",
+      "type": "config",
+      "name": "matrix.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/matrix.json",
+      "summary": "Matrix-inspired green-on-dark color theme for the TUI with dark/light mode color mappings for UI elements, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/mercury.json",
+      "type": "config",
+      "name": "mercury.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/mercury.json",
+      "summary": "Mercury color theme for the TUI with silver-toned dark/light mode palettes for UI surfaces, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/monokai.json",
+      "type": "config",
+      "name": "monokai.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/monokai.json",
+      "summary": "Monokai color theme for the TUI with the classic warm dark palette and light mode variant for UI elements, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/nightowl.json",
+      "type": "config",
+      "name": "nightowl.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/nightowl.json",
+      "summary": "Night Owl color theme for the TUI optimized for low-light conditions with dark/light mode color mappings for UI surfaces, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/nord.json",
+      "type": "config",
+      "name": "nord.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/nord.json",
+      "summary": "Nord color theme for the TUI with arctic blue-toned dark/light mode palettes for UI surfaces, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/one-dark.json",
+      "type": "config",
+      "name": "one-dark.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/one-dark.json",
+      "summary": "One Dark color theme for the TUI inspired by Atom's default dark theme, providing dark/light mode color mappings for UI elements, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/orng.json",
+      "type": "config",
+      "name": "orng.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/orng.json",
+      "summary": "Orange-accented color theme for the TUI with vibrant orange highlights in dark/light mode for UI surfaces, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/osaka-jade.json",
+      "type": "config",
+      "name": "osaka-jade.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/osaka-jade.json",
+      "summary": "Osaka Jade color theme for the TUI with jade green accents in dark/light mode for UI elements, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/palenight.json",
+      "type": "config",
+      "name": "palenight.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/palenight.json",
+      "summary": "Palenight color theme for the TUI with muted purple-blue tones in dark/light mode for UI surfaces, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/rosepine.json",
+      "type": "config",
+      "name": "rosepine.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/rosepine.json",
+      "summary": "Rose Pine color theme for the TUI with soft rose and pine tones in dark/light mode for UI surfaces, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/solarized.json",
+      "type": "config",
+      "name": "solarized.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/solarized.json",
+      "summary": "Solarized color theme for the TUI based on Ethan Schoonover's precision color scheme with dark/light mode for UI surfaces, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/synthwave84.json",
+      "type": "config",
+      "name": "synthwave84.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/synthwave84.json",
+      "summary": "Synthwave '84 color theme for the TUI with retro neon-inspired dark/light mode palettes for UI surfaces, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/tokyonight.json",
+      "type": "config",
+      "name": "tokyonight.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/tokyonight.json",
+      "summary": "Tokyo Night color theme for the TUI with cool blue-purple tones in dark/light mode for UI surfaces, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/vercel.json",
+      "type": "config",
+      "name": "vercel.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/vercel.json",
+      "summary": "Vercel-inspired monochrome color theme for the TUI with clean black/white dark/light mode palettes for UI surfaces, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/vesper.json",
+      "type": "config",
+      "name": "vesper.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/vesper.json",
+      "summary": "Vesper color theme for the TUI with warm amber tones in dark/light mode for UI surfaces, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/zenburn.json",
+      "type": "config",
+      "name": "zenburn.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/zenburn.json",
+      "summary": "Zenburn color theme for the TUI with low-contrast warm tones in dark/light mode for UI surfaces, syntax highlighting, diffs, and markdown.",
+      "tags": ["configuration", "theme", "ui-styling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/event.ts",
+      "type": "file",
+      "name": "event.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/event.ts",
+      "summary": "Defines TUI-specific bus events (TuiEvent) for prompt append, command execution, toast notifications, and session selection using Zod-validated schemas.",
+      "tags": ["event-handler", "type-definition", "bus-events", "validation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "type": "file",
+      "name": "home.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "summary": "Home route component for the TUI that renders the logo, prompt input, MCP server status, tips, and version footer. Handles initial prompt injection and command dialog registration.",
+      "tags": ["component", "entry-point", "route", "ui-layout"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/routes/home.tsx:Home",
+      "type": "function",
+      "name": "Home",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "lineRange": [21, 145],
+      "summary": "SolidJS component rendering the TUI home screen with centered logo, prompt input, MCP status indicators, tips section, and version footer bar.",
+      "tags": ["component", "route", "ui-layout"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-fork-from-timeline.tsx",
+      "type": "file",
+      "name": "dialog-fork-from-timeline.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/routes/session/dialog-fork-from-timeline.tsx",
+      "summary": "Dialog component that lists user messages from a session timeline and allows forking a new session from a selected message, preserving the original prompt content.",
+      "tags": ["component", "dialog", "session-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-fork-from-timeline.tsx:DialogForkFromTimeline",
+      "type": "function",
+      "name": "DialogForkFromTimeline",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/routes/session/dialog-fork-from-timeline.tsx",
+      "lineRange": [11, 64],
+      "summary": "SolidJS component rendering a dialog-select list of user messages from a session, enabling fork-from-message with prompt preservation and navigation to the new session.",
+      "tags": ["component", "dialog", "session-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-message.tsx",
+      "type": "file",
+      "name": "dialog-message.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/routes/session/dialog-message.tsx",
+      "summary": "Dialog component providing message-level actions (revert, copy, fork) for a specific message within a session, integrating with the SDK for session operations and clipboard for text copy.",
+      "tags": ["component", "dialog", "session-management", "api-handler"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-message.tsx:DialogMessage",
+      "type": "function",
+      "name": "DialogMessage",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/routes/session/dialog-message.tsx",
+      "lineRange": [9, 109],
+      "summary": "SolidJS component rendering a dialog with revert, copy-to-clipboard, and fork actions for a session message, invoking SDK operations and reconstructing prompt info from message parts.",
+      "tags": ["component", "dialog", "session-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-subagent.tsx",
+      "type": "file",
+      "name": "dialog-subagent.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/routes/session/dialog-subagent.tsx",
+      "summary": "Simple dialog component for subagent actions, providing an option to open and navigate to a subagent's session.",
+      "tags": ["component", "dialog", "session-management"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-subagent.tsx:DialogSubagent",
+      "type": "function",
+      "name": "DialogSubagent",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/routes/session/dialog-subagent.tsx",
+      "lineRange": [4, 26],
+      "summary": "SolidJS component rendering a dialog with an option to navigate to a subagent's session view.",
+      "tags": ["component", "dialog", "navigation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx",
+      "type": "file",
+      "name": "dialog-timeline.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx",
+      "summary": "Timeline dialog component listing user messages in a session. Selecting a message opens the message actions dialog (DialogMessage) for revert/copy/fork operations.",
+      "tags": ["component", "dialog", "session-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx:DialogTimeline",
+      "type": "function",
+      "name": "DialogTimeline",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx",
+      "lineRange": [10, 47],
+      "summary": "SolidJS component rendering a timeline dialog-select of user messages, delegating to DialogMessage for per-message actions on selection.",
+      "tags": ["component", "dialog", "session-management"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/routes/home.tsx:Home",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/routes/home.tsx:Home",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/logo.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/tips.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/sync.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/toast.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/args.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/directory.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/prompt.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/kv.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/home.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-fork-from-timeline.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-fork-from-timeline.tsx:DialogForkFromTimeline",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-fork-from-timeline.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-fork-from-timeline.tsx:DialogForkFromTimeline",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-fork-from-timeline.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/dialog.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-message.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-message.tsx:DialogMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-message.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-message.tsx:DialogMessage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-subagent.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-subagent.tsx:DialogSubagent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-subagent.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-subagent.tsx:DialogSubagent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx:DialogTimeline",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx:DialogTimeline",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-message.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/dialog.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

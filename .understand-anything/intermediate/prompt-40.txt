@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 40
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-40.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/console/core/migrations/20250911214917_first_mockingbird/snapshot.json": [], "packages/console/core/migrations/20250911231144_jazzy_skrulls/migration.sql": [], "packages/console/core/migrations/20250911231144_jazzy_skrulls/snapshot.json": [], "packages/console/core/migrations/20250912021148_parallel_gauntlet/migration.sql": [], "packages/console/core/migrations/20250912021148_parallel_gauntlet/snapshot.json": [], "packages/console/core/migrations/20250912161749_familiar_nightshade/migration.sql": [], "packages/console/core/migrations/20250912161749_familiar_nightshade/snapshot.json": [], "packages/console/core/migrations/20250914213824_eminent_ultimatum/migration.sql": [], "packages/console/core/migrations/20250914213824_eminent_ultimatum/snapshot.json": [], "packages/console/core/migrations/20250914222302_redundant_piledriver/migration.sql": [], "packages/console/core/migrations/20250914222302_redundant_piledriver/snapshot.json": [], "packages/console/core/migrations/20250914232505_needy_sue_storm/migration.sql": [], "packages/console/core/migrations/20250914232505_needy_sue_storm/snapshot.json": [], "packages/console/core/migrations/20250915150801_freezing_phil_sheldon/migration.sql": [], "packages/console/core/migrations/20250915150801_freezing_phil_sheldon/snapshot.json": [], "packages/console/core/migrations/20250915172014_bright_photon/migration.sql": [], "packages/console/core/migrations/20250915172014_bright_photon/snapshot.json": [], "packages/console/core/migrations/20250915172258_absurd_hobgoblin/migration.sql": [], "packages/console/core/migrations/20250915172258_absurd_hobgoblin/snapshot.json": [], "packages/console/core/migrations/20250919135159_demonic_princess_powerful/migration.sql": [], "packages/console/core/migrations/20250919135159_demonic_princess_powerful/snapshot.json": [], "packages/console/core/migrations/20250921042124_cloudy_revanche/migration.sql": [], "packages/console/core/migrations/20250921042124_cloudy_revanche/snapshot.json": [], "packages/console/core/migrations/20250923213126_cold_la_nuit/migration.sql": [], "packages/console/core/migrations/20250923213126_cold_la_nuit/snapshot.json": []}
+```
+
+Files to analyze:
+1. `packages/console/core/migrations/20250911214917_first_mockingbird/snapshot.json` (1015 lines, fileCategory: `config`)
+2. `packages/console/core/migrations/20250911231144_jazzy_skrulls/migration.sql` (0 lines, fileCategory: `data`)
+3. `packages/console/core/migrations/20250911231144_jazzy_skrulls/snapshot.json` (1015 lines, fileCategory: `config`)
+4. `packages/console/core/migrations/20250912021148_parallel_gauntlet/migration.sql` (1 lines, fileCategory: `data`)
+5. `packages/console/core/migrations/20250912021148_parallel_gauntlet/snapshot.json` (1043 lines, fileCategory: `config`)
+6. `packages/console/core/migrations/20250912161749_familiar_nightshade/migration.sql` (0 lines, fileCategory: `data`)
+7. `packages/console/core/migrations/20250912161749_familiar_nightshade/snapshot.json` (1029 lines, fileCategory: `config`)
+8. `packages/console/core/migrations/20250914213824_eminent_ultimatum/migration.sql` (0 lines, fileCategory: `data`)
+9. `packages/console/core/migrations/20250914213824_eminent_ultimatum/snapshot.json` (1043 lines, fileCategory: `config`)
+10. `packages/console/core/migrations/20250914222302_redundant_piledriver/migration.sql` (0 lines, fileCategory: `data`)
+11. `packages/console/core/migrations/20250914222302_redundant_piledriver/snapshot.json` (1057 lines, fileCategory: `config`)
+12. `packages/console/core/migrations/20250914232505_needy_sue_storm/migration.sql` (0 lines, fileCategory: `data`)
+13. `packages/console/core/migrations/20250914232505_needy_sue_storm/snapshot.json` (1073 lines, fileCategory: `config`)
+14. `packages/console/core/migrations/20250915150801_freezing_phil_sheldon/migration.sql` (2 lines, fileCategory: `data`)
+15. `packages/console/core/migrations/20250915150801_freezing_phil_sheldon/snapshot.json` (1087 lines, fileCategory: `config`)
+16. `packages/console/core/migrations/20250915172014_bright_photon/migration.sql` (2 lines, fileCategory: `data`)
+17. `packages/console/core/migrations/20250915172014_bright_photon/snapshot.json` (1129 lines, fileCategory: `config`)
+18. `packages/console/core/migrations/20250915172258_absurd_hobgoblin/migration.sql` (1 lines, fileCategory: `data`)
+19. `packages/console/core/migrations/20250915172258_absurd_hobgoblin/snapshot.json` (1129 lines, fileCategory: `config`)
+20. `packages/console/core/migrations/20250919135159_demonic_princess_powerful/migration.sql` (0 lines, fileCategory: `data`)
+21. `packages/console/core/migrations/20250919135159_demonic_princess_powerful/snapshot.json` (1143 lines, fileCategory: `config`)
+22. `packages/console/core/migrations/20250921042124_cloudy_revanche/migration.sql` (0 lines, fileCategory: `data`)
+23. `packages/console/core/migrations/20250921042124_cloudy_revanche/snapshot.json` (1129 lines, fileCategory: `config`)
+24. `packages/console/core/migrations/20250923213126_cold_la_nuit/migration.sql` (0 lines, fileCategory: `data`)
+25. `packages/console/core/migrations/20250923213126_cold_la_nuit/snapshot.json` (1143 lines, fileCategory: `config`)

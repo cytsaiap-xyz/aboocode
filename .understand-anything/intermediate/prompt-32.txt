@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 32
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-32.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/app/src/utils/terminal-writer.ts": [], "packages/app/src/utils/time.ts": [], "packages/app/src/utils/uuid.test.ts": ["packages/app/src/utils/uuid.ts"], "packages/app/src/utils/uuid.ts": [], "packages/app/src/utils/worktree.test.ts": ["packages/app/src/utils/worktree.ts"], "packages/app/src/utils/worktree.ts": [], "packages/app/sst-env.d.ts": [], "packages/app/tsconfig.json": [], "packages/app/vite.config.ts": ["packages/app/vite.js"], "packages/app/vite.js": [], "packages/console/app/.opencode/agent/css.md": [], "packages/console/app/package.json": [], "packages/console/app/public/email": [], "packages/console/app/public/robots.txt": [], "packages/console/app/public/site.webmanifest": [], "packages/console/app/public/theme.json": [], "packages/console/app/README.md": [], "packages/console/app/script/generate-sitemap.ts": [], "packages/console/app/src/app.css": [], "packages/console/app/src/app.tsx": [], "packages/console/app/src/component/dropdown.css": [], "packages/console/app/src/component/dropdown.tsx": ["packages/console/app/src/component/icon.tsx"], "packages/console/app/src/component/email-signup.tsx": [], "packages/console/app/src/component/faq.tsx": [], "packages/console/app/src/component/footer.tsx": []}
+```
+
+Files to analyze:
+1. `packages/app/src/utils/terminal-writer.ts` (66 lines, fileCategory: `code`)
+2. `packages/app/src/utils/time.ts` (15 lines, fileCategory: `code`)
+3. `packages/app/src/utils/uuid.test.ts` (79 lines, fileCategory: `code`)
+4. `packages/app/src/utils/uuid.ts` (13 lines, fileCategory: `code`)
+5. `packages/app/src/utils/worktree.test.ts` (47 lines, fileCategory: `code`)
+6. `packages/app/src/utils/worktree.ts` (74 lines, fileCategory: `code`)
+7. `packages/app/sst-env.d.ts` (10 lines, fileCategory: `code`)
+8. `packages/app/tsconfig.json` (28 lines, fileCategory: `config`)
+9. `packages/app/vite.config.ts` (16 lines, fileCategory: `code`)
+10. `packages/app/vite.js` (27 lines, fileCategory: `code`)
+11. `packages/console/app/.opencode/agent/css.md` (150 lines, fileCategory: `docs`)
+12. `packages/console/app/package.json` (47 lines, fileCategory: `config`)
+13. `packages/console/app/public/email` (0 lines, fileCategory: `code`)
+14. `packages/console/app/public/robots.txt` (6 lines, fileCategory: `docs`)
+15. `packages/console/app/public/site.webmanifest` (22 lines, fileCategory: `code`)
+16. `packages/console/app/public/theme.json` (183 lines, fileCategory: `config`)
+17. `packages/console/app/README.md` (33 lines, fileCategory: `docs`)
+18. `packages/console/app/script/generate-sitemap.ts` (109 lines, fileCategory: `code`)
+19. `packages/console/app/src/app.css` (2 lines, fileCategory: `markup`)
+20. `packages/console/app/src/app.tsx` (36 lines, fileCategory: `code`)
+21. `packages/console/app/src/component/dropdown.css` (81 lines, fileCategory: `markup`)
+22. `packages/console/app/src/component/dropdown.tsx` (80 lines, fileCategory: `code`)
+23. `packages/console/app/src/component/email-signup.tsx` (49 lines, fileCategory: `code`)
+24. `packages/console/app/src/component/faq.tsx` (34 lines, fileCategory: `code`)
+25. `packages/console/app/src/component/footer.tsx` (43 lines, fileCategory: `code`)

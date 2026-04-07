@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 18
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-18.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/aboocode/test/file/path-traversal.test.ts": ["packages/aboocode/src/util/filesystem.ts", "packages/aboocode/src/file/index.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/test/fixture/fixture.ts"], "packages/aboocode/test/file/ripgrep.test.ts": ["packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/file/ripgrep.ts"], "packages/aboocode/test/file/time.test.ts": ["packages/aboocode/src/file/time.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/util/filesystem.ts", "packages/aboocode/test/fixture/fixture.ts"], "packages/aboocode/test/fixture/fixture.ts": ["packages/aboocode/src/config/config.ts"], "packages/aboocode/test/fixture/lsp/fake-lsp-server.js": [], "packages/aboocode/test/fixture/skills/agents-sdk/references/callable.md": [], "packages/aboocode/test/fixture/skills/agents-sdk/SKILL.md": [], "packages/aboocode/test/fixture/skills/cloudflare/SKILL.md": [], "packages/aboocode/test/fixture/skills/index.json": [], "packages/aboocode/test/ide/ide.test.ts": ["packages/aboocode/src/ide/index.ts"], "packages/aboocode/test/keybind.test.ts": ["packages/aboocode/src/util/keybind.ts"], "packages/aboocode/test/lsp/client.test.ts": ["packages/aboocode/src/lsp/client.ts", "packages/aboocode/src/lsp/server.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/util/log.ts"], "packages/aboocode/test/mcp/headers.test.ts": [], "packages/aboocode/test/mcp/oauth-browser.test.ts": [], "packages/aboocode/test/memory/abort-leak.test.ts": ["packages/aboocode/src/project/instance.ts", "packages/aboocode/src/tool/webfetch.ts"], "packages/aboocode/test/patch/patch.test.ts": ["packages/aboocode/src/patch/index.ts"], "packages/aboocode/test/permission-task.test.ts": ["packages/aboocode/src/permission/next.ts", "packages/aboocode/src/config/config.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/test/fixture/fixture.ts"], "packages/aboocode/test/permission/arity.test.ts": ["packages/aboocode/src/permission/arity.ts"], "packages/aboocode/test/permission/next.test.ts": ["packages/aboocode/src/permission/next.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/test/fixture/fixture.ts"], "packages/aboocode/test/plugin/auth-override.test.ts": ["packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/provider/auth.ts"], "packages/aboocode/test/plugin/codex.test.ts": [], "packages/aboocode/test/preload.ts": [], "packages/aboocode/test/project/project.test.ts": ["packages/aboocode/src/project/project.ts", "packages/aboocode/src/util/log.ts", "packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/util/filesystem.ts", "packages/aboocode/src/bus/global.ts"], "packages/aboocode/test/project/worktree-remove.test.ts": ["packages/aboocode/src/project/instance.ts", "packages/aboocode/src/worktree/index.ts", "packages/aboocode/src/util/filesystem.ts", "packages/aboocode/test/fixture/fixture.ts"], "packages/aboocode/test/provider/amazon-bedrock.test.ts": ["packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/provider/provider.ts", "packages/aboocode/src/env/index.ts", "packages/aboocode/src/global/index.ts", "packages/aboocode/src/util/filesystem.ts"]}
+```
+
+Files to analyze:
+1. `packages/aboocode/test/file/path-traversal.test.ts` (198 lines, fileCategory: `code`)
+2. `packages/aboocode/test/file/ripgrep.test.ts` (39 lines, fileCategory: `code`)
+3. `packages/aboocode/test/file/time.test.ts` (361 lines, fileCategory: `code`)
+4. `packages/aboocode/test/fixture/fixture.ts` (45 lines, fileCategory: `code`)
+5. `packages/aboocode/test/fixture/lsp/fake-lsp-server.js` (77 lines, fileCategory: `code`)
+6. `packages/aboocode/test/fixture/skills/agents-sdk/references/callable.md` (92 lines, fileCategory: `docs`)
+7. `packages/aboocode/test/fixture/skills/agents-sdk/SKILL.md` (152 lines, fileCategory: `docs`)
+8. `packages/aboocode/test/fixture/skills/cloudflare/SKILL.md` (211 lines, fileCategory: `docs`)
+9. `packages/aboocode/test/fixture/skills/index.json` (6 lines, fileCategory: `config`)
+10. `packages/aboocode/test/ide/ide.test.ts` (82 lines, fileCategory: `code`)
+11. `packages/aboocode/test/keybind.test.ts` (421 lines, fileCategory: `code`)
+12. `packages/aboocode/test/lsp/client.test.ts` (95 lines, fileCategory: `code`)
+13. `packages/aboocode/test/mcp/headers.test.ts` (153 lines, fileCategory: `code`)
+14. `packages/aboocode/test/mcp/oauth-browser.test.ts` (249 lines, fileCategory: `code`)
+15. `packages/aboocode/test/memory/abort-leak.test.ts` (136 lines, fileCategory: `code`)
+16. `packages/aboocode/test/patch/patch.test.ts` (348 lines, fileCategory: `code`)
+17. `packages/aboocode/test/permission-task.test.ts` (319 lines, fileCategory: `code`)
+18. `packages/aboocode/test/permission/arity.test.ts` (33 lines, fileCategory: `code`)
+19. `packages/aboocode/test/permission/next.test.ts` (689 lines, fileCategory: `code`)
+20. `packages/aboocode/test/plugin/auth-override.test.ts` (44 lines, fileCategory: `code`)
+21. `packages/aboocode/test/plugin/codex.test.ts` (123 lines, fileCategory: `code`)
+22. `packages/aboocode/test/preload.ts` (80 lines, fileCategory: `code`)
+23. `packages/aboocode/test/project/project.test.ts` (348 lines, fileCategory: `code`)
+24. `packages/aboocode/test/project/worktree-remove.test.ts` (65 lines, fileCategory: `code`)
+25. `packages/aboocode/test/provider/amazon-bedrock.test.ts` (446 lines, fileCategory: `code`)

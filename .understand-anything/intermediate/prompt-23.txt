@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 23
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-23.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/app/e2e/tsconfig.json": [], "packages/app/e2e/utils.ts": [], "packages/app/happydom.ts": [], "packages/app/index.html": [], "packages/app/package.json": [], "packages/app/playwright.config.ts": [], "packages/app/public/_headers": [], "packages/app/public/oc-theme-preload.js": [], "packages/app/public/site.webmanifest": [], "packages/app/README.md": [], "packages/app/script/e2e-local.ts": [], "packages/app/src/addons/serialize.test.ts": ["packages/app/src/addons/serialize.ts"], "packages/app/src/addons/serialize.ts": [], "packages/app/src/app.tsx": ["packages/app/src/pages/error.tsx"], "packages/app/src/components/dialog-connect-provider.tsx": ["packages/app/src/components/dialog-select-model.tsx", "packages/app/src/components/dialog-select-provider.tsx"], "packages/app/src/components/dialog-custom-provider.tsx": ["packages/app/src/components/dialog-select-provider.tsx"], "packages/app/src/components/dialog-edit-project.tsx": [], "packages/app/src/components/dialog-fork.tsx": [], "packages/app/src/components/dialog-manage-models.tsx": ["packages/app/src/components/dialog-select-provider.tsx"], "packages/app/src/components/dialog-release-notes.tsx": [], "packages/app/src/components/dialog-select-directory.tsx": [], "packages/app/src/components/dialog-select-file.tsx": [], "packages/app/src/components/dialog-select-mcp.tsx": [], "packages/app/src/components/dialog-select-model-unpaid.tsx": ["packages/app/src/components/dialog-connect-provider.tsx", "packages/app/src/components/dialog-select-provider.tsx", "packages/app/src/components/model-tooltip.tsx"], "packages/app/src/components/dialog-select-model.tsx": ["packages/app/src/components/dialog-select-provider.tsx", "packages/app/src/components/dialog-manage-models.tsx", "packages/app/src/components/model-tooltip.tsx"]}
+```
+
+Files to analyze:
+1. `packages/app/e2e/tsconfig.json` (8 lines, fileCategory: `config`)
+2. `packages/app/e2e/utils.ts` (35 lines, fileCategory: `code`)
+3. `packages/app/happydom.ts` (75 lines, fileCategory: `code`)
+4. `packages/app/index.html` (23 lines, fileCategory: `markup`)
+5. `packages/app/package.json` (72 lines, fileCategory: `config`)
+6. `packages/app/playwright.config.ts` (43 lines, fileCategory: `code`)
+7. `packages/app/public/_headers` (17 lines, fileCategory: `code`)
+8. `packages/app/public/oc-theme-preload.js` (28 lines, fileCategory: `code`)
+9. `packages/app/public/site.webmanifest` (21 lines, fileCategory: `code`)
+10. `packages/app/README.md` (51 lines, fileCategory: `docs`)
+11. `packages/app/script/e2e-local.ts` (178 lines, fileCategory: `code`)
+12. `packages/app/src/addons/serialize.test.ts` (319 lines, fileCategory: `code`)
+13. `packages/app/src/addons/serialize.ts` (634 lines, fileCategory: `code`)
+14. `packages/app/src/app.tsx` (171 lines, fileCategory: `code`)
+15. `packages/app/src/components/dialog-connect-provider.tsx` (501 lines, fileCategory: `code`)
+16. `packages/app/src/components/dialog-custom-provider.tsx` (432 lines, fileCategory: `code`)
+17. `packages/app/src/components/dialog-edit-project.tsx` (256 lines, fileCategory: `code`)
+18. `packages/app/src/components/dialog-fork.tsx` (109 lines, fileCategory: `code`)
+19. `packages/app/src/components/dialog-manage-models.tsx` (101 lines, fileCategory: `code`)
+20. `packages/app/src/components/dialog-release-notes.tsx` (142 lines, fileCategory: `code`)
+21. `packages/app/src/components/dialog-select-directory.tsx` (339 lines, fileCategory: `code`)
+22. `packages/app/src/components/dialog-select-file.tsx` (462 lines, fileCategory: `code`)
+23. `packages/app/src/components/dialog-select-mcp.tsx` (103 lines, fileCategory: `code`)
+24. `packages/app/src/components/dialog-select-model-unpaid.tsx` (125 lines, fileCategory: `code`)
+25. `packages/app/src/components/dialog-select-model.tsx` (215 lines, fileCategory: `code`)

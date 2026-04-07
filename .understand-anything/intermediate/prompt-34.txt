@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 34
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-34.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/console/app/src/i18n/es.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/fr.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/index.ts": [], "packages/console/app/src/i18n/it.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/ja.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/ko.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/no.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/pl.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/ru.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/th.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/tr.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/zh.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/i18n/zht.ts": ["packages/console/app/src/i18n/en.ts"], "packages/console/app/src/lib/changelog.ts": [], "packages/console/app/src/lib/form-error.ts": [], "packages/console/app/src/lib/github.ts": [], "packages/console/app/src/lib/language.ts": [], "packages/console/app/src/middleware.ts": [], "packages/console/app/src/routes/[...404].css": [], "packages/console/app/src/routes/[...404].tsx": [], "packages/console/app/src/routes/api/enterprise.ts": [], "packages/console/app/src/routes/auth/[...callback].ts": [], "packages/console/app/src/routes/auth/authorize.ts": [], "packages/console/app/src/routes/auth/index.ts": ["packages/console/app/src/routes/workspace/common.tsx"], "packages/console/app/src/routes/auth/logout.ts": []}
+```
+
+Files to analyze:
+1. `packages/console/app/src/i18n/es.ts` (634 lines, fileCategory: `code`)
+2. `packages/console/app/src/i18n/fr.ts` (644 lines, fileCategory: `code`)
+3. `packages/console/app/src/i18n/index.ts` (44 lines, fileCategory: `code`)
+4. `packages/console/app/src/i18n/it.ts` (632 lines, fileCategory: `code`)
+5. `packages/console/app/src/i18n/ja.ts` (631 lines, fileCategory: `code`)
+6. `packages/console/app/src/i18n/ko.ts` (625 lines, fileCategory: `code`)
+7. `packages/console/app/src/i18n/no.ts` (630 lines, fileCategory: `code`)
+8. `packages/console/app/src/i18n/pl.ts` (636 lines, fileCategory: `code`)
+9. `packages/console/app/src/i18n/ru.ts` (637 lines, fileCategory: `code`)
+10. `packages/console/app/src/i18n/th.ts` (629 lines, fileCategory: `code`)
+11. `packages/console/app/src/i18n/tr.ts` (634 lines, fileCategory: `code`)
+12. `packages/console/app/src/i18n/zh.ts` (615 lines, fileCategory: `code`)
+13. `packages/console/app/src/i18n/zht.ts` (614 lines, fileCategory: `code`)
+14. `packages/console/app/src/lib/changelog.ts` (147 lines, fileCategory: `code`)
+15. `packages/console/app/src/lib/form-error.ts` (84 lines, fileCategory: `code`)
+16. `packages/console/app/src/lib/github.ts` (39 lines, fileCategory: `code`)
+17. `packages/console/app/src/lib/language.ts` (288 lines, fileCategory: `code`)
+18. `packages/console/app/src/middleware.ts` (17 lines, fileCategory: `code`)
+19. `packages/console/app/src/routes/[...404].css` (131 lines, fileCategory: `markup`)
+20. `packages/console/app/src/routes/[...404].tsx` (43 lines, fileCategory: `code`)
+21. `packages/console/app/src/routes/api/enterprise.ts` (48 lines, fileCategory: `code`)
+22. `packages/console/app/src/routes/auth/[...callback].ts` (45 lines, fileCategory: `code`)
+23. `packages/console/app/src/routes/auth/authorize.ts` (11 lines, fileCategory: `code`)
+24. `packages/console/app/src/routes/auth/index.ts` (15 lines, fileCategory: `code`)
+25. `packages/console/app/src/routes/auth/logout.ts` (18 lines, fileCategory: `code`)

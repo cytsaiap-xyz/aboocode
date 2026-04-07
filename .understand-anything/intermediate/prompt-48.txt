@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 48
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-48.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/desktop/src-tauri/icons/dev/android/mipmap-anydpi-v26/ic_launcher.xml": [], "packages/desktop/src-tauri/icons/dev/android/values/ic_launcher_background.xml": [], "packages/desktop/src-tauri/icons/dev/icon.icns": [], "packages/desktop/src-tauri/icons/prod/android/mipmap-anydpi-v26/ic_launcher.xml": [], "packages/desktop/src-tauri/icons/prod/android/values/ic_launcher_background.xml": [], "packages/desktop/src-tauri/icons/prod/icon.icns": [], "packages/desktop/src-tauri/icons/README.md": [], "packages/desktop/src-tauri/release/appstream.metainfo.xml": [], "packages/desktop/src-tauri/src/cli.rs": [], "packages/desktop/src-tauri/src/constants.rs": [], "packages/desktop/src-tauri/src/lib.rs": [], "packages/desktop/src-tauri/src/linux_display.rs": [], "packages/desktop/src-tauri/src/linux_windowing.rs": [], "packages/desktop/src-tauri/src/logging.rs": [], "packages/desktop/src-tauri/src/main.rs": [], "packages/desktop/src-tauri/src/markdown.rs": [], "packages/desktop/src-tauri/src/os/mod.rs": [], "packages/desktop/src-tauri/src/os/windows.rs": [], "packages/desktop/src-tauri/src/server.rs": [], "packages/desktop/src-tauri/src/window_customizer.rs": [], "packages/desktop/src-tauri/src/windows.rs": [], "packages/desktop/src-tauri/tauri.beta.conf.json": [], "packages/desktop/src-tauri/tauri.conf.json": [], "packages/desktop/src-tauri/tauri.prod.conf.json": [], "packages/desktop/src/bindings.ts": []}
+```
+
+Files to analyze:
+1. `packages/desktop/src-tauri/icons/dev/android/mipmap-anydpi-v26/ic_launcher.xml` (4 lines, fileCategory: `config`)
+2. `packages/desktop/src-tauri/icons/dev/android/values/ic_launcher_background.xml` (3 lines, fileCategory: `config`)
+3. `packages/desktop/src-tauri/icons/dev/icon.icns` (3443 lines, fileCategory: `code`)
+4. `packages/desktop/src-tauri/icons/prod/android/mipmap-anydpi-v26/ic_launcher.xml` (4 lines, fileCategory: `config`)
+5. `packages/desktop/src-tauri/icons/prod/android/values/ic_launcher_background.xml` (3 lines, fileCategory: `config`)
+6. `packages/desktop/src-tauri/icons/prod/icon.icns` (1437 lines, fileCategory: `code`)
+7. `packages/desktop/src-tauri/icons/README.md` (11 lines, fileCategory: `docs`)
+8. `packages/desktop/src-tauri/release/appstream.metainfo.xml` (127 lines, fileCategory: `config`)
+9. `packages/desktop/src-tauri/src/cli.rs` (558 lines, fileCategory: `code`)
+10. `packages/desktop/src-tauri/src/constants.rs` (10 lines, fileCategory: `code`)
+11. `packages/desktop/src-tauri/src/lib.rs` (687 lines, fileCategory: `code`)
+12. `packages/desktop/src-tauri/src/linux_display.rs` (53 lines, fileCategory: `code`)
+13. `packages/desktop/src-tauri/src/linux_windowing.rs` (475 lines, fileCategory: `code`)
+14. `packages/desktop/src-tauri/src/logging.rs` (76 lines, fileCategory: `code`)
+15. `packages/desktop/src-tauri/src/main.rs` (78 lines, fileCategory: `code`)
+16. `packages/desktop/src-tauri/src/markdown.rs` (63 lines, fileCategory: `code`)
+17. `packages/desktop/src-tauri/src/os/mod.rs` (2 lines, fileCategory: `code`)
+18. `packages/desktop/src-tauri/src/os/windows.rs` (439 lines, fileCategory: `code`)
+19. `packages/desktop/src-tauri/src/server.rs` (253 lines, fileCategory: `code`)
+20. `packages/desktop/src-tauri/src/window_customizer.rs` (46 lines, fileCategory: `code`)
+21. `packages/desktop/src-tauri/src/windows.rs` (174 lines, fileCategory: `code`)
+22. `packages/desktop/src-tauri/tauri.beta.conf.json` (33 lines, fileCategory: `config`)
+23. `packages/desktop/src-tauri/tauri.conf.json` (62 lines, fileCategory: `config`)
+24. `packages/desktop/src-tauri/tauri.prod.conf.json` (38 lines, fileCategory: `config`)
+25. `packages/desktop/src/bindings.ts` (67 lines, fileCategory: `code`)

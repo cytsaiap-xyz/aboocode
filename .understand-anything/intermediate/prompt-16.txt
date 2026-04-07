@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 16
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-16.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/aboocode/src/util/color.ts": [], "packages/aboocode/src/util/context.ts": [], "packages/aboocode/src/util/defer.ts": [], "packages/aboocode/src/util/eventloop.ts": ["packages/aboocode/src/util/log.ts"], "packages/aboocode/src/util/filesystem.ts": ["packages/aboocode/src/util/glob.ts"], "packages/aboocode/src/util/fn.ts": [], "packages/aboocode/src/util/format.ts": [], "packages/aboocode/src/util/git.ts": ["packages/aboocode/src/util/process.ts"], "packages/aboocode/src/util/glob.ts": [], "packages/aboocode/src/util/iife.ts": [], "packages/aboocode/src/util/keybind.ts": [], "packages/aboocode/src/util/lazy.ts": [], "packages/aboocode/src/util/locale.ts": [], "packages/aboocode/src/util/lock.ts": [], "packages/aboocode/src/util/log.ts": ["packages/aboocode/src/global/index.ts", "packages/aboocode/src/util/glob.ts"], "packages/aboocode/src/util/process.ts": [], "packages/aboocode/src/util/proxied.ts": [], "packages/aboocode/src/util/queue.ts": [], "packages/aboocode/src/util/rpc.ts": [], "packages/aboocode/src/util/scrap.ts": [], "packages/aboocode/src/util/signal.ts": [], "packages/aboocode/src/util/timeout.ts": [], "packages/aboocode/src/util/token.ts": [], "packages/aboocode/src/util/wildcard.ts": [], "packages/aboocode/src/worktree/index.ts": ["packages/aboocode/src/global/index.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/project/bootstrap.ts", "packages/aboocode/src/project/project.ts", "packages/aboocode/src/storage/db.ts", "packages/aboocode/src/project/project.sql.ts", "packages/aboocode/src/util/fn.ts", "packages/aboocode/src/util/log.ts"]}
+```
+
+Files to analyze:
+1. `packages/aboocode/src/util/color.ts` (19 lines, fileCategory: `code`)
+2. `packages/aboocode/src/util/context.ts` (25 lines, fileCategory: `code`)
+3. `packages/aboocode/src/util/defer.ts` (12 lines, fileCategory: `code`)
+4. `packages/aboocode/src/util/eventloop.ts` (20 lines, fileCategory: `code`)
+5. `packages/aboocode/src/util/filesystem.ts` (189 lines, fileCategory: `code`)
+6. `packages/aboocode/src/util/fn.ts` (11 lines, fileCategory: `code`)
+7. `packages/aboocode/src/util/format.ts` (20 lines, fileCategory: `code`)
+8. `packages/aboocode/src/util/git.ts` (35 lines, fileCategory: `code`)
+9. `packages/aboocode/src/util/glob.ts` (34 lines, fileCategory: `code`)
+10. `packages/aboocode/src/util/iife.ts` (3 lines, fileCategory: `code`)
+11. `packages/aboocode/src/util/keybind.ts` (103 lines, fileCategory: `code`)
+12. `packages/aboocode/src/util/lazy.ts` (23 lines, fileCategory: `code`)
+13. `packages/aboocode/src/util/locale.ts` (81 lines, fileCategory: `code`)
+14. `packages/aboocode/src/util/lock.ts` (98 lines, fileCategory: `code`)
+15. `packages/aboocode/src/util/log.ts` (182 lines, fileCategory: `code`)
+16. `packages/aboocode/src/util/process.ts` (126 lines, fileCategory: `code`)
+17. `packages/aboocode/src/util/proxied.ts` (3 lines, fileCategory: `code`)
+18. `packages/aboocode/src/util/queue.ts` (32 lines, fileCategory: `code`)
+19. `packages/aboocode/src/util/rpc.ts` (66 lines, fileCategory: `code`)
+20. `packages/aboocode/src/util/scrap.ts` (10 lines, fileCategory: `code`)
+21. `packages/aboocode/src/util/signal.ts` (12 lines, fileCategory: `code`)
+22. `packages/aboocode/src/util/timeout.ts` (14 lines, fileCategory: `code`)
+23. `packages/aboocode/src/util/token.ts` (7 lines, fileCategory: `code`)
+24. `packages/aboocode/src/util/wildcard.ts` (59 lines, fileCategory: `code`)
+25. `packages/aboocode/src/worktree/index.ts` (643 lines, fileCategory: `code`)

@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 77
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-77.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/web/src/content/docs/ko/ecosystem.mdx": [], "packages/web/src/content/docs/ko/enterprise.mdx": [], "packages/web/src/content/docs/ko/formatters.mdx": [], "packages/web/src/content/docs/ko/github.mdx": [], "packages/web/src/content/docs/ko/gitlab.mdx": [], "packages/web/src/content/docs/ko/ide.mdx": [], "packages/web/src/content/docs/ko/index.mdx": [], "packages/web/src/content/docs/ko/keybinds.mdx": [], "packages/web/src/content/docs/ko/lsp.mdx": [], "packages/web/src/content/docs/ko/mcp-servers.mdx": [], "packages/web/src/content/docs/ko/models.mdx": [], "packages/web/src/content/docs/ko/modes.mdx": [], "packages/web/src/content/docs/ko/network.mdx": [], "packages/web/src/content/docs/ko/permissions.mdx": [], "packages/web/src/content/docs/ko/plugins.mdx": [], "packages/web/src/content/docs/ko/providers.mdx": [], "packages/web/src/content/docs/ko/rules.mdx": [], "packages/web/src/content/docs/ko/sdk.mdx": [], "packages/web/src/content/docs/ko/server.mdx": [], "packages/web/src/content/docs/ko/share.mdx": [], "packages/web/src/content/docs/ko/skills.mdx": [], "packages/web/src/content/docs/ko/themes.mdx": [], "packages/web/src/content/docs/ko/tools.mdx": [], "packages/web/src/content/docs/ko/troubleshooting.mdx": [], "packages/web/src/content/docs/ko/tui.mdx": []}
+```
+
+Files to analyze:
+1. `packages/web/src/content/docs/ko/ecosystem.mdx` (76 lines, fileCategory: `code`)
+2. `packages/web/src/content/docs/ko/enterprise.mdx` (165 lines, fileCategory: `code`)
+3. `packages/web/src/content/docs/ko/formatters.mdx` (132 lines, fileCategory: `code`)
+4. `packages/web/src/content/docs/ko/github.mdx` (321 lines, fileCategory: `code`)
+5. `packages/web/src/content/docs/ko/gitlab.mdx` (195 lines, fileCategory: `code`)
+6. `packages/web/src/content/docs/ko/ide.mdx` (48 lines, fileCategory: `code`)
+7. `packages/web/src/content/docs/ko/index.mdx` (344 lines, fileCategory: `code`)
+8. `packages/web/src/content/docs/ko/keybinds.mdx` (192 lines, fileCategory: `code`)
+9. `packages/web/src/content/docs/ko/lsp.mdx` (189 lines, fileCategory: `code`)
+10. `packages/web/src/content/docs/ko/mcp-servers.mdx` (511 lines, fileCategory: `code`)
+11. `packages/web/src/content/docs/ko/models.mdx` (223 lines, fileCategory: `code`)
+12. `packages/web/src/content/docs/ko/modes.mdx` (329 lines, fileCategory: `code`)
+13. `packages/web/src/content/docs/ko/network.mdx` (57 lines, fileCategory: `code`)
+14. `packages/web/src/content/docs/ko/permissions.mdx` (237 lines, fileCategory: `code`)
+15. `packages/web/src/content/docs/ko/plugins.mdx` (385 lines, fileCategory: `code`)
+16. `packages/web/src/content/docs/ko/providers.mdx` (1901 lines, fileCategory: `code`)
+17. `packages/web/src/content/docs/ko/rules.mdx` (179 lines, fileCategory: `code`)
+18. `packages/web/src/content/docs/ko/sdk.mdx` (391 lines, fileCategory: `code`)
+19. `packages/web/src/content/docs/ko/server.mdx` (287 lines, fileCategory: `code`)
+20. `packages/web/src/content/docs/ko/share.mdx` (128 lines, fileCategory: `code`)
+21. `packages/web/src/content/docs/ko/skills.mdx` (222 lines, fileCategory: `code`)
+22. `packages/web/src/content/docs/ko/themes.mdx` (368 lines, fileCategory: `code`)
+23. `packages/web/src/content/docs/ko/tools.mdx` (379 lines, fileCategory: `code`)
+24. `packages/web/src/content/docs/ko/troubleshooting.mdx` (303 lines, fileCategory: `code`)
+25. `packages/web/src/content/docs/ko/tui.mdx` (390 lines, fileCategory: `code`)

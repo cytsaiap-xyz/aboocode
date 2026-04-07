@@ -17,6 +17,13 @@ export namespace SessionStatus {
       }),
       z.object({
         type: z.literal("busy"),
+        budget: z
+          .object({
+            currentEstimate: z.number(),
+            maxInputTokens: z.number(),
+            percentage: z.number(),
+          })
+          .optional(),
       }),
     ])
     .meta({

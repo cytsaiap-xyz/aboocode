@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 52
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-52.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/plugin/src/shell.ts": [], "packages/plugin/src/tool.ts": [], "packages/plugin/sst-env.d.ts": [], "packages/plugin/tsconfig.json": [], "packages/script/package.json": [], "packages/script/src/index.ts": [], "packages/script/sst-env.d.ts": [], "packages/script/tsconfig.json": [], "packages/sdk/js/example/example.ts": [], "packages/sdk/js/package.json": [], "packages/sdk/js/script/build.ts": [], "packages/sdk/js/script/publish.ts": [], "packages/sdk/js/src/client.ts": [], "packages/sdk/js/src/gen/client.gen.ts": [], "packages/sdk/js/src/gen/client/client.gen.ts": [], "packages/sdk/js/src/gen/client/index.ts": [], "packages/sdk/js/src/gen/client/types.gen.ts": [], "packages/sdk/js/src/gen/client/utils.gen.ts": [], "packages/sdk/js/src/gen/core/auth.gen.ts": [], "packages/sdk/js/src/gen/core/bodySerializer.gen.ts": [], "packages/sdk/js/src/gen/core/params.gen.ts": [], "packages/sdk/js/src/gen/core/pathSerializer.gen.ts": [], "packages/sdk/js/src/gen/core/queryKeySerializer.gen.ts": [], "packages/sdk/js/src/gen/core/serverSentEvents.gen.ts": [], "packages/sdk/js/src/gen/core/types.gen.ts": []}
+```
+
+Files to analyze:
+1. `packages/plugin/src/shell.ts` (136 lines, fileCategory: `code`)
+2. `packages/plugin/src/tool.ts` (38 lines, fileCategory: `code`)
+3. `packages/plugin/sst-env.d.ts` (9 lines, fileCategory: `code`)
+4. `packages/plugin/tsconfig.json` (12 lines, fileCategory: `config`)
+5. `packages/script/package.json` (11 lines, fileCategory: `config`)
+6. `packages/script/src/index.ts` (85 lines, fileCategory: `code`)
+7. `packages/script/sst-env.d.ts` (9 lines, fileCategory: `code`)
+8. `packages/script/tsconfig.json` (8 lines, fileCategory: `config`)
+9. `packages/sdk/js/example/example.ts` (56 lines, fileCategory: `code`)
+10. `packages/sdk/js/package.json` (43 lines, fileCategory: `config`)
+11. `packages/sdk/js/script/build.ts` (45 lines, fileCategory: `code`)
+12. `packages/sdk/js/script/publish.ts` (31 lines, fileCategory: `code`)
+13. `packages/sdk/js/src/client.ts` (30 lines, fileCategory: `code`)
+14. `packages/sdk/js/src/gen/client.gen.ts` (22 lines, fileCategory: `code`)
+15. `packages/sdk/js/src/gen/client/client.gen.ts` (212 lines, fileCategory: `code`)
+16. `packages/sdk/js/src/gen/client/index.ts` (25 lines, fileCategory: `code`)
+17. `packages/sdk/js/src/gen/client/types.gen.ts` (222 lines, fileCategory: `code`)
+18. `packages/sdk/js/src/gen/client/utils.gen.ts` (287 lines, fileCategory: `code`)
+19. `packages/sdk/js/src/gen/core/auth.gen.ts` (41 lines, fileCategory: `code`)
+20. `packages/sdk/js/src/gen/core/bodySerializer.gen.ts` (74 lines, fileCategory: `code`)
+21. `packages/sdk/js/src/gen/core/params.gen.ts` (144 lines, fileCategory: `code`)
+22. `packages/sdk/js/src/gen/core/pathSerializer.gen.ts` (167 lines, fileCategory: `code`)
+23. `packages/sdk/js/src/gen/core/queryKeySerializer.gen.ts` (111 lines, fileCategory: `code`)
+24. `packages/sdk/js/src/gen/core/serverSentEvents.gen.ts` (210 lines, fileCategory: `code`)
+25. `packages/sdk/js/src/gen/core/types.gen.ts` (91 lines, fileCategory: `code`)

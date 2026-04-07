@@ -4,8 +4,8 @@ import * as fs from "fs/promises"
 import { Tool } from "./tool"
 import { Bus } from "../bus"
 import { FileWatcher } from "../file/watcher"
-import { Instance } from "../project/instance"
 import { Patch } from "../patch"
+import { IsolationPath } from "../agent/isolation-path"
 import { createTwoFilesPatch, diffLines } from "diff"
 import { assertExternalDirectory } from "./external-directory"
 import { trimDiff } from "./edit"
@@ -58,7 +58,7 @@ export const ApplyPatchTool = Tool.define("apply_patch", {
     let totalDiff = ""
 
     for (const hunk of hunks) {
-      const filePath = path.resolve(Instance.directory, hunk.path)
+      const filePath = path.resolve(IsolationPath.cwd(ctx.sessionID), hunk.path)
       await assertExternalDirectory(ctx, filePath)
 
       switch (hunk.type) {
@@ -116,7 +116,7 @@ export const ApplyPatchTool = Tool.define("apply_patch", {
             if (change.removed) deletions += change.count || 0
           }
 
-          const movePath = hunk.move_path ? path.resolve(Instance.directory, hunk.move_path) : undefined
+          const movePath = hunk.move_path ? path.resolve(IsolationPath.cwd(ctx.sessionID), hunk.move_path) : undefined
           await assertExternalDirectory(ctx, movePath)
 
           fileChanges.push({
@@ -161,7 +161,7 @@ export const ApplyPatchTool = Tool.define("apply_patch", {
     // Build per-file metadata for UI rendering (used for both permission and result)
     const files = fileChanges.map((change) => ({
       filePath: change.filePath,
-      relativePath: path.relative(Instance.worktree, change.movePath ?? change.filePath).replaceAll("\\", "/"),
+      relativePath: path.relative(IsolationPath.root(ctx.sessionID), change.movePath ?? change.filePath).replaceAll("\\", "/"),
       type: change.type,
       diff: change.diff,
       before: change.oldContent,
@@ -172,7 +172,7 @@ export const ApplyPatchTool = Tool.define("apply_patch", {
     }))
 
     // Check permissions if needed
-    const relativePaths = fileChanges.map((c) => path.relative(Instance.worktree, c.filePath).replaceAll("\\", "/"))
+    const relativePaths = fileChanges.map((c) => path.relative(IsolationPath.root(ctx.sessionID), c.filePath).replaceAll("\\", "/"))
     await ctx.ask({
       permission: "edit",
       patterns: relativePaths,
@@ -242,13 +242,13 @@ export const ApplyPatchTool = Tool.define("apply_patch", {
     // Generate output summary
     const summaryLines = fileChanges.map((change) => {
       if (change.type === "add") {
-        return `A ${path.relative(Instance.worktree, change.filePath).replaceAll("\\", "/")}`
+        return `A ${path.relative(IsolationPath.root(ctx.sessionID), change.filePath).replaceAll("\\", "/")}`
       }
       if (change.type === "delete") {
-        return `D ${path.relative(Instance.worktree, change.filePath).replaceAll("\\", "/")}`
+        return `D ${path.relative(IsolationPath.root(ctx.sessionID), change.filePath).replaceAll("\\", "/")}`
       }
       const target = change.movePath ?? change.filePath
-      return `M ${path.relative(Instance.worktree, target).replaceAll("\\", "/")}`
+      return `M ${path.relative(IsolationPath.root(ctx.sessionID), target).replaceAll("\\", "/")}`
     })
     let output = `Success. Updated the following files:\n${summaryLines.join("\n")}`
 
@@ -264,7 +264,7 @@ export const ApplyPatchTool = Tool.define("apply_patch", {
         const limited = errors.slice(0, MAX_DIAGNOSTICS_PER_FILE)
         const suffix =
           errors.length > MAX_DIAGNOSTICS_PER_FILE ? `\n... and ${errors.length - MAX_DIAGNOSTICS_PER_FILE} more` : ""
-        output += `\n\nLSP errors detected in ${path.relative(Instance.worktree, target).replaceAll("\\", "/")}, please fix:\n<diagnostics file="${target}">\n${limited.map(LSP.Diagnostic.pretty).join("\n")}${suffix}\n</diagnostics>`
+        output += `\n\nLSP errors detected in ${path.relative(IsolationPath.root(ctx.sessionID), target).replaceAll("\\", "/")}, please fix:\n<diagnostics file="${target}">\n${limited.map(LSP.Diagnostic.pretty).join("\n")}${suffix}\n</diagnostics>`
       }
     }
 

@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 20
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-20.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/aboocode/test/team/knowledge-bridge.test.ts": ["packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/team/knowledge-bridge.ts"], "packages/aboocode/test/team/manager.test.ts": ["packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/team/manager.ts"], "packages/aboocode/test/team/team-tools.test.ts": ["packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/team/manager.ts", "packages/aboocode/src/tool/tool.ts"], "packages/aboocode/test/tool/__snapshots__/tool.test.ts.snap": [], "packages/aboocode/test/tool/apply_patch.test.ts": ["packages/aboocode/src/tool/apply_patch.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/test/fixture/fixture.ts"], "packages/aboocode/test/tool/bash.test.ts": ["packages/aboocode/src/tool/bash.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/util/filesystem.ts", "packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/permission/next.ts", "packages/aboocode/src/tool/truncation.ts"], "packages/aboocode/test/tool/edit.test.ts": ["packages/aboocode/src/tool/edit.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/file/time.ts"], "packages/aboocode/test/tool/external-directory.test.ts": ["packages/aboocode/src/tool/tool.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/tool/external-directory.ts", "packages/aboocode/src/permission/next.ts"], "packages/aboocode/test/tool/fixtures/models-api.json": [], "packages/aboocode/test/tool/grep.test.ts": ["packages/aboocode/src/tool/grep.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/test/fixture/fixture.ts"], "packages/aboocode/test/tool/question.test.ts": ["packages/aboocode/src/tool/question.ts", "packages/aboocode/src/question/index.ts"], "packages/aboocode/test/tool/read.test.ts": ["packages/aboocode/src/tool/read.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/util/filesystem.ts", "packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/permission/next.ts", "packages/aboocode/src/agent/agent.ts"], "packages/aboocode/test/tool/registry.test.ts": ["packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/tool/registry.ts"], "packages/aboocode/test/tool/skill.test.ts": ["packages/aboocode/src/permission/next.ts", "packages/aboocode/src/tool/tool.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/tool/skill.ts", "packages/aboocode/test/fixture/fixture.ts"], "packages/aboocode/test/tool/truncation.test.ts": ["packages/aboocode/src/tool/truncation.ts", "packages/aboocode/src/id/id.ts", "packages/aboocode/src/util/filesystem.ts"], "packages/aboocode/test/tool/webfetch.test.ts": ["packages/aboocode/src/project/instance.ts", "packages/aboocode/src/tool/webfetch.ts"], "packages/aboocode/test/tool/write.test.ts": ["packages/aboocode/src/tool/write.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/test/fixture/fixture.ts"], "packages/aboocode/test/util/filesystem.test.ts": ["packages/aboocode/src/util/filesystem.ts", "packages/aboocode/test/fixture/fixture.ts"], "packages/aboocode/test/util/format.test.ts": ["packages/aboocode/src/util/format.ts"], "packages/aboocode/test/util/glob.test.ts": ["packages/aboocode/src/util/glob.ts", "packages/aboocode/test/fixture/fixture.ts"], "packages/aboocode/test/util/iife.test.ts": ["packages/aboocode/src/util/iife.ts"], "packages/aboocode/test/util/lazy.test.ts": ["packages/aboocode/src/util/lazy.ts"], "packages/aboocode/test/util/lock.test.ts": ["packages/aboocode/src/util/lock.ts"], "packages/aboocode/test/util/process.test.ts": ["packages/aboocode/src/util/process.ts"], "packages/aboocode/test/util/timeout.test.ts": ["packages/aboocode/src/util/timeout.ts"]}
+```
+
+Files to analyze:
+1. `packages/aboocode/test/team/knowledge-bridge.test.ts` (65 lines, fileCategory: `code`)
+2. `packages/aboocode/test/team/manager.test.ts` (342 lines, fileCategory: `code`)
+3. `packages/aboocode/test/team/team-tools.test.ts` (659 lines, fileCategory: `code`)
+4. `packages/aboocode/test/tool/__snapshots__/tool.test.ts.snap` (9 lines, fileCategory: `code`)
+5. `packages/aboocode/test/tool/apply_patch.test.ts` (566 lines, fileCategory: `code`)
+6. `packages/aboocode/test/tool/bash.test.ts` (402 lines, fileCategory: `code`)
+7. `packages/aboocode/test/tool/edit.test.ts` (496 lines, fileCategory: `code`)
+8. `packages/aboocode/test/tool/external-directory.test.ts` (127 lines, fileCategory: `code`)
+9. `packages/aboocode/test/tool/fixtures/models-api.json` (38413 lines, fileCategory: `config`)
+10. `packages/aboocode/test/tool/grep.test.ts` (110 lines, fileCategory: `code`)
+11. `packages/aboocode/test/tool/question.test.ts` (107 lines, fileCategory: `code`)
+12. `packages/aboocode/test/tool/read.test.ts` (504 lines, fileCategory: `code`)
+13. `packages/aboocode/test/tool/registry.test.ts` (122 lines, fileCategory: `code`)
+14. `packages/aboocode/test/tool/skill.test.ts` (112 lines, fileCategory: `code`)
+15. `packages/aboocode/test/tool/truncation.test.ts` (160 lines, fileCategory: `code`)
+16. `packages/aboocode/test/tool/webfetch.test.ts` (100 lines, fileCategory: `code`)
+17. `packages/aboocode/test/tool/write.test.ts` (348 lines, fileCategory: `code`)
+18. `packages/aboocode/test/util/filesystem.test.ts` (443 lines, fileCategory: `code`)
+19. `packages/aboocode/test/util/format.test.ts` (59 lines, fileCategory: `code`)
+20. `packages/aboocode/test/util/glob.test.ts` (164 lines, fileCategory: `code`)
+21. `packages/aboocode/test/util/iife.test.ts` (36 lines, fileCategory: `code`)
+22. `packages/aboocode/test/util/lazy.test.ts` (50 lines, fileCategory: `code`)
+23. `packages/aboocode/test/util/lock.test.ts` (72 lines, fileCategory: `code`)
+24. `packages/aboocode/test/util/process.test.ts` (59 lines, fileCategory: `code`)
+25. `packages/aboocode/test/util/timeout.test.ts` (21 lines, fileCategory: `code`)

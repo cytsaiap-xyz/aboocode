@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 89
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-89.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/web/src/content/docs/zh-tw/lsp.mdx": [], "packages/web/src/content/docs/zh-tw/mcp-servers.mdx": [], "packages/web/src/content/docs/zh-tw/models.mdx": [], "packages/web/src/content/docs/zh-tw/modes.mdx": [], "packages/web/src/content/docs/zh-tw/network.mdx": [], "packages/web/src/content/docs/zh-tw/permissions.mdx": [], "packages/web/src/content/docs/zh-tw/plugins.mdx": [], "packages/web/src/content/docs/zh-tw/providers.mdx": [], "packages/web/src/content/docs/zh-tw/rules.mdx": [], "packages/web/src/content/docs/zh-tw/sdk.mdx": [], "packages/web/src/content/docs/zh-tw/server.mdx": [], "packages/web/src/content/docs/zh-tw/share.mdx": [], "packages/web/src/content/docs/zh-tw/skills.mdx": [], "packages/web/src/content/docs/zh-tw/themes.mdx": [], "packages/web/src/content/docs/zh-tw/tools.mdx": [], "packages/web/src/content/docs/zh-tw/troubleshooting.mdx": [], "packages/web/src/content/docs/zh-tw/tui.mdx": [], "packages/web/src/content/docs/zh-tw/web.mdx": [], "packages/web/src/content/docs/zh-tw/windows-wsl.mdx": [], "packages/web/src/content/docs/zh-tw/zen.mdx": [], "packages/web/src/content/i18n/ar.json": [], "packages/web/src/content/i18n/bs.json": [], "packages/web/src/content/i18n/da.json": [], "packages/web/src/content/i18n/de.json": [], "packages/web/src/content/i18n/en.json": []}
+```
+
+Files to analyze:
+1. `packages/web/src/content/docs/zh-tw/lsp.mdx` (188 lines, fileCategory: `code`)
+2. `packages/web/src/content/docs/zh-tw/mcp-servers.mdx` (511 lines, fileCategory: `code`)
+3. `packages/web/src/content/docs/zh-tw/models.mdx` (222 lines, fileCategory: `code`)
+4. `packages/web/src/content/docs/zh-tw/modes.mdx` (328 lines, fileCategory: `code`)
+5. `packages/web/src/content/docs/zh-tw/network.mdx` (57 lines, fileCategory: `code`)
+6. `packages/web/src/content/docs/zh-tw/permissions.mdx` (237 lines, fileCategory: `code`)
+7. `packages/web/src/content/docs/zh-tw/plugins.mdx` (384 lines, fileCategory: `code`)
+8. `packages/web/src/content/docs/zh-tw/providers.mdx` (1905 lines, fileCategory: `code`)
+9. `packages/web/src/content/docs/zh-tw/rules.mdx` (180 lines, fileCategory: `code`)
+10. `packages/web/src/content/docs/zh-tw/sdk.mdx` (463 lines, fileCategory: `code`)
+11. `packages/web/src/content/docs/zh-tw/server.mdx` (284 lines, fileCategory: `code`)
+12. `packages/web/src/content/docs/zh-tw/share.mdx` (127 lines, fileCategory: `code`)
+13. `packages/web/src/content/docs/zh-tw/skills.mdx` (222 lines, fileCategory: `code`)
+14. `packages/web/src/content/docs/zh-tw/themes.mdx` (369 lines, fileCategory: `code`)
+15. `packages/web/src/content/docs/zh-tw/tools.mdx` (379 lines, fileCategory: `code`)
+16. `packages/web/src/content/docs/zh-tw/troubleshooting.mdx` (299 lines, fileCategory: `code`)
+17. `packages/web/src/content/docs/zh-tw/tui.mdx` (387 lines, fileCategory: `code`)
+18. `packages/web/src/content/docs/zh-tw/web.mdx` (142 lines, fileCategory: `code`)
+19. `packages/web/src/content/docs/zh-tw/windows-wsl.mdx` (112 lines, fileCategory: `code`)
+20. `packages/web/src/content/docs/zh-tw/zen.mdx` (236 lines, fileCategory: `code`)
+21. `packages/web/src/content/i18n/ar.json` (75 lines, fileCategory: `config`)
+22. `packages/web/src/content/i18n/bs.json` (75 lines, fileCategory: `config`)
+23. `packages/web/src/content/i18n/da.json` (75 lines, fileCategory: `config`)
+24. `packages/web/src/content/i18n/de.json` (75 lines, fileCategory: `config`)
+25. `packages/web/src/content/i18n/en.json` (75 lines, fileCategory: `config`)

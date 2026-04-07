@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 41
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-41.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/console/core/migrations/20250924230623_woozy_thaddeus_ross/migration.sql": [], "packages/console/core/migrations/20250924230623_woozy_thaddeus_ross/snapshot.json": [], "packages/console/core/migrations/20250928163425_nervous_iron_lad/migration.sql": [], "packages/console/core/migrations/20250928163425_nervous_iron_lad/snapshot.json": [], "packages/console/core/migrations/20250928235456_dazzling_cable/migration.sql": [], "packages/console/core/migrations/20250928235456_dazzling_cable/snapshot.json": [], "packages/console/core/migrations/20250929181457_supreme_jack_power/migration.sql": [], "packages/console/core/migrations/20250929181457_supreme_jack_power/snapshot.json": [], "packages/console/core/migrations/20250929224703_flawless_clea/migration.sql": [], "packages/console/core/migrations/20250929224703_flawless_clea/snapshot.json": [], "packages/console/core/migrations/20251002175032_nice_dreadnoughts/migration.sql": [], "packages/console/core/migrations/20251002175032_nice_dreadnoughts/snapshot.json": [], "packages/console/core/migrations/20251002223020_optimal_paibok/migration.sql": [], "packages/console/core/migrations/20251002223020_optimal_paibok/snapshot.json": [], "packages/console/core/migrations/20251003202205_early_black_crow/migration.sql": [], "packages/console/core/migrations/20251003202205_early_black_crow/snapshot.json": [], "packages/console/core/migrations/20251003210411_legal_joseph/migration.sql": [], "packages/console/core/migrations/20251003210411_legal_joseph/snapshot.json": [], "packages/console/core/migrations/20251004030300_numerous_prodigy/migration.sql": [], "packages/console/core/migrations/20251004030300_numerous_prodigy/snapshot.json": [], "packages/console/core/migrations/20251004045106_hot_wong/migration.sql": [], "packages/console/core/migrations/20251004045106_hot_wong/snapshot.json": [], "packages/console/core/migrations/20251007024345_careful_cerise/migration.sql": [], "packages/console/core/migrations/20251007024345_careful_cerise/snapshot.json": [], "packages/console/core/migrations/20251007043715_panoramic_harrier/migration.sql": []}
+```
+
+Files to analyze:
+1. `packages/console/core/migrations/20250924230623_woozy_thaddeus_ross/migration.sql` (0 lines, fileCategory: `data`)
+2. `packages/console/core/migrations/20250924230623_woozy_thaddeus_ross/snapshot.json` (1157 lines, fileCategory: `config`)
+3. `packages/console/core/migrations/20250928163425_nervous_iron_lad/migration.sql` (1 lines, fileCategory: `data`)
+4. `packages/console/core/migrations/20250928163425_nervous_iron_lad/snapshot.json` (1185 lines, fileCategory: `config`)
+5. `packages/console/core/migrations/20250928235456_dazzling_cable/migration.sql` (0 lines, fileCategory: `data`)
+6. `packages/console/core/migrations/20250928235456_dazzling_cable/snapshot.json` (1185 lines, fileCategory: `config`)
+7. `packages/console/core/migrations/20250929181457_supreme_jack_power/migration.sql` (0 lines, fileCategory: `data`)
+8. `packages/console/core/migrations/20250929181457_supreme_jack_power/snapshot.json` (1171 lines, fileCategory: `config`)
+9. `packages/console/core/migrations/20250929224703_flawless_clea/migration.sql` (1 lines, fileCategory: `data`)
+10. `packages/console/core/migrations/20250929224703_flawless_clea/snapshot.json` (1185 lines, fileCategory: `config`)
+11. `packages/console/core/migrations/20251002175032_nice_dreadnoughts/migration.sql` (2 lines, fileCategory: `data`)
+12. `packages/console/core/migrations/20251002175032_nice_dreadnoughts/snapshot.json` (1233 lines, fileCategory: `config`)
+13. `packages/console/core/migrations/20251002223020_optimal_paibok/migration.sql` (1 lines, fileCategory: `data`)
+14. `packages/console/core/migrations/20251002223020_optimal_paibok/snapshot.json` (1265 lines, fileCategory: `config`)
+15. `packages/console/core/migrations/20251003202205_early_black_crow/migration.sql` (1 lines, fileCategory: `data`)
+16. `packages/console/core/migrations/20251003202205_early_black_crow/snapshot.json` (1237 lines, fileCategory: `config`)
+17. `packages/console/core/migrations/20251003210411_legal_joseph/migration.sql` (0 lines, fileCategory: `data`)
+18. `packages/console/core/migrations/20251003210411_legal_joseph/snapshot.json` (1251 lines, fileCategory: `config`)
+19. `packages/console/core/migrations/20251004030300_numerous_prodigy/migration.sql` (0 lines, fileCategory: `data`)
+20. `packages/console/core/migrations/20251004030300_numerous_prodigy/snapshot.json` (1231 lines, fileCategory: `config`)
+21. `packages/console/core/migrations/20251004045106_hot_wong/migration.sql` (2 lines, fileCategory: `data`)
+22. `packages/console/core/migrations/20251004045106_hot_wong/snapshot.json` (1203 lines, fileCategory: `config`)
+23. `packages/console/core/migrations/20251007024345_careful_cerise/migration.sql` (0 lines, fileCategory: `data`)
+24. `packages/console/core/migrations/20251007024345_careful_cerise/snapshot.json` (1203 lines, fileCategory: `config`)
+25. `packages/console/core/migrations/20251007043715_panoramic_harrier/migration.sql` (2 lines, fileCategory: `data`)

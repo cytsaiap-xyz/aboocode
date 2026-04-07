@@ -75,8 +75,8 @@ export namespace Memory {
         const config = await Config.get()
         if (config.memory?.autoExtract === false) return
 
-        // Observer merges session notes to MEMORY.md on idle
-        await Observer.mergeToMemory(event.properties.sessionID)
+        // Clean up observer session notes (do not merge to MEMORY.md — only the
+        // structured extractor should write durable memory to avoid double-writes)
         Observer.cleanup(event.properties.sessionID)
 
         // Dynamic import to avoid circular dependency

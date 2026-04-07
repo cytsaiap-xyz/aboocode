@@ -7,8 +7,8 @@ import { Tool } from "./tool"
 import { LSP } from "../lsp"
 import { FileTime } from "../file/time"
 import DESCRIPTION from "./read.txt"
-import { Instance } from "../project/instance"
 import { assertExternalDirectory } from "./external-directory"
+import { IsolationPath } from "../agent/isolation-path"
 import { InstructionPrompt } from "../session/instruction"
 import { Filesystem } from "../util/filesystem"
 
@@ -31,9 +31,9 @@ export const ReadTool = Tool.define("read", {
     }
     let filepath = params.filePath
     if (!path.isAbsolute(filepath)) {
-      filepath = path.resolve(Instance.directory, filepath)
+      filepath = IsolationPath.resolve(ctx.sessionID, filepath)
     }
-    const title = path.relative(Instance.worktree, filepath)
+    const title = IsolationPath.relative(ctx.sessionID, filepath)
 
     const stat = Filesystem.stat(filepath)
 

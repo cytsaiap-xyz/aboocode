@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 45
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-45.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/console/core/src/actor.ts": ["packages/console/core/src/context.ts", "packages/console/core/src/schema/user.sql.ts", "packages/console/core/src/util/log.ts"], "packages/console/core/src/aws.ts": ["packages/console/core/src/util/fn.ts"], "packages/console/core/src/billing.ts": ["packages/console/core/src/drizzle/index.ts", "packages/console/core/src/schema/billing.sql.ts", "packages/console/core/src/actor.ts", "packages/console/core/src/util/fn.ts", "packages/console/core/src/identifier.ts", "packages/console/core/src/util/price.ts", "packages/console/core/src/user.ts", "packages/console/core/src/black.ts", "packages/console/core/src/lite.ts"], "packages/console/core/src/black.ts": ["packages/console/core/src/util/fn.ts", "packages/console/core/src/schema/billing.sql.ts"], "packages/console/core/src/context.ts": [], "packages/console/core/src/drizzle/index.ts": ["packages/console/core/src/context.ts", "packages/console/core/src/util/memo.ts"], "packages/console/core/src/drizzle/types.ts": [], "packages/console/core/src/identifier.ts": [], "packages/console/core/src/key.ts": ["packages/console/core/src/util/fn.ts", "packages/console/core/src/actor.ts", "packages/console/core/src/drizzle/index.ts", "packages/console/core/src/identifier.ts", "packages/console/core/src/schema/key.sql.ts", "packages/console/core/src/schema/user.sql.ts", "packages/console/core/src/schema/auth.sql.ts"], "packages/console/core/src/lite.ts": ["packages/console/core/src/util/fn.ts"], "packages/console/core/src/model.ts": ["packages/console/core/src/drizzle/index.ts", "packages/console/core/src/schema/model.sql.ts", "packages/console/core/src/identifier.ts", "packages/console/core/src/util/fn.ts", "packages/console/core/src/actor.ts"], "packages/console/core/src/provider.ts": ["packages/console/core/src/util/fn.ts", "packages/console/core/src/actor.ts", "packages/console/core/src/drizzle/index.ts", "packages/console/core/src/identifier.ts", "packages/console/core/src/schema/provider.sql.ts"], "packages/console/core/src/schema/account.sql.ts": ["packages/console/core/src/drizzle/types.ts"], "packages/console/core/src/schema/auth.sql.ts": ["packages/console/core/src/drizzle/types.ts"], "packages/console/core/src/schema/benchmark.sql.ts": ["packages/console/core/src/drizzle/types.ts"], "packages/console/core/src/schema/billing.sql.ts": ["packages/console/core/src/drizzle/types.ts", "packages/console/core/src/schema/workspace.sql.ts"], "packages/console/core/src/schema/ip.sql.ts": ["packages/console/core/src/drizzle/types.ts"], "packages/console/core/src/schema/key.sql.ts": ["packages/console/core/src/drizzle/types.ts", "packages/console/core/src/schema/workspace.sql.ts"], "packages/console/core/src/schema/model.sql.ts": ["packages/console/core/src/drizzle/types.ts", "packages/console/core/src/schema/workspace.sql.ts"], "packages/console/core/src/schema/provider.sql.ts": ["packages/console/core/src/drizzle/types.ts", "packages/console/core/src/schema/workspace.sql.ts"], "packages/console/core/src/schema/user.sql.ts": ["packages/console/core/src/drizzle/types.ts", "packages/console/core/src/schema/workspace.sql.ts"], "packages/console/core/src/schema/workspace.sql.ts": ["packages/console/core/src/drizzle/types.ts"], "packages/console/core/src/subscription.ts": ["packages/console/core/src/util/fn.ts", "packages/console/core/src/util/price.ts", "packages/console/core/src/util/date.ts"], "packages/console/core/src/user.ts": ["packages/console/core/src/util/fn.ts", "packages/console/core/src/drizzle/index.ts", "packages/console/core/src/schema/user.sql.ts", "packages/console/core/src/actor.ts", "packages/console/core/src/identifier.ts", "packages/console/core/src/aws.ts", "packages/console/core/src/key.ts", "packages/console/core/src/schema/key.sql.ts", "packages/console/core/src/schema/workspace.sql.ts", "packages/console/core/src/schema/auth.sql.ts"], "packages/console/core/src/util/date.ts": []}
+```
+
+Files to analyze:
+1. `packages/console/core/src/actor.ts` (98 lines, fileCategory: `code`)
+2. `packages/console/core/src/aws.ts` (65 lines, fileCategory: `code`)
+3. `packages/console/core/src/billing.ts` (439 lines, fileCategory: `code`)
+4. `packages/console/core/src/black.ts` (62 lines, fileCategory: `code`)
+5. `packages/console/core/src/context.ts` (21 lines, fileCategory: `code`)
+6. `packages/console/core/src/drizzle/index.ts` (85 lines, fileCategory: `code`)
+7. `packages/console/core/src/drizzle/types.ts` (33 lines, fileCategory: `code`)
+8. `packages/console/core/src/identifier.ts` (32 lines, fileCategory: `code`)
+9. `packages/console/core/src/key.ts` (96 lines, fileCategory: `code`)
+10. `packages/console/core/src/lite.ts` (25 lines, fileCategory: `code`)
+11. `packages/console/core/src/model.ts` (183 lines, fileCategory: `code`)
+12. `packages/console/core/src/provider.ts` (57 lines, fileCategory: `code`)
+13. `packages/console/core/src/schema/account.sql.ts` (11 lines, fileCategory: `code`)
+14. `packages/console/core/src/schema/auth.sql.ts` (20 lines, fileCategory: `code`)
+15. `packages/console/core/src/schema/benchmark.sql.ts` (14 lines, fileCategory: `code`)
+16. `packages/console/core/src/schema/billing.sql.ts` (122 lines, fileCategory: `code`)
+17. `packages/console/core/src/schema/ip.sql.ts` (22 lines, fileCategory: `code`)
+18. `packages/console/core/src/schema/key.sql.ts` (16 lines, fileCategory: `code`)
+19. `packages/console/core/src/schema/model.sql.ts` (13 lines, fileCategory: `code`)
+20. `packages/console/core/src/schema/provider.sql.ts` (14 lines, fileCategory: `code`)
+21. `packages/console/core/src/schema/user.sql.ts` (29 lines, fileCategory: `code`)
+22. `packages/console/core/src/schema/workspace.sql.ts` (21 lines, fileCategory: `code`)
+23. `packages/console/core/src/subscription.ts` (109 lines, fileCategory: `code`)
+24. `packages/console/core/src/user.ts` (226 lines, fileCategory: `code`)
+25. `packages/console/core/src/util/date.ts` (38 lines, fileCategory: `code`)

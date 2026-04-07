@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 44
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-44.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/console/core/migrations/20260116224745_numerous_annihilus/snapshot.json": [], "packages/console/core/migrations/20260122190905_moaning_karnak/migration.sql": [], "packages/console/core/migrations/20260122190905_moaning_karnak/snapshot.json": [], "packages/console/core/migrations/20260222233442_clever_toxin/migration.sql": [], "packages/console/core/migrations/20260222233442_clever_toxin/snapshot.json": [], "packages/console/core/migrations/20260224043338_nifty_starjammers/migration.sql": [], "packages/console/core/migrations/20260224043338_nifty_starjammers/snapshot.json": [], "packages/console/core/package.json": [], "packages/console/core/script/black-cancel-waitlist.ts": [], "packages/console/core/script/black-gift.ts": [], "packages/console/core/script/black-onboard-waitlist.ts": [], "packages/console/core/script/black-select-workspaces.ts": [], "packages/console/core/script/black-transfer.ts": [], "packages/console/core/script/credit-workspace.ts": [], "packages/console/core/script/disable-reload.ts": [], "packages/console/core/script/lookup-user.ts": [], "packages/console/core/script/promote-black.ts": ["packages/console/core/src/black.ts"], "packages/console/core/script/promote-lite.ts": ["packages/console/core/src/lite.ts"], "packages/console/core/script/promote-models.ts": ["packages/console/core/src/model.ts"], "packages/console/core/script/pull-models.ts": ["packages/console/core/src/model.ts"], "packages/console/core/script/reset-db.ts": [], "packages/console/core/script/update-black.ts": ["packages/console/core/src/black.ts"], "packages/console/core/script/update-lite.ts": ["packages/console/core/src/lite.ts"], "packages/console/core/script/update-models.ts": ["packages/console/core/src/model.ts"], "packages/console/core/src/account.ts": ["packages/console/core/src/util/fn.ts", "packages/console/core/src/drizzle/index.ts", "packages/console/core/src/identifier.ts", "packages/console/core/src/schema/account.sql.ts"]}
+```
+
+Files to analyze:
+1. `packages/console/core/migrations/20260116224745_numerous_annihilus/snapshot.json` (2209 lines, fileCategory: `config`)
+2. `packages/console/core/migrations/20260122190905_moaning_karnak/migration.sql` (0 lines, fileCategory: `data`)
+3. `packages/console/core/migrations/20260122190905_moaning_karnak/snapshot.json` (2223 lines, fileCategory: `config`)
+4. `packages/console/core/migrations/20260222233442_clever_toxin/migration.sql` (0 lines, fileCategory: `data`)
+5. `packages/console/core/migrations/20260222233442_clever_toxin/snapshot.json` (2237 lines, fileCategory: `config`)
+6. `packages/console/core/migrations/20260224043338_nifty_starjammers/migration.sql` (18 lines, fileCategory: `data`)
+7. `packages/console/core/migrations/20260224043338_nifty_starjammers/snapshot.json` (2463 lines, fileCategory: `config`)
+8. `packages/console/core/package.json` (55 lines, fileCategory: `config`)
+9. `packages/console/core/script/black-cancel-waitlist.ts` (41 lines, fileCategory: `code`)
+10. `packages/console/core/script/black-gift.ts` (117 lines, fileCategory: `code`)
+11. `packages/console/core/script/black-onboard-waitlist.ts` (40 lines, fileCategory: `code`)
+12. `packages/console/core/script/black-select-workspaces.ts` (41 lines, fileCategory: `code`)
+13. `packages/console/core/script/black-transfer.ts` (163 lines, fileCategory: `code`)
+14. `packages/console/core/script/credit-workspace.ts` (35 lines, fileCategory: `code`)
+15. `packages/console/core/script/disable-reload.ts` (34 lines, fileCategory: `code`)
+16. `packages/console/core/script/lookup-user.ts` (300 lines, fileCategory: `code`)
+17. `packages/console/core/script/promote-black.ts` (22 lines, fileCategory: `code`)
+18. `packages/console/core/script/promote-lite.ts` (22 lines, fileCategory: `code`)
+19. `packages/console/core/script/promote-models.ts` (33 lines, fileCategory: `code`)
+20. `packages/console/core/script/pull-models.ts` (33 lines, fileCategory: `code`)
+21. `packages/console/core/script/reset-db.ts` (13 lines, fileCategory: `code`)
+22. `packages/console/core/script/update-black.ts` (28 lines, fileCategory: `code`)
+23. `packages/console/core/script/update-lite.ts` (28 lines, fileCategory: `code`)
+24. `packages/console/core/script/update-models.ts` (43 lines, fileCategory: `code`)
+25. `packages/console/core/src/account.ts` (32 lines, fileCategory: `code`)

@@ -1,0 +1,1729 @@
+{
+  "nodes": [
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/agent.ts",
+      "type": "file",
+      "name": "agent.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/agent.ts",
+      "summary": "CLI command for managing custom agents (create, list, edit, delete) with support for defining system prompts, allowed tools, and agent modes (primary/subagent).",
+      "tags": ["cli-command", "agent-management", "configuration", "api-handler"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/auth.ts",
+      "type": "file",
+      "name": "auth.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/auth.ts",
+      "summary": "CLI commands for authentication management including login, logout, and listing configured provider credentials with plugin-based provider resolution.",
+      "tags": ["cli-command", "authentication", "api-handler", "provider"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "file",
+      "name": "cmd.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/cmd.ts",
+      "summary": "Tiny type-safe wrapper around yargs CommandModule that adds double-dash argument support, used by all other CLI command definitions.",
+      "tags": ["utility", "type-definition", "cli-command"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/db.ts",
+      "type": "file",
+      "name": "db.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/db.ts",
+      "summary": "CLI commands for database management including migrations, JSON-to-SQLite migration, and clearing session data from the local storage database.",
+      "tags": ["cli-command", "database", "migration", "storage"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "type": "file",
+      "name": "agent.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "summary": "Debug CLI command for testing agent tool execution in isolation, allowing developers to invoke individual tools with specific parameters outside a full session.",
+      "tags": ["cli-command", "debug", "agent", "tool"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/debug/config.ts",
+      "type": "file",
+      "name": "config.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/debug/config.ts",
+      "summary": "Debug CLI command that dumps the resolved configuration for inspection and troubleshooting.",
+      "tags": ["cli-command", "debug", "configuration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/debug/file.ts",
+      "type": "file",
+      "name": "file.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/debug/file.ts",
+      "summary": "Debug CLI command for testing file operations and the file system abstraction layer, useful for diagnosing file reading and indexing issues.",
+      "tags": ["cli-command", "debug", "filesystem"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/debug/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/debug/index.ts",
+      "summary": "Barrel entry point for the debug CLI subcommand group, registering all debug subcommands (agent, config, file, lsp, ripgrep, scrap, skill, snapshot).",
+      "tags": ["cli-command", "entry-point", "barrel", "debug"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/debug/lsp.ts",
+      "type": "file",
+      "name": "lsp.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/debug/lsp.ts",
+      "summary": "Debug CLI commands for testing Language Server Protocol integration, including workspace symbols and document symbols queries.",
+      "tags": ["cli-command", "debug", "lsp"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/debug/ripgrep.ts",
+      "type": "file",
+      "name": "ripgrep.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/debug/ripgrep.ts",
+      "summary": "Debug CLI command for testing ripgrep search integration, allowing direct invocation of the underlying grep tool with various options.",
+      "tags": ["cli-command", "debug", "search"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/debug/scrap.ts",
+      "type": "file",
+      "name": "scrap.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/debug/scrap.ts",
+      "summary": "Debug scratch pad command for ad-hoc development experiments and temporary code testing during development.",
+      "tags": ["cli-command", "debug", "utility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/debug/skill.ts",
+      "type": "file",
+      "name": "skill.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/debug/skill.ts",
+      "summary": "Debug CLI command for testing skill resolution and execution in isolation.",
+      "tags": ["cli-command", "debug", "skill"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/debug/snapshot.ts",
+      "type": "file",
+      "name": "snapshot.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/debug/snapshot.ts",
+      "summary": "Debug CLI command for testing the snapshot system, which captures and restores project file states.",
+      "tags": ["cli-command", "debug", "snapshot"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/export.ts",
+      "type": "file",
+      "name": "export.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/export.ts",
+      "summary": "CLI command to export session conversation data to markdown or JSON format for sharing or archival purposes.",
+      "tags": ["cli-command", "session", "export", "serialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/generate.ts",
+      "type": "file",
+      "name": "generate.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/generate.ts",
+      "summary": "CLI command to generate OpenAPI specification from the server routes for SDK and documentation generation.",
+      "tags": ["cli-command", "code-generation", "api-schema"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "type": "file",
+      "name": "github.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/github.ts",
+      "summary": "Comprehensive GitHub Actions integration providing automated issue and PR handling, OIDC authentication, branch management, code review workflows, and CI/CD bot functionality.",
+      "tags": ["cli-command", "github", "ci-cd", "api-handler", "service"],
+      "complexity": "complex",
+      "languageNotes": "Heavy use of GitHub REST and GraphQL APIs via Octokit, with complex workflow dispatch event handling for multiple trigger types (issues, PRs, review comments, workflow dispatch)."
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/import.ts",
+      "type": "file",
+      "name": "import.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/import.ts",
+      "summary": "CLI command to import shared session conversations from URLs or JSON files, transforming share data into local session records.",
+      "tags": ["cli-command", "session", "import", "serialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "type": "file",
+      "name": "mcp.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/mcp.ts",
+      "summary": "CLI commands for managing MCP (Model Context Protocol) servers including listing, adding, authenticating, debugging, and configuring local and remote MCP server connections.",
+      "tags": ["cli-command", "mcp", "configuration", "api-handler", "service"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/models.ts",
+      "type": "file",
+      "name": "models.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/models.ts",
+      "summary": "CLI command to list available AI models from configured providers, with optional verbose output showing model capabilities and pricing.",
+      "tags": ["cli-command", "provider", "model"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/pr.ts",
+      "type": "file",
+      "name": "pr.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/pr.ts",
+      "summary": "CLI command providing a guided pull request creation workflow with interactive prompts for title, description, and review options.",
+      "tags": ["cli-command", "git", "pull-request"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "type": "file",
+      "name": "run.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/run.ts",
+      "summary": "Non-interactive headless run command that executes an AI agent session with streaming output, tool result rendering, and SDK client integration for programmatic usage.",
+      "tags": ["cli-command", "agent", "api-handler", "entry-point", "service"],
+      "complexity": "complex",
+      "languageNotes": "Registers all available tools (glob, grep, read, write, edit, bash, etc.) and maps tool execution results to formatted terminal output with inline/block rendering modes."
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/serve.ts",
+      "type": "file",
+      "name": "serve.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/serve.ts",
+      "summary": "CLI command to start the local HTTP server that powers the SDK API and TUI communication layer.",
+      "tags": ["cli-command", "server", "api-handler"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/session.ts",
+      "type": "file",
+      "name": "session.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/session.ts",
+      "summary": "CLI commands for session lifecycle management including listing sessions with table/JSON output formatting and deleting individual sessions.",
+      "tags": ["cli-command", "session", "data-model"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/stats.ts",
+      "type": "file",
+      "name": "stats.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/stats.ts",
+      "summary": "CLI command to display usage statistics including token consumption, cost breakdown by model, tool usage counts, and session aggregation over configurable time windows.",
+      "tags": ["cli-command", "analytics", "session", "data-model"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "type": "file",
+      "name": "app.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "summary": "Root TUI application component built with SolidJS and OpenTUI, providing the interactive terminal interface with keyboard shortcuts, theme detection, dialog management, and session routing.",
+      "tags": ["component", "entry-point", "tui", "ui", "service"],
+      "complexity": "complex",
+      "languageNotes": "Uses SolidJS reactive primitives with a custom terminal rendering engine (OpenTUI), wrapping the entire app in nested context providers for SDK, sync, theming, keybinds, and prompt state."
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/github.ts:getUserPrompt",
+      "type": "function",
+      "name": "getUserPrompt",
+      "filePath": "packages/aboocode/src/cli/cmd/github.ts",
+      "lineRange": [748, 844],
+      "summary": "Assembles the user prompt for GitHub-triggered agent sessions by combining issue/PR context, file references, and user instructions into a structured message.",
+      "tags": ["prompt-construction", "github", "agent"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/github.ts:chat",
+      "type": "function",
+      "name": "chat",
+      "filePath": "packages/aboocode/src/cli/cmd/github.ts",
+      "lineRange": [910, 1003],
+      "summary": "Executes a full agent chat session within a GitHub Actions context, managing session creation, message streaming, event subscription, and response summarization.",
+      "tags": ["agent", "github", "session", "api-handler"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/github.ts:fetchPR",
+      "type": "function",
+      "name": "fetchPR",
+      "filePath": "packages/aboocode/src/cli/cmd/github.ts",
+      "lineRange": [1471, 1567],
+      "summary": "Fetches comprehensive PR data from GitHub including diff, review comments, and requested changes using both REST and GraphQL APIs.",
+      "tags": ["github", "api-handler", "data-fetching"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/github.ts:createPR",
+      "type": "function",
+      "name": "createPR",
+      "filePath": "packages/aboocode/src/cli/cmd/github.ts",
+      "lineRange": [1312, 1367],
+      "summary": "Creates a new GitHub pull request with auto-generated title and body, handling fork-based and direct branch workflows.",
+      "tags": ["github", "pull-request", "api-handler"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/github.ts:subscribeSessionEvents",
+      "type": "function",
+      "name": "subscribeSessionEvents",
+      "filePath": "packages/aboocode/src/cli/cmd/github.ts",
+      "lineRange": [846, 897],
+      "summary": "Sets up event listeners for agent session events (tool calls, text output, errors) and formats them for GitHub Actions log output.",
+      "tags": ["event-handler", "github", "session"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/github.ts:installGitHubApp",
+      "type": "function",
+      "name": "installGitHubApp",
+      "filePath": "packages/aboocode/src/cli/cmd/github.ts",
+      "lineRange": [317, 368],
+      "summary": "Guides the user through GitHub App installation with interactive prompts, generating and configuring workflow files for the repository.",
+      "tags": ["github", "installation", "interactive"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/github.ts:addWorkflowFiles",
+      "type": "function",
+      "name": "addWorkflowFiles",
+      "filePath": "packages/aboocode/src/cli/cmd/github.ts",
+      "lineRange": [370, 412],
+      "summary": "Writes GitHub Actions workflow YAML files to the repository for automated issue and PR handling.",
+      "tags": ["github", "ci-cd", "code-generation"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/run.ts:execute",
+      "type": "function",
+      "name": "execute",
+      "filePath": "packages/aboocode/src/cli/cmd/run.ts",
+      "lineRange": [406, 609],
+      "summary": "Main execution loop for the headless run command that processes agent messages, renders tool outputs, handles permission prompts, and manages the session lifecycle.",
+      "tags": ["agent", "session", "entry-point", "event-handler"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/stats.ts:aggregateSessionStats",
+      "type": "function",
+      "name": "aggregateSessionStats",
+      "filePath": "packages/aboocode/src/cli/cmd/stats.ts",
+      "lineRange": [95, 307],
+      "summary": "Aggregates usage statistics across all sessions within a time window, computing token totals, cost breakdowns by model, tool usage frequencies, and per-session medians.",
+      "tags": ["analytics", "data-model", "session"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/stats.ts:displayStats",
+      "type": "function",
+      "name": "displayStats",
+      "filePath": "packages/aboocode/src/cli/cmd/stats.ts",
+      "lineRange": [309, 401],
+      "summary": "Renders aggregated session statistics to the terminal with formatted tables showing costs, token usage, tool invocations, and model breakdowns.",
+      "tags": ["analytics", "formatting", "cli-command"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/app.tsx:App",
+      "type": "function",
+      "name": "App",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "lineRange": [198, 757],
+      "summary": "Root SolidJS component for the TUI that manages global keyboard shortcuts, dialog layers, theme switching, session navigation, and provider context composition.",
+      "tags": ["component", "tui", "entry-point", "ui"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/app.tsx:getTerminalBackgroundColor",
+      "type": "function",
+      "name": "getTerminalBackgroundColor",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "lineRange": [42, 100],
+      "summary": "Detects the terminal background color (dark or light) by sending ANSI escape sequences and parsing the terminal's response for theme auto-detection.",
+      "tags": ["utility", "terminal", "theme"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/mcp.ts:resolveConfigPath",
+      "type": "function",
+      "name": "resolveConfigPath",
+      "filePath": "packages/aboocode/src/cli/cmd/mcp.ts",
+      "lineRange": [383, 399],
+      "summary": "Resolves the appropriate MCP configuration file path based on whether global or project-local scope is requested.",
+      "tags": ["configuration", "mcp", "utility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/mcp.ts:addMcpToConfig",
+      "type": "function",
+      "name": "addMcpToConfig",
+      "filePath": "packages/aboocode/src/cli/cmd/mcp.ts",
+      "lineRange": [401, 416],
+      "summary": "Adds or updates an MCP server configuration entry in the JSONC config file using non-destructive edits that preserve comments.",
+      "tags": ["configuration", "mcp", "utility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/debug/agent.ts:createToolContext",
+      "type": "function",
+      "name": "createToolContext",
+      "filePath": "packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "lineRange": [114, 167],
+      "summary": "Constructs a mock tool execution context for debug purposes, allowing individual tools to be tested outside a real agent session.",
+      "tags": ["debug", "tool", "factory"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/debug/agent.ts:parseToolParams",
+      "type": "function",
+      "name": "parseToolParams",
+      "filePath": "packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "lineRange": [89, 112],
+      "summary": "Parses tool parameters from command-line key=value pairs or JSON input into the structured format expected by tool handlers.",
+      "tags": ["debug", "parsing", "utility"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:packages/aboocode/src/cli/cmd/stats.ts:SessionStats",
+      "type": "class",
+      "name": "SessionStats",
+      "filePath": "packages/aboocode/src/cli/cmd/stats.ts",
+      "lineRange": [10, 47],
+      "summary": "Interface defining the shape of aggregated session statistics including token totals, cost breakdowns, tool usage, and per-model metrics.",
+      "tags": ["type-definition", "analytics", "data-model"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/session.ts:formatSessionTable",
+      "type": "function",
+      "name": "formatSessionTable",
+      "filePath": "packages/aboocode/src/cli/cmd/session.ts",
+      "lineRange": [127, 144],
+      "summary": "Formats a list of sessions into a columnar table with ID, title, date, message count, and cost for terminal display.",
+      "tags": ["formatting", "session", "utility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/session.ts:pagerCmd",
+      "type": "function",
+      "name": "pagerCmd",
+      "filePath": "packages/aboocode/src/cli/cmd/session.ts",
+      "lineRange": [13, 38],
+      "summary": "Detects and returns the appropriate system pager command (less, more, or cat) for paginating long session output.",
+      "tags": ["utility", "terminal", "session"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/models.ts:printModels",
+      "type": "function",
+      "name": "printModels",
+      "filePath": "packages/aboocode/src/cli/cmd/models.ts",
+      "lineRange": [39, 50],
+      "summary": "Fetches and prints available models for a given provider, formatting them as a list with optional verbose details.",
+      "tags": ["provider", "model", "formatting"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/agent.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/agent.ts",
+      "target": "file:packages/aboocode/src/cli/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/agent.ts",
+      "target": "file:packages/aboocode/src/global/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/agent.ts",
+      "target": "file:packages/aboocode/src/agent/agent.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/agent.ts",
+      "target": "file:packages/aboocode/src/provider/provider.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/agent.ts",
+      "target": "file:packages/aboocode/src/util/filesystem.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/agent.ts",
+      "target": "file:packages/aboocode/src/project/instance.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/auth.ts",
+      "target": "file:packages/aboocode/src/auth/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/auth.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/auth.ts",
+      "target": "file:packages/aboocode/src/cli/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/auth.ts",
+      "target": "file:packages/aboocode/src/provider/models.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/auth.ts",
+      "target": "file:packages/aboocode/src/config/config.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/auth.ts",
+      "target": "file:packages/aboocode/src/global/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/auth.ts",
+      "target": "file:packages/aboocode/src/plugin/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/auth.ts",
+      "target": "file:packages/aboocode/src/project/instance.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/auth.ts",
+      "target": "file:packages/aboocode/src/util/process.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/db.ts",
+      "target": "file:packages/aboocode/src/storage/db.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/db.ts",
+      "target": "file:packages/aboocode/src/cli/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/db.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/db.ts",
+      "target": "file:packages/aboocode/src/storage/json-migration.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "target": "file:packages/aboocode/src/agent/agent.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "target": "file:packages/aboocode/src/provider/provider.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "target": "file:packages/aboocode/src/session/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "target": "file:packages/aboocode/src/session/message-v2.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "target": "file:packages/aboocode/src/id/id.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "target": "file:packages/aboocode/src/tool/registry.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "target": "file:packages/aboocode/src/project/instance.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "target": "file:packages/aboocode/src/permission/next.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "target": "file:packages/aboocode/src/util/iife.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/config.ts",
+      "target": "file:packages/aboocode/src/config/config.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/config.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/config.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/file.ts",
+      "target": "file:packages/aboocode/src/file/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/file.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/file.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/index.ts",
+      "target": "file:packages/aboocode/src/global/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/index.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/index.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/index.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/debug/config.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/index.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/debug/file.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/index.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/debug/lsp.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/index.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/debug/ripgrep.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/index.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/debug/scrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/index.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/debug/skill.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/index.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/debug/snapshot.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/index.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/lsp.ts",
+      "target": "file:packages/aboocode/src/lsp/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/lsp.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/lsp.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/lsp.ts",
+      "target": "file:packages/aboocode/src/util/log.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/ripgrep.ts",
+      "target": "file:packages/aboocode/src/file/ripgrep.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/ripgrep.ts",
+      "target": "file:packages/aboocode/src/project/instance.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/ripgrep.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/ripgrep.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/scrap.ts",
+      "target": "file:packages/aboocode/src/project/project.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/scrap.ts",
+      "target": "file:packages/aboocode/src/util/log.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/scrap.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/skill.ts",
+      "target": "file:packages/aboocode/src/skill/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/skill.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/skill.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/snapshot.ts",
+      "target": "file:packages/aboocode/src/snapshot/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/snapshot.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/snapshot.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/export.ts",
+      "target": "file:packages/aboocode/src/session/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/export.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/export.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/export.ts",
+      "target": "file:packages/aboocode/src/cli/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/generate.ts",
+      "target": "file:packages/aboocode/src/server/server.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "file:packages/aboocode/src/util/filesystem.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "file:packages/aboocode/src/cli/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "file:packages/aboocode/src/provider/models.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "file:packages/aboocode/src/session/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "file:packages/aboocode/src/id/id.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "file:packages/aboocode/src/provider/provider.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "file:packages/aboocode/src/bus/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "file:packages/aboocode/src/session/message-v2.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/import.ts",
+      "target": "file:packages/aboocode/src/session/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/import.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/import.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/import.ts",
+      "target": "file:packages/aboocode/src/storage/db.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/import.ts",
+      "target": "file:packages/aboocode/src/session/session.sql.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/import.ts",
+      "target": "file:packages/aboocode/src/project/instance.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/import.ts",
+      "target": "file:packages/aboocode/src/share/share-next.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/import.ts",
+      "target": "file:packages/aboocode/src/util/filesystem.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "target": "file:packages/aboocode/src/cli/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "target": "file:packages/aboocode/src/mcp/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "target": "file:packages/aboocode/src/mcp/auth.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "target": "file:packages/aboocode/src/mcp/oauth-provider.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "target": "file:packages/aboocode/src/config/config.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "target": "file:packages/aboocode/src/project/instance.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "target": "file:packages/aboocode/src/installation/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "target": "file:packages/aboocode/src/global/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "target": "file:packages/aboocode/src/util/filesystem.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "target": "file:packages/aboocode/src/bus/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/models.ts",
+      "target": "file:packages/aboocode/src/project/instance.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/models.ts",
+      "target": "file:packages/aboocode/src/provider/provider.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/models.ts",
+      "target": "file:packages/aboocode/src/provider/models.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/models.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/models.ts",
+      "target": "file:packages/aboocode/src/cli/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/pr.ts",
+      "target": "file:packages/aboocode/src/cli/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/pr.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/cli/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/flag/flag.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/util/filesystem.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/server/server.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/provider/provider.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/agent/agent.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/permission/next.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/tool.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/glob.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/grep.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/ls.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/read.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/webfetch.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/edit.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/write.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/codesearch.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/websearch.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/task.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/skill.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/bash.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/tool/todo.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "file:packages/aboocode/src/util/locale.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/serve.ts",
+      "target": "file:packages/aboocode/src/server/server.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/serve.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/serve.ts",
+      "target": "file:packages/aboocode/src/cli/network.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/serve.ts",
+      "target": "file:packages/aboocode/src/flag/flag.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/session.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/session.ts",
+      "target": "file:packages/aboocode/src/session/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/session.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/session.ts",
+      "target": "file:packages/aboocode/src/cli/ui.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/session.ts",
+      "target": "file:packages/aboocode/src/util/locale.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/session.ts",
+      "target": "file:packages/aboocode/src/flag/flag.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/session.ts",
+      "target": "file:packages/aboocode/src/util/filesystem.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/session.ts",
+      "target": "file:packages/aboocode/src/util/process.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/stats.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/stats.ts",
+      "target": "file:packages/aboocode/src/session/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/stats.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/stats.ts",
+      "target": "file:packages/aboocode/src/storage/db.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/stats.ts",
+      "target": "file:packages/aboocode/src/session/session.sql.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/stats.ts",
+      "target": "file:packages/aboocode/src/project/project.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/stats.ts",
+      "target": "file:packages/aboocode/src/project/instance.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/win32.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/dialog-help.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/frecency.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/stash.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/dialog-alert.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/toast.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/exit.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/event.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/kv.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/args.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/prompt.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/sdk.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/github.ts:getUserPrompt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/github.ts:chat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/github.ts:fetchPR",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/github.ts:createPR",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/github.ts:subscribeSessionEvents",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/github.ts:installGitHubApp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/github.ts:addWorkflowFiles",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/run.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/run.ts:execute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/stats.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/stats.ts:aggregateSessionStats",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/stats.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/stats.ts:displayStats",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/stats.ts",
+      "target": "class:packages/aboocode/src/cli/cmd/stats.ts:SessionStats",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/app.tsx:App",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/app.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/app.tsx:getTerminalBackgroundColor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/mcp.ts:resolveConfigPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/mcp.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/mcp.ts:addMcpToConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/debug/agent.ts:createToolContext",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/debug/agent.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/debug/agent.ts:parseToolParams",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/session.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/session.ts:formatSessionTable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/session.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/session.ts:pagerCmd",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/models.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/models.ts:printModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/stats.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/stats.ts:aggregateSessionStats",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/stats.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/stats.ts:displayStats",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/github.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/github.ts:getUserPrompt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

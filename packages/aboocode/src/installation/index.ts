@@ -121,8 +121,8 @@ export namespace Installation {
   )
 
   async function getBrewFormula() {
-    const tapFormula = await $`brew list --formula anomalyco/tap/aboocode`.throws(false).quiet().text()
-    if (tapFormula.includes("aboocode")) return "anomalyco/tap/aboocode"
+    const tapFormula = await $`brew list --formula cytsaiap-xyz/tap/aboocode`.throws(false).quiet().text()
+    if (tapFormula.includes("aboocode")) return "cytsaiap-xyz/tap/aboocode"
     const coreFormula = await $`brew list --formula aboocode`.throws(false).quiet().text()
     if (coreFormula.includes("aboocode")) return "aboocode"
     return "aboocode"
@@ -150,7 +150,7 @@ export namespace Installation {
         const formula = await getBrewFormula()
         if (formula.includes("/")) {
           cmd =
-            $`brew tap anomalyco/tap && cd "$(brew --repo anomalyco/tap)" && git pull --ff-only && brew upgrade ${formula}`.env(
+            $`brew tap cytsaiap-xyz/tap && cd "$(brew --repo cytsaiap-xyz/tap)" && git pull --ff-only && brew upgrade ${formula}`.env(
               {
                 HOMEBREW_NO_AUTO_UPDATE: "1",
                 ...process.env,
@@ -251,7 +251,7 @@ export namespace Installation {
         .then((data: any) => data.version)
     }
 
-    return fetch("https://api.github.com/repos/anomalyco/opencode/releases/latest")
+    return fetch("https://api.github.com/repos/cytsaiap-xyz/aboocode/releases/latest")
       .then((res) => {
         if (!res.ok) throw new Error(res.statusText)
         return res.json()

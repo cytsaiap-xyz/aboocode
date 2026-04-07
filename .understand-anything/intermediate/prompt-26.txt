@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 26
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-26.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/app/src/context/command.test.ts": ["packages/app/src/context/command.tsx"], "packages/app/src/context/command.tsx": [], "packages/app/src/context/comments.test.ts": ["packages/app/src/context/comments.tsx"], "packages/app/src/context/comments.tsx": [], "packages/app/src/context/file-content-eviction-accounting.test.ts": [], "packages/app/src/context/file.tsx": ["packages/app/src/context/sdk.tsx", "packages/app/src/context/sync.tsx", "packages/app/src/context/file/path.ts", "packages/app/src/context/file/view-cache.ts", "packages/app/src/context/file/tree-store.ts", "packages/app/src/context/file/watcher.ts"], "packages/app/src/context/file/content-cache.ts": [], "packages/app/src/context/file/path.test.ts": ["packages/app/src/context/file/path.ts"], "packages/app/src/context/file/path.ts": [], "packages/app/src/context/file/tree-store.ts": [], "packages/app/src/context/file/types.ts": [], "packages/app/src/context/file/view-cache.ts": ["packages/app/src/context/file/types.ts"], "packages/app/src/context/file/watcher.test.ts": ["packages/app/src/context/file/watcher.ts"], "packages/app/src/context/file/watcher.ts": [], "packages/app/src/context/global-sdk.tsx": ["packages/app/src/context/platform.tsx", "packages/app/src/context/server.tsx"], "packages/app/src/context/global-sync.test.ts": [], "packages/app/src/context/global-sync.tsx": ["packages/app/src/pages/error.tsx", "packages/app/src/context/global-sdk.tsx", "packages/app/src/context/global-sync/bootstrap.ts", "packages/app/src/context/global-sync/child-store.ts", "packages/app/src/context/global-sync/event-reducer.ts", "packages/app/src/context/global-sync/queue.ts", "packages/app/src/context/global-sync/session-load.ts", "packages/app/src/context/global-sync/session-trim.ts", "packages/app/src/context/global-sync/types.ts", "packages/app/src/context/global-sync/utils.ts", "packages/app/src/context/platform.tsx"], "packages/app/src/context/global-sync/bootstrap.ts": ["packages/app/src/context/global-sync/types.ts", "packages/app/src/context/global-sync/utils.ts"], "packages/app/src/context/global-sync/child-store.test.ts": ["packages/app/src/context/global-sync/types.ts", "packages/app/src/context/global-sync/child-store.ts"], "packages/app/src/context/global-sync/child-store.ts": ["packages/app/src/context/global-sync/eviction.ts"], "packages/app/src/context/global-sync/event-reducer.test.ts": ["packages/app/src/context/global-sync/types.ts", "packages/app/src/context/global-sync/event-reducer.ts"], "packages/app/src/context/global-sync/event-reducer.ts": ["packages/app/src/context/global-sync/types.ts", "packages/app/src/context/global-sync/session-trim.ts"], "packages/app/src/context/global-sync/eviction.ts": ["packages/app/src/context/global-sync/types.ts"], "packages/app/src/context/global-sync/queue.ts": [], "packages/app/src/context/global-sync/session-load.ts": ["packages/app/src/context/global-sync/types.ts"]}
+```
+
+Files to analyze:
+1. `packages/app/src/context/command.test.ts` (25 lines, fileCategory: `code`)
+2. `packages/app/src/context/command.tsx` (392 lines, fileCategory: `code`)
+3. `packages/app/src/context/comments.test.ts` (153 lines, fileCategory: `code`)
+4. `packages/app/src/context/comments.tsx` (188 lines, fileCategory: `code`)
+5. `packages/app/src/context/file-content-eviction-accounting.test.ts` (65 lines, fileCategory: `code`)
+6. `packages/app/src/context/file.tsx` (280 lines, fileCategory: `code`)
+7. `packages/app/src/context/file/content-cache.ts` (88 lines, fileCategory: `code`)
+8. `packages/app/src/context/file/path.test.ts` (360 lines, fileCategory: `code`)
+9. `packages/app/src/context/file/path.ts` (151 lines, fileCategory: `code`)
+10. `packages/app/src/context/file/tree-store.ts` (170 lines, fileCategory: `code`)
+11. `packages/app/src/context/file/types.ts` (41 lines, fileCategory: `code`)
+12. `packages/app/src/context/file/view-cache.ts` (146 lines, fileCategory: `code`)
+13. `packages/app/src/context/file/watcher.test.ts` (149 lines, fileCategory: `code`)
+14. `packages/app/src/context/file/watcher.ts` (53 lines, fileCategory: `code`)
+15. `packages/app/src/context/global-sdk.tsx` (230 lines, fileCategory: `code`)
+16. `packages/app/src/context/global-sync.test.ts` (126 lines, fileCategory: `code`)
+17. `packages/app/src/context/global-sync.tsx` (382 lines, fileCategory: `code`)
+18. `packages/app/src/context/global-sync/bootstrap.ts` (203 lines, fileCategory: `code`)
+19. `packages/app/src/context/global-sync/child-store.test.ts` (37 lines, fileCategory: `code`)
+20. `packages/app/src/context/global-sync/child-store.ts` (258 lines, fileCategory: `code`)
+21. `packages/app/src/context/global-sync/event-reducer.test.ts` (496 lines, fileCategory: `code`)
+22. `packages/app/src/context/global-sync/event-reducer.ts` (346 lines, fileCategory: `code`)
+23. `packages/app/src/context/global-sync/eviction.ts` (28 lines, fileCategory: `code`)
+24. `packages/app/src/context/global-sync/queue.ts` (83 lines, fileCategory: `code`)
+25. `packages/app/src/context/global-sync/session-load.ts` (25 lines, fileCategory: `code`)

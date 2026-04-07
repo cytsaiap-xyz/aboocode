@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 74
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-74.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/web/src/content/docs/it/acp.mdx": [], "packages/web/src/content/docs/it/agents.mdx": [], "packages/web/src/content/docs/it/cli.mdx": [], "packages/web/src/content/docs/it/commands.mdx": [], "packages/web/src/content/docs/it/config.mdx": [], "packages/web/src/content/docs/it/custom-tools.mdx": [], "packages/web/src/content/docs/it/ecosystem.mdx": [], "packages/web/src/content/docs/it/enterprise.mdx": [], "packages/web/src/content/docs/it/formatters.mdx": [], "packages/web/src/content/docs/it/github.mdx": [], "packages/web/src/content/docs/it/gitlab.mdx": [], "packages/web/src/content/docs/it/ide.mdx": [], "packages/web/src/content/docs/it/index.mdx": [], "packages/web/src/content/docs/it/keybinds.mdx": [], "packages/web/src/content/docs/it/lsp.mdx": [], "packages/web/src/content/docs/it/mcp-servers.mdx": [], "packages/web/src/content/docs/it/models.mdx": [], "packages/web/src/content/docs/it/modes.mdx": [], "packages/web/src/content/docs/it/network.mdx": [], "packages/web/src/content/docs/it/permissions.mdx": [], "packages/web/src/content/docs/it/plugins.mdx": [], "packages/web/src/content/docs/it/providers.mdx": [], "packages/web/src/content/docs/it/rules.mdx": [], "packages/web/src/content/docs/it/sdk.mdx": [], "packages/web/src/content/docs/it/server.mdx": []}
+```
+
+Files to analyze:
+1. `packages/web/src/content/docs/it/acp.mdx` (155 lines, fileCategory: `code`)
+2. `packages/web/src/content/docs/it/agents.mdx` (745 lines, fileCategory: `code`)
+3. `packages/web/src/content/docs/it/cli.mdx` (603 lines, fileCategory: `code`)
+4. `packages/web/src/content/docs/it/commands.mdx` (322 lines, fileCategory: `code`)
+5. `packages/web/src/content/docs/it/config.mdx` (680 lines, fileCategory: `code`)
+6. `packages/web/src/content/docs/it/custom-tools.mdx` (170 lines, fileCategory: `code`)
+7. `packages/web/src/content/docs/it/ecosystem.mdx` (76 lines, fileCategory: `code`)
+8. `packages/web/src/content/docs/it/enterprise.mdx` (165 lines, fileCategory: `code`)
+9. `packages/web/src/content/docs/it/formatters.mdx` (131 lines, fileCategory: `code`)
+10. `packages/web/src/content/docs/it/github.mdx` (321 lines, fileCategory: `code`)
+11. `packages/web/src/content/docs/it/gitlab.mdx` (195 lines, fileCategory: `code`)
+12. `packages/web/src/content/docs/it/ide.mdx` (48 lines, fileCategory: `code`)
+13. `packages/web/src/content/docs/it/index.mdx` (344 lines, fileCategory: `code`)
+14. `packages/web/src/content/docs/it/keybinds.mdx` (192 lines, fileCategory: `code`)
+15. `packages/web/src/content/docs/it/lsp.mdx` (188 lines, fileCategory: `code`)
+16. `packages/web/src/content/docs/it/mcp-servers.mdx` (511 lines, fileCategory: `code`)
+17. `packages/web/src/content/docs/it/models.mdx` (222 lines, fileCategory: `code`)
+18. `packages/web/src/content/docs/it/modes.mdx` (330 lines, fileCategory: `code`)
+19. `packages/web/src/content/docs/it/network.mdx` (57 lines, fileCategory: `code`)
+20. `packages/web/src/content/docs/it/permissions.mdx` (237 lines, fileCategory: `code`)
+21. `packages/web/src/content/docs/it/plugins.mdx` (384 lines, fileCategory: `code`)
+22. `packages/web/src/content/docs/it/providers.mdx` (1897 lines, fileCategory: `code`)
+23. `packages/web/src/content/docs/it/rules.mdx` (180 lines, fileCategory: `code`)
+24. `packages/web/src/content/docs/it/sdk.mdx` (391 lines, fileCategory: `code`)
+25. `packages/web/src/content/docs/it/server.mdx` (284 lines, fileCategory: `code`)

@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 31
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-31.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/app/src/utils/agent.ts": [], "packages/app/src/utils/aim.ts": [], "packages/app/src/utils/base64.ts": [], "packages/app/src/utils/dom.ts": [], "packages/app/src/utils/id.ts": [], "packages/app/src/utils/index.ts": [], "packages/app/src/utils/notification-click.test.ts": ["packages/app/src/utils/notification-click.ts"], "packages/app/src/utils/notification-click.ts": [], "packages/app/src/utils/persist.test.ts": [], "packages/app/src/utils/persist.ts": [], "packages/app/src/utils/prompt.ts": [], "packages/app/src/utils/runtime-adapters.test.ts": [], "packages/app/src/utils/runtime-adapters.ts": [], "packages/app/src/utils/same.ts": [], "packages/app/src/utils/scoped-cache.test.ts": ["packages/app/src/utils/scoped-cache.ts"], "packages/app/src/utils/scoped-cache.ts": [], "packages/app/src/utils/server-errors.test.ts": ["packages/app/src/utils/server-errors.ts"], "packages/app/src/utils/server-errors.ts": [], "packages/app/src/utils/server-health.test.ts": ["packages/app/src/utils/server-health.ts"], "packages/app/src/utils/server-health.ts": ["packages/app/src/utils/server.ts"], "packages/app/src/utils/server.ts": [], "packages/app/src/utils/solid-dnd.tsx": [], "packages/app/src/utils/sound.ts": [], "packages/app/src/utils/speech.ts": [], "packages/app/src/utils/terminal-writer.test.ts": ["packages/app/src/utils/terminal-writer.ts"]}
+```
+
+Files to analyze:
+1. `packages/app/src/utils/agent.ts` (11 lines, fileCategory: `code`)
+2. `packages/app/src/utils/aim.ts` (138 lines, fileCategory: `code`)
+3. `packages/app/src/utils/base64.ts` (10 lines, fileCategory: `code`)
+4. `packages/app/src/utils/dom.ts` (51 lines, fileCategory: `code`)
+5. `packages/app/src/utils/id.ts` (99 lines, fileCategory: `code`)
+6. `packages/app/src/utils/index.ts` (1 lines, fileCategory: `code`)
+7. `packages/app/src/utils/notification-click.test.ts` (26 lines, fileCategory: `code`)
+8. `packages/app/src/utils/notification-click.ts` (12 lines, fileCategory: `code`)
+9. `packages/app/src/utils/persist.test.ts` (107 lines, fileCategory: `code`)
+10. `packages/app/src/utils/persist.ts` (463 lines, fileCategory: `code`)
+11. `packages/app/src/utils/prompt.ts` (203 lines, fileCategory: `code`)
+12. `packages/app/src/utils/runtime-adapters.test.ts` (62 lines, fileCategory: `code`)
+13. `packages/app/src/utils/runtime-adapters.ts` (39 lines, fileCategory: `code`)
+14. `packages/app/src/utils/same.ts` (6 lines, fileCategory: `code`)
+15. `packages/app/src/utils/scoped-cache.test.ts` (69 lines, fileCategory: `code`)
+16. `packages/app/src/utils/scoped-cache.ts` (104 lines, fileCategory: `code`)
+17. `packages/app/src/utils/server-errors.test.ts` (69 lines, fileCategory: `code`)
+18. `packages/app/src/utils/server-errors.ts` (32 lines, fileCategory: `code`)
+19. `packages/app/src/utils/server-health.test.ts` (123 lines, fileCategory: `code`)
+20. `packages/app/src/utils/server-health.ts` (83 lines, fileCategory: `code`)
+21. `packages/app/src/utils/server.ts` (22 lines, fileCategory: `code`)
+22. `packages/app/src/utils/solid-dnd.tsx` (49 lines, fileCategory: `code`)
+23. `packages/app/src/utils/sound.ts` (118 lines, fileCategory: `code`)
+24. `packages/app/src/utils/speech.ts` (327 lines, fileCategory: `code`)
+25. `packages/app/src/utils/terminal-writer.test.ts` (65 lines, fileCategory: `code`)

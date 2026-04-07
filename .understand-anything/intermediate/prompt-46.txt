@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 46
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-46.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/console/core/src/util/env.cloudflare.ts": [], "packages/console/core/src/util/fn.ts": [], "packages/console/core/src/util/log.ts": ["packages/console/core/src/context.ts"], "packages/console/core/src/util/memo.ts": [], "packages/console/core/src/util/price.ts": [], "packages/console/core/src/workspace.ts": ["packages/console/core/src/util/fn.ts", "packages/console/core/src/actor.ts", "packages/console/core/src/drizzle/index.ts", "packages/console/core/src/identifier.ts", "packages/console/core/src/schema/user.sql.ts", "packages/console/core/src/schema/billing.sql.ts", "packages/console/core/src/schema/workspace.sql.ts", "packages/console/core/src/key.ts"], "packages/console/core/sst-env.d.ts": [], "packages/console/core/test/date.test.ts": ["packages/console/core/src/util/date.ts"], "packages/console/core/test/subscription.test.ts": ["packages/console/core/src/subscription.ts", "packages/console/core/src/util/price.ts"], "packages/console/core/tsconfig.json": [], "packages/console/function/package.json": [], "packages/console/function/src/auth.ts": [], "packages/console/function/src/log-processor.ts": [], "packages/console/function/sst-env.d.ts": [], "packages/console/function/tsconfig.json": [], "packages/console/mail/emails/components.tsx": ["packages/console/mail/emails/styles.ts"], "packages/console/mail/emails/styles.ts": [], "packages/console/mail/emails/templates/InviteEmail.tsx": ["packages/console/mail/emails/components.tsx"], "packages/console/mail/package.json": [], "packages/console/mail/sst-env.d.ts": [], "packages/console/resource/package.json": [], "packages/console/resource/resource.cloudflare.ts": [], "packages/console/resource/resource.node.ts": [], "packages/console/resource/sst-env.d.ts": [], "packages/console/resource/tsconfig.json": []}
+```
+
+Files to analyze:
+1. `packages/console/core/src/util/env.cloudflare.ts` (0 lines, fileCategory: `code`)
+2. `packages/console/core/src/util/fn.ts` (11 lines, fileCategory: `code`)
+3. `packages/console/core/src/util/log.ts` (55 lines, fileCategory: `code`)
+4. `packages/console/core/src/util/memo.ts` (18 lines, fileCategory: `code`)
+5. `packages/console/core/src/util/price.ts` (3 lines, fileCategory: `code`)
+6. `packages/console/core/src/workspace.ts` (76 lines, fileCategory: `code`)
+7. `packages/console/core/sst-env.d.ts` (284 lines, fileCategory: `code`)
+8. `packages/console/core/test/date.test.ts` (76 lines, fileCategory: `code`)
+9. `packages/console/core/test/subscription.test.ts` (106 lines, fileCategory: `code`)
+10. `packages/console/core/tsconfig.json` (11 lines, fileCategory: `config`)
+11. `packages/console/function/package.json` (31 lines, fileCategory: `config`)
+12. `packages/console/function/src/auth.ts` (223 lines, fileCategory: `code`)
+13. `packages/console/function/src/log-processor.ts` (60 lines, fileCategory: `code`)
+14. `packages/console/function/sst-env.d.ts` (284 lines, fileCategory: `code`)
+15. `packages/console/function/tsconfig.json` (11 lines, fileCategory: `config`)
+16. `packages/console/mail/emails/components.tsx` (72 lines, fileCategory: `code`)
+17. `packages/console/mail/emails/styles.ts` (91 lines, fileCategory: `code`)
+18. `packages/console/mail/emails/templates/InviteEmail.tsx` (82 lines, fileCategory: `code`)
+19. `packages/console/mail/package.json` (22 lines, fileCategory: `config`)
+20. `packages/console/mail/sst-env.d.ts` (9 lines, fileCategory: `code`)
+21. `packages/console/resource/package.json` (22 lines, fileCategory: `config`)
+22. `packages/console/resource/resource.cloudflare.ts` (19 lines, fileCategory: `code`)
+23. `packages/console/resource/resource.node.ts` (70 lines, fileCategory: `code`)
+24. `packages/console/resource/sst-env.d.ts` (284 lines, fileCategory: `code`)
+25. `packages/console/resource/tsconfig.json` (9 lines, fileCategory: `config`)

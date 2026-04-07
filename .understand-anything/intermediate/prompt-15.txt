@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 15
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-15.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/aboocode/src/tool/plan-exit.txt": [], "packages/aboocode/src/tool/plan.ts": ["packages/aboocode/src/tool/tool.ts", "packages/aboocode/src/question/index.ts", "packages/aboocode/src/session/index.ts", "packages/aboocode/src/session/message-v2.ts", "packages/aboocode/src/id/id.ts", "packages/aboocode/src/provider/provider.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/tool/plan-exit.txt"], "packages/aboocode/src/tool/question.ts": ["packages/aboocode/src/tool/tool.ts", "packages/aboocode/src/question/index.ts", "packages/aboocode/src/tool/question.txt"], "packages/aboocode/src/tool/question.txt": [], "packages/aboocode/src/tool/read.ts": ["packages/aboocode/src/tool/tool.ts", "packages/aboocode/src/lsp/index.ts", "packages/aboocode/src/file/time.ts", "packages/aboocode/src/tool/read.txt", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/tool/external-directory.ts", "packages/aboocode/src/session/instruction.ts", "packages/aboocode/src/util/filesystem.ts"], "packages/aboocode/src/tool/read.txt": [], "packages/aboocode/src/tool/registry.ts": ["packages/aboocode/src/tool/plan.ts", "packages/aboocode/src/tool/question.ts", "packages/aboocode/src/tool/bash.ts", "packages/aboocode/src/tool/edit.ts", "packages/aboocode/src/tool/glob.ts", "packages/aboocode/src/tool/grep.ts", "packages/aboocode/src/tool/batch.ts", "packages/aboocode/src/tool/read.ts", "packages/aboocode/src/tool/task.ts", "packages/aboocode/src/tool/todo.ts", "packages/aboocode/src/tool/webfetch.ts", "packages/aboocode/src/tool/write.ts", "packages/aboocode/src/tool/invalid.ts", "packages/aboocode/src/tool/skill.ts", "packages/aboocode/src/agent/agent.ts", "packages/aboocode/src/tool/tool.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/config/config.ts", "packages/aboocode/src/plugin/index.ts", "packages/aboocode/src/tool/websearch.ts", "packages/aboocode/src/tool/codesearch.ts", "packages/aboocode/src/tool/lsp.ts", "packages/aboocode/src/tool/truncation.ts", "packages/aboocode/src/tool/apply_patch.ts", "packages/aboocode/src/util/glob.ts"], "packages/aboocode/src/tool/skill.ts": ["packages/aboocode/src/tool/tool.ts", "packages/aboocode/src/skill/index.ts", "packages/aboocode/src/permission/next.ts", "packages/aboocode/src/file/ripgrep.ts"], "packages/aboocode/src/tool/task.ts": ["packages/aboocode/src/tool/tool.ts", "packages/aboocode/src/tool/task.txt", "packages/aboocode/src/session/index.ts", "packages/aboocode/src/session/message-v2.ts", "packages/aboocode/src/id/id.ts", "packages/aboocode/src/agent/agent.ts", "packages/aboocode/src/session/prompt.ts", "packages/aboocode/src/config/config.ts"], "packages/aboocode/src/tool/task.txt": [], "packages/aboocode/src/tool/team.ts": ["packages/aboocode/src/tool/tool.ts", "packages/aboocode/src/team/manager.ts", "packages/aboocode/src/agent/agent.ts", "packages/aboocode/src/session/index.ts", "packages/aboocode/src/session/prompt.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/config/config.ts", "packages/aboocode/src/skill/skill.ts", "packages/aboocode/src/team/knowledge-bridge.ts", "packages/aboocode/src/provider/provider.ts", "packages/aboocode/src/util/log.ts", "packages/aboocode/src/usage-log.ts", "packages/aboocode/src/debug-log.ts"], "packages/aboocode/src/tool/todo.ts": ["packages/aboocode/src/tool/tool.ts", "packages/aboocode/src/tool/todowrite.txt", "packages/aboocode/src/session/todo.ts"], "packages/aboocode/src/tool/todoread.txt": [], "packages/aboocode/src/tool/todowrite.txt": [], "packages/aboocode/src/tool/tool.ts": ["packages/aboocode/src/session/message-v2.ts", "packages/aboocode/src/agent/agent.ts", "packages/aboocode/src/permission/next.ts", "packages/aboocode/src/tool/truncation.ts"], "packages/aboocode/src/tool/truncation.ts": ["packages/aboocode/src/global/index.ts", "packages/aboocode/src/id/id.ts", "packages/aboocode/src/permission/next.ts", "packages/aboocode/src/agent/agent.ts", "packages/aboocode/src/scheduler/index.ts", "packages/aboocode/src/util/filesystem.ts", "packages/aboocode/src/util/glob.ts"], "packages/aboocode/src/tool/webfetch.ts": ["packages/aboocode/src/tool/tool.ts", "packages/aboocode/src/tool/webfetch.txt", "packages/aboocode/src/util/abort.ts"], "packages/aboocode/src/tool/webfetch.txt": [], "packages/aboocode/src/tool/websearch.ts": ["packages/aboocode/src/tool/tool.ts", "packages/aboocode/src/tool/websearch.txt", "packages/aboocode/src/util/abort.ts"], "packages/aboocode/src/tool/websearch.txt": [], "packages/aboocode/src/tool/write.ts": ["packages/aboocode/src/tool/tool.ts", "packages/aboocode/src/lsp/index.ts", "packages/aboocode/src/tool/write.txt", "packages/aboocode/src/bus/index.ts", "packages/aboocode/src/file/index.ts", "packages/aboocode/src/file/watcher.ts", "packages/aboocode/src/file/time.ts", "packages/aboocode/src/util/filesystem.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/tool/edit.ts", "packages/aboocode/src/tool/external-directory.ts"], "packages/aboocode/src/tool/write.txt": [], "packages/aboocode/src/usage-log.ts": ["packages/aboocode/src/global/index.ts"], "packages/aboocode/src/util/abort.ts": [], "packages/aboocode/src/util/archive.ts": []}
+```
+
+Files to analyze:
+1. `packages/aboocode/src/tool/plan-exit.txt` (13 lines, fileCategory: `docs`)
+2. `packages/aboocode/src/tool/plan.ts` (131 lines, fileCategory: `code`)
+3. `packages/aboocode/src/tool/question.ts` (33 lines, fileCategory: `code`)
+4. `packages/aboocode/src/tool/question.txt` (10 lines, fileCategory: `docs`)
+5. `packages/aboocode/src/tool/read.ts` (297 lines, fileCategory: `code`)
+6. `packages/aboocode/src/tool/read.txt` (14 lines, fileCategory: `docs`)
+7. `packages/aboocode/src/tool/registry.ts` (222 lines, fileCategory: `code`)
+8. `packages/aboocode/src/tool/skill.ts` (123 lines, fileCategory: `code`)
+9. `packages/aboocode/src/tool/task.ts` (165 lines, fileCategory: `code`)
+10. `packages/aboocode/src/tool/task.txt` (60 lines, fileCategory: `docs`)
+11. `packages/aboocode/src/tool/team.ts` (815 lines, fileCategory: `code`)
+12. `packages/aboocode/src/tool/todo.ts` (53 lines, fileCategory: `code`)
+13. `packages/aboocode/src/tool/todoread.txt` (14 lines, fileCategory: `docs`)
+14. `packages/aboocode/src/tool/todowrite.txt` (167 lines, fileCategory: `docs`)
+15. `packages/aboocode/src/tool/tool.ts` (89 lines, fileCategory: `code`)
+16. `packages/aboocode/src/tool/truncation.ts` (107 lines, fileCategory: `code`)
+17. `packages/aboocode/src/tool/webfetch.ts` (206 lines, fileCategory: `code`)
+18. `packages/aboocode/src/tool/webfetch.txt` (13 lines, fileCategory: `docs`)
+19. `packages/aboocode/src/tool/websearch.ts` (150 lines, fileCategory: `code`)
+20. `packages/aboocode/src/tool/websearch.txt` (14 lines, fileCategory: `docs`)
+21. `packages/aboocode/src/tool/write.ts` (84 lines, fileCategory: `code`)
+22. `packages/aboocode/src/tool/write.txt` (8 lines, fileCategory: `docs`)
+23. `packages/aboocode/src/usage-log.ts` (62 lines, fileCategory: `code`)
+24. `packages/aboocode/src/util/abort.ts` (35 lines, fileCategory: `code`)
+25. `packages/aboocode/src/util/archive.ts` (16 lines, fileCategory: `code`)

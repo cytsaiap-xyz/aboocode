@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 17
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-17.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/aboocode/sst-env.d.ts": [], "packages/aboocode/test/acp/agent-interface.test.ts": ["packages/aboocode/src/acp/agent.ts"], "packages/aboocode/test/acp/event-subscription.test.ts": ["packages/aboocode/src/acp/agent.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/test/fixture/fixture.ts"], "packages/aboocode/test/agent/agent.test.ts": ["packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/agent/agent.ts", "packages/aboocode/src/permission/next.ts"], "packages/aboocode/test/AGENTS.md": [], "packages/aboocode/test/bun.test.ts": [], "packages/aboocode/test/cli/github-action.test.ts": ["packages/aboocode/src/cli/cmd/github.ts", "packages/aboocode/src/session/message-v2.ts"], "packages/aboocode/test/cli/github-remote.test.ts": ["packages/aboocode/src/cli/cmd/github.ts"], "packages/aboocode/test/cli/import.test.ts": ["packages/aboocode/src/cli/cmd/import.ts"], "packages/aboocode/test/cli/plugin-auth-picker.test.ts": ["packages/aboocode/src/cli/cmd/auth.ts"], "packages/aboocode/test/cli/tui/transcript.test.ts": [], "packages/aboocode/test/config/agent-color.test.ts": ["packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/config/config.ts", "packages/aboocode/src/agent/agent.ts", "packages/aboocode/src/util/color.ts"], "packages/aboocode/test/config/config.test.ts": ["packages/aboocode/src/config/config.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/auth/index.ts", "packages/aboocode/test/fixture/fixture.ts", "packages/aboocode/src/global/index.ts", "packages/aboocode/src/util/filesystem.ts"], "packages/aboocode/test/config/fixtures/empty-frontmatter.md": [], "packages/aboocode/test/config/fixtures/frontmatter.md": [], "packages/aboocode/test/config/fixtures/markdown-header.md": [], "packages/aboocode/test/config/fixtures/no-frontmatter.md": [], "packages/aboocode/test/config/fixtures/weird-model-id.md": [], "packages/aboocode/test/config/markdown.test.ts": ["packages/aboocode/src/config/markdown.ts"], "packages/aboocode/test/e2e/extract-memory.ts": [], "packages/aboocode/test/e2e/snake-game/index.html": [], "packages/aboocode/test/e2e/test-memory-game.sh": [], "packages/aboocode/test/e2e/test-team-memory.sh": [], "packages/aboocode/test/file/ignore.test.ts": ["packages/aboocode/src/file/ignore.ts"], "packages/aboocode/test/file/index.test.ts": ["packages/aboocode/src/file/index.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/util/filesystem.ts", "packages/aboocode/test/fixture/fixture.ts"]}
+```
+
+Files to analyze:
+1. `packages/aboocode/sst-env.d.ts` (9 lines, fileCategory: `code`)
+2. `packages/aboocode/test/acp/agent-interface.test.ts` (51 lines, fileCategory: `code`)
+3. `packages/aboocode/test/acp/event-subscription.test.ts` (683 lines, fileCategory: `code`)
+4. `packages/aboocode/test/agent/agent.test.ts` (689 lines, fileCategory: `code`)
+5. `packages/aboocode/test/AGENTS.md` (81 lines, fileCategory: `docs`)
+6. `packages/aboocode/test/bun.test.ts` (53 lines, fileCategory: `code`)
+7. `packages/aboocode/test/cli/github-action.test.ts` (197 lines, fileCategory: `code`)
+8. `packages/aboocode/test/cli/github-remote.test.ts` (80 lines, fileCategory: `code`)
+9. `packages/aboocode/test/cli/import.test.ts` (38 lines, fileCategory: `code`)
+10. `packages/aboocode/test/cli/plugin-auth-picker.test.ts` (120 lines, fileCategory: `code`)
+11. `packages/aboocode/test/cli/tui/transcript.test.ts` (322 lines, fileCategory: `code`)
+12. `packages/aboocode/test/config/agent-color.test.ts` (71 lines, fileCategory: `code`)
+13. `packages/aboocode/test/config/config.test.ts` (1866 lines, fileCategory: `code`)
+14. `packages/aboocode/test/config/fixtures/empty-frontmatter.md` (4 lines, fileCategory: `docs`)
+15. `packages/aboocode/test/config/fixtures/frontmatter.md` (28 lines, fileCategory: `docs`)
+16. `packages/aboocode/test/config/fixtures/markdown-header.md` (11 lines, fileCategory: `docs`)
+17. `packages/aboocode/test/config/fixtures/no-frontmatter.md` (1 lines, fileCategory: `docs`)
+18. `packages/aboocode/test/config/fixtures/weird-model-id.md` (13 lines, fileCategory: `docs`)
+19. `packages/aboocode/test/config/markdown.test.ts` (228 lines, fileCategory: `code`)
+20. `packages/aboocode/test/e2e/extract-memory.ts` (171 lines, fileCategory: `code`)
+21. `packages/aboocode/test/e2e/snake-game/index.html` (201 lines, fileCategory: `markup`)
+22. `packages/aboocode/test/e2e/test-memory-game.sh` (275 lines, fileCategory: `script`)
+23. `packages/aboocode/test/e2e/test-team-memory.sh` (222 lines, fileCategory: `script`)
+24. `packages/aboocode/test/file/ignore.test.ts` (10 lines, fileCategory: `code`)
+25. `packages/aboocode/test/file/index.test.ts` (394 lines, fileCategory: `code`)

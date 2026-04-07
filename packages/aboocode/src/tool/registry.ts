@@ -28,6 +28,8 @@ import { LspTool } from "./lsp"
 import { Truncate } from "./truncation"
 
 import { ApplyPatchTool } from "./apply_patch"
+import { ToolSearchTool } from "./toolsearch"
+import { VerifyTool } from "./verify"
 import { Glob } from "../util/glob"
 import { pathToFileURL } from "url"
 import {
@@ -169,6 +171,8 @@ export namespace ToolRegistry {
       ListTeamTool,
       DisbandTeamTool,
       DiscussTool,
+      ToolSearchTool,
+      VerifyTool,
       ...custom,
     ]
   }

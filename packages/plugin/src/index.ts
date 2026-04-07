@@ -231,4 +231,33 @@ export interface Hooks {
    * Modify tool definitions (description and parameters) sent to LLM
    */
   "tool.definition"?: (input: { toolID: string }, output: { description: string; parameters: any }) => Promise<void>
+  /**
+   * Called when a session loop starts. Allows setup, logging, or context injection.
+   */
+  "session.start"?: (
+    input: { sessionID: string; agent: string; isResume: boolean },
+    output: {},
+  ) => Promise<void>
+  /**
+   * Called when a session loop ends. Allows cleanup or analytics.
+   */
+  "session.end"?: (
+    input: { sessionID: string; agent: string; reason: string },
+    output: {},
+  ) => Promise<void>
+  /**
+   * Called before user message is processed. Can modify text or cancel.
+   */
+  "prompt.submit"?: (
+    input: { sessionID: string; text: string },
+    output: { text: string; cancel: boolean },
+  ) => Promise<void>
+  /**
+   * Called before session completion (model signals done). Can block to prevent premature exit.
+   * Return action: "proceed" to allow, "block" to prevent and inject a message.
+   */
+  "session.stop"?: (
+    input: { sessionID: string; agent: string; reason: string },
+    output: { action: "proceed" | "block"; message?: string },
+  ) => Promise<void>
 }

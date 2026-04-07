@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 21
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-21.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/aboocode/test/util/wildcard.test.ts": ["packages/aboocode/src/util/wildcard.ts"], "packages/aboocode/tsconfig.json": [], "packages/app/AGENTS.md": [], "packages/app/bunfig.toml": [], "packages/app/e2e/actions.ts": ["packages/app/e2e/utils.ts"], "packages/app/e2e/AGENTS.md": [], "packages/app/e2e/app/home.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/utils.ts"], "packages/app/e2e/app/navigation.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/utils.ts"], "packages/app/e2e/app/palette.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/app/server-default.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/utils.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/app/session.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/app/titlebar-history.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/utils.ts"], "packages/app/e2e/commands/input-focus.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts"], "packages/app/e2e/commands/panels.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/utils.ts"], "packages/app/e2e/commands/tab-close.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/utils.ts"], "packages/app/e2e/files/file-open.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts"], "packages/app/e2e/files/file-tree.spec.ts": ["packages/app/e2e/fixtures.ts"], "packages/app/e2e/files/file-viewer.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts"], "packages/app/e2e/fixtures.ts": ["packages/app/e2e/actions.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/utils.ts"], "packages/app/e2e/models/model-picker.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/models/models-visibility.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/projects/project-edit.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/projects/projects-close.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/utils.ts"], "packages/app/e2e/projects/projects-switch.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/utils.ts"], "packages/app/e2e/projects/workspace-new-session.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/utils.ts"]}
+```
+
+Files to analyze:
+1. `packages/aboocode/test/util/wildcard.test.ts` (90 lines, fileCategory: `code`)
+2. `packages/aboocode/tsconfig.json` (16 lines, fileCategory: `config`)
+3. `packages/app/AGENTS.md` (30 lines, fileCategory: `docs`)
+4. `packages/app/bunfig.toml` (3 lines, fileCategory: `config`)
+5. `packages/app/e2e/actions.ts` (578 lines, fileCategory: `code`)
+6. `packages/app/e2e/AGENTS.md` (176 lines, fileCategory: `docs`)
+7. `packages/app/e2e/app/home.spec.ts` (21 lines, fileCategory: `code`)
+8. `packages/app/e2e/app/navigation.spec.ts` (10 lines, fileCategory: `code`)
+9. `packages/app/e2e/app/palette.spec.ts` (11 lines, fileCategory: `code`)
+10. `packages/app/e2e/app/server-default.spec.ts` (55 lines, fileCategory: `code`)
+11. `packages/app/e2e/app/session.spec.ts` (16 lines, fileCategory: `code`)
+12. `packages/app/e2e/app/titlebar-history.spec.ts` (124 lines, fileCategory: `code`)
+13. `packages/app/e2e/commands/input-focus.spec.ts` (15 lines, fileCategory: `code`)
+14. `packages/app/e2e/commands/panels.spec.ts` (31 lines, fileCategory: `code`)
+15. `packages/app/e2e/commands/tab-close.spec.ts` (32 lines, fileCategory: `code`)
+16. `packages/app/e2e/files/file-open.spec.ts` (31 lines, fileCategory: `code`)
+17. `packages/app/e2e/files/file-tree.spec.ts` (49 lines, fileCategory: `code`)
+18. `packages/app/e2e/files/file-viewer.spec.ts` (49 lines, fileCategory: `code`)
+19. `packages/app/e2e/fixtures.ts` (87 lines, fileCategory: `code`)
+20. `packages/app/e2e/models/model-picker.spec.ts` (48 lines, fileCategory: `code`)
+21. `packages/app/e2e/models/models-visibility.spec.ts` (61 lines, fileCategory: `code`)
+22. `packages/app/e2e/projects/project-edit.spec.ts` (53 lines, fileCategory: `code`)
+23. `packages/app/e2e/projects/projects-close.spec.ts` (72 lines, fileCategory: `code`)
+24. `packages/app/e2e/projects/projects-switch.spec.ts` (138 lines, fileCategory: `code`)
+25. `packages/app/e2e/projects/workspace-new-session.spec.ts` (144 lines, fileCategory: `code`)

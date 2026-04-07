@@ -4,8 +4,8 @@ import { Tool } from "./tool"
 import { Filesystem } from "../util/filesystem"
 import DESCRIPTION from "./glob.txt"
 import { Ripgrep } from "../file/ripgrep"
-import { Instance } from "../project/instance"
 import { assertExternalDirectory } from "./external-directory"
+import { IsolationPath } from "../agent/isolation-path"
 
 export const GlobTool = Tool.define("glob", {
   description: DESCRIPTION,
@@ -29,8 +29,8 @@ export const GlobTool = Tool.define("glob", {
       },
     })
 
-    let search = params.path ?? Instance.directory
-    search = path.isAbsolute(search) ? search : path.resolve(Instance.directory, search)
+    let search = params.path ?? IsolationPath.cwd(ctx.sessionID)
+    search = path.isAbsolute(search) ? search : IsolationPath.resolve(ctx.sessionID, search)
     await assertExternalDirectory(ctx, search, { kind: "directory" })
 
     const limit = 100
@@ -67,7 +67,7 @@ export const GlobTool = Tool.define("glob", {
     }
 
     return {
-      title: path.relative(Instance.worktree, search),
+      title: IsolationPath.relative(ctx.sessionID, search),
       metadata: {
         count: files.length,
         truncated,

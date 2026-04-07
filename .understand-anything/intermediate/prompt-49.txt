@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 49
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-49.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/desktop/src/cli.ts": ["packages/desktop/src/i18n/index.ts", "packages/desktop/src/bindings.ts"], "packages/desktop/src/entry.tsx": [], "packages/desktop/src/i18n/ar.ts": [], "packages/desktop/src/i18n/br.ts": [], "packages/desktop/src/i18n/bs.ts": [], "packages/desktop/src/i18n/da.ts": [], "packages/desktop/src/i18n/de.ts": [], "packages/desktop/src/i18n/en.ts": [], "packages/desktop/src/i18n/es.ts": [], "packages/desktop/src/i18n/fr.ts": [], "packages/desktop/src/i18n/index.ts": ["packages/desktop/src/i18n/en.ts", "packages/desktop/src/i18n/zh.ts", "packages/desktop/src/i18n/zht.ts", "packages/desktop/src/i18n/ko.ts", "packages/desktop/src/i18n/de.ts", "packages/desktop/src/i18n/es.ts", "packages/desktop/src/i18n/fr.ts", "packages/desktop/src/i18n/da.ts", "packages/desktop/src/i18n/ja.ts", "packages/desktop/src/i18n/pl.ts", "packages/desktop/src/i18n/ru.ts", "packages/desktop/src/i18n/ar.ts", "packages/desktop/src/i18n/no.ts", "packages/desktop/src/i18n/br.ts", "packages/desktop/src/i18n/bs.ts", "packages/app/src/i18n/en.ts", "packages/app/src/i18n/zh.ts", "packages/app/src/i18n/zht.ts", "packages/app/src/i18n/ko.ts", "packages/app/src/i18n/de.ts", "packages/app/src/i18n/es.ts", "packages/app/src/i18n/fr.ts", "packages/app/src/i18n/da.ts", "packages/app/src/i18n/ja.ts", "packages/app/src/i18n/pl.ts", "packages/app/src/i18n/ru.ts", "packages/app/src/i18n/ar.ts", "packages/app/src/i18n/no.ts", "packages/app/src/i18n/br.ts", "packages/app/src/i18n/bs.ts"], "packages/desktop/src/i18n/ja.ts": [], "packages/desktop/src/i18n/ko.ts": [], "packages/desktop/src/i18n/no.ts": [], "packages/desktop/src/i18n/pl.ts": [], "packages/desktop/src/i18n/ru.ts": [], "packages/desktop/src/i18n/zh.ts": [], "packages/desktop/src/i18n/zht.ts": [], "packages/desktop/src/index.tsx": ["packages/desktop/package.json", "packages/desktop/src/i18n/index.ts", "packages/desktop/src/updater.ts", "packages/desktop/src/webview-zoom.ts", "packages/desktop/src/bindings.ts", "packages/desktop/src/menu.ts"], "packages/desktop/src/loading.tsx": ["packages/desktop/src/bindings.ts"], "packages/desktop/src/menu.ts": ["packages/desktop/src/updater.ts", "packages/desktop/src/cli.ts", "packages/desktop/src/i18n/index.ts", "packages/desktop/src/bindings.ts"], "packages/desktop/src/styles.css": [], "packages/desktop/src/updater.ts": ["packages/desktop/src/i18n/index.ts", "packages/desktop/src/bindings.ts"], "packages/desktop/src/webview-zoom.ts": [], "packages/desktop/sst-env.d.ts": []}
+```
+
+Files to analyze:
+1. `packages/desktop/src/cli.ts` (15 lines, fileCategory: `code`)
+2. `packages/desktop/src/entry.tsx` (5 lines, fileCategory: `code`)
+3. `packages/desktop/src/i18n/ar.ts` (26 lines, fileCategory: `code`)
+4. `packages/desktop/src/i18n/br.ts` (27 lines, fileCategory: `code`)
+5. `packages/desktop/src/i18n/bs.ts` (28 lines, fileCategory: `code`)
+6. `packages/desktop/src/i18n/da.ts` (28 lines, fileCategory: `code`)
+7. `packages/desktop/src/i18n/de.ts` (28 lines, fileCategory: `code`)
+8. `packages/desktop/src/i18n/en.ts` (27 lines, fileCategory: `code`)
+9. `packages/desktop/src/i18n/es.ts` (27 lines, fileCategory: `code`)
+10. `packages/desktop/src/i18n/fr.ts` (28 lines, fileCategory: `code`)
+11. `packages/desktop/src/i18n/index.ts` (191 lines, fileCategory: `code`)
+12. `packages/desktop/src/i18n/ja.ts` (28 lines, fileCategory: `code`)
+13. `packages/desktop/src/i18n/ko.ts` (27 lines, fileCategory: `code`)
+14. `packages/desktop/src/i18n/no.ts` (28 lines, fileCategory: `code`)
+15. `packages/desktop/src/i18n/pl.ts` (28 lines, fileCategory: `code`)
+16. `packages/desktop/src/i18n/ru.ts` (27 lines, fileCategory: `code`)
+17. `packages/desktop/src/i18n/zh.ts` (26 lines, fileCategory: `code`)
+18. `packages/desktop/src/i18n/zht.ts` (26 lines, fileCategory: `code`)
+19. `packages/desktop/src/index.tsx` (509 lines, fileCategory: `code`)
+20. `packages/desktop/src/loading.tsx` (83 lines, fileCategory: `code`)
+21. `packages/desktop/src/menu.ts` (191 lines, fileCategory: `code`)
+22. `packages/desktop/src/styles.css` (7 lines, fileCategory: `markup`)
+23. `packages/desktop/src/updater.ts` (51 lines, fileCategory: `code`)
+24. `packages/desktop/src/webview-zoom.ts` (37 lines, fileCategory: `code`)
+25. `packages/desktop/sst-env.d.ts` (9 lines, fileCategory: `code`)

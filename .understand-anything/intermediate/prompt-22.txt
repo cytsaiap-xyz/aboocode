@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 22
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-22.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/app/e2e/projects/workspaces.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/utils.ts"], "packages/app/e2e/prompt/context.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/prompt/prompt-async.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/prompt/prompt-drop-file-uri.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts"], "packages/app/e2e/prompt/prompt-drop-file.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts"], "packages/app/e2e/prompt/prompt-mention.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts"], "packages/app/e2e/prompt/prompt-multiline.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts"], "packages/app/e2e/prompt/prompt-slash-open.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts"], "packages/app/e2e/prompt/prompt-slash-terminal.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts"], "packages/app/e2e/prompt/prompt.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/selectors.ts": [], "packages/app/e2e/session/session-composer-dock.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/session/session-undo-redo.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts", "packages/app/e2e/utils.ts", "packages/app/e2e/selectors.ts"], "packages/app/e2e/session/session.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts"], "packages/app/e2e/settings/settings-keybinds.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/utils.ts"], "packages/app/e2e/settings/settings-models.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/settings/settings-providers.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/settings/settings.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/sidebar/sidebar-popover-actions.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts", "packages/app/e2e/selectors.ts"], "packages/app/e2e/sidebar/sidebar-session-links.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts", "packages/app/e2e/selectors.ts"], "packages/app/e2e/sidebar/sidebar.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/status/status-popover.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/actions.ts"], "packages/app/e2e/terminal/terminal-init.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/utils.ts"], "packages/app/e2e/terminal/terminal.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts", "packages/app/e2e/utils.ts"], "packages/app/e2e/thinking-level.spec.ts": ["packages/app/e2e/fixtures.ts", "packages/app/e2e/selectors.ts"]}
+```
+
+Files to analyze:
+1. `packages/app/e2e/projects/workspaces.spec.ts` (409 lines, fileCategory: `code`)
+2. `packages/app/e2e/prompt/context.spec.ts` (95 lines, fileCategory: `code`)
+3. `packages/app/e2e/prompt/prompt-async.spec.ts` (43 lines, fileCategory: `code`)
+4. `packages/app/e2e/prompt/prompt-drop-file-uri.spec.ts` (22 lines, fileCategory: `code`)
+5. `packages/app/e2e/prompt/prompt-drop-file.spec.ts` (30 lines, fileCategory: `code`)
+6. `packages/app/e2e/prompt/prompt-mention.spec.ts` (26 lines, fileCategory: `code`)
+7. `packages/app/e2e/prompt/prompt-multiline.spec.ts` (18 lines, fileCategory: `code`)
+8. `packages/app/e2e/prompt/prompt-slash-open.spec.ts` (22 lines, fileCategory: `code`)
+9. `packages/app/e2e/prompt/prompt-slash-terminal.spec.ts` (23 lines, fileCategory: `code`)
+10. `packages/app/e2e/prompt/prompt.spec.ts` (55 lines, fileCategory: `code`)
+11. `packages/app/e2e/selectors.ts` (73 lines, fileCategory: `code`)
+12. `packages/app/e2e/session/session-composer-dock.spec.ts` (207 lines, fileCategory: `code`)
+13. `packages/app/e2e/session/session-undo-redo.spec.ts` (233 lines, fileCategory: `code`)
+14. `packages/app/e2e/session/session.spec.ts` (174 lines, fileCategory: `code`)
+15. `packages/app/e2e/settings/settings-keybinds.spec.ts` (392 lines, fileCategory: `code`)
+16. `packages/app/e2e/settings/settings-models.spec.ts` (122 lines, fileCategory: `code`)
+17. `packages/app/e2e/settings/settings-providers.spec.ts` (136 lines, fileCategory: `code`)
+18. `packages/app/e2e/settings/settings.spec.ts` (476 lines, fileCategory: `code`)
+19. `packages/app/e2e/sidebar/sidebar-popover-actions.spec.ts` (36 lines, fileCategory: `code`)
+20. `packages/app/e2e/sidebar/sidebar-session-links.spec.ts` (31 lines, fileCategory: `code`)
+21. `packages/app/e2e/sidebar/sidebar.spec.ts` (37 lines, fileCategory: `code`)
+22. `packages/app/e2e/status/status-popover.spec.ts` (94 lines, fileCategory: `code`)
+23. `packages/app/e2e/terminal/terminal-init.spec.ts` (28 lines, fileCategory: `code`)
+24. `packages/app/e2e/terminal/terminal.spec.ts` (17 lines, fileCategory: `code`)
+25. `packages/app/e2e/thinking-level.spec.ts` (25 lines, fileCategory: `code`)

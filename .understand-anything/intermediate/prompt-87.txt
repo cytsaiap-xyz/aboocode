@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 87
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-87.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/web/src/content/docs/windows-wsl.mdx": [], "packages/web/src/content/docs/zen.mdx": [], "packages/web/src/content/docs/zh-cn/acp.mdx": [], "packages/web/src/content/docs/zh-cn/agents.mdx": [], "packages/web/src/content/docs/zh-cn/cli.mdx": [], "packages/web/src/content/docs/zh-cn/commands.mdx": [], "packages/web/src/content/docs/zh-cn/config.mdx": [], "packages/web/src/content/docs/zh-cn/custom-tools.mdx": [], "packages/web/src/content/docs/zh-cn/ecosystem.mdx": [], "packages/web/src/content/docs/zh-cn/enterprise.mdx": [], "packages/web/src/content/docs/zh-cn/formatters.mdx": [], "packages/web/src/content/docs/zh-cn/github.mdx": [], "packages/web/src/content/docs/zh-cn/gitlab.mdx": [], "packages/web/src/content/docs/zh-cn/ide.mdx": [], "packages/web/src/content/docs/zh-cn/index.mdx": [], "packages/web/src/content/docs/zh-cn/keybinds.mdx": [], "packages/web/src/content/docs/zh-cn/lsp.mdx": [], "packages/web/src/content/docs/zh-cn/mcp-servers.mdx": [], "packages/web/src/content/docs/zh-cn/models.mdx": [], "packages/web/src/content/docs/zh-cn/modes.mdx": [], "packages/web/src/content/docs/zh-cn/network.mdx": [], "packages/web/src/content/docs/zh-cn/permissions.mdx": [], "packages/web/src/content/docs/zh-cn/plugins.mdx": [], "packages/web/src/content/docs/zh-cn/providers.mdx": [], "packages/web/src/content/docs/zh-cn/rules.mdx": []}
+```
+
+Files to analyze:
+1. `packages/web/src/content/docs/windows-wsl.mdx` (112 lines, fileCategory: `code`)
+2. `packages/web/src/content/docs/zen.mdx` (258 lines, fileCategory: `code`)
+3. `packages/web/src/content/docs/zh-cn/acp.mdx` (156 lines, fileCategory: `code`)
+4. `packages/web/src/content/docs/zh-cn/agents.mdx` (746 lines, fileCategory: `code`)
+5. `packages/web/src/content/docs/zh-cn/cli.mdx` (603 lines, fileCategory: `code`)
+6. `packages/web/src/content/docs/zh-cn/commands.mdx` (322 lines, fileCategory: `code`)
+7. `packages/web/src/content/docs/zh-cn/config.mdx` (682 lines, fileCategory: `code`)
+8. `packages/web/src/content/docs/zh-cn/custom-tools.mdx` (170 lines, fileCategory: `code`)
+9. `packages/web/src/content/docs/zh-cn/ecosystem.mdx` (76 lines, fileCategory: `code`)
+10. `packages/web/src/content/docs/zh-cn/enterprise.mdx` (165 lines, fileCategory: `code`)
+11. `packages/web/src/content/docs/zh-cn/formatters.mdx` (132 lines, fileCategory: `code`)
+12. `packages/web/src/content/docs/zh-cn/github.mdx` (321 lines, fileCategory: `code`)
+13. `packages/web/src/content/docs/zh-cn/gitlab.mdx` (194 lines, fileCategory: `code`)
+14. `packages/web/src/content/docs/zh-cn/ide.mdx` (48 lines, fileCategory: `code`)
+15. `packages/web/src/content/docs/zh-cn/index.mdx` (343 lines, fileCategory: `code`)
+16. `packages/web/src/content/docs/zh-cn/keybinds.mdx` (192 lines, fileCategory: `code`)
+17. `packages/web/src/content/docs/zh-cn/lsp.mdx` (188 lines, fileCategory: `code`)
+18. `packages/web/src/content/docs/zh-cn/mcp-servers.mdx` (511 lines, fileCategory: `code`)
+19. `packages/web/src/content/docs/zh-cn/models.mdx` (222 lines, fileCategory: `code`)
+20. `packages/web/src/content/docs/zh-cn/modes.mdx` (328 lines, fileCategory: `code`)
+21. `packages/web/src/content/docs/zh-cn/network.mdx` (57 lines, fileCategory: `code`)
+22. `packages/web/src/content/docs/zh-cn/permissions.mdx` (237 lines, fileCategory: `code`)
+23. `packages/web/src/content/docs/zh-cn/plugins.mdx` (384 lines, fileCategory: `code`)
+24. `packages/web/src/content/docs/zh-cn/providers.mdx` (1905 lines, fileCategory: `code`)
+25. `packages/web/src/content/docs/zh-cn/rules.mdx` (180 lines, fileCategory: `code`)

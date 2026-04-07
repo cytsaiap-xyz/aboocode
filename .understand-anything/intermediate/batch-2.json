@@ -1,0 +1,824 @@
+{
+  "nodes": [
+    {
+      "id": "file:packages/aboocode/script/postinstall.mjs",
+      "type": "file",
+      "name": "postinstall.mjs",
+      "filePath": "packages/aboocode/script/postinstall.mjs",
+      "summary": "Postinstall script that detects the user's platform/architecture, locates the correct platform-specific binary package, and symlinks or copies it into the local bin directory for npm global installs.",
+      "tags": ["script", "installation", "build-system", "platform-detection"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/script/postinstall.mjs:detectPlatformAndArch",
+      "type": "function",
+      "name": "detectPlatformAndArch",
+      "filePath": "packages/aboocode/script/postinstall.mjs",
+      "lineRange": [12, 48],
+      "summary": "Maps os.platform() and os.arch() to normalized platform and architecture strings for binary package resolution.",
+      "tags": ["utility", "platform-detection", "installation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/script/postinstall.mjs:findBinary",
+      "type": "function",
+      "name": "findBinary",
+      "filePath": "packages/aboocode/script/postinstall.mjs",
+      "lineRange": [50, 69],
+      "summary": "Resolves the platform-specific binary path by requiring the correct optional dependency package and verifying the binary exists.",
+      "tags": ["utility", "installation", "binary-resolution"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/script/postinstall.mjs:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "packages/aboocode/script/postinstall.mjs",
+      "lineRange": [100, 117],
+      "summary": "Entry point that links or copies the platform binary to a cached location, skipping on Windows.",
+      "tags": ["entry-point", "installation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/script/publish.ts",
+      "type": "file",
+      "name": "publish.ts",
+      "filePath": "packages/aboocode/script/publish.ts",
+      "summary": "Comprehensive publish script that packages platform binaries, builds the npm wrapper packages, publishes them to npm, and updates AUR and Homebrew registries with checksums and formulas.",
+      "tags": ["script", "build-system", "deployment", "publishing"],
+      "complexity": "complex",
+      "languageNotes": "Uses Bun shell ($`...`) syntax for shell command execution and Bun.Glob for file scanning."
+    },
+    {
+      "id": "file:packages/aboocode/script/schema.ts",
+      "type": "file",
+      "name": "schema.ts",
+      "filePath": "packages/aboocode/script/schema.ts",
+      "summary": "Generates a JSON Schema from the Config.Info zod schema, adding self-documenting defaults and JSONC compatibility flags for editor LSP support.",
+      "tags": ["script", "build-system", "schema-definition", "configuration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/script/seed-e2e.ts",
+      "type": "file",
+      "name": "seed-e2e.ts",
+      "filePath": "packages/aboocode/script/seed-e2e.ts",
+      "summary": "Seeds the local database with a test session, message, and project entry for end-to-end UI testing using environment variable configuration.",
+      "tags": ["script", "test", "e2e", "seeding"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/script/test-team-memory.sh",
+      "type": "file",
+      "name": "test-team-memory.sh",
+      "filePath": "packages/aboocode/script/test-team-memory.sh",
+      "summary": "Integration test script that builds the aboo binary, then exercises both the memory system and multi-agent team orchestration features via CLI commands, verifying debug log output for pass/fail.",
+      "tags": ["script", "test", "integration-test", "team-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/acp/agent.ts",
+      "type": "file",
+      "name": "agent.ts",
+      "filePath": "packages/aboocode/src/acp/agent.ts",
+      "summary": "Implements the Agent Client Protocol (ACP) agent that bridges external ACP clients to aboocode's internal session, prompt, and tool systems, handling initialization, session management, event streaming, permission delegation, and tool call progress reporting.",
+      "tags": ["api-handler", "service", "acp", "protocol-implementation"],
+      "complexity": "complex",
+      "languageNotes": "Implements the ACPAgent interface from @agentclientprotocol/sdk with event-driven architecture using AbortController for lifecycle management."
+    },
+    {
+      "id": "class:packages/aboocode/src/acp/agent.ts:Agent",
+      "type": "class",
+      "name": "Agent",
+      "filePath": "packages/aboocode/src/acp/agent.ts",
+      "lineRange": [131, 1741],
+      "summary": "Core ACP agent class implementing the full Agent Client Protocol interface including initialization, session lifecycle, prompt handling, permission delegation, tool call streaming, and event subscription.",
+      "tags": ["api-handler", "service", "protocol-implementation", "acp"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/acp/agent.ts:init",
+      "type": "function",
+      "name": "init",
+      "filePath": "packages/aboocode/src/acp/agent.ts",
+      "lineRange": [123, 129],
+      "summary": "Factory function that returns a creator for ACP Agent instances given an SDK client.",
+      "tags": ["factory", "initialization", "acp"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:packages/aboocode/src/acp/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "packages/aboocode/src/acp/README.md",
+      "summary": "Comprehensive documentation for the ACP (Agent Client Protocol) implementation covering architecture, usage patterns, protocol compliance status, current limitations, and design decisions.",
+      "tags": ["documentation", "acp", "architecture", "protocol-reference"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/acp/session.ts",
+      "type": "file",
+      "name": "session.ts",
+      "filePath": "packages/aboocode/src/acp/session.ts",
+      "summary": "Manages ACP session state including creation, loading, model/variant/mode configuration, and mapping between ACP protocol sessions and internal aboocode sessions via the SDK client.",
+      "tags": ["service", "session-management", "acp", "state-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:packages/aboocode/src/acp/session.ts:ACPSessionManager",
+      "type": "class",
+      "name": "ACPSessionManager",
+      "filePath": "packages/aboocode/src/acp/session.ts",
+      "lineRange": [8, 116],
+      "summary": "Manages a map of ACP session states, providing create, load, get, and configuration methods (model, variant, mode) for protocol session lifecycle.",
+      "tags": ["service", "session-management", "state-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/acp/types.ts",
+      "type": "file",
+      "name": "types.ts",
+      "filePath": "packages/aboocode/src/acp/types.ts",
+      "summary": "Defines TypeScript interfaces for ACP session state and configuration, including model selection and MCP server references.",
+      "tags": ["type-definition", "acp", "interface"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/agent/agent.ts",
+      "type": "file",
+      "name": "agent.ts",
+      "filePath": "packages/aboocode/src/agent/agent.ts",
+      "summary": "Defines and manages all agent configurations (build, plan, explore, orchestrator, etc.), loads custom agents from .md files, handles permission rulesets, and provides agent generation via LLM.",
+      "tags": ["service", "agent", "configuration", "factory"],
+      "complexity": "complex",
+      "languageNotes": "Uses Instance.state() for lazy singleton initialization with cleanup support, and zod schemas for agent info validation."
+    },
+    {
+      "id": "function:packages/aboocode/src/agent/agent.ts:generate",
+      "type": "function",
+      "name": "generate",
+      "filePath": "packages/aboocode/src/agent/agent.ts",
+      "lineRange": [499, 554],
+      "summary": "Generates a new agent configuration from a natural language description using LLM structured output with the generateObject/streamObject API.",
+      "tags": ["factory", "ai-generation", "agent"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/agent/agent.ts:reload",
+      "type": "function",
+      "name": "reload",
+      "filePath": "packages/aboocode/src/agent/agent.ts",
+      "lineRange": [389, 467],
+      "summary": "Hot-reloads agent configurations by clearing non-native agents and re-scanning .aboocode/agents/ directories for custom agent markdown files.",
+      "tags": ["configuration", "hot-reload", "agent"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:packages/aboocode/src/agent/generate.txt",
+      "type": "document",
+      "name": "generate.txt",
+      "filePath": "packages/aboocode/src/agent/generate.txt",
+      "summary": "System prompt template for the agent generation LLM that guides creation of agent configurations including identifier, system prompt, and usage examples from natural language descriptions.",
+      "tags": ["documentation", "prompt-template", "agent", "ai-generation"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:packages/aboocode/src/agent/prompt/compaction.txt",
+      "type": "document",
+      "name": "compaction.txt",
+      "filePath": "packages/aboocode/src/agent/prompt/compaction.txt",
+      "summary": "System prompt for the compaction agent that summarizes conversations for context window management, focusing on preserving actionable context like files modified, decisions made, and next steps.",
+      "tags": ["documentation", "prompt-template", "context-management"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:packages/aboocode/src/agent/prompt/explore.txt",
+      "type": "document",
+      "name": "explore.txt",
+      "filePath": "packages/aboocode/src/agent/prompt/explore.txt",
+      "summary": "System prompt for the explore agent specialized in codebase navigation using glob patterns, grep searches, and file reading with configurable thoroughness levels.",
+      "tags": ["documentation", "prompt-template", "codebase-exploration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:packages/aboocode/src/agent/prompt/observer.txt",
+      "type": "document",
+      "name": "observer.txt",
+      "filePath": "packages/aboocode/src/agent/prompt/observer.txt",
+      "summary": "System prompt for the session observer agent that produces structured meeting-minutes-style notes from development sessions, capturing architecture decisions, debug journals, and conventions.",
+      "tags": ["documentation", "prompt-template", "session-recording", "memory"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:packages/aboocode/src/agent/prompt/orchestrator.txt",
+      "type": "document",
+      "name": "orchestrator.txt",
+      "filePath": "packages/aboocode/src/agent/prompt/orchestrator.txt",
+      "summary": "System prompt for the orchestrator agent that coordinates multi-agent teams through planning, agent creation, task delegation (sequential/parallel/discussion), and team lifecycle management.",
+      "tags": ["documentation", "prompt-template", "orchestration", "multi-agent"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:packages/aboocode/src/agent/prompt/summary.txt",
+      "type": "document",
+      "name": "summary.txt",
+      "filePath": "packages/aboocode/src/agent/prompt/summary.txt",
+      "summary": "System prompt for the summary agent that produces concise pull-request-style summaries of conversations in first person, describing changes made rather than the process.",
+      "tags": ["documentation", "prompt-template", "summarization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:packages/aboocode/src/agent/prompt/title.txt",
+      "type": "document",
+      "name": "title.txt",
+      "filePath": "packages/aboocode/src/agent/prompt/title.txt",
+      "summary": "System prompt for the title generator agent that creates concise thread titles (under 50 characters) from conversation content, with rules for language matching, technical term preservation, and varied phrasing.",
+      "tags": ["documentation", "prompt-template", "title-generation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/auth/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/aboocode/src/auth/index.ts",
+      "summary": "Manages authentication credentials (OAuth, API key, WellKnown) for LLM providers, storing and retrieving them as validated JSON from a local auth.json file with restricted permissions.",
+      "tags": ["service", "authentication", "data-model", "security"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/bun/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/aboocode/src/bun/index.ts",
+      "summary": "Provides Bun runtime process management and package installation with version caching, outdated detection, and registry resolution for installing tool dependencies on demand.",
+      "tags": ["service", "package-management", "runtime", "caching"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/bun/index.ts:install",
+      "type": "function",
+      "name": "install",
+      "filePath": "packages/aboocode/src/bun/index.ts",
+      "lineRange": [57, 131],
+      "summary": "Installs an npm package via Bun with version caching, lock-based concurrency control, and outdated version detection to minimize redundant installs.",
+      "tags": ["package-management", "caching", "installation"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/aboocode/src/bun/registry.ts",
+      "type": "file",
+      "name": "registry.ts",
+      "filePath": "packages/aboocode/src/bun/registry.ts",
+      "summary": "Queries the npm package registry via Bun's info command to check package metadata and determine if cached versions are outdated using semver comparison.",
+      "tags": ["utility", "package-management", "version-checking"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/bus/bus-event.ts",
+      "type": "file",
+      "name": "bus-event.ts",
+      "filePath": "packages/aboocode/src/bus/bus-event.ts",
+      "summary": "Defines a typed event registration system using zod schemas, providing a define() factory for creating strongly-typed event definitions and a payloads() function that builds a discriminated union of all registered events.",
+      "tags": ["utility", "event-handler", "type-definition", "factory"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/bus/global.ts",
+      "type": "file",
+      "name": "global.ts",
+      "filePath": "packages/aboocode/src/bus/global.ts",
+      "summary": "Exports a singleton global EventEmitter instance used for cross-instance event broadcasting with typed event payloads.",
+      "tags": ["singleton", "event-handler", "global-state"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/bus/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "packages/aboocode/src/bus/index.ts",
+      "summary": "Implements a typed publish/subscribe event bus scoped to project instances, supporting wildcard subscriptions, one-shot listeners, and global event broadcasting for cross-instance communication.",
+      "tags": ["service", "event-handler", "pub-sub", "entry-point"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/bus/index.ts:publish",
+      "type": "function",
+      "name": "publish",
+      "filePath": "packages/aboocode/src/bus/index.ts",
+      "lineRange": [41, 64],
+      "summary": "Publishes a typed event to both instance-scoped subscribers and the global event emitter, supporting wildcard and specific event subscriptions.",
+      "tags": ["event-handler", "pub-sub"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "file",
+      "name": "bootstrap.ts",
+      "filePath": "packages/aboocode/src/cli/bootstrap.ts",
+      "summary": "Provides a CLI bootstrap helper that wraps a callback in an Instance.provide() context with proper initialization and disposal lifecycle management.",
+      "tags": ["utility", "entry-point", "lifecycle", "cli"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/acp.ts",
+      "type": "file",
+      "name": "acp.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/acp.ts",
+      "summary": "Defines the 'aboo acp' CLI command that starts an ACP server over stdio, setting up JSON-RPC streams, creating an SDK client, and wiring the ACP agent to handle protocol messages.",
+      "tags": ["cli", "entry-point", "acp", "command"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:packages/aboocode/script/postinstall.mjs",
+      "target": "function:packages/aboocode/script/postinstall.mjs:detectPlatformAndArch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/script/postinstall.mjs",
+      "target": "function:packages/aboocode/script/postinstall.mjs:findBinary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/script/postinstall.mjs",
+      "target": "function:packages/aboocode/script/postinstall.mjs:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/script/postinstall.mjs",
+      "target": "function:packages/aboocode/script/postinstall.mjs:detectPlatformAndArch",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/script/publish.ts",
+      "target": "file:packages/aboocode/package.json",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/script/schema.ts",
+      "target": "file:packages/aboocode/src/config/config.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/acp/agent.ts",
+      "target": "file:packages/aboocode/src/util/log.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/acp/agent.ts",
+      "target": "file:packages/aboocode/src/util/filesystem.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/acp/agent.ts",
+      "target": "file:packages/aboocode/src/acp/session.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/acp/agent.ts",
+      "target": "file:packages/aboocode/src/acp/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/acp/agent.ts",
+      "target": "file:packages/aboocode/src/provider/provider.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/acp/agent.ts",
+      "target": "file:packages/aboocode/src/agent/agent.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/acp/agent.ts",
+      "target": "class:packages/aboocode/src/acp/agent.ts:Agent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/acp/agent.ts",
+      "target": "function:packages/aboocode/src/acp/agent.ts:init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/acp/agent.ts",
+      "target": "class:packages/aboocode/src/acp/agent.ts:Agent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/acp/agent.ts",
+      "target": "function:packages/aboocode/src/acp/agent.ts:init",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "document:packages/aboocode/src/acp/README.md",
+      "target": "file:packages/aboocode/src/acp/agent.ts",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:packages/aboocode/src/acp/README.md",
+      "target": "file:packages/aboocode/src/acp/session.ts",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:packages/aboocode/src/acp/README.md",
+      "target": "file:packages/aboocode/src/acp/types.ts",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/aboocode/src/acp/session.ts",
+      "target": "file:packages/aboocode/src/acp/types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/acp/session.ts",
+      "target": "class:packages/aboocode/src/acp/session.ts:ACPSessionManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/acp/session.ts",
+      "target": "class:packages/aboocode/src/acp/session.ts:ACPSessionManager",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "file:packages/aboocode/src/config/config.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "file:packages/aboocode/src/provider/provider.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "file:packages/aboocode/src/session/system.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "file:packages/aboocode/src/project/instance.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "file:packages/aboocode/src/tool/truncation.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "file:packages/aboocode/src/auth/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "file:packages/aboocode/src/provider/transform.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "document:packages/aboocode/src/agent/generate.txt",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "document:packages/aboocode/src/agent/prompt/compaction.txt",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "document:packages/aboocode/src/agent/prompt/explore.txt",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "document:packages/aboocode/src/agent/prompt/summary.txt",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "document:packages/aboocode/src/agent/prompt/title.txt",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "document:packages/aboocode/src/agent/prompt/orchestrator.txt",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "document:packages/aboocode/src/agent/prompt/observer.txt",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "file:packages/aboocode/src/skill/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "file:packages/aboocode/src/config/markdown.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "file:packages/aboocode/src/util/glob.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "file:packages/aboocode/src/util/log.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "file:packages/aboocode/src/team/knowledge-bridge.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "function:packages/aboocode/src/agent/agent.ts:generate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "function:packages/aboocode/src/agent/agent.ts:reload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "function:packages/aboocode/src/agent/agent.ts:generate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/agent/agent.ts",
+      "target": "function:packages/aboocode/src/agent/agent.ts:reload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/auth/index.ts",
+      "target": "file:packages/aboocode/src/global/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/auth/index.ts",
+      "target": "file:packages/aboocode/src/util/filesystem.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bun/index.ts",
+      "target": "file:packages/aboocode/src/global/index.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bun/index.ts",
+      "target": "file:packages/aboocode/src/util/log.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bun/index.ts",
+      "target": "file:packages/aboocode/src/util/filesystem.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bun/index.ts",
+      "target": "file:packages/aboocode/src/util/lock.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bun/index.ts",
+      "target": "file:packages/aboocode/src/bun/registry.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bun/index.ts",
+      "target": "file:packages/aboocode/src/util/process.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bun/index.ts",
+      "target": "function:packages/aboocode/src/bun/index.ts:install",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/bun/index.ts",
+      "target": "function:packages/aboocode/src/bun/index.ts:install",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/bun/registry.ts",
+      "target": "file:packages/aboocode/src/util/log.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bun/registry.ts",
+      "target": "file:packages/aboocode/src/util/process.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bus/bus-event.ts",
+      "target": "file:packages/aboocode/src/util/log.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bus/index.ts",
+      "target": "file:packages/aboocode/src/util/log.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bus/index.ts",
+      "target": "file:packages/aboocode/src/project/instance.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bus/index.ts",
+      "target": "file:packages/aboocode/src/bus/bus-event.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bus/index.ts",
+      "target": "file:packages/aboocode/src/bus/global.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/bus/index.ts",
+      "target": "function:packages/aboocode/src/bus/index.ts:publish",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/bus/index.ts",
+      "target": "function:packages/aboocode/src/bus/index.ts:publish",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "target": "file:packages/aboocode/src/project/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "target": "file:packages/aboocode/src/project/instance.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/acp.ts",
+      "target": "file:packages/aboocode/src/cli/bootstrap.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/acp.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/cmd.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/acp.ts",
+      "target": "file:packages/aboocode/src/cli/network.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/acp.ts",
+      "target": "file:packages/aboocode/src/acp/agent.ts",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

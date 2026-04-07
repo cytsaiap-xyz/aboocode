@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 60
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-60.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/ui/src/components/switch.css": [], "packages/ui/src/components/switch.tsx": [], "packages/ui/src/components/tabs.css": [], "packages/ui/src/components/tabs.tsx": [], "packages/ui/src/components/tag.css": [], "packages/ui/src/components/tag.tsx": [], "packages/ui/src/components/text-field.css": [], "packages/ui/src/components/text-field.tsx": ["packages/ui/src/context/i18n.tsx", "packages/ui/src/components/icon-button.tsx", "packages/ui/src/components/tooltip.tsx"], "packages/ui/src/components/text-shimmer.css": [], "packages/ui/src/components/text-shimmer.tsx": [], "packages/ui/src/components/toast.css": [], "packages/ui/src/components/toast.tsx": ["packages/ui/src/context/i18n.tsx", "packages/ui/src/components/icon.tsx", "packages/ui/src/components/icon-button.tsx"], "packages/ui/src/components/tooltip.css": [], "packages/ui/src/components/tooltip.tsx": [], "packages/ui/src/components/typewriter.css": [], "packages/ui/src/components/typewriter.tsx": [], "packages/ui/src/context/code.tsx": ["packages/ui/src/context/helper.tsx"], "packages/ui/src/context/data.tsx": ["packages/ui/src/context/helper.tsx"], "packages/ui/src/context/dialog.tsx": [], "packages/ui/src/context/diff.tsx": ["packages/ui/src/context/helper.tsx"], "packages/ui/src/context/helper.tsx": [], "packages/ui/src/context/i18n.tsx": ["packages/ui/src/i18n/en.ts"], "packages/ui/src/context/index.ts": [], "packages/ui/src/context/marked.tsx": ["packages/ui/src/context/helper.tsx"], "packages/ui/src/context/worker-pool.tsx": ["packages/ui/src/context/helper.tsx"]}
+```
+
+Files to analyze:
+1. `packages/ui/src/components/switch.css` (132 lines, fileCategory: `markup`)
+2. `packages/ui/src/components/switch.tsx` (29 lines, fileCategory: `code`)
+3. `packages/ui/src/components/tabs.css` (461 lines, fileCategory: `markup`)
+4. `packages/ui/src/components/tabs.tsx` (118 lines, fileCategory: `code`)
+5. `packages/ui/src/components/tag.css` (37 lines, fileCategory: `markup`)
+6. `packages/ui/src/components/tag.tsx` (22 lines, fileCategory: `code`)
+7. `packages/ui/src/components/text-field.css` (134 lines, fileCategory: `markup`)
+8. `packages/ui/src/components/text-field.tsx` (128 lines, fileCategory: `code`)
+9. `packages/ui/src/components/text-shimmer.css` (43 lines, fileCategory: `markup`)
+10. `packages/ui/src/components/text-shimmer.tsx` (36 lines, fileCategory: `code`)
+11. `packages/ui/src/components/toast.css` (236 lines, fileCategory: `markup`)
+12. `packages/ui/src/components/toast.tsx` (185 lines, fileCategory: `code`)
+13. `packages/ui/src/components/tooltip.css` (74 lines, fileCategory: `markup`)
+14. `packages/ui/src/components/tooltip.tsx` (70 lines, fileCategory: `code`)
+15. `packages/ui/src/components/typewriter.css` (14 lines, fileCategory: `markup`)
+16. `packages/ui/src/components/typewriter.tsx` (55 lines, fileCategory: `code`)
+17. `packages/ui/src/context/code.tsx` (10 lines, fileCategory: `code`)
+18. `packages/ui/src/context/data.tsx` (80 lines, fileCategory: `code`)
+19. `packages/ui/src/context/dialog.tsx` (163 lines, fileCategory: `code`)
+20. `packages/ui/src/context/diff.tsx` (10 lines, fileCategory: `code`)
+21. `packages/ui/src/context/helper.tsx` (37 lines, fileCategory: `code`)
+22. `packages/ui/src/context/i18n.tsx` (38 lines, fileCategory: `code`)
+23. `packages/ui/src/context/index.ts` (5 lines, fileCategory: `code`)
+24. `packages/ui/src/context/marked.tsx` (511 lines, fileCategory: `code`)
+25. `packages/ui/src/context/worker-pool.tsx` (20 lines, fileCategory: `code`)

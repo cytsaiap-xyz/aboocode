@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 81
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-81.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/web/src/content/docs/pl/windows-wsl.mdx": [], "packages/web/src/content/docs/pl/zen.mdx": [], "packages/web/src/content/docs/plugins.mdx": [], "packages/web/src/content/docs/providers.mdx": [], "packages/web/src/content/docs/pt-br/acp.mdx": [], "packages/web/src/content/docs/pt-br/agents.mdx": [], "packages/web/src/content/docs/pt-br/cli.mdx": [], "packages/web/src/content/docs/pt-br/commands.mdx": [], "packages/web/src/content/docs/pt-br/config.mdx": [], "packages/web/src/content/docs/pt-br/custom-tools.mdx": [], "packages/web/src/content/docs/pt-br/ecosystem.mdx": [], "packages/web/src/content/docs/pt-br/enterprise.mdx": [], "packages/web/src/content/docs/pt-br/formatters.mdx": [], "packages/web/src/content/docs/pt-br/github.mdx": [], "packages/web/src/content/docs/pt-br/gitlab.mdx": [], "packages/web/src/content/docs/pt-br/ide.mdx": [], "packages/web/src/content/docs/pt-br/index.mdx": [], "packages/web/src/content/docs/pt-br/keybinds.mdx": [], "packages/web/src/content/docs/pt-br/lsp.mdx": [], "packages/web/src/content/docs/pt-br/mcp-servers.mdx": [], "packages/web/src/content/docs/pt-br/models.mdx": [], "packages/web/src/content/docs/pt-br/modes.mdx": [], "packages/web/src/content/docs/pt-br/network.mdx": [], "packages/web/src/content/docs/pt-br/permissions.mdx": [], "packages/web/src/content/docs/pt-br/plugins.mdx": []}
+```
+
+Files to analyze:
+1. `packages/web/src/content/docs/pl/windows-wsl.mdx` (113 lines, fileCategory: `code`)
+2. `packages/web/src/content/docs/pl/zen.mdx` (254 lines, fileCategory: `code`)
+3. `packages/web/src/content/docs/plugins.mdx` (389 lines, fileCategory: `code`)
+4. `packages/web/src/content/docs/providers.mdx` (1961 lines, fileCategory: `code`)
+5. `packages/web/src/content/docs/pt-br/acp.mdx` (156 lines, fileCategory: `code`)
+6. `packages/web/src/content/docs/pt-br/agents.mdx` (747 lines, fileCategory: `code`)
+7. `packages/web/src/content/docs/pt-br/cli.mdx` (603 lines, fileCategory: `code`)
+8. `packages/web/src/content/docs/pt-br/commands.mdx` (322 lines, fileCategory: `code`)
+9. `packages/web/src/content/docs/pt-br/config.mdx` (681 lines, fileCategory: `code`)
+10. `packages/web/src/content/docs/pt-br/custom-tools.mdx` (170 lines, fileCategory: `code`)
+11. `packages/web/src/content/docs/pt-br/ecosystem.mdx` (76 lines, fileCategory: `code`)
+12. `packages/web/src/content/docs/pt-br/enterprise.mdx` (166 lines, fileCategory: `code`)
+13. `packages/web/src/content/docs/pt-br/formatters.mdx` (131 lines, fileCategory: `code`)
+14. `packages/web/src/content/docs/pt-br/github.mdx` (321 lines, fileCategory: `code`)
+15. `packages/web/src/content/docs/pt-br/gitlab.mdx` (195 lines, fileCategory: `code`)
+16. `packages/web/src/content/docs/pt-br/ide.mdx` (48 lines, fileCategory: `code`)
+17. `packages/web/src/content/docs/pt-br/index.mdx` (344 lines, fileCategory: `code`)
+18. `packages/web/src/content/docs/pt-br/keybinds.mdx` (192 lines, fileCategory: `code`)
+19. `packages/web/src/content/docs/pt-br/lsp.mdx` (188 lines, fileCategory: `code`)
+20. `packages/web/src/content/docs/pt-br/mcp-servers.mdx` (511 lines, fileCategory: `code`)
+21. `packages/web/src/content/docs/pt-br/models.mdx` (222 lines, fileCategory: `code`)
+22. `packages/web/src/content/docs/pt-br/modes.mdx` (328 lines, fileCategory: `code`)
+23. `packages/web/src/content/docs/pt-br/network.mdx` (57 lines, fileCategory: `code`)
+24. `packages/web/src/content/docs/pt-br/permissions.mdx` (237 lines, fileCategory: `code`)
+25. `packages/web/src/content/docs/pt-br/plugins.mdx` (384 lines, fileCategory: `code`)

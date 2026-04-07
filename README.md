@@ -177,4 +177,4 @@ It's very similar to Claude Code in terms of capability. Here are the key differ
 
 ---
 
-**Based on [OpenCode](https://github.com/anomalyco/opencode)**
+**Based on [OpenCode](https://github.com/cytsaiap-xyz/aboocode)**

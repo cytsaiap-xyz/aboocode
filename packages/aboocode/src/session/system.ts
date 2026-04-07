@@ -26,7 +26,19 @@ export namespace SystemPrompt {
     return [PROMPT_ANTHROPIC_WITHOUT_TODO]
   }
 
-  export async function environment(model: Provider.Model) {
+  /**
+   * Stable prefix: model identity, rules, tool syntax, safety.
+   * This content rarely changes between turns and is optimal for prompt caching.
+   */
+  export function stablePrefix(model: Provider.Model): string[] {
+    return provider(model)
+  }
+
+  /**
+   * Dynamic suffix: environment info, working directory, date, memory, MCP, instructions.
+   * This content changes per session and should not be cached.
+   */
+  export async function dynamicSuffix(model: Provider.Model): Promise<string[]> {
     const project = Instance.project
     return [
       [
@@ -50,5 +62,29 @@ export namespace SystemPrompt {
         `</directories>`,
       ].join("\n"),
     ]
+  }
+
+  /**
+   * Build system prompt with cache boundary awareness.
+   * Returns { prefix, suffix } for providers that support prompt caching,
+   * or a combined array for providers that don't.
+   */
+  export async function build(model: Provider.Model): Promise<{
+    prefix: string[]
+    suffix: string[]
+  }> {
+    return {
+      prefix: stablePrefix(model),
+      suffix: await dynamicSuffix(model),
+    }
+  }
+
+  /**
+   * Legacy: returns combined system prompt as a flat array.
+   * Used by the existing environment() callers.
+   */
+  export async function environment(model: Provider.Model) {
+    const { prefix, suffix } = await build(model)
+    return [...prefix, ...suffix]
   }
 }

@@ -14,6 +14,7 @@ import { Agent } from "@/agent/agent"
 import { Plugin } from "@/plugin"
 import { Config } from "@/config/config"
 import { ProviderTransform } from "@/provider/transform"
+import { Transcript } from "./transcript"
 
 export namespace SessionCompaction {
   const log = Log.create({ service: "session.compaction" })
@@ -28,6 +29,64 @@ export namespace SessionCompaction {
   }
 
   const COMPACTION_BUFFER = 20_000
+
+  // --- Phase 0: Micro-Compaction ---
+  const MICRO_COMPACTABLE_TOOLS = new Set([
+    "bash",
+    "read",
+    "grep",
+    "glob",
+    "edit",
+    "write",
+    "webfetch",
+    "websearch",
+    "codesearch",
+    "apply_patch",
+    "lsp",
+  ])
+
+  /**
+   * Silently clears old tool result content by setting `compacted` timestamp.
+   * Keeps the most recent `keepRecent` tool results intact.
+   * MessageV2.toModelMessages() replaces compacted parts with
+   * "[Old tool result content cleared]".
+   */
+  export async function microCompact(input: { sessionID: string; keepRecent?: number }) {
+    const config = await Config.get()
+    if ((config.compaction as any)?.microCompact === false) return
+
+    const keepRecent = input.keepRecent ?? 5
+    const msgs = await Session.messages({ sessionID: input.sessionID })
+    let seen = 0
+    const toPrune: MessageV2.ToolPart[] = []
+
+    for (let msgIndex = msgs.length - 1; msgIndex >= 0; msgIndex--) {
+      const msg = msgs[msgIndex]
+      if (msg.info.role === "assistant" && (msg.info as any).summary) break
+      for (let partIndex = msg.parts.length - 1; partIndex >= 0; partIndex--) {
+        const part = msg.parts[partIndex]
+        if (part.type !== "tool") continue
+        if (part.state.status !== "completed") continue
+        if (!MICRO_COMPACTABLE_TOOLS.has(part.tool)) continue
+        if (part.state.time.compacted) continue
+
+        seen++
+        if (seen > keepRecent) {
+          toPrune.push(part)
+        }
+      }
+    }
+
+    if (toPrune.length > 0) {
+      log.info("micro-compact", { count: toPrune.length })
+      for (const part of toPrune) {
+        if (part.state.status === "completed") {
+          part.state.time.compacted = Date.now()
+          await Session.updatePart(part)
+        }
+      }
+    }
+  }
 
   export async function isOverflow(input: { tokens: MessageV2.Assistant["tokens"]; model: Provider.Model }) {
     const config = await Config.get()
@@ -105,6 +164,11 @@ export namespace SessionCompaction {
     abort: AbortSignal
     auto: boolean
   }) {
+    // Phase 2: Save full transcript before summarization — nothing is ever lost
+    await Transcript.save({ sessionID: input.sessionID, messages: input.messages }).catch((e) => {
+      log.error("transcript save failed", { error: e })
+    })
+
     const userMessage = input.messages.findLast((m) => m.info.id === input.parentID)!.info as MessageV2.User
     const agent = await Agent.get("compaction")
     const model = agent.model
@@ -209,7 +273,7 @@ When constructing the summary, try to stick to this template:
       model,
     })
 
-    if (result === "continue" && input.auto) {
+    if (result.type === "continue" && input.auto) {
       const continueMsg = await Session.updateMessage({
         id: Identifier.ascending("message"),
         role: "user",
@@ -233,9 +297,54 @@ When constructing the summary, try to stick to this template:
         },
       })
     }
-    if (processor.message.error) return "stop"
+    if (processor.message.error) return "stop" as const
+
+    // Phase 3: Store identity context for re-injection after compaction
+    const agentInfo = await Agent.get(userMessage.agent)
+    setPostCompaction(input.sessionID, {
+      agent: userMessage.agent,
+      agentDescription: agentInfo?.description,
+      cwd: Instance.directory,
+    })
+
     Bus.publish(Event.Compacted, { sessionID: input.sessionID })
-    return "continue"
+    return "continue" as const
+  }
+
+  // --- Phase 3: Identity Re-injection ---
+  export interface IdentityContext {
+    agent: string
+    agentDescription?: string
+    cwd: string
+  }
+
+  const postCompactionState = new Map<string, IdentityContext>()
+
+  export function setPostCompaction(sessionID: string, ctx: IdentityContext) {
+    postCompactionState.set(sessionID, ctx)
+  }
+
+  export function getPostCompaction(sessionID: string): IdentityContext | undefined {
+    return postCompactionState.get(sessionID)
+  }
+
+  export function clearPostCompaction(sessionID: string) {
+    postCompactionState.delete(sessionID)
+  }
+
+  /**
+   * Build identity re-injection text for system prompt after compaction.
+   */
+  export function buildIdentityPrompt(sessionID: string): string | undefined {
+    const ctx = getPostCompaction(sessionID)
+    if (!ctx) return undefined
+    return [
+      `<identity>`,
+      `You are the "${ctx.agent}" agent${ctx.agentDescription ? ` — ${ctx.agentDescription}` : ""}, working in ${ctx.cwd}.`,
+      `Context was compressed. The summary above contains your previous work.`,
+      `Continue with the task described in the summary.`,
+      `</identity>`,
+    ].join("\n")
   }
 
   export const create = fn(

@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 9
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-9.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/aboocode/src/format/formatter.ts": ["packages/aboocode/src/bun/index.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/util/filesystem.ts", "packages/aboocode/src/util/process.ts"], "packages/aboocode/src/format/index.ts": ["packages/aboocode/src/bus/index.ts", "packages/aboocode/src/file/index.ts", "packages/aboocode/src/util/log.ts", "packages/aboocode/src/format/formatter.ts", "packages/aboocode/src/config/config.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/util/process.ts"], "packages/aboocode/src/global/index.ts": ["packages/aboocode/src/util/filesystem.ts"], "packages/aboocode/src/hot-reload/index.ts": ["packages/aboocode/src/project/instance.ts", "packages/aboocode/src/util/log.ts", "packages/aboocode/src/file/watcher.ts", "packages/aboocode/src/config/config.ts"], "packages/aboocode/src/id/id.ts": [], "packages/aboocode/src/ide/index.ts": ["packages/aboocode/src/util/log.ts"], "packages/aboocode/src/index.ts": ["packages/aboocode/src/cli/cmd/run.ts", "packages/aboocode/src/cli/cmd/generate.ts", "packages/aboocode/src/util/log.ts", "packages/aboocode/src/cli/cmd/auth.ts", "packages/aboocode/src/cli/cmd/agent.ts", "packages/aboocode/src/cli/cmd/upgrade.ts", "packages/aboocode/src/cli/cmd/uninstall.ts", "packages/aboocode/src/cli/cmd/models.ts", "packages/aboocode/src/cli/ui.ts", "packages/aboocode/src/installation/index.ts", "packages/aboocode/src/cli/error.ts", "packages/aboocode/src/cli/cmd/serve.ts", "packages/aboocode/src/cli/cmd/workspace-serve.ts", "packages/aboocode/src/util/filesystem.ts", "packages/aboocode/src/cli/cmd/debug/index.ts", "packages/aboocode/src/cli/cmd/stats.ts", "packages/aboocode/src/cli/cmd/mcp.ts", "packages/aboocode/src/cli/cmd/github.ts", "packages/aboocode/src/cli/cmd/export.ts", "packages/aboocode/src/cli/cmd/import.ts", "packages/aboocode/src/cli/cmd/tui/attach.ts", "packages/aboocode/src/cli/cmd/tui/thread.ts", "packages/aboocode/src/cli/cmd/acp.ts", "packages/aboocode/src/cli/cmd/web.ts", "packages/aboocode/src/cli/cmd/pr.ts", "packages/aboocode/src/cli/cmd/session.ts", "packages/aboocode/src/cli/cmd/db.ts", "packages/aboocode/src/global/index.ts", "packages/aboocode/src/storage/json-migration.ts", "packages/aboocode/src/storage/db.ts"], "packages/aboocode/src/installation/index.ts": ["packages/aboocode/src/util/log.ts", "packages/aboocode/src/flag/flag.ts"], "packages/aboocode/src/lsp/client.ts": ["packages/aboocode/src/util/log.ts", "packages/aboocode/src/lsp/language.ts", "packages/aboocode/src/lsp/server.ts", "packages/aboocode/src/util/timeout.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/util/filesystem.ts"], "packages/aboocode/src/lsp/index.ts": ["packages/aboocode/src/util/log.ts", "packages/aboocode/src/lsp/client.ts", "packages/aboocode/src/lsp/server.ts", "packages/aboocode/src/config/config.ts", "packages/aboocode/src/project/instance.ts"], "packages/aboocode/src/lsp/language.ts": [], "packages/aboocode/src/lsp/server.ts": ["packages/aboocode/src/global/index.ts", "packages/aboocode/src/util/log.ts", "packages/aboocode/src/bun/index.ts", "packages/aboocode/src/util/filesystem.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/flag/flag.ts", "packages/aboocode/src/util/archive.ts", "packages/aboocode/src/util/process.ts"], "packages/aboocode/src/mcp/auth.ts": ["packages/aboocode/src/global/index.ts", "packages/aboocode/src/util/filesystem.ts"], "packages/aboocode/src/mcp/index.ts": ["packages/aboocode/src/config/config.ts", "packages/aboocode/src/util/log.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/installation/index.ts", "packages/aboocode/src/mcp/oauth-provider.ts", "packages/aboocode/src/mcp/oauth-callback.ts", "packages/aboocode/src/mcp/auth.ts", "packages/aboocode/src/bus/bus-event.ts"], "packages/aboocode/src/mcp/oauth-callback.ts": ["packages/aboocode/src/util/log.ts", "packages/aboocode/src/mcp/oauth-provider.ts"], "packages/aboocode/src/mcp/oauth-provider.ts": ["packages/aboocode/src/mcp/auth.ts", "packages/aboocode/src/util/log.ts"], "packages/aboocode/src/memory/context.ts": ["packages/aboocode/src/memory/markdown-store.ts"], "packages/aboocode/src/memory/extract.ts": ["packages/aboocode/src/memory/markdown-store.ts"], "packages/aboocode/src/memory/index.ts": ["packages/aboocode/src/memory/markdown-store.ts", "packages/aboocode/src/memory/context.ts", "packages/aboocode/src/memory/observer.ts"], "packages/aboocode/src/memory/markdown-store.ts": [], "packages/aboocode/src/memory/observer.ts": ["packages/aboocode/src/memory/markdown-store.ts"], "packages/aboocode/src/patch/index.ts": ["packages/aboocode/src/util/log.ts"], "packages/aboocode/src/permission/arity.ts": [], "packages/aboocode/src/permission/index.ts": ["packages/aboocode/src/util/log.ts", "packages/aboocode/src/id/id.ts", "packages/aboocode/src/plugin/index.ts", "packages/aboocode/src/project/instance.ts", "packages/aboocode/src/util/wildcard.ts"], "packages/aboocode/src/permission/next.ts": []}
+```
+
+Files to analyze:
+1. `packages/aboocode/src/format/formatter.ts` (395 lines, fileCategory: `code`)
+2. `packages/aboocode/src/format/index.ts` (140 lines, fileCategory: `code`)
+3. `packages/aboocode/src/global/index.ts` (54 lines, fileCategory: `code`)
+4. `packages/aboocode/src/hot-reload/index.ts` (150 lines, fileCategory: `code`)
+5. `packages/aboocode/src/id/id.ts` (83 lines, fileCategory: `code`)
+6. `packages/aboocode/src/ide/index.ts` (76 lines, fileCategory: `code`)
+7. `packages/aboocode/src/index.ts` (199 lines, fileCategory: `code`)
+8. `packages/aboocode/src/installation/index.ts` (261 lines, fileCategory: `code`)
+9. `packages/aboocode/src/lsp/client.ts` (251 lines, fileCategory: `code`)
+10. `packages/aboocode/src/lsp/index.ts` (485 lines, fileCategory: `code`)
+11. `packages/aboocode/src/lsp/language.ts` (120 lines, fileCategory: `code`)
+12. `packages/aboocode/src/lsp/server.ts` (2057 lines, fileCategory: `code`)
+13. `packages/aboocode/src/mcp/auth.ts` (130 lines, fileCategory: `code`)
+14. `packages/aboocode/src/mcp/index.ts` (937 lines, fileCategory: `code`)
+15. `packages/aboocode/src/mcp/oauth-callback.ts` (200 lines, fileCategory: `code`)
+16. `packages/aboocode/src/mcp/oauth-provider.ts` (176 lines, fileCategory: `code`)
+17. `packages/aboocode/src/memory/context.ts` (77 lines, fileCategory: `code`)
+18. `packages/aboocode/src/memory/extract.ts` (156 lines, fileCategory: `code`)
+19. `packages/aboocode/src/memory/index.ts` (94 lines, fileCategory: `code`)
+20. `packages/aboocode/src/memory/markdown-store.ts` (89 lines, fileCategory: `code`)
+21. `packages/aboocode/src/memory/observer.ts` (416 lines, fileCategory: `code`)
+22. `packages/aboocode/src/patch/index.ts` (680 lines, fileCategory: `code`)
+23. `packages/aboocode/src/permission/arity.ts` (163 lines, fileCategory: `code`)
+24. `packages/aboocode/src/permission/index.ts` (210 lines, fileCategory: `code`)
+25. `packages/aboocode/src/permission/next.ts` (286 lines, fileCategory: `code`)

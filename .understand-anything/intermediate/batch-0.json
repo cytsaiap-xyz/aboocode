@@ -1,0 +1,631 @@
+{
+  "nodes": [
+    {
+      "id": "config:.claude/settings.local.json",
+      "type": "config",
+      "name": "settings.local.json",
+      "filePath": ".claude/settings.local.json",
+      "summary": "Claude Code local permissions configuration granting shell command access patterns for development, building, and testing workflows.",
+      "tags": ["configuration", "development", "permissions"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:AGENTS.md",
+      "type": "document",
+      "name": "AGENTS.md",
+      "filePath": "AGENTS.md",
+      "summary": "Coding style guide and conventions for AI agents, covering naming, destructuring, variables, control flow, Drizzle schema definitions, and testing practices.",
+      "tags": ["documentation", "style-guide", "development"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:bunfig.toml",
+      "type": "config",
+      "name": "bunfig.toml",
+      "filePath": "bunfig.toml",
+      "summary": "Bun runtime configuration enforcing exact dependency versions and disabling test runs from the monorepo root.",
+      "tags": ["configuration", "bun", "build-system"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:CONTRIBUTING.md",
+      "type": "document",
+      "name": "CONTRIBUTING.md",
+      "filePath": "CONTRIBUTING.md",
+      "summary": "Comprehensive contributor guide covering development setup, building localcode, running API/web/desktop apps, PR expectations, trust/vouch system, and issue requirements.",
+      "tags": ["documentation", "contributing", "development", "entry-point"],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/memory-system-plan.md",
+      "type": "document",
+      "name": "memory-system-plan.md",
+      "filePath": "docs/memory-system-plan.md",
+      "summary": "Architecture plan for a native memory system with database tables, auto-extraction from sessions, context injection, memory tools, and an extractor agent.",
+      "tags": ["documentation", "architecture", "memory", "planning"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:flake.nix",
+      "type": "file",
+      "name": "flake.nix",
+      "filePath": "flake.nix",
+      "summary": "Nix flake defining development shells, package overlays, and build outputs for aboocode CLI and desktop app across multiple platforms.",
+      "tags": ["infrastructure", "nix", "build-system", "entry-point"],
+      "complexity": "moderate",
+      "languageNotes": "Uses Nix flake system with forEachSystem helper for cross-platform builds (aarch64/x86_64 on Linux and Darwin)."
+    },
+    {
+      "id": "config:github/action.yml",
+      "type": "config",
+      "name": "action.yml",
+      "filePath": "github/action.yml",
+      "summary": "GitHub Action composite action definition that installs and runs opencode in CI, supporting model selection, agent configuration, OIDC auth, and custom trigger phrases.",
+      "tags": ["ci-cd", "configuration", "github-action", "deployment"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:github/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "github/index.ts",
+      "summary": "Main GitHub Action entry point implementing issue commenting, PR review, code generation, git operations, and opencode SDK integration for automated AI-powered code review and issue resolution.",
+      "tags": ["entry-point", "api-handler", "github-action", "service"],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:github/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "github/package.json",
+      "summary": "Package manifest for the github action subpackage declaring dependencies on Octokit, GitHub Actions core, and the aboocode SDK.",
+      "tags": ["configuration", "package-manifest", "dependencies"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:github/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "github/README.md",
+      "summary": "Documentation for the aboocode GitHub Action covering features (issue explain/fix, PR review, code line review), installation, manual setup, and development/testing instructions.",
+      "tags": ["documentation", "github-action", "installation", "entry-point"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:github/script/publish",
+      "type": "file",
+      "name": "publish",
+      "filePath": "github/script/publish",
+      "summary": "Shell script that updates the 'latest' git tag to point at the most recent github-v* release tag.",
+      "tags": ["script", "release", "deployment"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:github/script/release",
+      "type": "file",
+      "name": "release",
+      "filePath": "github/script/release",
+      "summary": "Shell script that bumps the GitHub Action version by incrementing the patch or minor number of the latest github-v* tag and pushes the new tag.",
+      "tags": ["script", "release", "versioning"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:github/sst-env.d.ts",
+      "type": "file",
+      "name": "sst-env.d.ts",
+      "filePath": "github/sst-env.d.ts",
+      "summary": "Auto-generated SST environment type declaration providing TypeScript type safety for SST resource bindings.",
+      "tags": ["type-definition", "auto-generated", "sst"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:github/tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "github/tsconfig.json",
+      "summary": "TypeScript compiler configuration for the github action subpackage specifying compilation target and module resolution settings.",
+      "tags": ["configuration", "typescript", "build-system"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:infra/app.ts",
+      "type": "file",
+      "name": "app.ts",
+      "filePath": "infra/app.ts",
+      "summary": "SST infrastructure definition for the main API worker (Cloudflare Worker), docs website (Astro), and web app (static site), wiring secrets and domain configuration.",
+      "tags": ["infrastructure", "sst", "deployment", "cloudflare"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:infra/console.ts",
+      "type": "file",
+      "name": "console.ts",
+      "filePath": "infra/console.ts",
+      "summary": "SST infrastructure definition for the console/admin application including PlanetScale database provisioning, authentication, Stripe webhook, and various backend services.",
+      "tags": ["infrastructure", "sst", "database", "deployment"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:infra/enterprise.ts",
+      "type": "file",
+      "name": "enterprise.ts",
+      "filePath": "infra/enterprise.ts",
+      "summary": "SST infrastructure definition for the enterprise Teams app deployed as a SolidStart app on Cloudflare with R2 storage integration.",
+      "tags": ["infrastructure", "sst", "enterprise", "deployment"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:infra/secret.ts",
+      "type": "file",
+      "name": "secret.ts",
+      "filePath": "infra/secret.ts",
+      "summary": "Exports R2 storage access key secrets used by the enterprise infrastructure module.",
+      "tags": ["infrastructure", "sst", "secrets"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:infra/stage.ts",
+      "type": "file",
+      "name": "stage.ts",
+      "filePath": "infra/stage.ts",
+      "summary": "Defines stage-dependent domain names (opencode.ai / dev.opencode.ai) and DNS zone configuration shared across all infrastructure modules.",
+      "tags": ["infrastructure", "sst", "configuration", "dns"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:install",
+      "type": "file",
+      "name": "install",
+      "filePath": "install",
+      "summary": "Curl-installable shell script that detects platform/architecture, downloads the correct opencode binary with progress display, and adds it to PATH.",
+      "tags": ["script", "installer", "entry-point", "deployment"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:install.sh",
+      "type": "file",
+      "name": "install.sh",
+      "filePath": "install.sh",
+      "summary": "Local build-from-source installer that detects platform, checks for Bun, installs dependencies, compiles the binary, and places it in the target bin directory.",
+      "tags": ["script", "installer", "build-system", "development"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:nix/desktop.nix",
+      "type": "file",
+      "name": "desktop.nix",
+      "filePath": "nix/desktop.nix",
+      "summary": "Nix derivation for building the aboocode Tauri desktop application with Rust/cargo-tauri, GTK4, and system library dependencies.",
+      "tags": ["infrastructure", "nix", "desktop", "build-system"],
+      "complexity": "moderate",
+      "languageNotes": "Uses rustPlatform.buildRustPackage with cargo-tauri for cross-platform desktop builds."
+    },
+    {
+      "id": "config:nix/hashes.json",
+      "type": "config",
+      "name": "hashes.json",
+      "filePath": "nix/hashes.json",
+      "summary": "Platform-specific content hashes for Nix node_modules fixed-output derivations, keyed by system architecture.",
+      "tags": ["configuration", "nix", "build-system"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:nix/node_modules.nix",
+      "type": "file",
+      "name": "node_modules.nix",
+      "filePath": "nix/node_modules.nix",
+      "summary": "Nix derivation that installs node_modules via Bun as a fixed-output derivation, providing reproducible dependency management for the build.",
+      "tags": ["infrastructure", "nix", "dependencies", "build-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:nix/opencode.nix",
+      "type": "file",
+      "name": "opencode.nix",
+      "filePath": "nix/opencode.nix",
+      "summary": "Nix derivation that builds the aboocode CLI binary using Bun's bundler with shell completion generation and binary wrapper setup.",
+      "tags": ["infrastructure", "nix", "build-system", "cli"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:github/index.ts:createOpencode",
+      "type": "function",
+      "name": "createOpencode",
+      "filePath": "github/index.ts",
+      "lineRange": [230, 241],
+      "summary": "Creates and configures an opencode SDK client instance for use within the GitHub Action.",
+      "tags": ["factory", "sdk", "initialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:github/index.ts:getAccessToken",
+      "type": "function",
+      "name": "getAccessToken",
+      "filePath": "github/index.ts",
+      "lineRange": [368, 400],
+      "summary": "Obtains a GitHub App installation access token via OIDC exchange or direct GITHUB_TOKEN, handling both authentication strategies.",
+      "tags": ["authentication", "github-api", "oidc"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:github/index.ts:getUserPrompt",
+      "type": "function",
+      "name": "getUserPrompt",
+      "filePath": "github/index.ts",
+      "lineRange": [413, 491],
+      "summary": "Builds the user prompt text for the AI agent by combining issue/PR context, user comments, and file references into a structured message.",
+      "tags": ["prompt-construction", "ai", "context-building"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:github/index.ts:subscribeSessionEvents",
+      "type": "function",
+      "name": "subscribeSessionEvents",
+      "filePath": "github/index.ts",
+      "lineRange": [493, 574],
+      "summary": "Subscribes to opencode session events and streams status updates as GitHub comment edits for real-time progress visibility.",
+      "tags": ["event-handler", "streaming", "github-api"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:github/index.ts:chat",
+      "type": "function",
+      "name": "chat",
+      "filePath": "github/index.ts",
+      "lineRange": [609, 651],
+      "summary": "Sends a chat message to the opencode session with file attachments and awaits the AI response.",
+      "tags": ["api-handler", "ai", "messaging"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:github/index.ts:configureGit",
+      "type": "function",
+      "name": "configureGit",
+      "filePath": "github/index.ts",
+      "lineRange": [653, 668],
+      "summary": "Configures git credentials and user identity for the GitHub Action bot to push commits.",
+      "tags": ["git", "configuration", "authentication"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:github/index.ts:fetchPR",
+      "type": "function",
+      "name": "fetchPR",
+      "filePath": "github/index.ts",
+      "lineRange": [900, 997],
+      "summary": "Fetches comprehensive pull request data via GitHub GraphQL API including commits, files, reviews, and comments for AI context building.",
+      "tags": ["github-api", "graphql", "data-fetching"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:github/index.ts:fetchIssue",
+      "type": "function",
+      "name": "fetchIssue",
+      "filePath": "github/index.ts",
+      "lineRange": [835, 875],
+      "summary": "Fetches issue details and comment history via GitHub GraphQL API for AI context.",
+      "tags": ["github-api", "graphql", "data-fetching"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:github/index.ts:assertPermissions",
+      "type": "function",
+      "name": "assertPermissions",
+      "filePath": "github/index.ts",
+      "lineRange": [757, 783],
+      "summary": "Validates that the commenting user has sufficient repository permissions (write, maintain, or admin) to trigger the AI agent.",
+      "tags": ["authorization", "security", "validation"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:github/index.ts:createPR",
+      "type": "function",
+      "name": "createPR",
+      "filePath": "github/index.ts",
+      "lineRange": [799, 812],
+      "summary": "Creates a new GitHub pull request from a generated branch after the AI agent makes code changes.",
+      "tags": ["github-api", "pull-request", "automation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:install:download_with_progress",
+      "type": "function",
+      "name": "download_with_progress",
+      "filePath": "install",
+      "lineRange": [267, 325],
+      "summary": "Downloads the opencode binary archive with a progress bar, supporting both curl and wget with fallback behavior.",
+      "tags": ["download", "progress", "utility"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:install:download_and_install",
+      "type": "function",
+      "name": "download_and_install",
+      "filePath": "install",
+      "lineRange": [327, 346],
+      "summary": "Orchestrates the download, extraction, and installation of the opencode binary to the user's system.",
+      "tags": ["installer", "orchestration", "utility"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:install.sh:detect_platform",
+      "type": "function",
+      "name": "detect_platform",
+      "filePath": "install.sh",
+      "lineRange": [36, 55],
+      "summary": "Detects the operating system and CPU architecture to determine the correct build target for compilation.",
+      "tags": ["platform-detection", "utility", "build-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:install.sh:build_binary",
+      "type": "function",
+      "name": "build_binary",
+      "filePath": "install.sh",
+      "lineRange": [77, 91],
+      "summary": "Compiles the aboocode binary from source using Bun's build system for the detected platform.",
+      "tags": ["build-system", "compilation", "bun"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:install.sh:install_binary",
+      "type": "function",
+      "name": "install_binary",
+      "filePath": "install.sh",
+      "lineRange": [94, 127],
+      "summary": "Copies the compiled binary to the installation directory with proper permissions and PATH configuration.",
+      "tags": ["installer", "deployment", "utility"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:install.sh:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "install.sh",
+      "lineRange": [130, 149],
+      "summary": "Main entry point that orchestrates the full build-from-source installation pipeline: detect platform, check prerequisites, build, and install.",
+      "tags": ["entry-point", "orchestration", "installer"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:infra/app.ts",
+      "target": "file:infra/stage.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:infra/console.ts",
+      "target": "file:infra/stage.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:infra/console.ts",
+      "target": "file:infra/app.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:infra/enterprise.ts",
+      "target": "file:infra/secret.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:infra/enterprise.ts",
+      "target": "file:infra/stage.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:github/index.ts",
+      "target": "function:github/index.ts:createOpencode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:github/index.ts",
+      "target": "function:github/index.ts:getAccessToken",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:github/index.ts",
+      "target": "function:github/index.ts:getUserPrompt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:github/index.ts",
+      "target": "function:github/index.ts:subscribeSessionEvents",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:github/index.ts",
+      "target": "function:github/index.ts:chat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:github/index.ts",
+      "target": "function:github/index.ts:configureGit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:github/index.ts",
+      "target": "function:github/index.ts:fetchPR",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:github/index.ts",
+      "target": "function:github/index.ts:fetchIssue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:github/index.ts",
+      "target": "function:github/index.ts:assertPermissions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:github/index.ts",
+      "target": "function:github/index.ts:createPR",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:install",
+      "target": "function:install:download_with_progress",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:install",
+      "target": "function:install:download_and_install",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:install.sh",
+      "target": "function:install.sh:detect_platform",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:install.sh",
+      "target": "function:install.sh:build_binary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:install.sh",
+      "target": "function:install.sh:install_binary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:install.sh",
+      "target": "function:install.sh:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "config:github/action.yml",
+      "target": "file:github/index.ts",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:github/tsconfig.json",
+      "target": "file:github/index.ts",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:github/package.json",
+      "target": "file:github/index.ts",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "document:github/README.md",
+      "target": "file:github/index.ts",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:github/README.md",
+      "target": "config:github/action.yml",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:CONTRIBUTING.md",
+      "target": "file:install.sh",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "config:bunfig.toml",
+      "target": "file:github/index.ts",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:flake.nix",
+      "target": "file:nix/node_modules.nix",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:flake.nix",
+      "target": "file:nix/opencode.nix",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:flake.nix",
+      "target": "file:nix/desktop.nix",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:nix/hashes.json",
+      "target": "file:nix/node_modules.nix",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:github/action.yml",
+      "target": "file:install",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:github/script/publish",
+      "target": "file:github/script/release",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

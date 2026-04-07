@@ -8,6 +8,7 @@ import { SessionPrompt } from "../../session/prompt"
 import { SessionCompaction } from "../../session/compaction"
 import { SessionRevert } from "../../session/revert"
 import { SessionStatus } from "@/session/status"
+import { TaskProgress } from "@/session/task-progress"
 import { SessionSummary } from "@/session/summary"
 import { Todo } from "../../session/todo"
 import { Agent } from "../../agent/agent"
@@ -87,6 +88,36 @@ export const SessionRoutes = lazy(() =>
       async (c) => {
         const result = SessionStatus.list()
         return c.json(result)
+      },
+    )
+    .get(
+      "/:sessionID/task-progress",
+      describeRoute({
+        summary: "Get task progress",
+        description: "Retrieve the current progress of a subagent task running in the specified session.",
+        operationId: "session.taskProgress",
+        responses: {
+          200: {
+            description: "Task progress info, or null if no active task",
+            content: {
+              "application/json": {
+                schema: resolver(TaskProgress.Info.nullable()),
+              },
+            },
+          },
+          ...errors(400),
+        },
+      }),
+      validator(
+        "param",
+        z.object({
+          sessionID: z.string().meta({ description: "Session ID" }),
+        }),
+      ),
+      async (c) => {
+        const sessionID = c.req.valid("param").sessionID
+        const progress = TaskProgress.get(sessionID)
+        return c.json(progress ?? null)
       },
     )
     .get(

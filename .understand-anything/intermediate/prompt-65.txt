@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 65
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-65.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/web/src/components/share/content-text.module.css": [], "packages/web/src/components/share/content-text.tsx": ["packages/web/src/components/share/content-text.module.css", "packages/web/src/components/share/common.tsx", "packages/web/src/components/share/copy-button.tsx"], "packages/web/src/components/share/copy-button.module.css": [], "packages/web/src/components/share/copy-button.tsx": ["packages/web/src/components/icons/index.tsx", "packages/web/src/components/share/common.tsx", "packages/web/src/components/share/copy-button.module.css"], "packages/web/src/components/share/part.module.css": [], "packages/web/src/components/share/part.tsx": ["packages/web/src/components/icons/custom.tsx", "packages/web/src/components/share/content-code.tsx", "packages/web/src/components/share/content-diff.tsx", "packages/web/src/components/share/content-text.tsx", "packages/web/src/components/share/content-bash.tsx", "packages/web/src/components/share/content-error.tsx", "packages/web/src/components/share/common.tsx", "packages/web/src/components/share/content-markdown.tsx", "packages/web/src/components/share/part.module.css"], "packages/web/src/components/SiteTitle.astro": [], "packages/web/src/content.config.ts": ["packages/web/src/content/i18n/en.json"], "packages/web/src/content/docs/acp.mdx": [], "packages/web/src/content/docs/agents.mdx": [], "packages/web/src/content/docs/ar/acp.mdx": [], "packages/web/src/content/docs/ar/agents.mdx": [], "packages/web/src/content/docs/ar/cli.mdx": [], "packages/web/src/content/docs/ar/commands.mdx": [], "packages/web/src/content/docs/ar/config.mdx": [], "packages/web/src/content/docs/ar/custom-tools.mdx": [], "packages/web/src/content/docs/ar/ecosystem.mdx": [], "packages/web/src/content/docs/ar/enterprise.mdx": [], "packages/web/src/content/docs/ar/formatters.mdx": [], "packages/web/src/content/docs/ar/github.mdx": [], "packages/web/src/content/docs/ar/gitlab.mdx": [], "packages/web/src/content/docs/ar/ide.mdx": [], "packages/web/src/content/docs/ar/index.mdx": [], "packages/web/src/content/docs/ar/keybinds.mdx": [], "packages/web/src/content/docs/ar/lsp.mdx": []}
+```
+
+Files to analyze:
+1. `packages/web/src/components/share/content-text.module.css` (63 lines, fileCategory: `markup`)
+2. `packages/web/src/components/share/content-text.tsx` (38 lines, fileCategory: `code`)
+3. `packages/web/src/components/share/copy-button.module.css` (30 lines, fileCategory: `markup`)
+4. `packages/web/src/components/share/copy-button.tsx` (36 lines, fileCategory: `code`)
+5. `packages/web/src/components/share/part.module.css` (428 lines, fileCategory: `markup`)
+6. `packages/web/src/components/share/part.tsx` (814 lines, fileCategory: `code`)
+7. `packages/web/src/components/SiteTitle.astro` (59 lines, fileCategory: `code`)
+8. `packages/web/src/content.config.ts` (16 lines, fileCategory: `code`)
+9. `packages/web/src/content/docs/acp.mdx` (156 lines, fileCategory: `code`)
+10. `packages/web/src/content/docs/agents.mdx` (747 lines, fileCategory: `code`)
+11. `packages/web/src/content/docs/ar/acp.mdx` (156 lines, fileCategory: `code`)
+12. `packages/web/src/content/docs/ar/agents.mdx` (746 lines, fileCategory: `code`)
+13. `packages/web/src/content/docs/ar/cli.mdx` (603 lines, fileCategory: `code`)
+14. `packages/web/src/content/docs/ar/commands.mdx` (322 lines, fileCategory: `code`)
+15. `packages/web/src/content/docs/ar/config.mdx` (684 lines, fileCategory: `code`)
+16. `packages/web/src/content/docs/ar/custom-tools.mdx` (170 lines, fileCategory: `code`)
+17. `packages/web/src/content/docs/ar/ecosystem.mdx` (76 lines, fileCategory: `code`)
+18. `packages/web/src/content/docs/ar/enterprise.mdx` (165 lines, fileCategory: `code`)
+19. `packages/web/src/content/docs/ar/formatters.mdx` (131 lines, fileCategory: `code`)
+20. `packages/web/src/content/docs/ar/github.mdx` (321 lines, fileCategory: `code`)
+21. `packages/web/src/content/docs/ar/gitlab.mdx` (195 lines, fileCategory: `code`)
+22. `packages/web/src/content/docs/ar/ide.mdx` (48 lines, fileCategory: `code`)
+23. `packages/web/src/content/docs/ar/index.mdx` (344 lines, fileCategory: `code`)
+24. `packages/web/src/content/docs/ar/keybinds.mdx` (192 lines, fileCategory: `code`)
+25. `packages/web/src/content/docs/ar/lsp.mdx` (188 lines, fileCategory: `code`)

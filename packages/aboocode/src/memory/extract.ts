@@ -13,6 +13,74 @@ const log = Log.create({ service: "memory.extract" })
 // Track which sessions have been extracted to avoid duplicate work
 const extractedSessions = new Map<string, number>()
 
+/**
+ * Durable memory types — the explicit allowlist for what gets persisted.
+ * Reference: claude-code-leak/src/memdir/memoryTypes.ts
+ *
+ * Only these categories should be stored in memory. Everything else
+ * can be derived from code, git history, or the current session context.
+ */
+export const DURABLE_MEMORY_TYPES = [
+  "user_preference",    // How the user likes to work (style, process, communication)
+  "user_role",          // User's role, expertise, responsibilities
+  "feedback",           // Corrections and confirmed approaches
+  "project_goal",       // Project objectives, constraints, deadlines
+  "project_decision",   // Non-obvious decisions with rationale (the "why")
+  "external_reference", // Pointers to external systems (trackers, dashboards, docs)
+  "workflow",           // Recurring workflows and environment constraints
+  "lesson_learned",     // Root cause insights from debugging (not the fix itself)
+] as const
+
+export type DurableMemoryType = typeof DURABLE_MEMORY_TYPES[number]
+
+/**
+ * Patterns that indicate non-durable content that should NOT be saved.
+ * These can be derived from code or git history.
+ */
+const REJECT_PATTERNS = [
+  /^(?:#{1,3}\s*)?(file|directory|folder)\s+(structure|layout|tree)/i,
+  /^(?:#{1,3}\s*)?(architecture|design)\s+(overview|summary|diagram)/i,
+  /^(?:#{1,3}\s*)?tech(nology)?\s+stack/i,
+  /^(?:#{1,3}\s*)?dependencies/i,
+  /^(?:#{1,3}\s*)?coding\s+(conventions?|style|standards?)/i,
+  /^(?:#{1,3}\s*)?recent\s+(changes|commits|activity)/i,
+  /^(?:#{1,3}\s*)?session\s+(recap|summary|log)/i,
+  /^(?:#{1,3}\s*)?implementation\s+details/i,
+]
+
+/**
+ * Validate extracted memory content before writing.
+ * Returns cleaned content with non-durable sections removed, or null if nothing is durable.
+ */
+export function validateMemoryContent(content: string): string | null {
+  if (!content || content.trim().length === 0) return null
+
+  const lines = content.split("\n")
+  const kept: string[] = []
+  let skipSection = false
+
+  for (const line of lines) {
+    // Check if this line starts a non-durable section
+    if (REJECT_PATTERNS.some((p) => p.test(line.trim()))) {
+      skipSection = true
+      continue
+    }
+
+    // New header resets skip state
+    if (/^#{1,3}\s+/.test(line) && !REJECT_PATTERNS.some((p) => p.test(line.trim()))) {
+      skipSection = false
+    }
+
+    if (!skipSection) {
+      kept.push(line)
+    }
+  }
+
+  const result = kept.join("\n").trim()
+  if (result.length < 20) return null // Too short to be meaningful
+  return result
+}
+
 export async function extractMemories(sessionID: string): Promise<void> {
   UsageLog.record("memory", "extractMemories", { sessionID })
   const lastExtracted = extractedSessions.get(sessionID) ?? 0
@@ -114,9 +182,17 @@ export async function extractMemories(sessionID: string): Promise<void> {
       return
     }
 
-    // Append the extracted notes to MEMORY.md
+    // Validate memory content — reject non-durable sections
+    const validated = validateMemoryContent(text)
+    if (!validated) {
+      DebugLog.memoryExtractSkipped(sessionID, "all content rejected by memory validation (non-durable)")
+      log.info("memory validation rejected all content", { sessionID })
+      return
+    }
+
+    // Append the validated notes to MEMORY.md
     const existing = MarkdownStore.readMemory()
-    const updated = existing ? existing.trimEnd() + "\n\n" + text.trim() + "\n" : text.trim() + "\n"
+    const updated = existing ? existing.trimEnd() + "\n\n" + validated + "\n" : validated + "\n"
     MarkdownStore.writeMemory(updated)
 
     extractedSessions.set(sessionID, Date.now())

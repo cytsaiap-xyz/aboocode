@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 57
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-57.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/ui/src/components/card.tsx": [], "packages/ui/src/components/checkbox.css": [], "packages/ui/src/components/checkbox.tsx": [], "packages/ui/src/components/code.css": [], "packages/ui/src/components/code.tsx": ["packages/ui/src/pierre/index.ts", "packages/ui/src/pierre/worker.ts", "packages/ui/src/components/icon.tsx"], "packages/ui/src/components/collapsible.css": [], "packages/ui/src/components/collapsible.tsx": ["packages/ui/src/components/icon.tsx"], "packages/ui/src/components/context-menu.css": [], "packages/ui/src/components/context-menu.tsx": [], "packages/ui/src/components/dialog.css": [], "packages/ui/src/components/dialog.tsx": ["packages/ui/src/context/i18n.tsx", "packages/ui/src/components/icon-button.tsx"], "packages/ui/src/components/diff-changes.css": [], "packages/ui/src/components/diff-changes.tsx": [], "packages/ui/src/components/diff-ssr.tsx": ["packages/ui/src/pierre/index.ts", "packages/ui/src/pierre/virtualizer.ts", "packages/ui/src/context/worker-pool.tsx"], "packages/ui/src/components/diff.css": [], "packages/ui/src/components/diff.tsx": ["packages/ui/src/pierre/index.ts", "packages/ui/src/pierre/virtualizer.ts", "packages/ui/src/pierre/worker.ts"], "packages/ui/src/components/dock-prompt.tsx": ["packages/ui/src/components/dock-surface.tsx"], "packages/ui/src/components/dock-surface.css": [], "packages/ui/src/components/dock-surface.tsx": [], "packages/ui/src/components/dropdown-menu.css": [], "packages/ui/src/components/dropdown-menu.tsx": [], "packages/ui/src/components/favicon.tsx": [], "packages/ui/src/components/file-icon.css": [], "packages/ui/src/components/file-icon.tsx": ["packages/ui/src/components/file-icons/types.ts"], "packages/ui/src/components/file-icons/types.ts": []}
+```
+
+Files to analyze:
+1. `packages/ui/src/components/card.tsx` (22 lines, fileCategory: `code`)
+2. `packages/ui/src/components/checkbox.css` (122 lines, fileCategory: `markup`)
+3. `packages/ui/src/components/checkbox.tsx` (43 lines, fileCategory: `code`)
+4. `packages/ui/src/components/code.css` (4 lines, fileCategory: `markup`)
+5. `packages/ui/src/components/code.tsx` (1097 lines, fileCategory: `code`)
+6. `packages/ui/src/components/collapsible.css` (142 lines, fileCategory: `markup`)
+7. `packages/ui/src/components/collapsible.tsx` (48 lines, fileCategory: `code`)
+8. `packages/ui/src/components/context-menu.css` (134 lines, fileCategory: `markup`)
+9. `packages/ui/src/components/context-menu.tsx` (308 lines, fileCategory: `code`)
+10. `packages/ui/src/components/dialog.css` (181 lines, fileCategory: `markup`)
+11. `packages/ui/src/components/dialog.tsx` (72 lines, fileCategory: `code`)
+12. `packages/ui/src/components/diff-changes.css` (42 lines, fileCategory: `markup`)
+13. `packages/ui/src/components/diff-changes.tsx` (115 lines, fileCategory: `code`)
+14. `packages/ui/src/components/diff-ssr.tsx` (317 lines, fileCategory: `code`)
+15. `packages/ui/src/components/diff.css` (35 lines, fileCategory: `markup`)
+16. `packages/ui/src/components/diff.tsx` (652 lines, fileCategory: `code`)
+17. `packages/ui/src/components/dock-prompt.tsx` (22 lines, fileCategory: `code`)
+18. `packages/ui/src/components/dock-surface.css` (23 lines, fileCategory: `markup`)
+19. `packages/ui/src/components/dock-surface.tsx` (54 lines, fileCategory: `code`)
+20. `packages/ui/src/components/dropdown-menu.css` (125 lines, fileCategory: `markup`)
+21. `packages/ui/src/components/dropdown-menu.tsx` (308 lines, fileCategory: `code`)
+22. `packages/ui/src/components/favicon.tsx` (13 lines, fileCategory: `code`)
+23. `packages/ui/src/components/file-icon.css` (25 lines, fileCategory: `markup`)
+24. `packages/ui/src/components/file-icon.tsx` (591 lines, fileCategory: `code`)
+25. `packages/ui/src/components/file-icons/types.ts` (1095 lines, fileCategory: `code`)

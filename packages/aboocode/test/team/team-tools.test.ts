@@ -421,7 +421,7 @@ describe("DelegateTaskTool", () => {
     expect(tool.parameters.shape.task).toBeDefined()
   })
 
-  test("returns error when agent not found", async () => {
+  test("returns error when no team exists", async () => {
     await using tmp = await tmpdir()
     await Instance.provide({
       directory: tmp.path,
@@ -434,8 +434,40 @@ describe("DelegateTaskTool", () => {
         )
 
         expect(result.title).toContain("Error")
-        expect(result.output).toContain("not found")
-        expect(result.output).toContain("non-existent-agent")
+        expect(result.output).toContain("No team found")
+      },
+    })
+  })
+
+  test("returns error when agent not in team roster", async () => {
+    await using tmp = await tmpdir()
+    await Instance.provide({
+      directory: tmp.path,
+      fn: async () => {
+        const planTool = await PlanTeamTool.init()
+        const addTool = await AddAgentTool.init()
+        const finalizeTool = await FinalizeTeamTool.init()
+        const ctx = makeCtx("delegate-roster-session")
+
+        await planTool.execute({ task_summary: "Test" }, ctx)
+        await addTool.execute(
+          { agent_id: "agent-a", name: "Agent A", description: "First", system_prompt: "Be A" },
+          ctx,
+        )
+        await addTool.execute(
+          { agent_id: "agent-b", name: "Agent B", description: "Second", system_prompt: "Be B" },
+          ctx,
+        )
+        await finalizeTool.execute({}, ctx)
+
+        const tool = await DelegateTaskTool.init()
+        const result = await tool.execute(
+          { agent_id: "non-existent-agent", task: "Do something" },
+          ctx,
+        )
+
+        expect(result.title).toContain("Error")
+        expect(result.output).toContain("not part of the current team")
       },
     })
   })
@@ -452,7 +484,7 @@ describe("DelegateTasksTool", () => {
     expect(tool.parameters.shape.delegations).toBeDefined()
   })
 
-  test("handles agent not found in parallel delegation", async () => {
+  test("returns error when no team exists for parallel delegation", async () => {
     await using tmp = await tmpdir()
     await Instance.provide({
       directory: tmp.path,
@@ -469,11 +501,48 @@ describe("DelegateTasksTool", () => {
           ctx,
         )
 
-        expect(result.title).toContain("Parallel Tasks Complete")
-        expect(result.output).toContain("[FAILED]")
+        expect(result.title).toContain("Error")
+        expect(result.output).toContain("No team found")
+      },
+    })
+  })
+
+  test("rejects agents not in team roster for parallel delegation", async () => {
+    await using tmp = await tmpdir()
+    await Instance.provide({
+      directory: tmp.path,
+      fn: async () => {
+        const planTool = await PlanTeamTool.init()
+        const addTool = await AddAgentTool.init()
+        const finalizeTool = await FinalizeTeamTool.init()
+        const ctx = makeCtx("parallel-roster-session")
+
+        await planTool.execute({ task_summary: "Test" }, ctx)
+        await addTool.execute(
+          { agent_id: "real-1", name: "Real 1", description: "Exists", system_prompt: "Be real" },
+          ctx,
+        )
+        await addTool.execute(
+          { agent_id: "real-2", name: "Real 2", description: "Exists too", system_prompt: "Be real" },
+          ctx,
+        )
+        await finalizeTool.execute({}, ctx)
+
+        const tool = await DelegateTasksTool.init()
+        const result = await tool.execute(
+          {
+            delegations: [
+              { agent_id: "ghost-agent-1", task: "Task 1" },
+              { agent_id: "ghost-agent-2", task: "Task 2" },
+            ],
+          },
+          ctx,
+        )
+
+        expect(result.title).toContain("Error")
+        expect(result.output).toContain("not part of the current team")
         expect(result.output).toContain("ghost-agent-1")
         expect(result.output).toContain("ghost-agent-2")
-        expect(result.output).toContain("not found")
       },
     })
   })

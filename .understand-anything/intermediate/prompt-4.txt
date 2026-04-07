@@ -1,0 +1,140 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode`
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 4
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-4.json`
+
+Pre-resolved import data for this batch (use this for all import edge creation — do NOT re-resolve imports from source):
+```json
+{
+  "packages/aboocode/src/cli/cmd/tui/attach.ts": [
+    "packages/aboocode/src/cli/cmd/cmd.ts",
+    "packages/aboocode/src/cli/cmd/tui/app.tsx",
+    "packages/aboocode/src/cli/cmd/tui/win32.ts"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/border.tsx": [],
+  "packages/aboocode/src/cli/cmd/tui/component/dialog-agent.tsx": [],
+  "packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx": [],
+  "packages/aboocode/src/cli/cmd/tui/component/dialog-mcp.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/context/theme.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+    "packages/aboocode/src/cli/cmd/tui/context/keybind.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/context/sdk.tsx",
+    "packages/aboocode/src/cli/cmd/tui/ui/dialog-prompt.tsx",
+    "packages/aboocode/src/cli/cmd/tui/ui/link.tsx",
+    "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+    "packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx",
+    "packages/aboocode/src/cli/cmd/tui/ui/toast.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/context/keybind.tsx",
+    "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+    "packages/aboocode/src/cli/cmd/tui/context/sdk.tsx",
+    "packages/aboocode/src/cli/cmd/tui/component/dialog-session-rename.tsx",
+    "packages/aboocode/src/cli/cmd/tui/context/kv.tsx",
+    "packages/aboocode/src/cli/cmd/tui/util/signal.ts",
+    "packages/aboocode/src/cli/cmd/tui/component/spinner.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/dialog-session-rename.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/context/sdk.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/dialog-skill.tsx": [],
+  "packages/aboocode/src/cli/cmd/tui/component/dialog-stash.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+    "packages/aboocode/src/cli/cmd/tui/context/keybind.tsx",
+    "packages/aboocode/src/cli/cmd/tui/component/prompt/stash.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/dialog-status.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/context/theme.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/dialog-tag.tsx": [],
+  "packages/aboocode/src/cli/cmd/tui/component/dialog-theme-list.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/ui/dialog-select.tsx",
+    "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+    "packages/aboocode/src/cli/cmd/tui/ui/dialog.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/logo.tsx": [],
+  "packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx",
+    "packages/aboocode/src/cli/cmd/tui/component/prompt/frecency.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/prompt/frecency.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/context/helper.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/context/helper.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx",
+    "packages/aboocode/src/cli/cmd/tui/component/prompt/stash.tsx",
+    "packages/aboocode/src/cli/cmd/tui/component/dialog-stash.tsx",
+    "packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx",
+    "packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx",
+    "packages/aboocode/src/cli/cmd/tui/context/exit.tsx",
+    "packages/aboocode/src/cli/cmd/tui/util/clipboard.ts",
+    "packages/aboocode/src/cli/cmd/tui/event.ts",
+    "packages/aboocode/src/cli/cmd/tui/ui/spinner.ts",
+    "packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx",
+    "packages/aboocode/src/cli/cmd/tui/ui/dialog-alert.tsx",
+    "packages/aboocode/src/cli/cmd/tui/ui/toast.tsx",
+    "packages/aboocode/src/cli/cmd/tui/context/kv.tsx",
+    "packages/aboocode/src/cli/cmd/tui/component/textarea-keybindings.ts",
+    "packages/aboocode/src/cli/cmd/tui/component/dialog-skill.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/prompt/stash.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+    "packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/spinner.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+    "packages/aboocode/src/cli/cmd/tui/context/kv.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/textarea-keybindings.ts": [
+    "packages/aboocode/src/cli/cmd/tui/context/keybind.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/component/tips.tsx": [],
+  "packages/aboocode/src/cli/cmd/tui/component/todo-item.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/context/theme.tsx"
+  ],
+  "packages/aboocode/src/cli/cmd/tui/context/args.tsx": [
+    "packages/aboocode/src/cli/cmd/tui/context/helper.tsx"
+  ]
+}
+```
+
+Files to analyze in this batch:
+1. `packages/aboocode/src/cli/cmd/tui/attach.ts` (80 lines, fileCategory: `code`)
+2. `packages/aboocode/src/cli/cmd/tui/component/border.tsx` (21 lines, fileCategory: `code`)
+3. `packages/aboocode/src/cli/cmd/tui/component/dialog-agent.tsx` (31 lines, fileCategory: `code`)
+4. `packages/aboocode/src/cli/cmd/tui/component/dialog-command.tsx` (148 lines, fileCategory: `code`)
+5. `packages/aboocode/src/cli/cmd/tui/component/dialog-mcp.tsx` (86 lines, fileCategory: `code`)
+6. `packages/aboocode/src/cli/cmd/tui/component/dialog-model.tsx` (165 lines, fileCategory: `code`)
+7. `packages/aboocode/src/cli/cmd/tui/component/dialog-provider.tsx` (259 lines, fileCategory: `code`)
+8. `packages/aboocode/src/cli/cmd/tui/component/dialog-session-list.tsx` (108 lines, fileCategory: `code`)
+9. `packages/aboocode/src/cli/cmd/tui/component/dialog-session-rename.tsx` (31 lines, fileCategory: `code`)
+10. `packages/aboocode/src/cli/cmd/tui/component/dialog-skill.tsx` (36 lines, fileCategory: `code`)
+11. `packages/aboocode/src/cli/cmd/tui/component/dialog-stash.tsx` (87 lines, fileCategory: `code`)
+12. `packages/aboocode/src/cli/cmd/tui/component/dialog-status.tsx` (167 lines, fileCategory: `code`)
+13. `packages/aboocode/src/cli/cmd/tui/component/dialog-tag.tsx` (44 lines, fileCategory: `code`)
+14. `packages/aboocode/src/cli/cmd/tui/component/dialog-theme-list.tsx` (50 lines, fileCategory: `code`)
+15. `packages/aboocode/src/cli/cmd/tui/component/logo.tsx` (85 lines, fileCategory: `code`)
+16. `packages/aboocode/src/cli/cmd/tui/component/prompt/autocomplete.tsx` (667 lines, fileCategory: `code`)
+17. `packages/aboocode/src/cli/cmd/tui/component/prompt/frecency.tsx` (90 lines, fileCategory: `code`)
+18. `packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx` (108 lines, fileCategory: `code`)
+19. `packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx` (1155 lines, fileCategory: `code`)
+20. `packages/aboocode/src/cli/cmd/tui/component/prompt/stash.tsx` (101 lines, fileCategory: `code`)
+21. `packages/aboocode/src/cli/cmd/tui/component/spinner.tsx` (24 lines, fileCategory: `code`)
+22. `packages/aboocode/src/cli/cmd/tui/component/textarea-keybindings.ts` (73 lines, fileCategory: `code`)
+23. `packages/aboocode/src/cli/cmd/tui/component/tips.tsx` (152 lines, fileCategory: `code`)
+24. `packages/aboocode/src/cli/cmd/tui/component/todo-item.tsx` (32 lines, fileCategory: `code`)
+25. `packages/aboocode/src/cli/cmd/tui/context/args.tsx` (15 lines, fileCategory: `code`)
+
+**Additional context from main session:**
+
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml

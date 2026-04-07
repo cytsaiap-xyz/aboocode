@@ -2,9 +2,9 @@ import z from "zod"
 import { Tool } from "./tool"
 import * as path from "path"
 import DESCRIPTION from "./ls.txt"
-import { Instance } from "../project/instance"
 import { Ripgrep } from "../file/ripgrep"
 import { assertExternalDirectory } from "./external-directory"
+import { IsolationPath } from "../agent/isolation-path"
 
 export const IGNORE_PATTERNS = [
   "node_modules/",
@@ -42,7 +42,7 @@ export const ListTool = Tool.define("list", {
     ignore: z.array(z.string()).describe("List of glob patterns to ignore").optional(),
   }),
   async execute(params, ctx) {
-    const searchPath = path.resolve(Instance.directory, params.path || ".")
+    const searchPath = path.resolve(IsolationPath.cwd(ctx.sessionID), params.path || ".")
     await assertExternalDirectory(ctx, searchPath, { kind: "directory" })
 
     await ctx.ask({
@@ -110,7 +110,7 @@ export const ListTool = Tool.define("list", {
     const output = `${searchPath}/\n` + renderDir(".", 0)
 
     return {
-      title: path.relative(Instance.worktree, searchPath),
+      title: IsolationPath.relative(ctx.sessionID, searchPath),
       metadata: {
         count: files.length,
         truncated: files.length >= LIMIT,

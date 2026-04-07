@@ -6,7 +6,7 @@ IMPORTANT: You must NEVER generate or guess URLs for the user unless you are con
 
 If the user asks for help or wants to give feedback inform them of the following: 
 - /help: Get help with using aboocode
-- To give feedback, users should report the issue at https://github.com/anomalyco/opencode/issues
+- To give feedback, users should report the issue at https://github.com/cytsaiap-xyz/aboocode/issues
 
 When the user directly asks about aboocode (eg 'can aboocode do...', 'does aboocode have...') or asks in second person (eg 'are you able...', 'can you do...'), first use the WebFetch tool to gather information to answer the question from aboocode docs at https://opencode.ai
 

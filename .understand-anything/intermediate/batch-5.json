@@ -1,0 +1,771 @@
+{
+  "nodes": [
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/context/directory.ts",
+      "type": "file",
+      "name": "directory.ts",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/directory.ts",
+      "summary": "Provides a reactive memo that computes a display-friendly directory path with optional VCS branch suffix, using sync context data.",
+      "tags": ["utility", "hook", "component", "reactive"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/context/exit.tsx",
+      "type": "file",
+      "name": "exit.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/exit.tsx",
+      "summary": "Provides an exit context that handles graceful TUI shutdown including terminal title reset, renderer destruction, Win32 input buffer flush, and error formatting before process termination.",
+      "tags": ["service", "hook", "lifecycle", "error-handling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "file",
+      "name": "helper.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "summary": "Factory function for creating SolidJS context providers with automatic initialization, ready-gating via Show, and type-safe useContext hooks with error boundaries.",
+      "tags": ["utility", "factory", "hook", "component"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/context/keybind.tsx",
+      "type": "file",
+      "name": "keybind.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/keybind.tsx",
+      "summary": "Provides a keybind context that manages keyboard shortcut parsing, matching, leader-key mode with timeout, and human-readable keybind printing for the TUI.",
+      "tags": ["hook", "event-handler", "utility", "keyboard"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/context/kv.tsx",
+      "type": "file",
+      "name": "kv.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/kv.tsx",
+      "summary": "Provides a persistent key-value store context backed by a JSON file, with reactive SolidJS signals and automatic file persistence on writes.",
+      "tags": ["hook", "service", "data-model", "persistence"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/context/local.tsx",
+      "type": "file",
+      "name": "local.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/local.tsx",
+      "summary": "Manages local TUI state for agent selection with color assignment, model selection with recent/favorite/variant cycling and persistence, and MCP server toggling.",
+      "tags": ["hook", "service", "data-model", "state-management", "component"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/context/prompt.tsx",
+      "type": "file",
+      "name": "prompt.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/prompt.tsx",
+      "summary": "Provides a simple context for holding a mutable reference to the current PromptRef component instance.",
+      "tags": ["hook", "component", "utility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/context/route.tsx",
+      "type": "file",
+      "name": "route.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/route.tsx",
+      "summary": "Provides TUI routing context supporting home and session routes with navigation, initialized from ABOOCODE_ROUTE environment variable.",
+      "tags": ["hook", "service", "type-definition", "component"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/context/sdk.tsx",
+      "type": "file",
+      "name": "sdk.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/sdk.tsx",
+      "summary": "Provides an SDK context that wraps the Aboocode client with a batched event system using SSE or custom event sources, optimizing renders with 16ms frame-rate-aware flushing.",
+      "tags": ["hook", "service", "event-handler", "api-handler"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/context/sync.tsx",
+      "type": "file",
+      "name": "sync.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/sync.tsx",
+      "summary": "Central sync context that bootstraps all server state (providers, agents, sessions, messages, config, MCP, LSP, VCS) and maintains real-time synchronization via SDK event listeners with binary-search-based store updates.",
+      "tags": ["hook", "service", "state-management", "data-model", "event-handler"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "file",
+      "name": "theme.tsx",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "summary": "Comprehensive theme engine that resolves built-in and custom color themes from JSON definitions, supports dark/light modes, terminal palette-based system theme generation, ANSI-to-RGBA conversion, and syntax highlighting style generation.",
+      "tags": ["hook", "service", "utility", "component", "type-definition"],
+      "complexity": "complex",
+      "languageNotes": "Uses SolidJS Proxy pattern for reactive theme object access, and JSON import assertions for bundled theme files."
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/directory.ts:useDirectory",
+      "type": "function",
+      "name": "useDirectory",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/directory.ts",
+      "lineRange": [5, 13],
+      "summary": "Returns a reactive memo computing a display-friendly directory path with tilde-home substitution and optional VCS branch suffix.",
+      "tags": ["hook", "reactive", "utility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/helper.tsx:createSimpleContext",
+      "type": "function",
+      "name": "createSimpleContext",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "lineRange": [3, 25],
+      "summary": "Factory that creates a typed SolidJS context with an auto-initializing Provider component and a use() hook with missing-context error checking.",
+      "tags": ["factory", "hook", "utility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/route.tsx:useRouteData",
+      "type": "function",
+      "name": "useRouteData",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/route.tsx",
+      "lineRange": [43, 46],
+      "summary": "Type-narrowing helper that returns route data cast to the specified route type.",
+      "tags": ["hook", "utility", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:selectedForeground",
+      "type": "function",
+      "name": "selectedForeground",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "lineRange": [106, 122],
+      "summary": "Computes the optimal foreground color for selected list items based on theme settings and background luminance for contrast.",
+      "tags": ["utility", "color", "accessibility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:resolveTheme",
+      "type": "function",
+      "name": "resolveTheme",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "lineRange": [177, 233],
+      "summary": "Resolves a ThemeJson definition into concrete RGBA values by dereferencing color names, applying dark/light variants, and handling optional fields with defaults.",
+      "tags": ["utility", "color", "theme-resolution"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:ansiToRgba",
+      "type": "function",
+      "name": "ansiToRgba",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "lineRange": [235, 278],
+      "summary": "Converts ANSI 256-color codes to RGBA values, handling standard colors (0-15), 6x6x6 color cube (16-231), and grayscale ramp (232-255).",
+      "tags": ["utility", "color", "conversion"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:getCustomThemes",
+      "type": "function",
+      "name": "getCustomThemes",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "lineRange": [395, 419],
+      "summary": "Discovers and loads custom theme JSON files from config directories and .aboocode folders up the directory tree.",
+      "tags": ["utility", "filesystem", "theme-loading"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:tint",
+      "type": "function",
+      "name": "tint",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "lineRange": [421, 426],
+      "summary": "Blends two RGBA colors by linearly interpolating each channel using an alpha factor.",
+      "tags": ["utility", "color", "math"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:generateSystem",
+      "type": "function",
+      "name": "generateSystem",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "lineRange": [428, 535],
+      "summary": "Generates a complete system theme from terminal palette colors by mapping ANSI colors to semantic theme properties with computed diff, markdown, and syntax colors.",
+      "tags": ["utility", "color", "theme-generation"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:generateGrayScale",
+      "type": "function",
+      "name": "generateGrayScale",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "lineRange": [537, 589],
+      "summary": "Generates a 12-step gray scale relative to a background color, adapting to dark or light mode with luminance-based scaling.",
+      "tags": ["utility", "color", "math"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:generateMutedTextColor",
+      "type": "function",
+      "name": "generateMutedTextColor",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "lineRange": [591, 620],
+      "summary": "Computes a muted text color that provides readable contrast against the background in both dark and light modes.",
+      "tags": ["utility", "color", "accessibility"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:generateSyntax",
+      "type": "function",
+      "name": "generateSyntax",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "lineRange": [622, 624],
+      "summary": "Generates syntax highlighting styles from theme colors using SyntaxStyle.fromTheme.",
+      "tags": ["utility", "syntax-highlighting"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:generateSubtleSyntax",
+      "type": "function",
+      "name": "generateSubtleSyntax",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "lineRange": [626, 648],
+      "summary": "Generates a reduced-opacity variant of syntax highlighting styles for thinking/processing state display.",
+      "tags": ["utility", "syntax-highlighting", "visual-feedback"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:getSyntaxRules",
+      "type": "function",
+      "name": "getSyntaxRules",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "lineRange": [650, 1152],
+      "summary": "Defines the complete set of syntax highlighting scope-to-style mappings for code, markdown, diff, and UI elements using theme color properties.",
+      "tags": ["utility", "syntax-highlighting", "configuration"],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/aboocode.json",
+      "type": "config",
+      "name": "aboocode.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/aboocode.json",
+      "summary": "Default Aboocode TUI color theme definition with color defs and full theme property mappings for dark mode.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/aura.json",
+      "type": "config",
+      "name": "aura.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/aura.json",
+      "summary": "Aura color theme with purple-centric palette and dark background tones.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/ayu.json",
+      "type": "config",
+      "name": "ayu.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/ayu.json",
+      "summary": "Ayu color theme with warm tones and dark mode support.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/carbonfox.json",
+      "type": "config",
+      "name": "carbonfox.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/carbonfox.json",
+      "summary": "Carbonfox color theme with carbon-dark palette inspired by the Nightfox theme family.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/catppuccin-frappe.json",
+      "type": "config",
+      "name": "catppuccin-frappe.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/catppuccin-frappe.json",
+      "summary": "Catppuccin Frappe variant theme with medium-dark pastel tones.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/catppuccin-macchiato.json",
+      "type": "config",
+      "name": "catppuccin-macchiato.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/catppuccin-macchiato.json",
+      "summary": "Catppuccin Macchiato variant theme with darker pastel tones.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/catppuccin.json",
+      "type": "config",
+      "name": "catppuccin.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/catppuccin.json",
+      "summary": "Catppuccin Mocha base theme with soothing pastel colors on a dark background.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/cobalt2.json",
+      "type": "config",
+      "name": "cobalt2.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/cobalt2.json",
+      "summary": "Cobalt2 color theme with deep blue background and vibrant accent colors.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/cursor.json",
+      "type": "config",
+      "name": "cursor.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/cursor.json",
+      "summary": "Cursor editor-inspired color theme with modern dark styling.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/dracula.json",
+      "type": "config",
+      "name": "dracula.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/dracula.json",
+      "summary": "Dracula color theme with signature purple, pink, and cyan palette on dark background.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/everforest.json",
+      "type": "config",
+      "name": "everforest.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/everforest.json",
+      "summary": "Everforest color theme with soft green-focused palette inspired by natural tones.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/flexoki.json",
+      "type": "config",
+      "name": "flexoki.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/flexoki.json",
+      "summary": "Flexoki color theme with ink-inspired warm tones designed for readability.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/github.json",
+      "type": "config",
+      "name": "github.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/github.json",
+      "summary": "GitHub-inspired color theme with familiar blues and grays for dark mode.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:packages/aboocode/src/cli/cmd/tui/context/theme/gruvbox.json",
+      "type": "config",
+      "name": "gruvbox.json",
+      "filePath": "packages/aboocode/src/cli/cmd/tui/context/theme/gruvbox.json",
+      "summary": "Gruvbox retro-groove color theme with warm earthy tones and high contrast.",
+      "tags": ["configuration", "theme", "design-system"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/directory.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/directory.ts:useDirectory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/directory.ts",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/directory.ts:useDirectory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/directory.ts",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/sync.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/exit.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/exit.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/win32.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/helper.tsx:createSimpleContext",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/helper.tsx:createSimpleContext",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/keybind.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/kv.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/local.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/local.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/ui/toast.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/local.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/args.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/local.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/sdk.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/prompt.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/prompt.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/index.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/route.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/route.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/component/prompt/history.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/route.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/route.tsx:useRouteData",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/route.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/route.tsx:useRouteData",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/sdk.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/sync.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/sync.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/exit.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/sync.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/args.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/helper.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "file:packages/aboocode/src/util/glob.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/kv.tsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:selectedForeground",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:selectedForeground",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:resolveTheme",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:ansiToRgba",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:getCustomThemes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:tint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:tint",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:generateSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:generateGrayScale",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:generateMutedTextColor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:generateSyntax",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:generateSubtleSyntax",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "function:packages/aboocode/src/cli/cmd/tui/context/theme.tsx:getSyntaxRules",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/local.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/sync.tsx",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/local.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/keybind.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/sync.tsx",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/sync.tsx",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/aboocode.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/aura.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/ayu.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/carbonfox.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/catppuccin-frappe.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/catppuccin-macchiato.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/catppuccin.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/cobalt2.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/cursor.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/dracula.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/everforest.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/flexoki.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/github.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:packages/aboocode/src/cli/cmd/tui/context/theme/gruvbox.json",
+      "target": "file:packages/aboocode/src/cli/cmd/tui/context/theme.tsx",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

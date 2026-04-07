@@ -40,16 +40,7 @@ export const PlanTeamTool = Tool.define<
 })
 
 // ─── add_agent ───
-export const AddAgentTool = Tool.define<
-  z.ZodObject<{
-    agent_id: z.ZodString
-    name: z.ZodString
-    description: z.ZodString
-    system_prompt: z.ZodString
-    skills: z.ZodOptional<z.ZodArray<z.ZodString>>
-  }>,
-  {}
->("add_agent", {
+export const AddAgentTool = Tool.define("add_agent", {
   description:
     "Add a specialized agent to the team. This writes an agent .md file to .aboocode/agents/ which is automatically loaded via hot-reload. Each agent should have a focused responsibility.",
   parameters: z.object({
@@ -59,6 +50,12 @@ export const AddAgentTool = Tool.define<
     name: z.string().describe("Human-readable name for the agent"),
     description: z.string().describe("What this agent specializes in"),
     system_prompt: z.string().describe("Detailed system prompt for the agent explaining its task and approach"),
+    role: z
+      .enum(["explore", "plan", "verify", "implement"])
+      .optional()
+      .describe(
+        "Agent role that determines workspace permissions. 'explore' and 'plan' get read-only access. 'verify' gets read-only plus bash. 'implement' gets full access. Defaults to 'implement'.",
+      ),
     skills: z.array(z.string()).optional().describe("Skill names to assign to this agent"),
   }),
   async execute(args, ctx) {
@@ -101,18 +98,54 @@ export const AddAgentTool = Tool.define<
     await fs.mkdir(agentsDir, { recursive: true })
 
     const filePath = path.join(agentsDir, `${args.agent_id}.md`)
+    const role = args.role ?? "implement"
+
+    // Assign permissions based on agent role
+    let permissionBlock: string
+    switch (role) {
+      case "explore":
+      case "plan":
+        permissionBlock = [
+          "permission:",
+          "  read: allow",
+          "  glob: allow",
+          "  grep: allow",
+          "  write: deny",
+          "  edit: deny",
+          "  bash: deny",
+        ].join("\n")
+        break
+      case "verify":
+        permissionBlock = [
+          "permission:",
+          "  read: allow",
+          "  glob: allow",
+          "  grep: allow",
+          "  bash: allow",
+          "  write: deny",
+          "  edit: deny",
+        ].join("\n")
+        break
+      case "implement":
+      default:
+        permissionBlock = [
+          "permission:",
+          "  read: allow",
+          "  write: allow",
+          "  edit: allow",
+          "  bash: allow",
+          "  glob: allow",
+          "  grep: allow",
+        ].join("\n")
+        break
+    }
+
     const content = [
       "---",
       `name: ${args.name}`,
       `description: ${args.description}`,
       "mode: subagent",
-      "permission:",
-      "  read: allow",
-      "  write: allow",
-      "  edit: allow",
-      "  bash: allow",
-      "  glob: allow",
-      "  grep: allow",
+      permissionBlock,
       "---",
       args.system_prompt,
       skillContent,
@@ -219,6 +252,31 @@ export const DelegateTaskTool = Tool.define<
   }),
   async execute(args, ctx) {
     UsageLog.record("tool.team", "delegate_task", { sessionID: ctx.sessionID, agentId: args.agent_id })
+
+    // Validate team is active (must be finalized before delegation)
+    const team = TeamManager.getTeam(ctx.sessionID)
+    if (!team) {
+      return {
+        title: "Error",
+        output: "No team found. Call plan_team first.",
+        metadata: {},
+      }
+    }
+    if (team.status !== "active") {
+      return {
+        title: "Error",
+        output: "Team is not finalized. Call finalize_team before delegating tasks.",
+        metadata: {},
+      }
+    }
+    if (!team.activeAgentIds.includes(args.agent_id)) {
+      return {
+        title: "Error",
+        output: `Agent "${args.agent_id}" is not part of the current team. Available agents: ${team.activeAgentIds.join(", ")}`,
+        metadata: {},
+      }
+    }
+
     const agent = await Agent.get(args.agent_id)
     if (!agent) {
       return {
@@ -251,8 +309,8 @@ export const DelegateTaskTool = Tool.define<
 
       // Extract text from the result
       const output = result.parts
-        .filter((p): p is { type: "text"; text: string } & Record<string, any> => p.type === "text")
-        .map((p) => p.text)
+        .filter((p: any) => p.type === "text")
+        .map((p: any) => p.text)
         .join("\n")
 
       DebugLog.teamDelegateTaskDone(ctx.sessionID, args.agent_id, "success", output || "(No text output)")
@@ -300,14 +358,44 @@ export const DelegateTasksTool = Tool.define<
   }),
   async execute(args, ctx) {
     UsageLog.record("tool.team", "delegate_tasks", { sessionID: ctx.sessionID, delegationCount: args.delegations.length })
+
+    // Validate team is active (must be finalized before delegation)
+    const team = TeamManager.getTeam(ctx.sessionID)
+    if (!team) {
+      return {
+        title: "Error",
+        output: "No team found. Call plan_team first.",
+        metadata: {},
+      }
+    }
+    if (team.status !== "active") {
+      return {
+        title: "Error",
+        output: "Team is not finalized. Call finalize_team before delegating tasks.",
+        metadata: {},
+      }
+    }
+    // Validate all delegated agents are part of the team
+    const invalidAgents = args.delegations
+      .map((d) => d.agent_id)
+      .filter((id) => !team.activeAgentIds.includes(id))
+    if (invalidAgents.length > 0) {
+      return {
+        title: "Error",
+        output: `Agents not part of the current team: ${invalidAgents.join(", ")}. Available agents: ${team.activeAgentIds.join(", ")}`,
+        metadata: {},
+      }
+    }
+
     DebugLog.teamDelegateTasks(ctx.sessionID, args.delegations)
     const maxConcurrent = 5
-    const results: Record<string, { status: "success" | "error"; output: string; sessionID?: string }> = {}
+    const results: Record<string, { status: "success" | "error" | "skipped"; output: string; sessionID?: string }> = {}
 
     // Build dependency graph
     const taskMap = new Map(args.delegations.map((d) => [d.agent_id, d]))
     const completed = new Set<string>()
     const failed = new Set<string>()
+    const skipped = new Set<string>()
 
     async function executeTask(delegation: { agent_id: string; task: string }) {
       const agent = await Agent.get(delegation.agent_id)
@@ -351,8 +439,8 @@ export const DelegateTasksTool = Tool.define<
         })
 
         const output = result.parts
-          .filter((p): p is { type: "text"; text: string } & Record<string, any> => p.type === "text")
-          .map((p) => p.text)
+          .filter((p: any) => p.type === "text")
+          .map((p: any) => p.text)
           .join("\n")
 
         results[delegation.agent_id] = {
@@ -377,13 +465,34 @@ export const DelegateTasksTool = Tool.define<
     const remaining = new Set(args.delegations.map((d) => d.agent_id))
 
     while (remaining.size > 0) {
-      // Find tasks whose dependencies are all satisfied
+      // Skip tasks whose dependencies have failed or been skipped
+      const toSkip: string[] = []
+      for (const delegation of args.delegations) {
+        if (!remaining.has(delegation.agent_id)) continue
+        const deps = delegation.depends_on ?? []
+        const hasFailedDep = deps.some((d) => failed.has(d) || skipped.has(d))
+        if (hasFailedDep) {
+          const failedDeps = deps.filter((d) => failed.has(d) || skipped.has(d))
+          toSkip.push(delegation.agent_id)
+          results[delegation.agent_id] = {
+            status: "skipped",
+            output: `Skipped: required dependency ${failedDeps.map((d) => `"${d}"`).join(", ")} failed or was skipped. Upstream error: ${failedDeps.map((d) => results[d]?.output ?? "(unknown)").join("; ")}`,
+          }
+        }
+      }
+      for (const id of toSkip) {
+        skipped.add(id)
+        remaining.delete(id)
+      }
+      if (remaining.size === 0) break
+
+      // Find tasks whose dependencies are all successfully completed
       const ready: typeof args.delegations = []
       for (const delegation of args.delegations) {
         if (!remaining.has(delegation.agent_id)) continue
         const deps = delegation.depends_on ?? []
-        const allDepsResolved = deps.every((d) => completed.has(d) || failed.has(d))
-        if (allDepsResolved) {
+        const allDepsCompleted = deps.every((d) => completed.has(d))
+        if (allDepsCompleted) {
           ready.push(delegation)
         }
       }
@@ -393,7 +502,7 @@ export const DelegateTasksTool = Tool.define<
         for (const id of remaining) {
           results[id] = {
             status: "error",
-            output: "Task could not execute: unresolvable dependency cycle or failed dependency.",
+            output: "Task could not execute: unresolvable dependency cycle.",
           }
         }
         break
@@ -620,8 +729,8 @@ async function agentSpeak(input: {
     })
 
     return result.parts
-      .filter((p): p is { type: "text"; text: string } & Record<string, any> => p.type === "text")
-      .map((p) => p.text)
+      .filter((p: any) => p.type === "text")
+      .map((p: any) => p.text)
       .join("\n")
   } catch (error: any) {
     return `(Agent failed to respond: ${error.message})`

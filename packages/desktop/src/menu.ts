@@ -176,11 +176,11 @@ export async function createMenu(trigger: (id: string) => void) {
             item: "Separator",
           }),
           await MenuItem.new({
-            action: () => openUrl("https://github.com/anomalyco/opencode/issues/new?template=feature_request.yml"),
+            action: () => openUrl("https://github.com/cytsaiap-xyz/aboocode/issues/new?template=feature_request.yml"),
             text: "Share Feedback",
           }),
           await MenuItem.new({
-            action: () => openUrl("https://github.com/anomalyco/opencode/issues/new?template=bug_report.yml"),
+            action: () => openUrl("https://github.com/cytsaiap-xyz/aboocode/issues/new?template=bug_report.yml"),
             text: "Report a Bug",
           }),
         ],

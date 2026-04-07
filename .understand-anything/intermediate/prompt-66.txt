@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 66
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-66.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/web/src/content/docs/ar/mcp-servers.mdx": [], "packages/web/src/content/docs/ar/models.mdx": [], "packages/web/src/content/docs/ar/modes.mdx": [], "packages/web/src/content/docs/ar/network.mdx": [], "packages/web/src/content/docs/ar/permissions.mdx": [], "packages/web/src/content/docs/ar/plugins.mdx": [], "packages/web/src/content/docs/ar/providers.mdx": [], "packages/web/src/content/docs/ar/rules.mdx": [], "packages/web/src/content/docs/ar/sdk.mdx": [], "packages/web/src/content/docs/ar/server.mdx": [], "packages/web/src/content/docs/ar/share.mdx": [], "packages/web/src/content/docs/ar/skills.mdx": [], "packages/web/src/content/docs/ar/themes.mdx": [], "packages/web/src/content/docs/ar/tools.mdx": [], "packages/web/src/content/docs/ar/troubleshooting.mdx": [], "packages/web/src/content/docs/ar/tui.mdx": [], "packages/web/src/content/docs/ar/web.mdx": [], "packages/web/src/content/docs/ar/windows-wsl.mdx": [], "packages/web/src/content/docs/ar/zen.mdx": [], "packages/web/src/content/docs/bs/acp.mdx": [], "packages/web/src/content/docs/bs/agents.mdx": [], "packages/web/src/content/docs/bs/cli.mdx": [], "packages/web/src/content/docs/bs/commands.mdx": [], "packages/web/src/content/docs/bs/config.mdx": [], "packages/web/src/content/docs/bs/custom-tools.mdx": []}
+```
+
+Files to analyze:
+1. `packages/web/src/content/docs/ar/mcp-servers.mdx` (511 lines, fileCategory: `code`)
+2. `packages/web/src/content/docs/ar/models.mdx` (222 lines, fileCategory: `code`)
+3. `packages/web/src/content/docs/ar/modes.mdx` (331 lines, fileCategory: `code`)
+4. `packages/web/src/content/docs/ar/network.mdx` (57 lines, fileCategory: `code`)
+5. `packages/web/src/content/docs/ar/permissions.mdx` (237 lines, fileCategory: `code`)
+6. `packages/web/src/content/docs/ar/plugins.mdx` (385 lines, fileCategory: `code`)
+7. `packages/web/src/content/docs/ar/providers.mdx` (1885 lines, fileCategory: `code`)
+8. `packages/web/src/content/docs/ar/rules.mdx` (180 lines, fileCategory: `code`)
+9. `packages/web/src/content/docs/ar/sdk.mdx` (391 lines, fileCategory: `code`)
+10. `packages/web/src/content/docs/ar/server.mdx` (287 lines, fileCategory: `code`)
+11. `packages/web/src/content/docs/ar/share.mdx` (127 lines, fileCategory: `code`)
+12. `packages/web/src/content/docs/ar/skills.mdx` (222 lines, fileCategory: `code`)
+13. `packages/web/src/content/docs/ar/themes.mdx` (369 lines, fileCategory: `code`)
+14. `packages/web/src/content/docs/ar/tools.mdx` (379 lines, fileCategory: `code`)
+15. `packages/web/src/content/docs/ar/troubleshooting.mdx` (299 lines, fileCategory: `code`)
+16. `packages/web/src/content/docs/ar/tui.mdx` (387 lines, fileCategory: `code`)
+17. `packages/web/src/content/docs/ar/web.mdx` (142 lines, fileCategory: `code`)
+18. `packages/web/src/content/docs/ar/windows-wsl.mdx` (113 lines, fileCategory: `code`)
+19. `packages/web/src/content/docs/ar/zen.mdx` (243 lines, fileCategory: `code`)
+20. `packages/web/src/content/docs/bs/acp.mdx` (156 lines, fileCategory: `code`)
+21. `packages/web/src/content/docs/bs/agents.mdx` (746 lines, fileCategory: `code`)
+22. `packages/web/src/content/docs/bs/cli.mdx` (600 lines, fileCategory: `code`)
+23. `packages/web/src/content/docs/bs/commands.mdx` (316 lines, fileCategory: `code`)
+24. `packages/web/src/content/docs/bs/config.mdx` (655 lines, fileCategory: `code`)
+25. `packages/web/src/content/docs/bs/custom-tools.mdx` (169 lines, fileCategory: `code`)

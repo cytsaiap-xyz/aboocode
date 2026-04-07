@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 50
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-50.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/desktop/tsconfig.json": [], "packages/desktop/vite.config.ts": [], "packages/docs/ai-tools/claude-code.mdx": [], "packages/docs/ai-tools/cursor.mdx": [], "packages/docs/ai-tools/windsurf.mdx": [], "packages/docs/development.mdx": [], "packages/docs/docs.json": [], "packages/docs/essentials/code.mdx": [], "packages/docs/essentials/images.mdx": [], "packages/docs/essentials/markdown.mdx": [], "packages/docs/essentials/navigation.mdx": [], "packages/docs/essentials/reusable-snippets.mdx": [], "packages/docs/essentials/settings.mdx": [], "packages/docs/index.mdx": [], "packages/docs/openapi.json": [], "packages/docs/quickstart.mdx": [], "packages/docs/README.md": [], "packages/docs/snippets/snippet-intro.mdx": [], "packages/enterprise/package.json": [], "packages/enterprise/public/site.webmanifest": [], "packages/enterprise/README.md": [], "packages/enterprise/script/scrap.ts": ["packages/enterprise/src/core/storage.ts"], "packages/enterprise/src/app.css": [], "packages/enterprise/src/app.tsx": [], "packages/enterprise/src/core/share.ts": ["packages/enterprise/src/core/storage.ts"]}
+```
+
+Files to analyze:
+1. `packages/desktop/tsconfig.json` (22 lines, fileCategory: `config`)
+2. `packages/desktop/vite.config.ts` (38 lines, fileCategory: `code`)
+3. `packages/docs/ai-tools/claude-code.mdx` (83 lines, fileCategory: `code`)
+4. `packages/docs/ai-tools/cursor.mdx` (423 lines, fileCategory: `code`)
+5. `packages/docs/ai-tools/windsurf.mdx` (96 lines, fileCategory: `code`)
+6. `packages/docs/development.mdx` (96 lines, fileCategory: `code`)
+7. `packages/docs/docs.json` (53 lines, fileCategory: `config`)
+8. `packages/docs/essentials/code.mdx` (35 lines, fileCategory: `code`)
+9. `packages/docs/essentials/images.mdx` (56 lines, fileCategory: `code`)
+10. `packages/docs/essentials/markdown.mdx` (88 lines, fileCategory: `code`)
+11. `packages/docs/essentials/navigation.mdx` (87 lines, fileCategory: `code`)
+12. `packages/docs/essentials/reusable-snippets.mdx` (112 lines, fileCategory: `code`)
+13. `packages/docs/essentials/settings.mdx` (316 lines, fileCategory: `code`)
+14. `packages/docs/index.mdx` (56 lines, fileCategory: `code`)
+15. `packages/docs/openapi.json` (11382 lines, fileCategory: `config`)
+16. `packages/docs/quickstart.mdx` (81 lines, fileCategory: `code`)
+17. `packages/docs/README.md` (44 lines, fileCategory: `docs`)
+18. `packages/docs/snippets/snippet-intro.mdx` (4 lines, fileCategory: `code`)
+19. `packages/enterprise/package.json` (43 lines, fileCategory: `config`)
+20. `packages/enterprise/public/site.webmanifest` (21 lines, fileCategory: `code`)
+21. `packages/enterprise/README.md` (32 lines, fileCategory: `docs`)
+22. `packages/enterprise/script/scrap.ts` (15 lines, fileCategory: `code`)
+23. `packages/enterprise/src/app.css` (1 lines, fileCategory: `markup`)
+24. `packages/enterprise/src/app.tsx` (93 lines, fileCategory: `code`)
+25. `packages/enterprise/src/core/share.ts` (201 lines, fileCategory: `code`)

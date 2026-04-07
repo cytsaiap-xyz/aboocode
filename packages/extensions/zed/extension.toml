@@ -4,33 +4,33 @@ description = "The open source coding agent."
 version = "1.2.13"
 schema_version = 1
 authors = ["Anomaly"]
-repository = "https://github.com/anomalyco/opencode"
+repository = "https://github.com/cytsaiap-xyz/aboocode"
 
 [agent_servers.aboocode]
 name = "Aboocode"
 icon = "./icons/aboocode.svg"
 
 [agent_servers.aboocode.targets.darwin-aarch64]
-archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/aboocode-darwin-arm64.zip"
+archive = "https://github.com/cytsaiap-xyz/aboocode/releases/download/v1.2.13/aboocode-darwin-arm64.zip"
 cmd = "./aboocode"
 args = ["acp"]
 
 [agent_servers.aboocode.targets.darwin-x86_64]
-archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/aboocode-darwin-x64.zip"
+archive = "https://github.com/cytsaiap-xyz/aboocode/releases/download/v1.2.13/aboocode-darwin-x64.zip"
 cmd = "./aboocode"
 args = ["acp"]
 
 [agent_servers.aboocode.targets.linux-aarch64]
-archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/aboocode-linux-arm64.tar.gz"
+archive = "https://github.com/cytsaiap-xyz/aboocode/releases/download/v1.2.13/aboocode-linux-arm64.tar.gz"
 cmd = "./aboocode"
 args = ["acp"]
 
 [agent_servers.aboocode.targets.linux-x86_64]
-archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/aboocode-linux-x64.tar.gz"
+archive = "https://github.com/cytsaiap-xyz/aboocode/releases/download/v1.2.13/aboocode-linux-x64.tar.gz"
 cmd = "./aboocode"
 args = ["acp"]
 
 [agent_servers.aboocode.targets.windows-x86_64]
-archive = "https://github.com/anomalyco/opencode/releases/download/v1.2.13/aboocode-windows-x64.zip"
+archive = "https://github.com/cytsaiap-xyz/aboocode/releases/download/v1.2.13/aboocode-windows-x64.zip"
 cmd = "./aboocode.exe"
 args = ["acp"]

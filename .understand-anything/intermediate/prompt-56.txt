@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 56
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-56.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/ui/src/assets/audio/yup-02.aac": [], "packages/ui/src/assets/audio/yup-03.aac": [], "packages/ui/src/assets/audio/yup-04.aac": [], "packages/ui/src/assets/audio/yup-05.aac": [], "packages/ui/src/assets/audio/yup-06.aac": [], "packages/ui/src/assets/favicon/site.webmanifest": [], "packages/ui/src/assets/fonts/geist-italic-medium.otf": [], "packages/ui/src/assets/fonts/geist-italic-regular.otf": [], "packages/ui/src/assets/fonts/geist-medium.otf": [], "packages/ui/src/assets/fonts/geist-regular.otf": [], "packages/ui/src/assets/fonts/ibm-plex-mono.otf": [], "packages/ui/src/assets/fonts/inter-italic.otf": [], "packages/ui/src/assets/fonts/inter.otf": [], "packages/ui/src/components/accordion.css": [], "packages/ui/src/components/accordion.tsx": [], "packages/ui/src/components/app-icon.css": [], "packages/ui/src/components/app-icon.tsx": ["packages/ui/src/components/app-icons/types.ts"], "packages/ui/src/components/app-icons/types.ts": [], "packages/ui/src/components/avatar.css": [], "packages/ui/src/components/avatar.tsx": [], "packages/ui/src/components/basic-tool.css": [], "packages/ui/src/components/basic-tool.tsx": ["packages/ui/src/components/collapsible.tsx", "packages/ui/src/components/icon.tsx", "packages/ui/src/components/text-shimmer.tsx"], "packages/ui/src/components/button.css": [], "packages/ui/src/components/button.tsx": ["packages/ui/src/components/icon.tsx"], "packages/ui/src/components/card.css": []}
+```
+
+Files to analyze:
+1. `packages/ui/src/assets/audio/yup-02.aac` (8 lines, fileCategory: `code`)
+2. `packages/ui/src/assets/audio/yup-03.aac` (16 lines, fileCategory: `code`)
+3. `packages/ui/src/assets/audio/yup-04.aac` (35 lines, fileCategory: `code`)
+4. `packages/ui/src/assets/audio/yup-05.aac` (18 lines, fileCategory: `code`)
+5. `packages/ui/src/assets/audio/yup-06.aac` (11 lines, fileCategory: `code`)
+6. `packages/ui/src/assets/favicon/site.webmanifest` (21 lines, fileCategory: `code`)
+7. `packages/ui/src/assets/fonts/geist-italic-medium.otf` (440 lines, fileCategory: `code`)
+8. `packages/ui/src/assets/fonts/geist-italic-regular.otf` (507 lines, fileCategory: `code`)
+9. `packages/ui/src/assets/fonts/geist-medium.otf` (372 lines, fileCategory: `code`)
+10. `packages/ui/src/assets/fonts/geist-regular.otf` (372 lines, fileCategory: `code`)
+11. `packages/ui/src/assets/fonts/ibm-plex-mono.otf` (2209 lines, fileCategory: `code`)
+12. `packages/ui/src/assets/fonts/inter-italic.otf` (9375 lines, fileCategory: `code`)
+13. `packages/ui/src/assets/fonts/inter.otf` (8964 lines, fileCategory: `code`)
+14. `packages/ui/src/components/accordion.css` (123 lines, fileCategory: `markup`)
+15. `packages/ui/src/components/accordion.tsx` (92 lines, fileCategory: `code`)
+16. `packages/ui/src/components/app-icon.css` (5 lines, fileCategory: `markup`)
+17. `packages/ui/src/components/app-icon.tsx` (83 lines, fileCategory: `code`)
+18. `packages/ui/src/components/app-icons/types.ts` (20 lines, fileCategory: `code`)
+19. `packages/ui/src/components/avatar.css` (49 lines, fileCategory: `markup`)
+20. `packages/ui/src/components/avatar.tsx` (55 lines, fileCategory: `code`)
+21. `packages/ui/src/components/basic-tool.css` (152 lines, fileCategory: `markup`)
+22. `packages/ui/src/components/basic-tool.tsx` (161 lines, fileCategory: `code`)
+23. `packages/ui/src/components/button.css` (182 lines, fileCategory: `markup`)
+24. `packages/ui/src/components/button.tsx` (33 lines, fileCategory: `code`)
+25. `packages/ui/src/components/card.css` (29 lines, fileCategory: `markup`)

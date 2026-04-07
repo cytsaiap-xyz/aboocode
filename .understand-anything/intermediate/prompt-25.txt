@@ -1,0 +1,38 @@
+Analyze these files and produce GraphNode and GraphEdge objects.
+Project root: `/Users/steventsai/Documents/Claude_Project/Aboocode`
+Project: `aboocode` — AI-powered development tool (monorepo with Bun/TypeScript)
+Languages: typescript, javascript, json, markdown, css, html, rust, shell, sql, toml, yaml, dockerfile, xml
+Batch index: 25
+Write output to: `/Users/steventsai/Documents/Claude_Project/Aboocode/.understand-anything/intermediate/batch-25.json`
+
+Pre-resolved import data for this batch:
+```json
+{"packages/app/src/components/session/index.ts": [], "packages/app/src/components/session/session-context-breakdown.test.ts": ["packages/app/src/components/session/session-context-breakdown.ts"], "packages/app/src/components/session/session-context-breakdown.ts": [], "packages/app/src/components/session/session-context-format.ts": [], "packages/app/src/components/session/session-context-metrics.test.ts": ["packages/app/src/components/session/session-context-metrics.ts"], "packages/app/src/components/session/session-context-metrics.ts": [], "packages/app/src/components/session/session-context-tab.tsx": ["packages/app/src/components/session/session-context-metrics.ts", "packages/app/src/components/session/session-context-breakdown.ts", "packages/app/src/components/session/session-context-format.ts"], "packages/app/src/components/session/session-header.tsx": ["packages/app/src/components/status-popover.tsx"], "packages/app/src/components/session/session-new-view.tsx": [], "packages/app/src/components/session/session-sortable-tab.tsx": [], "packages/app/src/components/session/session-sortable-terminal-tab.tsx": [], "packages/app/src/components/settings-agents.tsx": [], "packages/app/src/components/settings-commands.tsx": [], "packages/app/src/components/settings-general.tsx": ["packages/app/src/components/link.tsx"], "packages/app/src/components/settings-keybinds.tsx": [], "packages/app/src/components/settings-mcp.tsx": [], "packages/app/src/components/settings-models.tsx": [], "packages/app/src/components/settings-permissions.tsx": [], "packages/app/src/components/settings-providers.tsx": ["packages/app/src/components/dialog-connect-provider.tsx", "packages/app/src/components/dialog-select-provider.tsx", "packages/app/src/components/dialog-custom-provider.tsx"], "packages/app/src/components/status-popover.tsx": ["packages/app/src/components/dialog-select-server.tsx"], "packages/app/src/components/terminal.tsx": [], "packages/app/src/components/titlebar-history.test.ts": ["packages/app/src/components/titlebar-history.ts"], "packages/app/src/components/titlebar-history.ts": [], "packages/app/src/components/titlebar.tsx": ["packages/app/src/components/titlebar-history.ts"], "packages/app/src/context/command-keybind.test.ts": ["packages/app/src/context/command.tsx"]}
+```
+
+Files to analyze:
+1. `packages/app/src/components/session/index.ts` (5 lines, fileCategory: `code`)
+2. `packages/app/src/components/session/session-context-breakdown.test.ts` (61 lines, fileCategory: `code`)
+3. `packages/app/src/components/session/session-context-breakdown.ts` (132 lines, fileCategory: `code`)
+4. `packages/app/src/components/session/session-context-format.ts` (20 lines, fileCategory: `code`)
+5. `packages/app/src/components/session/session-context-metrics.test.ts` (101 lines, fileCategory: `code`)
+6. `packages/app/src/components/session/session-context-metrics.ts` (82 lines, fileCategory: `code`)
+7. `packages/app/src/components/session/session-context-tab.tsx` (342 lines, fileCategory: `code`)
+8. `packages/app/src/components/session/session-header.tsx` (710 lines, fileCategory: `code`)
+9. `packages/app/src/components/session/session-new-view.tsx` (82 lines, fileCategory: `code`)
+10. `packages/app/src/components/session/session-sortable-tab.tsx` (67 lines, fileCategory: `code`)
+11. `packages/app/src/components/session/session-sortable-terminal-tab.tsx` (201 lines, fileCategory: `code`)
+12. `packages/app/src/components/settings-agents.tsx` (16 lines, fileCategory: `code`)
+13. `packages/app/src/components/settings-commands.tsx` (16 lines, fileCategory: `code`)
+14. `packages/app/src/components/settings-general.tsx` (562 lines, fileCategory: `code`)
+15. `packages/app/src/components/settings-keybinds.tsx` (452 lines, fileCategory: `code`)
+16. `packages/app/src/components/settings-mcp.tsx` (16 lines, fileCategory: `code`)
+17. `packages/app/src/components/settings-models.tsx` (137 lines, fileCategory: `code`)
+18. `packages/app/src/components/settings-permissions.tsx` (230 lines, fileCategory: `code`)
+19. `packages/app/src/components/settings-providers.tsx` (250 lines, fileCategory: `code`)
+20. `packages/app/src/components/status-popover.tsx` (417 lines, fileCategory: `code`)
+21. `packages/app/src/components/terminal.tsx` (574 lines, fileCategory: `code`)
+22. `packages/app/src/components/titlebar-history.test.ts` (63 lines, fileCategory: `code`)
+23. `packages/app/src/components/titlebar-history.ts` (57 lines, fileCategory: `code`)
+24. `packages/app/src/components/titlebar.tsx` (289 lines, fileCategory: `code`)
+25. `packages/app/src/context/command-keybind.test.ts` (43 lines, fileCategory: `code`)
