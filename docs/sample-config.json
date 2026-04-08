@@ -1,0 +1,36 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+    "provider": {
+        "nvidia": {
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "NVIDIA",
+            "options": {
+                "baseURL": "https://generativelanguage.googleapis.com/v1beta/openai/",
+                "apiKey": "your-api-key-here",
+                "headers": {
+                    "X-user-ID": "your-user-id"
+                }
+            },
+            "models": {
+                "gemma-4-31b-it": {
+                    "name": "DS32",
+                    "limit": {
+                        "context": 131072,
+                        "output": 16384
+                    }
+                }
+            }
+        }
+    },
+    "agent": {
+        "build": {
+            "mode": "primary",
+            "model": "nvidia/gemma-4-31b-it",
+            "tools": {
+                "write": true,
+                "edit": true,
+                "bash": true
+            }
+        }
+    }
+}
