@@ -4,7 +4,7 @@ import { Config } from "@/config/config"
 import { Log } from "@/util/log"
 import { SessionStatus } from "@/session/status"
 import { Session } from "@/session"
-import { buildContextStrings } from "./context"
+import { buildContextStrings, buildMemdirSystemPrompt, buildRelevantMemoryReminders } from "./context"
 import { UsageLog } from "@/usage-log"
 import { DebugLog } from "@/debug-log"
 import { Observer } from "./observer"
@@ -40,6 +40,32 @@ export namespace Memory {
     const ctx = buildContextStrings()
     DebugLog.memoryBuildContext(ctx.length)
     return ctx
+  }
+
+  /**
+   * Preferred: build the Claude-Code-style memdir system prompt with the full
+   * typed-memory taxonomy, recall guidance, and team/private dispatch.
+   * Returns [] if memory is disabled.
+   */
+  export async function buildSystemPrompt(): Promise<string[]> {
+    UsageLog.record("memory", "buildSystemPrompt")
+    if (!(await isEnabled())) return []
+    return await buildMemdirSystemPrompt()
+  }
+
+  /**
+   * Per-turn recall: given the user's query, ask a small model to surface
+   * up to 5 relevant memory files. Returns system-reminder strings ready
+   * to prepend to the turn.
+   */
+  export async function recall(
+    query: string,
+    signal: AbortSignal,
+    options: { recentTools?: readonly string[]; alreadySurfaced?: ReadonlySet<string> } = {},
+  ): Promise<{ reminders: string[]; surfaced: string[] }> {
+    UsageLog.record("memory", "recall")
+    if (!(await isEnabled())) return { reminders: [], surfaced: [] }
+    return await buildRelevantMemoryReminders(query, signal, options)
   }
 
   /**
