@@ -322,6 +322,19 @@ export namespace Session {
     Bus.publish(Event.Updated, {
       info: result,
     })
+    // Phase 2: SessionStart lifecycle hook. Fires once per created session.
+    try {
+      const { HookLifecycle } = await import("@/hook/lifecycle")
+      await HookLifecycle.dispatch({
+        event: "SessionStart",
+        sessionID: result.id,
+        cwd: input.directory,
+        timestamp: Date.now(),
+        source: input.parentID ? "sub-agent" : "startup",
+      })
+    } catch (e) {
+      log.warn("SessionStart hook dispatch failed", { error: e })
+    }
     return result
   }
 
@@ -667,6 +680,19 @@ export namespace Session {
         }),
       )
     })
+    // Phase 2: SessionEnd lifecycle hook.
+    try {
+      const { HookLifecycle } = await import("@/hook/lifecycle")
+      await HookLifecycle.dispatch({
+        event: "SessionEnd",
+        sessionID,
+        cwd: session.directory,
+        timestamp: Date.now(),
+        reason: "deleted",
+      })
+    } catch (e) {
+      log.warn("SessionEnd hook dispatch failed", { error: e })
+    }
   })
 
   export const updateMessage = fn(MessageV2.Info, async (msg) => {
