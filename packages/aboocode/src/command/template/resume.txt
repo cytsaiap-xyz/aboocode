@@ -1,0 +1,9 @@
+Resume a prior session.
+
+$ARGUMENTS
+
+Steps:
+1. List the N most recent sessions for this project (newest first) with: slug, first user-message preview, created timestamp, message count.
+2. If an argument was passed, treat it as a session id or index and resume that session.
+3. Otherwise, ask the user which session to resume.
+4. After resuming, summarize where the session left off: what was in progress, what was done, and what remains.

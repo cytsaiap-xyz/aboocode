@@ -1,0 +1,22 @@
+Enter plan mode. In plan mode:
+
+- You are READ-ONLY. No Write, Edit, or mutating Bash commands.
+- Use Read, Glob, Grep, WebFetch, WebSearch, and the Task subagent to investigate.
+- Build a concrete plan: file-by-file steps with the rationale for each change.
+- Surface risks, open questions, and test/verification strategy.
+- Present the plan to the user and wait for explicit approval before exiting plan mode.
+
+$ARGUMENTS
+
+Plan structure:
+1. **Understanding**: restate the user's goal in one sentence.
+2. **Investigation notes**: the files / code paths you read and what they revealed.
+3. **Proposed changes**: numbered list of concrete edits. Each item includes:
+   - File path and function/section to change
+   - What the change is
+   - Why (link back to the goal)
+4. **Risks**: what could break, what depends on this change, what tests cover it.
+5. **Verification**: how the user should confirm the change works.
+6. **Open questions**: anything you need from the user before starting.
+
+Do not make code changes in plan mode. Wait for approval.

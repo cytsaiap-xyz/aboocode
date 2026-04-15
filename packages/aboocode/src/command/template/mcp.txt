@@ -1,0 +1,9 @@
+Show the connected MCP servers, their tools/resources/prompts, and how to add a new one.
+
+Steps:
+1. List each configured MCP server: name, transport (stdio/sse/http), connection status.
+2. For each connected server, show the tools it exposes, any resources, and any prompts.
+3. If none are configured, explain the config shape (`mcp.servers.<name>`) and show a minimal stdio example.
+4. Mention that aboocode can read Claude Code's `.mcp.json` format directly, so an existing Claude Code config can be reused.
+
+$ARGUMENTS

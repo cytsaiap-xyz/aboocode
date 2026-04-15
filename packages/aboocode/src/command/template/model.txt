@@ -1,0 +1,9 @@
+Switch the model used for this session.
+
+$ARGUMENTS
+
+Steps:
+1. List the currently available models from `Provider.list()` grouped by provider.
+2. If an argument was passed, try to parse it as `providerID/modelID` and switch the session to that model.
+3. Otherwise, ask which model the user wants.
+4. Mention that `aboo --model=<id>` sets the default at CLI startup, and `model: "<id>"` in `~/.aboocode/aboocode.json` is persistent.

@@ -1,0 +1,15 @@
+Switch the current session's output style.
+
+$ARGUMENTS
+
+Available bundled styles:
+- `default`      — Balanced responses, concise by default
+- `concise`      — One-sentence answers when possible, zero filler
+- `explanatory`  — Educational with extra context and rationale
+
+Usage:
+- `/output-style` with no argument → list styles and show the active one
+- `/output-style <id>` → switch to the given style for this session
+- Set `ABOOCODE_OUTPUT_STYLE=<id>` in your env or `outputStyle: "<id>"` in `~/.aboocode/aboocode.json` to make the choice persistent.
+
+Custom styles: drop a markdown file into `~/.aboocode/output-styles/<id>.md` with YAML frontmatter `name`/`description` and the markdown body becomes the system-prompt addendum.

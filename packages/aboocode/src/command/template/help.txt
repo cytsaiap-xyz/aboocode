@@ -1,0 +1,9 @@
+Show the list of available slash commands and how to use them.
+
+Steps:
+1. List all built-in commands with a one-line description.
+2. List user-defined and MCP commands if any.
+3. For each, show how it is invoked (e.g. `/init`, `/compact`).
+4. Remind the user that user-defined commands can be added by dropping `*.md` files into `~/.aboocode/commands/` with YAML frontmatter.
+
+$ARGUMENTS
