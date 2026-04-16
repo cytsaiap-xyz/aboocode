@@ -617,6 +617,29 @@ export namespace SessionPrompt {
         continue
       }
 
+      // Phase 3 integration: tiered compaction strategy selector. Runs
+      // BEFORE the existing microCompact/isOverflow path so cheaper
+      // strategies (snip/reactive) get a chance before full summarization.
+      if (lastFinished?.tokens && lastFinished.summary !== true) {
+        try {
+          const { CompactionStrategies } = await import("./compaction-strategies")
+          const snapshot = await CompactionStrategies.budget({
+            tokens: lastFinished.tokens,
+            model,
+          })
+          const strategy = await CompactionStrategies.selectStrategy(snapshot)
+          if (strategy !== "none" && strategy !== "summarize") {
+            await CompactionStrategies.run({
+              sessionID,
+              strategy,
+              budget: snapshot,
+            })
+          }
+        } catch (e) {
+          log.warn("tiered compaction selector failed", { error: e })
+        }
+      }
+
       // Phase 0: Micro-compact old tool results before building model messages
       await SessionCompaction.microCompact({ sessionID })
 
@@ -805,14 +828,57 @@ export namespace SessionPrompt {
       const memoryContext = await (async () => {
         try {
           const { Memory } = await import("../memory")
+          // Phase 1 integration: prefer the new memdir-style system prompt
+          // (full 4-type taxonomy, team/private dispatch, freshness guidance)
+          // with a fallback to the legacy buildContext for safety.
+          const memdirPrompt = await Memory.buildSystemPrompt()
+          if (memdirPrompt.length > 0) return memdirPrompt
           return await Memory.buildContext()
+        } catch {
+          return []
+        }
+      })()
+      // Phase 4 integration: per-session output style appended to the system prompt.
+      const outputStyleAddendum = await (async () => {
+        try {
+          const { OutputStyles } = await import("../format/output-styles")
+          const addendum = await OutputStyles.systemPromptAddendum()
+          return addendum ? [addendum] : []
+        } catch {
+          return []
+        }
+      })()
+      // Phase 1 integration: LLM-ranked memory recall for this turn.
+      // Asks a small model to pick up to 5 relevant memories based on the
+      // latest user message text; silently no-ops on any failure.
+      const recallReminders = await (async () => {
+        try {
+          const { Memory } = await import("../memory")
+          const userTextPart = lastUser.parts?.find(
+            (p: { type?: string; text?: string }) => p.type === "text",
+          ) as { text?: string } | undefined
+          const query = userTextPart?.text ?? ""
+          if (!query) return []
+          const controller = new AbortController()
+          const recent = msgs
+            .flatMap((m) => m.parts.filter((p) => p.type === "tool").map((p) => (p as { tool: string }).tool))
+            .slice(-10)
+          const { reminders } = await Memory.recall(query, controller.signal, { recentTools: recent })
+          return reminders
         } catch {
           return []
         }
       })()
       // Use cache-boundary-aware prompt split: stable prefix (cacheable) then dynamic suffix
       const promptParts2 = await SystemPrompt.build(model)
-      const system = [...promptParts2.prefix, ...promptParts2.suffix, ...(await InstructionPrompt.system()), ...memoryContext]
+      const system = [
+        ...promptParts2.prefix,
+        ...promptParts2.suffix,
+        ...(await InstructionPrompt.system()),
+        ...memoryContext,
+        ...outputStyleAddendum,
+        ...recallReminders,
+      ]
       // Phase 3: Inject identity context after compaction
       const identityPrompt = SessionCompaction.buildIdentityPrompt(sessionID)
       if (identityPrompt) {

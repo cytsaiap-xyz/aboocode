@@ -163,7 +163,24 @@ export namespace MCP {
   const state = Instance.state(
     async () => {
       const cfg = await Config.get()
-      const config = cfg.mcp ?? {}
+      const config: Record<string, unknown> = { ...(cfg.mcp ?? {}) }
+
+      // Phase 7 integration: merge Claude Code `.mcp.json` entries. Entries
+      // from the aboocode config take precedence — we only add names the
+      // user has not already configured. Enables zero-effort import of an
+      // existing Claude Code MCP setup.
+      try {
+        const { loadFirst } = await import("./claude-code-compat")
+        const compatEntries = await loadFirst(Instance.directory)
+        for (const [name, entry] of Object.entries(compatEntries)) {
+          if (config[name]) continue
+          config[name] = entry
+          log.info("imported mcp entry from .mcp.json compat", { name, type: entry.type })
+        }
+      } catch (e) {
+        log.warn("mcp.json compat import failed", { error: e })
+      }
+
       const clients: Record<string, MCPClient> = {}
       const status: Record<string, Status> = {}
 
