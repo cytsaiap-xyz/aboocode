@@ -1,0 +1,9 @@
+Show the agents available in this session and explain how to switch between them or define a new one.
+
+Steps:
+1. List all registered agents: their name, mode (build/plan/etc.), and what tools they have access to.
+2. Indicate which agent is currently active.
+3. Show how to switch agents: `Tab` in the TUI, or `aboo --agent=<name>` from the CLI.
+4. Show how to define a new agent: drop a markdown file into `~/.aboocode/agents/<name>.md` with frontmatter for `model`, `tools`, and `mode`.
+
+$ARGUMENTS

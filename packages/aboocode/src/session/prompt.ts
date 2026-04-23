@@ -18,6 +18,7 @@ import { ProviderTransform } from "../provider/transform"
 import { SystemPrompt } from "./system"
 import { InstructionPrompt } from "./instruction"
 import { Plugin } from "../plugin"
+import { HookLifecycle } from "../hook/lifecycle"
 import PROMPT_PLAN from "../session/prompt/plan.txt"
 import BUILD_SWITCH from "../session/prompt/build-switch.txt"
 import MAX_STEPS from "../session/prompt/max-steps.txt"
@@ -180,6 +181,25 @@ export namespace SessionPrompt {
         throw new PromptCancelledError(input.sessionID)
       }
       textPart.text = submitResult.text
+      // Phase 2: UserPromptSubmit lifecycle hook (Claude-Code-compatible).
+      // Hooks may block the prompt (throws PromptCancelledError) or rewrite it.
+      const userDecision = await HookLifecycle.dispatch({
+        event: "UserPromptSubmit",
+        sessionID: input.sessionID,
+        cwd: Instance.directory,
+        timestamp: Date.now(),
+        prompt: textPart.text,
+      })
+      if (userDecision.decision === "block") {
+        log.info("prompt blocked by UserPromptSubmit hook", {
+          sessionID: input.sessionID,
+          reason: userDecision.reason,
+        })
+        throw new PromptCancelledError(input.sessionID)
+      }
+      if (userDecision.decision === "modify" && typeof userDecision.modified === "string") {
+        textPart.text = userDecision.modified
+      }
     }
 
     const message = await createUserMessage(input)
@@ -597,6 +617,29 @@ export namespace SessionPrompt {
         continue
       }
 
+      // Phase 3 integration: tiered compaction strategy selector. Runs
+      // BEFORE the existing microCompact/isOverflow path so cheaper
+      // strategies (snip/reactive) get a chance before full summarization.
+      if (lastFinished?.tokens && lastFinished.summary !== true) {
+        try {
+          const { CompactionStrategies } = await import("./compaction-strategies")
+          const snapshot = await CompactionStrategies.budget({
+            tokens: lastFinished.tokens,
+            model,
+          })
+          const strategy = await CompactionStrategies.selectStrategy(snapshot)
+          if (strategy !== "none" && strategy !== "summarize") {
+            await CompactionStrategies.run({
+              sessionID,
+              strategy,
+              budget: snapshot,
+            })
+          }
+        } catch (e) {
+          log.warn("tiered compaction selector failed", { error: e })
+        }
+      }
+
       // Phase 0: Micro-compact old tool results before building model messages
       await SessionCompaction.microCompact({ sessionID })
 
@@ -785,14 +828,57 @@ export namespace SessionPrompt {
       const memoryContext = await (async () => {
         try {
           const { Memory } = await import("../memory")
+          // Phase 1 integration: prefer the new memdir-style system prompt
+          // (full 4-type taxonomy, team/private dispatch, freshness guidance)
+          // with a fallback to the legacy buildContext for safety.
+          const memdirPrompt = await Memory.buildSystemPrompt()
+          if (memdirPrompt.length > 0) return memdirPrompt
           return await Memory.buildContext()
+        } catch {
+          return []
+        }
+      })()
+      // Phase 4 integration: per-session output style appended to the system prompt.
+      const outputStyleAddendum = await (async () => {
+        try {
+          const { OutputStyles } = await import("../format/output-styles")
+          const addendum = await OutputStyles.systemPromptAddendum()
+          return addendum ? [addendum] : []
+        } catch {
+          return []
+        }
+      })()
+      // Phase 1 integration: LLM-ranked memory recall for this turn.
+      // Asks a small model to pick up to 5 relevant memories based on the
+      // latest user message text; silently no-ops on any failure.
+      const recallReminders = await (async () => {
+        try {
+          const { Memory } = await import("../memory")
+          const userTextPart = lastUser.parts?.find(
+            (p: { type?: string; text?: string }) => p.type === "text",
+          ) as { text?: string } | undefined
+          const query = userTextPart?.text ?? ""
+          if (!query) return []
+          const controller = new AbortController()
+          const recent = msgs
+            .flatMap((m) => m.parts.filter((p) => p.type === "tool").map((p) => (p as { tool: string }).tool))
+            .slice(-10)
+          const { reminders } = await Memory.recall(query, controller.signal, { recentTools: recent })
+          return reminders
         } catch {
           return []
         }
       })()
       // Use cache-boundary-aware prompt split: stable prefix (cacheable) then dynamic suffix
       const promptParts2 = await SystemPrompt.build(model)
-      const system = [...promptParts2.prefix, ...promptParts2.suffix, ...(await InstructionPrompt.system()), ...memoryContext]
+      const system = [
+        ...promptParts2.prefix,
+        ...promptParts2.suffix,
+        ...(await InstructionPrompt.system()),
+        ...memoryContext,
+        ...outputStyleAddendum,
+        ...recallReminders,
+      ]
       // Phase 3: Inject identity context after compaction
       const identityPrompt = SessionCompaction.buildIdentityPrompt(sessionID)
       if (identityPrompt) {
@@ -1082,7 +1168,24 @@ export namespace SessionPrompt {
               args,
             },
           )
-          const result = await item.execute(args, ctx)
+          // Phase 2: Lifecycle PreToolUse hook dispatch (Claude-Code-compatible).
+          // Hooks may block the call (throws) or modify the args.
+          const preDecision = await HookLifecycle.dispatch({
+            event: "PreToolUse",
+            sessionID: ctx.sessionID,
+            cwd: Instance.directory,
+            timestamp: Date.now(),
+            tool_name: item.id,
+            tool_input: args,
+          })
+          if (preDecision.decision === "block") {
+            throw new Error(`Tool ${item.id} blocked by PreToolUse hook: ${preDecision.reason ?? "no reason"}`)
+          }
+          const effectiveArgs =
+            preDecision.decision === "modify" && preDecision.modified !== undefined
+              ? (preDecision.modified as typeof args)
+              : args
+          const result = await item.execute(effectiveArgs, ctx)
           const output = {
             ...result,
             attachments: result.attachments?.map((attachment) => ({
@@ -1102,6 +1205,18 @@ export namespace SessionPrompt {
             },
             output,
           )
+          // Phase 2: Lifecycle PostToolUse hook dispatch. Decisions here are
+          // advisory — the tool has already run; a "block" only prevents the
+          // output from being written back to the turn if the caller honors it.
+          await HookLifecycle.dispatch({
+            event: "PostToolUse",
+            sessionID: ctx.sessionID,
+            cwd: Instance.directory,
+            timestamp: Date.now(),
+            tool_name: item.id,
+            tool_input: effectiveArgs,
+            tool_response: output,
+          })
           return output
         },
       })
@@ -1129,6 +1244,23 @@ export namespace SessionPrompt {
           },
         )
 
+        // Phase 2: PreToolUse lifecycle hook for MCP tools.
+        const preDecision = await HookLifecycle.dispatch({
+          event: "PreToolUse",
+          sessionID: ctx.sessionID,
+          cwd: Instance.directory,
+          timestamp: Date.now(),
+          tool_name: key,
+          tool_input: args,
+        })
+        if (preDecision.decision === "block") {
+          throw new Error(`MCP tool ${key} blocked by PreToolUse hook: ${preDecision.reason ?? "no reason"}`)
+        }
+        const effectiveArgs =
+          preDecision.decision === "modify" && preDecision.modified !== undefined
+            ? (preDecision.modified as typeof args)
+            : args
+
         await ctx.ask({
           permission: key,
           metadata: {},
@@ -1136,7 +1268,7 @@ export namespace SessionPrompt {
           always: ["*"],
         })
 
-        const result = await execute(args, opts)
+        const result = await execute(effectiveArgs, opts)
 
         await Plugin.trigger(
           "tool.execute.after",
@@ -1148,6 +1280,17 @@ export namespace SessionPrompt {
           },
           result,
         )
+
+        // Phase 2: PostToolUse lifecycle hook for MCP tools.
+        await HookLifecycle.dispatch({
+          event: "PostToolUse",
+          sessionID: ctx.sessionID,
+          cwd: Instance.directory,
+          timestamp: Date.now(),
+          tool_name: key,
+          tool_input: effectiveArgs,
+          tool_response: result,
+        })
 
         const textParts: string[] = []
         const attachments: Omit<MessageV2.FilePart, "id" | "sessionID" | "messageID">[] = []

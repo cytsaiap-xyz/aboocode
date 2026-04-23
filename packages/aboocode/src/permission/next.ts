@@ -8,6 +8,7 @@ import { PermissionTable } from "@/session/session.sql"
 import { fn } from "@/util/fn"
 import { Log } from "@/util/log"
 import { Wildcard } from "@/util/wildcard"
+import * as HookGate from "./hook-gate"
 import os from "os"
 import z from "zod"
 
@@ -135,6 +136,21 @@ export namespace PermissionNext {
     async (input) => {
       const s = await state()
       const { ruleset, ...request } = input
+
+      // Phase 6: Consult the permission-mode gate BEFORE the declarative
+      // ruleset so --permission-mode=plan/acceptEdits/bypassPermissions
+      // can short-circuit. This matches Claude Code's layering — hooks
+      // and modes act before the ruleset.
+      const hookDecision = HookGate.gate({ permission: request.permission, tool: request.tool })
+      if (hookDecision.kind === "allow") {
+        log.info("permission allowed by hook-gate", { permission: request.permission })
+        return
+      }
+      if (hookDecision.kind === "deny") {
+        log.info("permission denied by hook-gate", { permission: request.permission, reason: hookDecision.reason })
+        throw new DeniedError(ruleset.filter((r) => Wildcard.match(request.permission, r.permission)))
+      }
+
       for (const pattern of request.patterns ?? []) {
         const rule = evaluate(request.permission, pattern, ruleset, s.approved)
         log.info("evaluated", { permission: request.permission, pattern, action: rule })

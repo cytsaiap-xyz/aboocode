@@ -1,0 +1,9 @@
+Show the currently configured lifecycle hooks and explain how to add new ones.
+
+Steps:
+1. Read the aboocode settings file (project or user scope).
+2. For each lifecycle event (SessionStart, SessionEnd, UserPromptSubmit, PreToolUse, PostToolUse, Stop, PreCompact, PostCompact, Notification), list any configured hooks including their matcher and command/handler.
+3. If no hooks are configured, explain the supported event types, the hook config shape (`{ "hooks": { "<Event>": [{ "matcher": "...", "hooks": [{ "type": "command", "command": "..." }] }] } }`), and show a short example that blocks dangerous Bash commands.
+4. Remind the user that hook configs are compatible with Claude Code's `settings.json` schema, so the same config can be reused.
+
+$ARGUMENTS

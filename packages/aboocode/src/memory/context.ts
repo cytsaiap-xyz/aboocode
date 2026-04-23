@@ -1,6 +1,11 @@
 import { existsSync, readdirSync, readFileSync } from "fs"
 import path from "path"
 import { MarkdownStore } from "./markdown-store"
+import {
+  findRelevantMemories,
+  loadMemoryPrompt,
+  memoryFreshnessText,
+} from "./memdir"
 
 const MEMORY_INSTRUCTION = `## Project Memory
 
@@ -79,4 +84,61 @@ export function buildContextStrings(): string[] {
   return [
     `${MEMORY_INSTRUCTION.replace("{memoryDir}", memoryDir)}${topicNote}\n\n${lines.join("\n")}${sessionNotes}`,
   ]
+}
+
+/**
+ * Async path: produce the full Claude-Code-style memdir system prompt.
+ * This uses the ported memdir taxonomy (individual or combined mode) and
+ * is preferred over buildContextStrings() for new callers that can await.
+ * Returns [] if memory is disabled.
+ */
+export async function buildMemdirSystemPrompt(): Promise<string[]> {
+  const prompt = await loadMemoryPrompt()
+  return prompt ? [prompt] : []
+}
+
+/**
+ * Build per-turn "relevant_memories" reminders using the LLM recall selector.
+ *
+ * Given the user's query and a recent-tool list, asks a small model to pick
+ * up to 5 memory files to surface. Returns system-reminder strings that the
+ * main-turn builder can prepend to the user message.
+ *
+ * Silently returns [] on any error — memory recall must never break a turn.
+ */
+export async function buildRelevantMemoryReminders(
+  query: string,
+  signal: AbortSignal,
+  options: { recentTools?: readonly string[]; alreadySurfaced?: ReadonlySet<string> } = {},
+): Promise<{ reminders: string[]; surfaced: string[] }> {
+  try {
+    if (!query.trim()) return { reminders: [], surfaced: [] }
+    const { getAutoMemPath, isAutoMemoryEnabled } = await import("./memdir")
+    if (!(await isAutoMemoryEnabled())) return { reminders: [], surfaced: [] }
+    const dir = await getAutoMemPath()
+    const results = await findRelevantMemories(
+      query,
+      dir,
+      signal,
+      options.recentTools ?? [],
+      options.alreadySurfaced ?? new Set(),
+    )
+    if (results.length === 0) return { reminders: [], surfaced: [] }
+    const reminders: string[] = []
+    const surfaced: string[] = []
+    for (const r of results) {
+      try {
+        const body = readFileSync(r.path, "utf-8")
+        const freshness = memoryFreshnessText(r.mtimeMs)
+        const header = `<system-reminder>\nRelevant memory from ${r.path}${freshness ? ` — ${freshness}` : ""}\n\n${body}\n</system-reminder>`
+        reminders.push(header)
+        surfaced.push(r.path)
+      } catch {
+        /* skip unreadable */
+      }
+    }
+    return { reminders, surfaced }
+  } catch {
+    return { reminders: [], surfaced: [] }
+  }
 }

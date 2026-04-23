@@ -1,0 +1,1 @@
+Clear the current conversation context. The session is reset; the next user turn starts with an empty history except for the system prompt. Use this when switching to an unrelated task in the same session.

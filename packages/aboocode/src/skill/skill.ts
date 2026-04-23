@@ -169,6 +169,43 @@ export namespace Skill {
       }
     }
 
+    // Phase 8 integration: merge bundled skills so users get useful defaults
+    // out of the box. Disk-based skills take precedence over bundled ones
+    // when they share a name.
+    try {
+      const { BUNDLED_SKILLS } = await import("./bundled")
+      for (const bundled of BUNDLED_SKILLS) {
+        if (skills[bundled.name]) continue
+        skills[bundled.name] = {
+          name: bundled.name,
+          description: bundled.description,
+          location: `bundled://${bundled.name}`,
+          content: bundled.content,
+        }
+      }
+    } catch (err) {
+      log.warn("failed to load bundled skills", { err })
+    }
+
+    // Phase 8 integration: merge MCP-backed skills (wraps MCP prompts).
+    // Lazy — only called during Skill.state() init; the MCP prompt bodies
+    // are fetched on demand by materializeMcpSkill().
+    try {
+      const { buildMcpSkills } = await import("./mcp-builders")
+      const mcpSkills = await buildMcpSkills()
+      for (const mcp of mcpSkills) {
+        if (skills[mcp.name]) continue
+        skills[mcp.name] = {
+          name: mcp.name,
+          description: mcp.description,
+          location: mcp.location,
+          content: mcp.content,
+        }
+      }
+    } catch (err) {
+      log.warn("failed to load mcp skills", { err })
+    }
+
     return {
       skills,
       dirs: Array.from(dirs),

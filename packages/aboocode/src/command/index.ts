@@ -6,6 +6,16 @@ import { Identifier } from "../id/id"
 import PROMPT_INITIALIZE from "./template/initialize.txt"
 import PROMPT_REVIEW from "./template/review.txt"
 import PROMPT_MEMORY from "./template/memory.txt"
+import PROMPT_COMPACT from "./template/compact.txt"
+import PROMPT_CLEAR from "./template/clear.txt"
+import PROMPT_PLAN from "./template/plan.txt"
+import PROMPT_HOOKS from "./template/hooks.txt"
+import PROMPT_AGENTS from "./template/agents.txt"
+import PROMPT_OUTPUT_STYLE from "./template/output-style.txt"
+import PROMPT_MCP from "./template/mcp.txt"
+import PROMPT_MODEL from "./template/model.txt"
+import PROMPT_RESUME from "./template/resume.txt"
+import PROMPT_HELP from "./template/help.txt"
 import { MCP } from "../mcp"
 import { Skill } from "../skill"
 
@@ -56,6 +66,16 @@ export namespace Command {
     INIT: "init",
     REVIEW: "review",
     MEMORY: "memory",
+    COMPACT: "compact",
+    CLEAR: "clear",
+    PLAN: "plan",
+    HOOKS: "hooks",
+    AGENTS: "agents",
+    OUTPUT_STYLE: "output-style",
+    MCP: "mcp",
+    MODEL: "model",
+    RESUME: "resume",
+    HELP: "help",
   } as const
 
   const state = Instance.state(async () => {
@@ -89,6 +109,96 @@ export namespace Command {
           return PROMPT_MEMORY
         },
         hints: hints(PROMPT_MEMORY),
+      },
+      [Default.COMPACT]: {
+        name: Default.COMPACT,
+        description: "compact the current conversation to free up context",
+        source: "command",
+        get template() {
+          return PROMPT_COMPACT
+        },
+        hints: hints(PROMPT_COMPACT),
+      },
+      [Default.CLEAR]: {
+        name: Default.CLEAR,
+        description: "clear the conversation context",
+        source: "command",
+        get template() {
+          return PROMPT_CLEAR
+        },
+        hints: hints(PROMPT_CLEAR),
+      },
+      [Default.PLAN]: {
+        name: Default.PLAN,
+        description: "enter read-only plan mode to investigate and design a change",
+        source: "command",
+        get template() {
+          return PROMPT_PLAN
+        },
+        hints: hints(PROMPT_PLAN),
+      },
+      [Default.HOOKS]: {
+        name: Default.HOOKS,
+        description: "show configured lifecycle hooks and how to add new ones",
+        source: "command",
+        get template() {
+          return PROMPT_HOOKS
+        },
+        hints: hints(PROMPT_HOOKS),
+      },
+      [Default.AGENTS]: {
+        name: Default.AGENTS,
+        description: "list available agents and how to switch",
+        source: "command",
+        get template() {
+          return PROMPT_AGENTS
+        },
+        hints: hints(PROMPT_AGENTS),
+      },
+      [Default.OUTPUT_STYLE]: {
+        name: Default.OUTPUT_STYLE,
+        description: "switch the session's output style (default/concise/explanatory)",
+        source: "command",
+        get template() {
+          return PROMPT_OUTPUT_STYLE
+        },
+        hints: hints(PROMPT_OUTPUT_STYLE),
+      },
+      [Default.MCP]: {
+        name: Default.MCP,
+        description: "show connected MCP servers and their tools/resources/prompts",
+        source: "command",
+        get template() {
+          return PROMPT_MCP
+        },
+        hints: hints(PROMPT_MCP),
+      },
+      [Default.MODEL]: {
+        name: Default.MODEL,
+        description: "switch the model used for this session",
+        source: "command",
+        get template() {
+          return PROMPT_MODEL
+        },
+        hints: hints(PROMPT_MODEL),
+      },
+      [Default.RESUME]: {
+        name: Default.RESUME,
+        description: "resume a prior session",
+        source: "command",
+        get template() {
+          return PROMPT_RESUME
+        },
+        hints: hints(PROMPT_RESUME),
+      },
+      [Default.HELP]: {
+        name: Default.HELP,
+        description: "list available slash commands",
+        source: "command",
+        get template() {
+          return PROMPT_HELP
+        },
+        hints: hints(PROMPT_HELP),
       },
     }
 
