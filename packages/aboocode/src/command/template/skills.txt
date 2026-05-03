@@ -1,0 +1,5 @@
+List available skills.
+
+Group by source (built-in / project / user / MCP) and show each skill's name + description. Note how to invoke one (e.g., "use the Skill tool" or `/skill-name`).
+
+If the user asks for more detail on a specific skill, read the skill file and summarize it.

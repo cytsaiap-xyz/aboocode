@@ -335,6 +335,19 @@ export namespace Session {
     } catch (e) {
       log.warn("SessionStart hook dispatch failed", { error: e })
     }
+    // Phase 12 (closing): boot the cron supervisor + its consumer.
+    // Idempotent — only the first session.create call actually wires
+    // them up. The consumer subscribes to CronRunner.Event.Fired and
+    // delivers the prompt to the target session (via mailbox if part
+    // of a team, otherwise via a fresh SessionPrompt.prompt call).
+    try {
+      const { CronRunner } = await import("@/scheduler/cron-runner")
+      const { CronConsumer } = await import("@/scheduler/cron-consumer")
+      CronRunner.start()
+      CronConsumer.start()
+    } catch (e) {
+      log.warn("CronRunner/Consumer start failed", { error: e })
+    }
     return result
   }
 

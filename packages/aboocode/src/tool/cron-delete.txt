@@ -1,0 +1,3 @@
+Delete a previously scheduled cron job by id.
+
+If the id doesn't exist, this is a no-op and the tool returns so in the output. Use after cron_list to confirm the id.

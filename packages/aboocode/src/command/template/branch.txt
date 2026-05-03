@@ -1,0 +1,9 @@
+Show current git branch state.
+
+Run: `git status --short`, `git log -1 --oneline`, and report:
+  - current branch name
+  - ahead/behind status vs upstream
+  - uncommitted changes count
+  - list of modified files (truncated if more than 20)
+
+Do not make any changes. This is a read-only inspection.

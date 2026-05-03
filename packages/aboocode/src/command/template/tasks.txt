@@ -1,0 +1,7 @@
+List all tracked tasks in this session.
+
+Use the task_list tool with no filter to fetch them, then print a compact table:
+  id                status        subject / activeForm
+  ──────────────────────────────────────────────────
+
+Do not execute any other tools; just list tasks.

@@ -278,6 +278,47 @@ export async function loadMemoryPrompt(): Promise<string | null> {
 }
 
 /**
+ * Phase 13.6: agent-aware variant.
+ *
+ *   shared    → identical to loadMemoryPrompt() (project-wide memdir)
+ *   isolated  → only the agent's per-agent partition
+ *   inherit   → both, with the per-agent block appended after the shared
+ *               block (so isolated facts override or supplement shared
+ *               ones)
+ *
+ * Falls back to shared if anything goes wrong (per-agent dir missing,
+ * sanitized name empty, etc.) — memory must never break a turn.
+ */
+export async function loadAgentMemoryPrompt(
+  agent: string,
+  scope: "shared" | "isolated" | "inherit" = "shared",
+): Promise<string | null> {
+  if (!(await isAutoMemoryEnabled())) return null
+  if (scope === "shared") return loadMemoryPrompt()
+
+  const { getAgentMemPath } = await import("./paths")
+  let agentBlock: string | null = null
+  try {
+    const dir = await getAgentMemPath(agent)
+    await ensureMemoryDirExists(dir)
+    const block = buildMemoryLines(`${AUTO_MEM_DISPLAY_NAME} (agent: ${agent})`, dir).join("\n")
+    if (block.trim()) agentBlock = block
+  } catch (e) {
+    log.warn("loadAgentMemoryPrompt agent-block failed; falling back to shared", { agent, error: e })
+    return loadMemoryPrompt()
+  }
+
+  if (scope === "isolated") return agentBlock ?? ""
+
+  // inherit: shared first, agent second
+  const shared = await loadMemoryPrompt()
+  if (!shared && !agentBlock) return null
+  if (!agentBlock) return shared
+  if (!shared) return agentBlock
+  return `${shared}\n\n${agentBlock}`
+}
+
+/**
  * Read + truncate MEMORY.md content only. Used by the user-context builder
  * which injects the index into the running conversation rather than the
  * (cached) system prompt.

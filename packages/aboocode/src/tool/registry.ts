@@ -31,6 +31,25 @@ import { Truncate } from "./truncation"
 import { ApplyPatchTool } from "./apply_patch"
 import { ToolSearchTool } from "./toolsearch"
 import { VerifyTool } from "./verify"
+import { CronCreateTool } from "./cron-create"
+import { CronDeleteTool } from "./cron-delete"
+import { CronListTool } from "./cron-list"
+import { ScheduleWakeupTool } from "./schedule-wakeup"
+import { MonitorTool } from "./monitor"
+import { PushNotificationTool } from "./push-notification"
+import { TaskCreateTool } from "./tasktracker-create"
+import { TaskGetTool } from "./tasktracker-get"
+import { TaskListTool } from "./tasktracker-list"
+import { TaskUpdateTool } from "./tasktracker-update"
+import { TaskOutputTool } from "./tasktracker-output"
+import { TaskStopTool } from "./tasktracker-stop"
+import { AskUserQuestionTool } from "./ask-user-question"
+import { PlanEnterTool } from "./plan-enter"
+import { PlanExitModeTool } from "./plan-exit-mode"
+import { SendMessageTool } from "./send-message"
+import { CheckMessagesTool } from "./check-messages"
+import { WorktreeEnterTool } from "./worktree-enter"
+import { WorktreeExitTool } from "./worktree-exit"
 import { Glob } from "../util/glob"
 import { pathToFileURL } from "url"
 import {
@@ -175,6 +194,28 @@ export namespace ToolRegistry {
       DiscussTool,
       ToolSearchTool,
       VerifyTool,
+      // Phase 12: scheduling + notifications
+      CronCreateTool,
+      CronDeleteTool,
+      CronListTool,
+      ScheduleWakeupTool,
+      MonitorTool,
+      PushNotificationTool,
+      // Phase 13: task tracker + mode tools
+      TaskCreateTool,
+      TaskGetTool,
+      TaskListTool,
+      TaskUpdateTool,
+      TaskOutputTool,
+      TaskStopTool,
+      AskUserQuestionTool,
+      PlanEnterTool,
+      PlanExitModeTool,
+      WorktreeEnterTool,
+      WorktreeExitTool,
+      // Team mailbox / inter-agent comms
+      SendMessageTool,
+      CheckMessagesTool,
       ...custom,
     ]
   }

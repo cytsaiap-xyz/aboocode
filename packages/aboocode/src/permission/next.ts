@@ -1,6 +1,7 @@
 import { Bus } from "@/bus"
 import { BusEvent } from "@/bus/bus-event"
 import { Config } from "@/config/config"
+import { HookLifecycle } from "@/hook/lifecycle"
 import { Identifier } from "@/id/id"
 import { Instance } from "@/project/instance"
 import { Database, eq } from "@/storage/db"
@@ -148,14 +149,57 @@ export namespace PermissionNext {
       }
       if (hookDecision.kind === "deny") {
         log.info("permission denied by hook-gate", { permission: request.permission, reason: hookDecision.reason })
+        // Phase 11: PermissionDenied lifecycle hook. Retry is NOT honored
+        // for hook-gate denials since the gate is itself a hook-layer —
+        // re-running wouldn't change the answer. Fire the event for
+        // observability only.
+        await HookLifecycle.dispatch({
+          event: "PermissionDenied",
+          sessionID: request.sessionID,
+          cwd: Instance.directory,
+          timestamp: Date.now(),
+          tool_name: request.permission,
+          tool_input: request.metadata ?? {},
+          permission: request.permission,
+          reason: hookDecision.reason ?? "hook-gate deny",
+        })
         throw new DeniedError(ruleset.filter((r) => Wildcard.match(request.permission, r.permission)))
       }
 
       for (const pattern of request.patterns ?? []) {
-        const rule = evaluate(request.permission, pattern, ruleset, s.approved)
+        let rule = evaluate(request.permission, pattern, ruleset, s.approved)
         log.info("evaluated", { permission: request.permission, pattern, action: rule })
-        if (rule.action === "deny")
-          throw new DeniedError(ruleset.filter((r) => Wildcard.match(request.permission, r.permission)))
+        if (rule.action === "deny") {
+          // Phase 11: PermissionDenied hook with retry contract. A hook
+          // can persist an allow-rule then return {retry: true}; we
+          // re-evaluate once before throwing.
+          const denyDecision = await HookLifecycle.dispatch({
+            event: "PermissionDenied",
+            sessionID: request.sessionID,
+            cwd: Instance.directory,
+            timestamp: Date.now(),
+            tool_name: request.permission,
+            tool_input: request.metadata ?? {},
+            permission: request.permission,
+            reason: `denied by ruleset for pattern ${pattern}`,
+          })
+          if (denyDecision.hookSpecificOutput?.retry) {
+            rule = evaluate(request.permission, pattern, ruleset, s.approved)
+            log.info("permission re-evaluated after hook retry", {
+              permission: request.permission,
+              pattern,
+              action: rule.action,
+            })
+            if (rule.action === "allow") continue
+            if (rule.action === "ask") {
+              // fall through into the ask branch below
+            } else {
+              throw new DeniedError(ruleset.filter((r) => Wildcard.match(request.permission, r.permission)))
+            }
+          } else {
+            throw new DeniedError(ruleset.filter((r) => Wildcard.match(request.permission, r.permission)))
+          }
+        }
         if (rule.action === "ask") {
           const id = input.id ?? Identifier.ascending("permission")
           return new Promise<void>((resolve, reject) => {

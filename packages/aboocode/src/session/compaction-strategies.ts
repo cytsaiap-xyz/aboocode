@@ -18,6 +18,7 @@ import { Token } from "@/util/token"
 import { ProviderTransform } from "@/provider/transform"
 import type { MessageV2 } from "./message-v2"
 import { SessionCompaction } from "./compaction"
+import { SessionMemoryRoundTrip } from "./session-memory-roundtrip"
 import { Session } from "."
 
 const log = Log.create({ service: "session.compaction-strategies" })
@@ -164,9 +165,11 @@ export namespace CompactionStrategies {
           })
           break
         case "summarize":
-          // End-of-turn summarization is handled by the existing
-          // SessionCompaction.process path; fire a marker here so hooks
-          // see a PostCompact for every strategy, including summarize.
+          // Phase 11: capture relevant memories BEFORE the summarize path
+          // runs so they survive the compression and reappear in the
+          // post-compact identity prompt. Summarization itself is handled
+          // by SessionCompaction.process; this is the pre-hook bookkeeping.
+          await SessionMemoryRoundTrip.captureBefore(input.sessionID)
           droppedTokens = input.budget.used - input.budget.usable
           break
       }

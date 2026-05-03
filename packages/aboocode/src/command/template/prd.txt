@@ -1,0 +1,7 @@
+Draft a one-page Product Requirements Document (PRD) for the feature described by the user.
+
+Sections: problem statement, target user, success metric, non-goals, proposed approach (high-level), risks, rollout plan.
+
+Keep each section to 3–5 lines. Ask the user one clarifying question at a time if needed. When the user accepts the draft, save it to `docs/PRD/<slug>.md` using the Write tool.
+
+Argument: $1 → optional feature slug (used in filename).

@@ -1,0 +1,5 @@
+Show the current todo list (if any) and offer to mark items done.
+
+Read the todo list from the TodoRead tool. For each item show status + text. Ask the user which they'd like to mark done; use TodoWrite to update.
+
+If there are no todos, suggest making one using TodoWrite for the current task.

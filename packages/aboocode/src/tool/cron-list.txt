@@ -1,0 +1,3 @@
+List scheduled cron jobs. Optionally scope to the current session.
+
+Returns each job's id, schedule, prompt (truncated), durability, last fired time, and computed next-fire time.

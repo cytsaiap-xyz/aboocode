@@ -157,6 +157,55 @@ export const BashTool = Tool.define("bash", async () => {
         })
       }
 
+      // Phase 15: pragmatic Bash classifier pre-filter. Short-circuits
+      // the obvious "dangerous" cases (rm -rf /, pipe-to-shell, sudo,
+      // force-push to main, dd to raw disk, fork bomb) BEFORE the
+      // declarative ruleset has a chance to mis-allow them.
+      //
+      // When the structural classifier flags `needsFallback` (the
+      // command contains $(…), eval, exec, or another construct the
+      // regex layer can't see through), we ask a small fast model to
+      // refine the verdict — the 7th stage in the pipeline.
+      {
+        const { BashClassifier } = await import("../permission/bash-classifier")
+        let decision = BashClassifier.decide(params.command)
+        if (decision.classification.needsFallback) {
+          const { llmFallback } = await import("../permission/bash-classifier-fallback")
+          const llm = await llmFallback({
+            command: params.command,
+            classification: decision.classification,
+            signal: ctx.abort,
+          })
+          if (llm.source === "llm" && llm.verdict !== decision.verdict) {
+            // Re-decide using the LLM's verdict. Easiest: synthesize a new
+            // classification object with the upgraded verdict and let
+            // decide() re-run the mode/action mapping by mutating the
+            // observed verdict (same `decide` would re-call classify on
+            // the raw command — bypass that and map directly).
+            const upgraded = { ...decision.classification, verdict: llm.verdict, reasons: [...decision.classification.reasons, `LLM fallback: ${llm.verdict} (${llm.reason})`] }
+            decision = {
+              ...decision,
+              verdict: llm.verdict,
+              action: llm.verdict === "dangerous" ? "deny" : decision.action === "allow" && llm.verdict !== "safe" ? "ask" : decision.action,
+              classification: upgraded,
+            }
+          }
+        }
+        if (decision.action === "deny") {
+          const blocked = [
+            `Command blocked by Bash classifier:`,
+            `  verdict: ${decision.verdict}`,
+            `  mode:    ${decision.mode}`,
+            ...decision.classification.reasons.map((r) => `  ${r}`),
+          ].join("\n")
+          return {
+            title: params.description,
+            metadata: { output: blocked, exit: 1 as number | null, description: params.description },
+            output: blocked,
+          }
+        }
+      }
+
       if (patterns.size > 0) {
         await ctx.ask({
           permission: "bash",

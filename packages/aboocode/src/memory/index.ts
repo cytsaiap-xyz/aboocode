@@ -46,10 +46,24 @@ export namespace Memory {
    * Preferred: build the Claude-Code-style memdir system prompt with the full
    * typed-memory taxonomy, recall guidance, and team/private dispatch.
    * Returns [] if memory is disabled.
+   *
+   * Phase 13.6: pass `agent` (and optional scope) to read from the
+   * agent's per-agent partition instead of the shared project memdir.
+   * Agents whose `Agent.Info.memoryScope === "isolated"` get only their
+   * own memory; `inherit` gets both, `shared` (default) gets the project
+   * memdir as before.
    */
-  export async function buildSystemPrompt(): Promise<string[]> {
+  export async function buildSystemPrompt(input?: {
+    agent?: string
+    scope?: "shared" | "isolated" | "inherit"
+  }): Promise<string[]> {
     UsageLog.record("memory", "buildSystemPrompt")
     if (!(await isEnabled())) return []
+    if (input?.agent && input.scope && input.scope !== "shared") {
+      const { loadAgentMemoryPrompt } = await import("./memdir")
+      const prompt = await loadAgentMemoryPrompt(input.agent, input.scope)
+      return prompt ? [prompt] : []
+    }
     return await buildMemdirSystemPrompt()
   }
 

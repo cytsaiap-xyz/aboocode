@@ -316,6 +316,12 @@ When constructing the summary, try to stick to this template:
     agent: string
     agentDescription?: string
     cwd: string
+    /**
+     * Phase 11: memory reinjection block produced by
+     * SessionMemoryRoundTrip.captureBefore(). Appended to the identity
+     * prompt so memories survive summarization.
+     */
+    memoryReinjection?: string
   }
 
   const postCompactionState = new Map<string, IdentityContext>()
@@ -338,13 +344,23 @@ When constructing the summary, try to stick to this template:
   export function buildIdentityPrompt(sessionID: string): string | undefined {
     const ctx = getPostCompaction(sessionID)
     if (!ctx) return undefined
-    return [
-      `<identity>`,
-      `You are the "${ctx.agent}" agent${ctx.agentDescription ? ` — ${ctx.agentDescription}` : ""}, working in ${ctx.cwd}.`,
-      `Context was compressed. The summary above contains your previous work.`,
-      `Continue with the task described in the summary.`,
-      `</identity>`,
-    ].join("\n")
+    const parts: string[] = []
+    if (ctx.agent) {
+      parts.push(
+        [
+          `<identity>`,
+          `You are the "${ctx.agent}" agent${ctx.agentDescription ? ` — ${ctx.agentDescription}` : ""}, working in ${ctx.cwd}.`,
+          `Context was compressed. The summary above contains your previous work.`,
+          `Continue with the task described in the summary.`,
+          `</identity>`,
+        ].join("\n"),
+      )
+    }
+    if (ctx.memoryReinjection) {
+      parts.push(ctx.memoryReinjection)
+    }
+    if (parts.length === 0) return undefined
+    return parts.join("\n\n")
   }
 
   export const create = fn(

@@ -1,0 +1,10 @@
+Stream stdout from a shell command, returning a bounded view of the latest output.
+
+Use this when you want to tail a long-running process or poll a file/service until a condition is met — e.g. `tail -f app.log`, `curl -s https://.../status`, a test runner you started in the background.
+
+The tool returns as soon as EITHER:
+  - the command exits (returns full captured output and exit code), OR
+  - `maxLines` lines have been produced, OR
+  - `timeoutSeconds` elapse (default 60, max 600)
+
+Output is always truncated to the last `maxLines` lines (default 200) — use a larger value if you need more context.

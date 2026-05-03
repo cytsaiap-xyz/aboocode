@@ -16,6 +16,27 @@ import PROMPT_MCP from "./template/mcp.txt"
 import PROMPT_MODEL from "./template/model.txt"
 import PROMPT_RESUME from "./template/resume.txt"
 import PROMPT_HELP from "./template/help.txt"
+// Phase 14: 20 new bundled slash commands
+import PROMPT_COST from "./template/cost.txt"
+import PROMPT_STATUS from "./template/status.txt"
+import PROMPT_DOCTOR from "./template/doctor.txt"
+import PROMPT_TASKS from "./template/tasks.txt"
+import PROMPT_LOGIN from "./template/login.txt"
+import PROMPT_LOGOUT from "./template/logout.txt"
+import PROMPT_PERMISSIONS from "./template/permissions.txt"
+import PROMPT_CONTEXT from "./template/context.txt"
+import PROMPT_BRANCH from "./template/branch.txt"
+import PROMPT_DIFF from "./template/diff.txt"
+import PROMPT_FAST from "./template/fast.txt"
+import PROMPT_CONFIG from "./template/config.txt"
+import PROMPT_SESSION from "./template/session.txt"
+import PROMPT_SKILLS from "./template/skills.txt"
+import PROMPT_TODOS from "./template/todos.txt"
+import PROMPT_NOTES from "./template/notes.txt"
+import PROMPT_PRD from "./template/prd.txt"
+import PROMPT_EXPLAIN from "./template/explain.txt"
+import PROMPT_ONBOARD from "./template/onboard.txt"
+import PROMPT_UNDO from "./template/undo.txt"
 import { MCP } from "../mcp"
 import { Skill } from "../skill"
 
@@ -76,6 +97,27 @@ export namespace Command {
     MODEL: "model",
     RESUME: "resume",
     HELP: "help",
+    // Phase 14: 20 new bundled slash commands
+    COST: "cost",
+    STATUS: "status",
+    DOCTOR: "doctor",
+    TASKS: "tasks",
+    LOGIN: "login",
+    LOGOUT: "logout",
+    PERMISSIONS: "permissions",
+    CONTEXT: "context",
+    BRANCH: "branch",
+    DIFF: "diff",
+    FAST: "fast",
+    CONFIG: "config",
+    SESSION: "session",
+    SKILLS: "skills",
+    TODOS: "todos",
+    NOTES: "notes",
+    PRD: "prd",
+    EXPLAIN: "explain",
+    ONBOARD: "onboard",
+    UNDO: "undo",
   } as const
 
   const state = Instance.state(async () => {
@@ -200,6 +242,29 @@ export namespace Command {
         },
         hints: hints(PROMPT_HELP),
       },
+      // Phase 14 additions. Each is a template-backed command that the
+      // model expands on execution; no new tools are required beyond what
+      // Phases 11–13 already provide.
+      [Default.COST]: { name: Default.COST, description: "show cost + token usage", source: "command", get template() { return PROMPT_COST }, hints: hints(PROMPT_COST) },
+      [Default.STATUS]: { name: Default.STATUS, description: "show concise session status", source: "command", get template() { return PROMPT_STATUS }, hints: hints(PROMPT_STATUS) },
+      [Default.DOCTOR]: { name: Default.DOCTOR, description: "run environment diagnostics", source: "command", get template() { return PROMPT_DOCTOR }, hints: hints(PROMPT_DOCTOR) },
+      [Default.TASKS]: { name: Default.TASKS, description: "list tracked tasks", source: "command", get template() { return PROMPT_TASKS }, hints: hints(PROMPT_TASKS) },
+      [Default.LOGIN]: { name: Default.LOGIN, description: "sign in to a provider", source: "command", get template() { return PROMPT_LOGIN }, hints: hints(PROMPT_LOGIN) },
+      [Default.LOGOUT]: { name: Default.LOGOUT, description: "revoke provider credentials", source: "command", get template() { return PROMPT_LOGOUT }, hints: hints(PROMPT_LOGOUT) },
+      [Default.PERMISSIONS]: { name: Default.PERMISSIONS, description: "show permission mode + ruleset", source: "command", get template() { return PROMPT_PERMISSIONS }, hints: hints(PROMPT_PERMISSIONS) },
+      [Default.CONTEXT]: { name: Default.CONTEXT, description: "break down context-window usage", source: "command", get template() { return PROMPT_CONTEXT }, hints: hints(PROMPT_CONTEXT) },
+      [Default.BRANCH]: { name: Default.BRANCH, description: "show current git branch state", source: "command", get template() { return PROMPT_BRANCH }, hints: hints(PROMPT_BRANCH) },
+      [Default.DIFF]: { name: Default.DIFF, description: "show working-tree or ref diff", source: "command", get template() { return PROMPT_DIFF }, hints: hints(PROMPT_DIFF) },
+      [Default.FAST]: { name: Default.FAST, description: "switch to fast mode (smaller model)", source: "command", get template() { return PROMPT_FAST }, hints: hints(PROMPT_FAST) },
+      [Default.CONFIG]: { name: Default.CONFIG, description: "show merged aboocode configuration", source: "command", get template() { return PROMPT_CONFIG }, hints: hints(PROMPT_CONFIG) },
+      [Default.SESSION]: { name: Default.SESSION, description: "show session info", source: "command", get template() { return PROMPT_SESSION }, hints: hints(PROMPT_SESSION) },
+      [Default.SKILLS]: { name: Default.SKILLS, description: "list available skills", source: "command", get template() { return PROMPT_SKILLS }, hints: hints(PROMPT_SKILLS) },
+      [Default.TODOS]: { name: Default.TODOS, description: "show / update todo list", source: "command", get template() { return PROMPT_TODOS }, hints: hints(PROMPT_TODOS) },
+      [Default.NOTES]: { name: Default.NOTES, description: "review recent session notes", source: "command", get template() { return PROMPT_NOTES }, hints: hints(PROMPT_NOTES) },
+      [Default.PRD]: { name: Default.PRD, description: "draft a one-page PRD", source: "command", get template() { return PROMPT_PRD }, hints: hints(PROMPT_PRD) },
+      [Default.EXPLAIN]: { name: Default.EXPLAIN, description: "explain a file, function, or concept", source: "command", get template() { return PROMPT_EXPLAIN }, hints: hints(PROMPT_EXPLAIN) },
+      [Default.ONBOARD]: { name: Default.ONBOARD, description: "produce an onboarding guide", source: "command", get template() { return PROMPT_ONBOARD }, hints: hints(PROMPT_ONBOARD) },
+      [Default.UNDO]: { name: Default.UNDO, description: "undo the agent's last change", source: "command", get template() { return PROMPT_UNDO }, hints: hints(PROMPT_UNDO) },
     }
 
     for (const [name, command] of Object.entries(cfg.command ?? {})) {

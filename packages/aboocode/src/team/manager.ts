@@ -2,6 +2,7 @@ import { Instance } from "../project/instance"
 import { Log } from "../util/log"
 import { UsageLog } from "../usage-log"
 import { DebugLog } from "../debug-log"
+import { Mailbox } from "./mailbox"
 
 export namespace TeamManager {
   const log = Log.create({ service: "team.manager" })
@@ -77,6 +78,15 @@ export namespace TeamManager {
     team.status = "active"
     DebugLog.teamFinalized(sessionID, team.activeAgentIds)
     log.info("team finalized", { sessionID, agents: team.activeAgentIds })
+
+    // Phase 13.5: ensure every teammate has an inbox file plus the
+    // orchestrator itself, so broadcast (`to:"*"`) reaches all members
+    // and idle notifications have somewhere to land.
+    const teamId = teamKey(sessionID)
+    const recipients = ["orchestrator", ...team.activeAgentIds]
+    void Promise.all(recipients.map((id) => Mailbox.ensureInbox(teamId, id))).catch((e) => {
+      log.warn("ensureInbox on finalize failed", { error: e })
+    })
     return team.activeAgentIds
   }
 
@@ -98,5 +108,37 @@ export namespace TeamManager {
       log.info("team disbanded", { sessionID })
     }
     delete state()[key]
+  }
+
+  /**
+   * Resolve the team id used by the mailbox layer. Currently a 1:1 alias
+   * for the orchestrator session id, but kept as a separate function so
+   * the team-id derivation can change without rippling through callers.
+   */
+  export function teamIdFor(sessionID: string): string {
+    return teamKey(sessionID)
+  }
+
+  /**
+   * Walk up the parent-session chain until we find a session that owns
+   * a team. That session id is the team id. Returns undefined if no
+   * ancestor is part of a team — caller should treat that as "messaging
+   * is unavailable in this context."
+   */
+  export async function resolveTeamId(sessionID: string): Promise<string | undefined> {
+    const { Session } = await import("../session")
+    let current: string | undefined = sessionID
+    const seen = new Set<string>()
+    while (current && !seen.has(current)) {
+      seen.add(current)
+      if (state()[teamKey(current)]) return teamKey(current)
+      try {
+        const info: { parentID?: string } = await Session.get(current)
+        current = info.parentID
+      } catch {
+        return undefined
+      }
+    }
+    return undefined
   }
 }

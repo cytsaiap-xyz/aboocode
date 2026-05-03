@@ -200,6 +200,65 @@ export namespace SessionPrompt {
       if (userDecision.decision === "modify" && typeof userDecision.modified === "string") {
         textPart.text = userDecision.modified
       }
+      // Phase 11: hooks may inject `<system-reminder>` snippets via
+      // `hookSpecificOutput.additionalContext`. Prepend them to the user
+      // text so the next turn sees them as soft instructions.
+      const additional = userDecision.hookSpecificOutput?.additionalContext
+      if (additional && additional.trim()) {
+        textPart.text = `<system-reminder>\n${additional.trim()}\n</system-reminder>\n\n${textPart.text}`
+      }
+
+      // Phase 13.6: auto-skill activation. Scan the prompt for keywords
+      // matching any registered skill; if there's a strong match, surface
+      // it as a `<system-reminder>` advisory. The model can then choose
+      // to invoke the skill via the Skill tool. Failure is non-fatal.
+      try {
+        const { AutoActivate } = await import("@/skill/auto-activate")
+        const reminder = await AutoActivate.buildReminder(textPart.text)
+        if (reminder) {
+          textPart.text = `<system-reminder>\n${reminder}\n</system-reminder>\n\n${textPart.text}`
+        }
+      } catch (e) {
+        log.warn("auto-skill activation failed", { error: e })
+      }
+
+      // Team mailbox auto-inject: if this session is part of a team and
+      // the agent has unread mail, surface every unread message as a
+      // <system-reminder> on the next turn and mark them read. Failure
+      // is non-fatal (e.g., team disbanded, file-system hiccup) — the
+      // turn proceeds without the inbox snippet.
+      try {
+        const { TeamManager } = await import("@/team/manager")
+        const { Mailbox } = await import("@/team/mailbox")
+        const teamId = await TeamManager.resolveTeamId(input.sessionID)
+        if (teamId) {
+          const agentId = input.agent ?? "orchestrator"
+          const unread = await Mailbox.takeUnread({ teamId, agentId })
+          if (unread.length > 0) {
+            const formatted = unread
+              .map((m) => {
+                switch (m.kind) {
+                  case "text":
+                    return `from=${m.from}: ${m.text}`
+                  case "idle":
+                    return `from=${m.from} idle status=${m.status}${m.result ? ` — ${m.result}` : ""}`
+                  case "plan_approval_request":
+                    return `from=${m.from} requests plan approval:\n${m.plan}`
+                  case "plan_approval_response":
+                    return `from=${m.from} plan approval: approved=${m.approved}${m.feedback ? ` — ${m.feedback}` : ""}`
+                  case "shutdown_request":
+                    return `from=${m.from} requests shutdown: ${m.reason}`
+                  case "shutdown_response":
+                    return `from=${m.from} shutdown response: approved=${m.approved}${m.reason ? ` — ${m.reason}` : ""}`
+                }
+              })
+              .join("\n")
+            textPart.text = `<system-reminder>\nNew teammate messages (${unread.length}):\n${formatted}\n</system-reminder>\n\n${textPart.text}`
+          }
+        }
+      } catch (e) {
+        log.warn("mailbox auto-inject failed", { error: e })
+      }
     }
 
     const message = await createUserMessage(input)
@@ -831,7 +890,24 @@ export namespace SessionPrompt {
           // Phase 1 integration: prefer the new memdir-style system prompt
           // (full 4-type taxonomy, team/private dispatch, freshness guidance)
           // with a fallback to the legacy buildContext for safety.
-          const memdirPrompt = await Memory.buildSystemPrompt()
+          //
+          // Phase 13.6: pass the agent + memoryScope so agents flagged as
+          // `isolated` or `inherit` read from their own memdir partition.
+          const memScope = lastUser.agent
+            ? (await (async () => {
+                try {
+                  const { Agent } = await import("../agent/agent")
+                  const info = await Agent.get(lastUser.agent)
+                  return info?.memoryScope
+                } catch {
+                  return undefined
+                }
+              })())
+            : undefined
+          const memdirPrompt = await Memory.buildSystemPrompt({
+            agent: lastUser.agent,
+            scope: memScope,
+          })
           if (memdirPrompt.length > 0) return memdirPrompt
           return await Memory.buildContext()
         } catch {
@@ -1060,6 +1136,31 @@ export namespace SessionPrompt {
       { sessionID, agent: sessionAgent, reason: terminalReason },
       {},
     )
+    // Phase 11: dispatch Stop / StopFailure lifecycle hooks. Clean
+    // terminations fire Stop; abort, overflow, and structured-output
+    // failures fire StopFailure with the reason as the error label.
+    {
+      const cleanReasons: Transition.Terminal["reason"][] = ["completed", "structured_output"]
+      const isClean = cleanReasons.includes(terminalReason)
+      if (isClean) {
+        await HookLifecycle.dispatch({
+          event: "Stop",
+          sessionID,
+          cwd: Instance.directory,
+          timestamp: Date.now(),
+          reason: terminalReason,
+        })
+      } else {
+        await HookLifecycle.dispatch({
+          event: "StopFailure",
+          sessionID,
+          cwd: Instance.directory,
+          timestamp: Date.now(),
+          reason: terminalReason,
+          error: `Session ended with terminal reason: ${terminalReason}`,
+        })
+      }
+    }
     SessionCompaction.prune({ sessionID })
     for await (const item of MessageV2.stream(sessionID)) {
       if (item.info.role === "user") continue
@@ -1185,7 +1286,26 @@ export namespace SessionPrompt {
             preDecision.decision === "modify" && preDecision.modified !== undefined
               ? (preDecision.modified as typeof args)
               : args
-          const result = await item.execute(effectiveArgs, ctx)
+          let result: Awaited<ReturnType<typeof item.execute>>
+          try {
+            result = await item.execute(effectiveArgs, ctx)
+          } catch (e) {
+            // Phase 11: PostToolUseFailure lifecycle hook. Fires for any
+            // tool error (including AbortError) so hooks can observe
+            // failures separately from successful PostToolUse events.
+            await HookLifecycle.dispatch({
+              event: "PostToolUseFailure",
+              sessionID: ctx.sessionID,
+              cwd: Instance.directory,
+              timestamp: Date.now(),
+              tool_name: item.id,
+              tool_input: effectiveArgs,
+              error: e instanceof Error ? e.message : String(e),
+              error_type: e instanceof Error ? e.constructor.name : typeof e,
+              is_interrupt: (e instanceof Error && e.name === "AbortError") || ctx.abort.aborted,
+            })
+            throw e
+          }
           const output = {
             ...result,
             attachments: result.attachments?.map((attachment) => ({
@@ -1268,7 +1388,24 @@ export namespace SessionPrompt {
           always: ["*"],
         })
 
-        const result = await execute(effectiveArgs, opts)
+        let result: Awaited<ReturnType<typeof execute>>
+        try {
+          result = await execute(effectiveArgs, opts)
+        } catch (e) {
+          // Phase 11: PostToolUseFailure for MCP tools.
+          await HookLifecycle.dispatch({
+            event: "PostToolUseFailure",
+            sessionID: ctx.sessionID,
+            cwd: Instance.directory,
+            timestamp: Date.now(),
+            tool_name: key,
+            tool_input: effectiveArgs,
+            error: e instanceof Error ? e.message : String(e),
+            error_type: e instanceof Error ? e.constructor.name : typeof e,
+            is_interrupt: (e instanceof Error && e.name === "AbortError") || ctx.abort.aborted,
+          })
+          throw e
+        }
 
         await Plugin.trigger(
           "tool.execute.after",

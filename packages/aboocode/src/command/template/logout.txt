@@ -1,0 +1,3 @@
+Revoke aboocode's stored credentials for a provider.
+
+Tell the user the command to run (`aboocode auth logout [provider]`). Confirm whether they want to log out of all providers or just one. Do not run the command yourself; the user must invoke it.

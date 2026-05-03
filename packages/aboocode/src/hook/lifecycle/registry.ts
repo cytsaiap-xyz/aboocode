@@ -61,19 +61,34 @@ export namespace HookLifecycle {
     let current: HookPayload = payload
     const target = matchTarget(payload)
 
+    // Accumulate additionalContext + last modified input + retry flag across
+    // all matching hooks. block short-circuits.
+    const additionalContexts: string[] = []
+    let lastModified: unknown = undefined
+    let retry = false
+
     for (const matcher of matchers) {
       if (!matchMatcher(matcher.matcher, target)) continue
       for (const entry of matcher.hooks) {
         try {
           const decision = await runHook(entry, current)
           if (!decision) continue
+
+          if (decision.hookSpecificOutput?.additionalContext) {
+            additionalContexts.push(decision.hookSpecificOutput.additionalContext)
+          }
+          if (decision.hookSpecificOutput?.retry) retry = true
+
           if (decision.decision === "block") {
             log.info("hook blocked event", {
               event: payload.event,
               target,
               reason: decision.reason,
             })
-            return decision
+            return {
+              ...decision,
+              hookSpecificOutput: mergeSpecific(decision, additionalContexts, retry),
+            }
           }
           if (decision.decision === "modify" && decision.modified !== undefined) {
             // PreToolUse: swap tool_input for subsequent hooks + return it to
@@ -81,6 +96,7 @@ export namespace HookLifecycle {
             if (current.event === "PreToolUse") {
               current = { ...current, tool_input: decision.modified }
             }
+            lastModified = decision.modified
           }
         } catch (e) {
           log.error("hook error", { event: payload.event, entry, error: e })
@@ -90,7 +106,21 @@ export namespace HookLifecycle {
         }
       }
     }
-    return { decision: "continue" }
+    const result: HookDecision = { decision: "continue" }
+    if (lastModified !== undefined) result.modified = lastModified
+    const specific = mergeSpecific({}, additionalContexts, retry)
+    if (specific) result.hookSpecificOutput = specific
+    return result
+  }
+
+  function mergeSpecific(base: HookDecision, contexts: string[], retry: boolean) {
+    const merged = { ...(base.hookSpecificOutput ?? {}) }
+    if (contexts.length > 0) {
+      merged.additionalContext = [merged.additionalContext, ...contexts].filter(Boolean).join("\n\n")
+    }
+    if (retry) merged.retry = true
+    if (Object.keys(merged).length === 0) return undefined
+    return merged
   }
 
   /** Test helper — clears registered in-process handlers. */
@@ -103,12 +133,15 @@ function matchTarget(payload: HookPayload): string {
   switch (payload.event) {
     case "PreToolUse":
     case "PostToolUse":
+    case "PostToolUseFailure":
+    case "PermissionDenied":
       return payload.tool_name
     case "UserPromptSubmit":
       return payload.prompt.slice(0, 200)
     case "SessionStart":
     case "SessionEnd":
     case "Stop":
+    case "StopFailure":
       return payload.sessionID
     case "SubagentStop":
       return payload.subagent
@@ -117,6 +150,11 @@ function matchTarget(payload: HookPayload): string {
       return payload.strategy
     case "Notification":
       return payload.level
+    case "TodoUpdated":
+      // Use an aggregate "status" string so matchers can filter on the
+      // shape of the todo list (e.g., regex `/in_progress/` to fire only
+      // when something is actively running).
+      return `total=${payload.summary.total} pending=${payload.summary.pending} in_progress=${payload.summary.in_progress} completed=${payload.summary.completed}`
   }
 }
 

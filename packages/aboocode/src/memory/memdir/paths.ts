@@ -205,6 +205,31 @@ export async function getAutoMemEntrypoint(): Promise<string> {
 }
 
 /**
+ * Phase 13.6: per-agent memory partition.
+ *
+ * Layout: <autoMemPath>/agents/<sanitized-agent-name>/
+ * Each agent gets its own subdirectory beneath the project memdir so an
+ * `explore` agent's findings don't leak into a `verifier` agent's memory.
+ *
+ * Sanitization mirrors the memdir filename rules — only ascii word chars,
+ * dash, dot, underscore are kept; everything else collapses to `_`.
+ */
+export function sanitizeAgentName(agent: string): string {
+  return agent.replace(/[^a-zA-Z0-9_\-.]/g, "_")
+}
+
+export async function getAgentMemPath(agent: string): Promise<string> {
+  const base = await getAutoMemPath()
+  const safe = sanitizeAgentName(agent)
+  if (!safe || safe.length === 0) return base
+  return (path.join(base, "agents", safe) + sep).normalize("NFC")
+}
+
+export async function getAgentMemEntrypoint(agent: string): Promise<string> {
+  return path.join(await getAgentMemPath(agent), AUTO_MEM_ENTRYPOINT_NAME)
+}
+
+/**
  * Check if an absolute path is within the auto-memory directory.
  * SECURITY: Normalizes to prevent `..` bypasses.
  */

@@ -1,0 +1,5 @@
+Review recent session notes from the background observer.
+
+Read the last 2 session-note files in the memory directory's `sessions/` subfolder. Summarize what past sessions accomplished and what was left open. Propose follow-up work based on the notes.
+
+Do not modify memory files — this is a read-only summary. Use /memory to show the full MEMORY.md index.

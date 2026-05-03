@@ -1,0 +1,8 @@
+Show git diff of current working tree changes.
+
+Default: uncommitted changes (`git diff`). Accept an argument $1 to target a different ref:
+  - `$1=HEAD~1` → changes since the previous commit
+  - `$1=main...HEAD` → changes on this branch vs main
+  - `$1=<file>` → changes to a specific file
+
+If the diff is > 500 lines, summarize files changed and offer to show a specific file on request.

@@ -1,0 +1,5 @@
+Show loaded aboocode configuration.
+
+Dump the merged config (all precedence levels combined) with source annotations so the user can see which file set which key. Redact any `env.*` secrets (show `<redacted>`).
+
+Include: model, provider, permission defaults, MCP servers, commands, skills, agents, memory settings.

@@ -1,0 +1,10 @@
+Show a breakdown of what's currently loaded into the session context.
+
+Report approximate token counts for each of:
+  - system prompt (identity + env + CLAUDE.md)
+  - memory reminders
+  - tool schemas
+  - message history (user + assistant turns)
+  - tool results (completed + compacted)
+
+Then report the context-window utilization ratio (used / usable) and suggest the cheapest compaction strategy if the ratio is > 0.75.

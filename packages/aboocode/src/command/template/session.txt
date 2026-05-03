@@ -1,0 +1,3 @@
+Show session info: id, created-at, parent (if sub-agent), agent, model, isolation mode, cost so far.
+
+Useful for confirming which session resume picker entry corresponds to the current one. Do not modify anything.

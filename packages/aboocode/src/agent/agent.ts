@@ -59,6 +59,20 @@ export namespace Agent {
         .describe("Workspace isolation mode for this agent"),
       backgroundCapable: z.boolean().optional().describe("Whether this agent can run as a background task"),
       maxTurns: z.number().int().positive().optional().describe("Maximum conversation turns for this agent"),
+      // Phase 13.6 (per-agent memory partitioning).
+      //
+      //   shared   (default) — all agents read the project memdir
+      //   isolated           — this agent reads ONLY its own per-agent
+      //                        partition under {memdir}/agents/{name}/
+      //   inherit            — read both shared + per-agent partition
+      //
+      // Concrete rationale: an `explore` agent's grep findings shouldn't
+      // pollute a `verifier` agent's memory. Setting memoryScope=isolated
+      // pins memory writes to that agent's partition.
+      memoryScope: z
+        .enum(["shared", "isolated", "inherit"])
+        .optional()
+        .describe("Memory partitioning. shared (default) = project memdir; isolated = per-agent only; inherit = both."),
     })
     .meta({
       ref: "Agent",
@@ -328,6 +342,9 @@ If nothing worth remembering, respond with an empty string.`,
             disband_team: "allow",
             question: "allow",
             skill: "allow",
+            // Team mailbox — orchestrator and teammates can talk
+            send_message: "allow",
+            check_messages: "allow",
           }),
           user,
         ),

@@ -1,0 +1,5 @@
+Show a concise session status snapshot.
+
+Include: current model, provider, agent, permission mode, output style, CWD, git branch + working tree state, number of messages, tokens used vs context window, last tool used, whether any background tasks are running.
+
+Keep it under 20 lines.

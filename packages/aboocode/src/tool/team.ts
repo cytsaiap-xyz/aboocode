@@ -4,6 +4,7 @@ import fs from "fs/promises"
 import { generateObject, type ModelMessage } from "ai"
 import { Tool } from "./tool"
 import { TeamManager } from "../team/manager"
+import { Mailbox } from "../team/mailbox"
 import { Agent } from "../agent/agent"
 import { Session } from "../session"
 import { SessionPrompt } from "../session/prompt"
@@ -241,17 +242,28 @@ export const DelegateTaskTool = Tool.define<
   z.ZodObject<{
     agent_id: z.ZodString
     task: z.ZodString
+    run_in_background: z.ZodDefault<z.ZodBoolean>
   }>,
   {}
 >("delegate_task", {
   description:
-    "Delegate a task to a specific team agent. The agent will execute the task in a child session. Use this for sequential task delegation where order matters.",
+    "Delegate a task to a specific team agent. The agent will execute the task in a child session.\n\nBy default the orchestrator blocks until the task finishes (foreground). Pass run_in_background=true to fire and forget — the call returns immediately with the child session id, the teammate runs in the background, and you'll receive an idle_notification message in your mailbox when it finishes (or fails).",
   parameters: z.object({
     agent_id: z.string().describe("The ID of the agent to delegate to"),
     task: z.string().describe("Detailed description of the task for the agent"),
+    run_in_background: z
+      .boolean()
+      .default(false)
+      .describe(
+        "If true, return immediately and let the teammate run in the background. Watch the mailbox for an idle_notification when it finishes.",
+      ),
   }),
   async execute(args, ctx) {
-    UsageLog.record("tool.team", "delegate_task", { sessionID: ctx.sessionID, agentId: args.agent_id })
+    UsageLog.record("tool.team", "delegate_task", {
+      sessionID: ctx.sessionID,
+      agentId: args.agent_id,
+      background: args.run_in_background,
+    })
 
     // Validate team is active (must be finalized before delegation)
     const team = TeamManager.getTeam(ctx.sessionID)
@@ -287,7 +299,7 @@ export const DelegateTaskTool = Tool.define<
     }
 
     DebugLog.teamDelegateTask(ctx.sessionID, args.agent_id, args.task)
-    log.info("delegating task", { agent: args.agent_id, task: args.task })
+    log.info("delegating task", { agent: args.agent_id, task: args.task, background: args.run_in_background })
 
     // Create child session
     const childSession = await Session.create({
@@ -295,7 +307,62 @@ export const DelegateTaskTool = Tool.define<
       title: `Team task: ${args.agent_id}`,
     })
 
-    // Propagate parent abort to child
+    // Background path — return immediately; child session runs detached.
+    // When the child finishes (success or failure), we drop an
+    // idle_notification on the orchestrator's mailbox so the lead can
+    // pick the result up at the start of its next turn.
+    if (args.run_in_background) {
+      const teamId = TeamManager.teamIdFor(ctx.sessionID)
+      void (async () => {
+        try {
+          const result = await SessionPrompt.prompt({
+            sessionID: childSession.id,
+            agent: args.agent_id,
+            parts: [{ type: "text", text: args.task }],
+          })
+          const output = result.parts
+            .filter((p: any) => p.type === "text")
+            .map((p: any) => p.text)
+            .join("\n")
+          await Mailbox.send({
+            teamId,
+            message: {
+              kind: "idle",
+              from: args.agent_id,
+              to: "orchestrator",
+              ts: Date.now(),
+              read: false,
+              status: "resolved",
+              result: output || "(No text output)",
+              summary: `${args.agent_id} finished`,
+            },
+          })
+          DebugLog.teamDelegateTaskDone(ctx.sessionID, args.agent_id, "success", output || "")
+        } catch (error: any) {
+          await Mailbox.send({
+            teamId,
+            message: {
+              kind: "idle",
+              from: args.agent_id,
+              to: "orchestrator",
+              ts: Date.now(),
+              read: false,
+              status: "failed",
+              result: error?.message ?? String(error),
+              summary: `${args.agent_id} failed`,
+            },
+          })
+          DebugLog.teamDelegateTaskDone(ctx.sessionID, args.agent_id, "error", error?.message ?? String(error))
+        }
+      })()
+      return {
+        title: `Backgrounded: ${args.agent_id}`,
+        output: `Agent "${args.agent_id}" is running in the background.\nSession: ${childSession.id}\nWatch your mailbox for an idle_notification when it finishes.`,
+        metadata: { sessionID: childSession.id, background: true },
+      }
+    }
+
+    // Foreground path — block on the result, same as before.
     const onAbort = () => SessionPrompt.cancel(childSession.id)
     ctx.abort.addEventListener("abort", onAbort, { once: true })
 
@@ -317,14 +384,14 @@ export const DelegateTaskTool = Tool.define<
       return {
         title: `Task Complete: ${args.agent_id}`,
         output: `Agent "${args.agent_id}" completed the task.\n\nSession: ${childSession.id}\n\n## Result\n${output || "(No text output)"}`,
-        metadata: { sessionID: childSession.id },
+        metadata: { sessionID: childSession.id, background: false },
       }
     } catch (error: any) {
       DebugLog.teamDelegateTaskDone(ctx.sessionID, args.agent_id, "error", error.message)
       return {
         title: `Task Failed: ${args.agent_id}`,
         output: `Agent "${args.agent_id}" failed: ${error.message}`,
-        metadata: { sessionID: childSession.id, error: error.message },
+        metadata: { sessionID: childSession.id, background: false, error: error.message },
       }
     } finally {
       ctx.abort.removeEventListener("abort", onAbort)

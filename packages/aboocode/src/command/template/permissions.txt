@@ -1,0 +1,9 @@
+Show the active permission ruleset and mode.
+
+Report:
+  - current permission mode (default / acceptEdits / plan / bypassPermissions) and how it was set (env / runtime)
+  - the effective ruleset after merging user + project + session rules, grouped by permission
+  - any pending permission prompts
+  - recent denied calls (if telemetry is available)
+
+Explain briefly how to change the mode (`ABOOCODE_PERMISSION_MODE` env var or `--permission-mode` CLI flag) and how to edit rules (aboocode.json `permission` key).

@@ -1,0 +1,10 @@
+Schedule a recurring or one-shot task to fire at a specific time.
+
+The job records a prompt that will be surfaced when the session picks up the job on wake. This is a record-and-persist tool — it does not by itself wake a session that is already exited.
+
+Schedule formats:
+  - 5-field cron:   "*/15 * * * *"  (every 15 minutes)
+  - Interval:       "@every 30m"    (every 30 minutes, with ±10% jitter)
+  - One-shot ISO:   "2026-04-24T12:00:00Z"
+
+Use when the user wants periodic work (watch, poll, remind) or a delayed single action.

@@ -1,0 +1,3 @@
+Authenticate aboocode with a provider.
+
+Walk the user through `aboocode auth login`. Ask which provider they want to sign into (Anthropic, OpenAI, Google, etc.), then surface the CLI command to run. Do not try to execute the auth command inside the session — auth flows are interactive and must be run by the user directly.

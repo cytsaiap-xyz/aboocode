@@ -26,6 +26,7 @@ export {
   ENTRYPOINT_NAME,
   loadMemoryContent,
   loadMemoryPrompt,
+  loadAgentMemoryPrompt,
   MAX_ENTRYPOINT_BYTES,
   MAX_ENTRYPOINT_LINES,
   truncateEntrypointContent,
@@ -69,11 +70,14 @@ export {
   getAutoMemEntrypoint,
   getAutoMemPath,
   getAutoMemPathSync,
+  getAgentMemPath,
+  getAgentMemEntrypoint,
   getMemoryBaseDir,
   hasAutoMemPathOverride,
   isAutoMemoryEnabled,
   isAutoMemoryEnabledSync,
   isAutoMemPath,
+  sanitizeAgentName,
 } from "./paths"
 
 export {

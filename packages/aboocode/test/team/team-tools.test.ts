@@ -429,7 +429,7 @@ describe("DelegateTaskTool", () => {
         const tool = await DelegateTaskTool.init()
         const ctx = makeCtx("delegate-session")
         const result = await tool.execute(
-          { agent_id: "non-existent-agent", task: "Do something" },
+          { agent_id: "non-existent-agent", task: "Do something", run_in_background: false },
           ctx,
         )
 
@@ -462,7 +462,7 @@ describe("DelegateTaskTool", () => {
 
         const tool = await DelegateTaskTool.init()
         const result = await tool.execute(
-          { agent_id: "non-existent-agent", task: "Do something" },
+          { agent_id: "non-existent-agent", task: "Do something", run_in_background: false },
           ctx,
         )
 

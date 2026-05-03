@@ -1,0 +1,3 @@
+Switch the session to fast mode.
+
+Fast mode routes to a smaller / cheaper model where supported and reduces reasoning effort. Ask the user to confirm before switching. If the current provider has no smaller model, say so.

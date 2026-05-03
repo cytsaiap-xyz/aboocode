@@ -1,0 +1,12 @@
+Run a diagnostic pass on the aboocode environment and report any issues.
+
+Check:
+  - auth: which providers have valid credentials
+  - config: aboocode.json syntax + loaded precedence
+  - MCP servers: which are reachable, which failed to connect
+  - git: is this a git repo? is the working tree clean?
+  - memory: is MEMORY.md reachable? how big is it?
+  - hooks: parse .claude/settings.json and list any invalid hook configs
+  - scheduler: list durable cron jobs and flag any that can never fire
+
+Output a numbered list of findings with status (OK / WARN / FAIL) and a one-line fix suggestion for each non-OK item.

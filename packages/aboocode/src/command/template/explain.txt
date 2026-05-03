@@ -1,0 +1,9 @@
+Explain a file, function, or concept.
+
+Argument $ARGUMENTS is what to explain — could be a file path, function name, directory, or free-form concept.
+
+If it's a path, read the file and explain its purpose, structure, and how it fits into the larger codebase. Cite specific line numbers (`file.ts:42`) for anything non-obvious.
+
+If it's a concept (e.g., "how does the hook system work"), synthesize an answer using Read/Grep tools against the codebase. Ground every claim in code you actually read.
+
+Keep the explanation calibrated to what the user seems to already know — do not over-explain obvious things.

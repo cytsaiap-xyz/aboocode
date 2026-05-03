@@ -1,0 +1,5 @@
+Schedule a one-shot wakeup at a relative delay.
+
+This is a convenience wrapper over cron_create for the common case of "do X in N minutes/hours." Prefer this over cron_create when you just need a delayed single action.
+
+Resulting job is durable by default (survives restart) and fires exactly once. Delay is in seconds; maximum is 30 days.

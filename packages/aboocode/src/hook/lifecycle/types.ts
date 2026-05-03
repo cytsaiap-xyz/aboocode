@@ -13,7 +13,17 @@
 import { z } from "zod"
 
 /**
- * The five canonical Claude-Code lifecycle events.
+ * Canonical Claude-Code lifecycle events.
+ *
+ * Phase 11 additions:
+ *   - PostToolUseFailure — fires after a tool errors out; payload carries
+ *     error + error_type. Separate from PostToolUse so hooks can attach
+ *     specifically to failures without having to branch on response shape.
+ *   - PermissionDenied   — fires when the permission layer rejects a tool
+ *     call. A hook can return `{hookSpecificOutput: {retry: true}}` to let
+ *     the classifier reconsider (e.g., after writing an allow-rule).
+ *   - StopFailure        — fires when Stop itself errors; useful for
+ *     reporting shutdown-path failures separately from a graceful Stop.
  */
 export const LIFECYCLE_EVENTS = [
   "SessionStart",
@@ -21,11 +31,17 @@ export const LIFECYCLE_EVENTS = [
   "UserPromptSubmit",
   "PreToolUse",
   "PostToolUse",
+  "PostToolUseFailure",
+  "PermissionDenied",
   "Stop",
+  "StopFailure",
   "SubagentStop",
   "PreCompact",
   "PostCompact",
   "Notification",
+  // Phase 13.6: TodoWrite emits an observable event so hooks can react
+  // to to-do changes (audit trail, external sync, summary banners).
+  "TodoUpdated",
 ] as const
 
 export type LifecycleEvent = (typeof LIFECYCLE_EVENTS)[number]
@@ -94,6 +110,29 @@ export interface PostToolUsePayload extends HookBasePayload {
   tool_response: unknown
 }
 
+export interface PostToolUseFailurePayload extends HookBasePayload {
+  event: "PostToolUseFailure"
+  tool_name: string
+  tool_input: unknown
+  error: string
+  error_type: string
+  is_interrupt: boolean
+}
+
+export interface PermissionDeniedPayload extends HookBasePayload {
+  event: "PermissionDenied"
+  tool_name: string
+  tool_input: unknown
+  permission: string
+  reason: string
+}
+
+export interface StopFailurePayload extends HookBasePayload {
+  event: "StopFailure"
+  reason: string
+  error: string
+}
+
 export interface SessionStartPayload extends HookBasePayload {
   event: "SessionStart"
   source: "startup" | "resume" | "sub-agent"
@@ -137,26 +176,60 @@ export interface NotificationPayload extends HookBasePayload {
   level: "info" | "warn" | "error"
 }
 
+export interface TodoUpdatedPayload extends HookBasePayload {
+  event: "TodoUpdated"
+  /** Full snapshot of the todos after the update. */
+  todos: Array<{ id?: string; content?: string; status?: string; [k: string]: unknown }>
+  /** Counts by status for cheap routing decisions. */
+  summary: {
+    total: number
+    pending: number
+    in_progress: number
+    completed: number
+  }
+}
+
 export type HookPayload =
   | PreToolUsePayload
   | PostToolUsePayload
+  | PostToolUseFailurePayload
+  | PermissionDeniedPayload
   | SessionStartPayload
   | SessionEndPayload
   | UserPromptSubmitPayload
   | StopPayload
+  | StopFailurePayload
   | SubagentStopPayload
   | PreCompactPayload
   | PostCompactPayload
   | NotificationPayload
+  | TodoUpdatedPayload
 
 /**
  * Decision returned by a hook. `block` stops the pending action (tool call,
  * prompt, stop) with the provided reason. `modify` overrides the action's
  * input with the provided `modified` payload.
+ *
+ * Phase 11 additions:
+ *   - `hookSpecificOutput.additionalContext` — a string the hook wants to
+ *     inject as a <system-reminder> in the current turn. The session loop
+ *     appends each additionalContext block to the user-message context.
+ *   - `hookSpecificOutput.retry` — for PermissionDenied only; signals the
+ *     caller to re-evaluate the permission (e.g., hook just persisted a
+ *     new allow-rule).
  */
 export interface HookDecision {
   decision?: "continue" | "block" | "modify"
   reason?: string
   /** For PreToolUse: replacement tool input. */
   modified?: unknown
+  /** Structured per-event output. See HookSpecificOutput. */
+  hookSpecificOutput?: HookSpecificOutput
+}
+
+export interface HookSpecificOutput {
+  /** Prepended as a <system-reminder> on the next user message. */
+  additionalContext?: string
+  /** PermissionDenied only — re-evaluate the permission after this hook. */
+  retry?: boolean
 }

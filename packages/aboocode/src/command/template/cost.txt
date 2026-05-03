@@ -1,0 +1,5 @@
+Show cost and token usage for this session.
+
+Report: cumulative input tokens, output tokens, cache read/write tokens, estimated USD cost (per the active model's pricing), and cost per turn. If a budget was configured for the session, show budget used vs remaining.
+
+If cost telemetry is not available (e.g., no pricing info for the current provider), say so directly.

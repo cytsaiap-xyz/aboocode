@@ -1,0 +1,7 @@
+Send a native OS notification to the user.
+
+Use sparingly — e.g. when a long-running task finishes, a scheduled wakeup fires, or human attention is required.
+
+Supports macOS (osascript), Linux (notify-send), and Windows (powershell). On unsupported platforms the tool records the message but returns with `delivered: false`.
+
+Keep title under 60 chars, body under 300.

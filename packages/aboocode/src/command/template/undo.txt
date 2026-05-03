@@ -1,0 +1,9 @@
+Undo the last change made by the agent.
+
+Strategy:
+  1. Inspect `git status` to see what has changed since the last clean state.
+  2. If the last action was a file edit with no commit, run `git checkout -- <file>` on those files (ask first).
+  3. If a commit was made in this session, propose `git reset --soft HEAD~1` (ask first; destructive).
+  4. If external side-effects occurred (file deletions, remote API calls), say so — those cannot be undone through git.
+
+Always confirm with the user before running any destructive command.
