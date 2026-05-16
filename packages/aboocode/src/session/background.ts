@@ -85,6 +85,16 @@ export namespace BackgroundTasks {
       delete tasks[id]
     }
 
+    if (completed.length > 0) {
+      const succeeded = completed.filter((t) => t.status === "completed").length
+      log.info("background drain", {
+        parentSessionID,
+        drained: completed.length,
+        completed: succeeded,
+        failed: completed.length - succeeded,
+      })
+    }
+
     return completed
   }
 

@@ -164,6 +164,23 @@ export namespace SessionCompaction {
     abort: AbortSignal
     auto: boolean
   }) {
+    const compactStart = Date.now()
+    const tokensBefore = (() => {
+      for (let i = input.messages.length - 1; i >= 0; i--) {
+        const info = input.messages[i].info
+        if (info.role === "assistant") {
+          const t = (info as MessageV2.Assistant).tokens
+          return t.total || t.input + t.output + t.cache.read + t.cache.write
+        }
+      }
+      return 0
+    })()
+    log.info("compaction start", {
+      sessionID: input.sessionID,
+      auto: input.auto,
+      messageCount: input.messages.length,
+      tokensBefore,
+    })
     // Phase 2: Save full transcript before summarization — nothing is ever lost
     await Transcript.save({ sessionID: input.sessionID, messages: input.messages }).catch((e) => {
       log.error("transcript save failed", { error: e })
@@ -305,6 +322,20 @@ When constructing the summary, try to stick to this template:
       agent: userMessage.agent,
       agentDescription: agentInfo?.description,
       cwd: Instance.directory,
+    })
+
+    const tokensAfter =
+      processor.message.tokens.total ||
+      processor.message.tokens.input +
+        processor.message.tokens.output +
+        processor.message.tokens.cache.read +
+        processor.message.tokens.cache.write
+    log.info("compaction complete", {
+      sessionID: input.sessionID,
+      tokensBefore,
+      tokensAfter,
+      tokenDelta: tokensBefore - tokensAfter,
+      durationMs: Date.now() - compactStart,
     })
 
     Bus.publish(Event.Compacted, { sessionID: input.sessionID })

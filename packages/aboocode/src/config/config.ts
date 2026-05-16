@@ -29,6 +29,7 @@ import { constants, existsSync } from "fs"
 import { Bus } from "@/bus"
 import { GlobalBus } from "@/bus/global"
 import { Event } from "../server/event"
+import { HookConfig } from "../hook/lifecycle/types"
 import { Glob } from "../util/glob"
 import { PackageRegistry } from "@/bun/registry"
 import { proxied } from "@/util/proxied"
@@ -1217,6 +1218,9 @@ export namespace Config {
           requireLint: z.boolean().optional().describe("Require lint to pass before completion (default: false)"),
         })
         .optional(),
+      hooks: HookConfig.describe(
+        "Lifecycle hooks (PreToolUse, PostToolUse, Stop, etc.). See hook/lifecycle/types.ts.",
+      ),
       experimental: z
         .object({
           disable_paste_summary: z.boolean().optional(),

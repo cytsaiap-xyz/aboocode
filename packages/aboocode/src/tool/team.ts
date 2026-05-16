@@ -31,6 +31,20 @@ export const PlanTeamTool = Tool.define<
   }),
   async execute(args, ctx) {
     UsageLog.record("tool.team", "plan_team", { sessionID: ctx.sessionID, taskSummary: args.task_summary })
+    const failure = TeamManager.getFailureState(ctx.sessionID)
+    if (failure.count >= TeamManager.MAX_CONSECUTIVE_DELEGATION_FAILURES) {
+      const lastReason = failure.lastReason ? `\nLast failure reason: ${failure.lastReason}` : ""
+      return {
+        title: "Team planning blocked",
+        output:
+          `STOP — refusing to plan a new team. The previous ${failure.count} delegations all failed.${lastReason}\n\n` +
+          "Do NOT call plan_team again. Likely causes:\n" +
+          "  • subagents are using a provider/model that crashes on tool-call streaming\n" +
+          "  • the team-builder is configured incorrectly for this workload\n\n" +
+          "Surface the failure to the user with the reason above and stop. The user can reset the counter by starting a new session.",
+        metadata: { circuitBreaker: true, count: failure.count },
+      }
+    }
     const team = TeamManager.startTeam(ctx.sessionID, args.task_summary)
     return {
       title: "Team Planning Started",
@@ -337,8 +351,10 @@ export const DelegateTaskTool = Tool.define<
               summary: `${args.agent_id} finished`,
             },
           })
+          TeamManager.recordDelegation(ctx.sessionID, true)
           DebugLog.teamDelegateTaskDone(ctx.sessionID, args.agent_id, "success", output || "")
         } catch (error: any) {
+          TeamManager.recordDelegation(ctx.sessionID, false, error?.message ?? String(error))
           await Mailbox.send({
             teamId,
             message: {
@@ -358,7 +374,9 @@ export const DelegateTaskTool = Tool.define<
       return {
         title: `Backgrounded: ${args.agent_id}`,
         output: `Agent "${args.agent_id}" is running in the background.\nSession: ${childSession.id}\nWatch your mailbox for an idle_notification when it finishes.`,
-        metadata: { sessionID: childSession.id, background: true },
+        // TUI reads `sessionId` (camelCase, lowercase d) to drill into the
+        // subagent — must match the `task` tool's metadata shape.
+        metadata: { sessionId: childSession.id, agentId: args.agent_id, background: true },
       }
     }
 
@@ -380,18 +398,20 @@ export const DelegateTaskTool = Tool.define<
         .map((p: any) => p.text)
         .join("\n")
 
+      TeamManager.recordDelegation(ctx.sessionID, true)
       DebugLog.teamDelegateTaskDone(ctx.sessionID, args.agent_id, "success", output || "(No text output)")
       return {
         title: `Task Complete: ${args.agent_id}`,
         output: `Agent "${args.agent_id}" completed the task.\n\nSession: ${childSession.id}\n\n## Result\n${output || "(No text output)"}`,
-        metadata: { sessionID: childSession.id, background: false },
+        metadata: { sessionId: childSession.id, agentId: args.agent_id, background: false },
       }
     } catch (error: any) {
+      TeamManager.recordDelegation(ctx.sessionID, false, error.message)
       DebugLog.teamDelegateTaskDone(ctx.sessionID, args.agent_id, "error", error.message)
       return {
         title: `Task Failed: ${args.agent_id}`,
         output: `Agent "${args.agent_id}" failed: ${error.message}`,
-        metadata: { sessionID: childSession.id, background: false, error: error.message },
+        metadata: { sessionId: childSession.id, agentId: args.agent_id, background: false, error: error.message },
       }
     } finally {
       ctx.abort.removeEventListener("abort", onAbort)
@@ -516,6 +536,7 @@ export const DelegateTasksTool = Tool.define<
           sessionID: childSession.id,
         }
         completed.add(delegation.agent_id)
+        TeamManager.recordDelegation(ctx.sessionID, true)
       } catch (error: any) {
         results[delegation.agent_id] = {
           status: "error",
@@ -523,6 +544,7 @@ export const DelegateTasksTool = Tool.define<
           sessionID: childSession.id,
         }
         failed.add(delegation.agent_id)
+        TeamManager.recordDelegation(ctx.sessionID, false, error.message)
       } finally {
         ctx.abort.removeEventListener("abort", onAbort)
       }
@@ -596,10 +618,15 @@ export const DelegateTasksTool = Tool.define<
       if (result.sessionID) lines.push(`Session: ${result.sessionID}`)
     }
 
+    // Expose sessionIds at the top level so the TUI can render a multi-
+    // child subagent block without iterating into `results`.
+    const sessionIds = Object.values(results)
+      .map((r) => r.sessionID)
+      .filter((s): s is string => typeof s === "string")
     return {
       title: `Parallel Tasks Complete`,
       output: lines.join("\n"),
-      metadata: { results },
+      metadata: { results, sessionIds },
     }
   },
 })

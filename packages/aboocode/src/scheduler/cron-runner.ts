@@ -71,16 +71,23 @@ export namespace CronRunner {
   }
 
   async function tick(): Promise<void> {
+    const tickStart = Date.now()
     try {
       const jobs = await CronStore.list()
-      const now = Date.now()
+      let firedCount = 0
       for (const job of jobs) {
-        if (await isDue(job, now)) {
-          await fire(job, now)
+        if (await isDue(job, tickStart)) {
+          await fire(job, tickStart)
+          firedCount++
         }
       }
+      log.info("cron tick", {
+        jobs: jobs.length,
+        fired: firedCount,
+        durationMs: Date.now() - tickStart,
+      })
     } catch (e) {
-      log.warn("cron tick failed", { error: e })
+      log.warn("cron tick failed", { error: e, durationMs: Date.now() - tickStart })
     }
   }
 

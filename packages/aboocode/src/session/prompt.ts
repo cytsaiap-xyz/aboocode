@@ -1173,9 +1173,17 @@ export namespace SessionPrompt {
     throw new Error("Impossible")
   })
 
-  async function lastModel(sessionID: string) {
+  async function lastModel(sessionID: string): Promise<{ providerID: string; modelID: string }> {
     for await (const item of MessageV2.stream(sessionID)) {
       if (item.info.role === "user" && item.info.model) return item.info.model
+    }
+    // Subagent sessions inherit the parent's model so a primary's --model flag
+    // propagates to delegated work instead of resolving to defaultModel().
+    try {
+      const session = await Session.get(sessionID)
+      if (session.parentID) return await lastModel(session.parentID)
+    } catch {
+      // session lookup failed — fall through to defaultModel
     }
     return Provider.defaultModel()
   }

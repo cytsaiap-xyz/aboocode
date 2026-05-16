@@ -72,10 +72,25 @@ export namespace Failure {
         }
       }
 
-      if (named.name === "APIError") {
+      if (named.name === "APIError" || named.name === "AI_APICallError") {
         return {
           category: "model_api_error",
           message: named.message ?? "API error",
+          recoverable: true,
+          recoveryLevel: "medium",
+          suggestedAction: "retry",
+          context: { error },
+        }
+      }
+
+      // Provider stream schema mismatches (e.g. NVIDIA/vLLM omitting
+      // tool_calls[].index in OpenAI-compatible deltas) surface as
+      // AI_TypeValidationError. These are transient provider quirks, not
+      // a hard model failure — retry once before escalating.
+      if (named.name === "AI_TypeValidationError") {
+        return {
+          category: "model_api_error",
+          message: named.message ?? "Provider returned a chunk that failed schema validation",
           recoverable: true,
           recoveryLevel: "medium",
           suggestedAction: "retry",
@@ -132,7 +147,17 @@ export namespace Failure {
         }
       }
 
-      if (msg.includes("enoent") || msg.includes("storage") || msg.includes("database")) {
+      // Match storage failures by error code/path keywords, not by
+      // free-text substring — schema-error payloads frequently mention
+      // "storage" inside JSON dumps and would otherwise false-match.
+      const errCode = (error as any).code as string | undefined
+      const looksLikeStorage =
+        errCode === "ENOENT" ||
+        errCode === "EACCES" ||
+        errCode === "EPERM" ||
+        /\b(SQLITE|SqliteError|SQLITE_)/i.test(error.message) ||
+        /\b(no such file or directory|disk full|out of space|read-only file system)\b/i.test(error.message)
+      if (looksLikeStorage) {
         return {
           category: "session_storage_error",
           message: error.message,

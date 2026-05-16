@@ -442,10 +442,34 @@ export namespace SessionProcessor {
           }
           input.assistantMessage.time.completed = Date.now()
           await Session.updateMessage(input.assistantMessage)
-          if (blocked) return Transition.terminal("permission_blocked")
-          if (input.assistantMessage.error) return Transition.terminal("model_error", input.assistantMessage.error)
-          if (needsCompaction) return Transition.cont("reactive_compact")
-          if (outputTruncated) return Transition.cont("max_output_tokens_recovery")
+          const transitionLog = (kind: string, reason: string) =>
+            log.info("transition", {
+              sessionID: input.sessionID,
+              messageID: input.assistantMessage.id,
+              agent: input.assistantMessage.agent,
+              kind,
+              reason,
+              attempt,
+              tokens: input.assistantMessage.tokens.total,
+              cost: input.assistantMessage.cost,
+            })
+          if (blocked) {
+            transitionLog("terminal", "permission_blocked")
+            return Transition.terminal("permission_blocked")
+          }
+          if (input.assistantMessage.error) {
+            transitionLog("terminal", "model_error")
+            return Transition.terminal("model_error", input.assistantMessage.error)
+          }
+          if (needsCompaction) {
+            transitionLog("continue", "reactive_compact")
+            return Transition.cont("reactive_compact")
+          }
+          if (outputTruncated) {
+            transitionLog("continue", "max_output_tokens_recovery")
+            return Transition.cont("max_output_tokens_recovery")
+          }
+          transitionLog("continue", "tool_use")
           return Transition.cont("tool_use")
         }
         // Unreachable — while(true) always returns or continues

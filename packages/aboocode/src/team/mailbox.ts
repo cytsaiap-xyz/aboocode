@@ -124,6 +124,13 @@ export namespace Mailbox {
         await release()
       }
     }
+    log.info("mailbox send", {
+      teamId: input.teamId,
+      from: input.message.from,
+      to: input.message.to,
+      delivered: written.length,
+      broadcast: input.message.to === "*",
+    })
     return written
   }
 
@@ -175,6 +182,12 @@ export namespace Mailbox {
       }
       if (newlyTaken.length > 0) {
         await writeLines(file, rewritten)
+        log.info("mailbox takeUnread", {
+          teamId: input.teamId,
+          agentId: input.agentId,
+          taken: newlyTaken.length,
+          total: parsed.length,
+        })
       }
       return newlyTaken
     } finally {
@@ -190,6 +203,11 @@ export namespace Mailbox {
       const lines = await readLines(file)
       if (lines.length === 0) return 0
       await writeLines(file, [])
+      log.info("mailbox clear", {
+        teamId: input.teamId,
+        agentId: input.agentId,
+        cleared: lines.length,
+      })
       return lines.length
     } finally {
       await release()

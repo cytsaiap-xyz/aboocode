@@ -60,17 +60,20 @@ export namespace HookLifecycle {
 
     let current: HookPayload = payload
     const target = matchTarget(payload)
+    const dispatchStart = Date.now()
 
     // Accumulate additionalContext + last modified input + retry flag across
     // all matching hooks. block short-circuits.
     const additionalContexts: string[] = []
     let lastModified: unknown = undefined
     let retry = false
+    let hooksRun = 0
 
     for (const matcher of matchers) {
       if (!matchMatcher(matcher.matcher, target)) continue
       for (const entry of matcher.hooks) {
         try {
+          hooksRun++
           const decision = await runHook(entry, current)
           if (!decision) continue
 
@@ -110,6 +113,17 @@ export namespace HookLifecycle {
     if (lastModified !== undefined) result.modified = lastModified
     const specific = mergeSpecific({}, additionalContexts, retry)
     if (specific) result.hookSpecificOutput = specific
+    if (hooksRun > 0) {
+      log.info("hook dispatch", {
+        event: payload.event,
+        target,
+        hooksRun,
+        decision: result.decision,
+        modified: lastModified !== undefined,
+        addedContexts: additionalContexts.length,
+        durationMs: Date.now() - dispatchStart,
+      })
+    }
     return result
   }
 
@@ -172,9 +186,7 @@ function matchMatcher(pattern: string, target: string): boolean {
 async function loadMatchersFor(event: LifecycleEvent): Promise<HookMatcherT[]> {
   try {
     const config = await Config.get()
-    // @ts-expect-error — hooks is additive; older config schemas omit it
-    const raw = config.hooks as unknown
-    const parsed: HookConfigT | undefined = HookConfig.parse(raw) ?? undefined
+    const parsed: HookConfigT | undefined = config.hooks ?? undefined
     if (!parsed) return []
     return parsed[event] ?? []
   } catch (e) {

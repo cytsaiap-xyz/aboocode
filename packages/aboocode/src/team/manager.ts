@@ -28,6 +28,41 @@ export namespace TeamManager {
     return teams
   })
 
+  /**
+   * Per-orchestrator counter of consecutive failed delegations. Persists across
+   * plan_team/disband cycles so a model that keeps re-creating a doomed team
+   * eventually hits a hard stop instead of looping forever. Reset on the first
+   * successful delegation.
+   */
+  const failureCounters = Instance.state(() => {
+    const counters: Record<string, { count: number; lastReason?: string }> = {}
+    return counters
+  })
+
+  /** Max consecutive failed delegations before plan_team refuses to spin up another team. */
+  export const MAX_CONSECUTIVE_DELEGATION_FAILURES = 3
+
+  export function recordDelegation(sessionID: string, success: boolean, reason?: string): void {
+    const key = teamKey(sessionID)
+    if (success) {
+      delete failureCounters()[key]
+      return
+    }
+    const entry = failureCounters()[key] ?? { count: 0 }
+    entry.count += 1
+    if (reason) entry.lastReason = reason
+    failureCounters()[key] = entry
+    log.warn("delegation failed", { sessionID, count: entry.count, reason })
+  }
+
+  export function getFailureState(sessionID: string): { count: number; lastReason?: string } {
+    return failureCounters()[teamKey(sessionID)] ?? { count: 0 }
+  }
+
+  export function resetFailureState(sessionID: string): void {
+    delete failureCounters()[teamKey(sessionID)]
+  }
+
   function teamKey(sessionID: string): string {
     return sessionID
   }

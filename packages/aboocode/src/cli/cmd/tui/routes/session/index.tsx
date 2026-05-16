@@ -43,6 +43,7 @@ import type { EditTool } from "@/tool/edit"
 import type { ApplyPatchTool } from "@/tool/apply_patch"
 import type { WebFetchTool } from "@/tool/webfetch"
 import type { TaskTool } from "@/tool/task"
+import type { DelegateTaskTool, DelegateTasksTool } from "@/tool/team"
 import type { QuestionTool } from "@/tool/question"
 import type { SkillTool } from "@/tool/skill"
 import { useKeyboard, useRenderer, useTerminalDimensions, type JSX } from "@opentui/solid"
@@ -1491,6 +1492,12 @@ function ToolPart(props: { last: boolean; part: ToolPart; message: AssistantMess
         <Match when={props.part.tool === "task"}>
           <Task {...toolprops} />
         </Match>
+        <Match when={props.part.tool === "delegate_task"}>
+          <DelegateTask {...toolprops} />
+        </Match>
+        <Match when={props.part.tool === "delegate_tasks"}>
+          <DelegateTasks {...toolprops} />
+        </Match>
         <Match when={props.part.tool === "apply_patch"}>
           <ApplyPatch {...toolprops} />
         </Match>
@@ -1938,6 +1945,144 @@ function Task(props: ToolProps<typeof TaskTool>) {
       <Match when={true}>
         <InlineTool icon="#" pending="Delegating..." complete={props.input.subagent_type} part={props.part}>
           {props.input.subagent_type} Task {props.input.description}
+        </InlineTool>
+      </Match>
+    </Switch>
+  )
+}
+
+// Team `delegate_task` mirrors the built-in `task` tool's block rendering so
+// the orchestrator's team flow shows the same rich subagent preview (live
+// tool count, last tool, click-to-drill, "view subagents" hint).
+function DelegateTask(props: ToolProps<typeof DelegateTaskTool>) {
+  const { theme } = useTheme()
+  const keybind = useKeybind()
+  const { navigate } = useRoute()
+  const sync = useSync()
+
+  const sessionId = createMemo(() => (props.metadata as any)?.sessionId as string | undefined)
+  const agentLabel = createMemo(() =>
+    Locale.titlecase((props.metadata as any)?.agentId ?? props.input.agent_id ?? "unknown"),
+  )
+
+  const tools = createMemo(() => {
+    const sid = sessionId()
+    if (!sid) return []
+    const msgs = sync.data.message[sid] ?? []
+    return msgs.flatMap((msg) =>
+      (sync.data.part[msg.id] ?? [])
+        .filter((part): part is ToolPart => part.type === "tool")
+        .map((part) => ({ tool: part.tool, state: part.state })),
+    )
+  })
+
+  const current = createMemo(() => tools().findLast((x) => x.state.status !== "pending"))
+  const isRunning = createMemo(() => props.part.state.status === "running")
+
+  return (
+    <Switch>
+      <Match when={sessionId()}>
+        <BlockTool
+          title={"# " + agentLabel() + " Task"}
+          onClick={() => navigate({ type: "session", sessionID: sessionId()! })}
+          part={props.part}
+          spinner={isRunning()}
+        >
+          <box>
+            <text style={{ fg: theme.textMuted }}>
+              {props.input.task ?? ""} ({tools().length} toolcalls)
+            </text>
+            <Show when={current()}>
+              {(item) => {
+                const title = item().state.status === "completed" ? (item().state as any).title : ""
+                return (
+                  <text style={{ fg: item().state.status === "error" ? theme.error : theme.textMuted }}>
+                    └ {Locale.titlecase(item().tool)} {title}
+                  </text>
+                )
+              }}
+            </Show>
+          </box>
+          <text fg={theme.text}>
+            {keybind.print("session_child_cycle")}
+            <span style={{ fg: theme.textMuted }}> view subagents</span>
+          </text>
+        </BlockTool>
+      </Match>
+      <Match when={true}>
+        <InlineTool icon="#" pending="Delegating..." complete={agentLabel()} part={props.part}>
+          {agentLabel()}: {props.input.task ?? ""}
+        </InlineTool>
+      </Match>
+    </Switch>
+  )
+}
+
+// Parallel `delegate_tasks` — render one block per child session so the
+// orchestrator can see all spawned subagents at a glance.
+function DelegateTasks(props: ToolProps<typeof DelegateTasksTool>) {
+  const { theme } = useTheme()
+  const keybind = useKeybind()
+  const { navigate } = useRoute()
+  const sync = useSync()
+
+  const results = createMemo(() => (props.metadata as any)?.results as
+    | Record<string, { status: string; output: string; sessionID?: string }>
+    | undefined)
+
+  const isRunning = createMemo(() => props.part.state.status === "running")
+
+  const entries = createMemo(() => {
+    const r = results()
+    if (!r) return [] as Array<{ agentId: string; status: string; sessionId?: string }>
+    return Object.entries(r).map(([agentId, v]) => ({ agentId, status: v.status, sessionId: v.sessionID }))
+  })
+
+  function toolsFor(sid?: string) {
+    if (!sid) return []
+    const msgs = sync.data.message[sid] ?? []
+    return msgs.flatMap((msg) =>
+      (sync.data.part[msg.id] ?? [])
+        .filter((part): part is ToolPart => part.type === "tool")
+        .map((part) => ({ tool: part.tool, state: part.state })),
+    )
+  }
+
+  return (
+    <Switch>
+      <Match when={entries().length > 0}>
+        <BlockTool title={`# Team Delegation (${entries().length} agents)`} part={props.part} spinner={isRunning()}>
+          <For each={entries()}>
+            {(entry) => {
+              const tools = toolsFor(entry.sessionId)
+              const current = tools.findLast((x) => x.state.status !== "pending")
+              const statusFg =
+                entry.status === "error" ? theme.error : entry.status === "skipped" ? theme.textMuted : theme.text
+              return (
+                <box>
+                  <text style={{ fg: statusFg }}>
+                    {entry.status === "success" ? "✓" : entry.status === "error" ? "✗" : "•"}{" "}
+                    {Locale.titlecase(entry.agentId)} ({tools.length} toolcalls)
+                  </text>
+                  <Show when={current}>
+                    <text style={{ fg: theme.textMuted }}>
+                      └ {current ? Locale.titlecase(current.tool) : ""}
+                      {current && current.state.status === "completed" ? " " + ((current.state as any).title ?? "") : ""}
+                    </text>
+                  </Show>
+                </box>
+              )
+            }}
+          </For>
+          <text fg={theme.text}>
+            {keybind.print("session_child_cycle")}
+            <span style={{ fg: theme.textMuted }}> view subagents</span>
+          </text>
+        </BlockTool>
+      </Match>
+      <Match when={true}>
+        <InlineTool icon="#" pending="Delegating tasks..." complete={true} part={props.part}>
+          delegate_tasks ({(props.input.delegations ?? []).length} agents)
         </InlineTool>
       </Match>
     </Switch>
