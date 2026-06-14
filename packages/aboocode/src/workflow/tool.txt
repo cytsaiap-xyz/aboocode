@@ -1,5 +1,5 @@
 Launch a dynamic workflow: a JavaScript script that orchestrates many subagents deterministically. The runtime executes the script in the background while the session stays responsive; only the final result returns to the conversation.
 
-The script must begin with `export const meta = { name, description, phases? }` followed by an async body using the globals: agent(prompt, opts?) -> Promise (opts: label, phase, schema, model, isolation, agentType); parallel(thunks) (barrier); pipeline(items, ...stages) (no inter-stage barrier); phase(title); log(message); args; budget; workflow(ref, args).
+The script must begin with `export const meta = { name, description, phases? }` followed by an async body using the globals: agent(prompt, opts?) -> Promise (opts: label, phase, schema, model, isolation, agentType); parallel(thunks) (barrier); pipeline(items, ...stages) (no inter-stage barrier); phase(title); log(message); args; budget; workflow(ref, args) (composition not yet available).
 
 Date.now(), new Date() with no args, and Math.random() are unavailable (they break resume). Returns { runId, scriptPath }. Resume a prior run with resumeFromRunId.

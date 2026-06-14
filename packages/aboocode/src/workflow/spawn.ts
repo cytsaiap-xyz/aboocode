@@ -39,7 +39,16 @@ export namespace WorkflowSpawn {
         parts: [{ type: "text", text: prompt }],
         ...(opts.schema ? { format: WorkflowSchema.toFormat(opts.schema) } : {}),
       })
-      const text = (result.parts.findLast((p: any) => p.type === "text") as any)?.text ?? ""
+      // When a json_schema output format is used, SessionPrompt.prompt stores the parsed
+      // structured result in result.info.structured (MessageV2.Assistant.structured: z.any().optional()).
+      // The text parts contain only intermediate tool-use text, not the final JSON answer.
+      // So for schema-constrained agents we serialize the structured object to JSON as the text
+      // so WorkflowSchema.parseResult receives valid data.
+      const structured = (result.info as any)?.structured
+      const text =
+        opts.schema && structured !== undefined
+          ? JSON.stringify(structured)
+          : ((result.parts.findLast((p: any) => p.type === "text") as any)?.text ?? "")
       // Real shape: result.info is MessageV2.Assistant which has tokens: { total?, input, output, reasoning, cache }
       // Defensive accessor handles both the real shape and the test fake shape (info.tokens.output)
       const tokens = result.info?.tokens?.output ?? result.info?.tokens?.total ?? 0
