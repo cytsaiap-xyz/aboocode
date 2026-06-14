@@ -30,11 +30,16 @@ export const WorkflowTool = Tool.define("workflow", {
       metadata: { name: meta.name, phases: (meta.phases ?? []).map((p) => p.title) },
     })
 
-    const dir = path.join(Global.Path.data, "workflows", ctx.sessionID)
-    await mkdir(dir, { recursive: true })
-    const scriptPath =
-      params.scriptPath ?? path.join(dir, `wf_${Date.now().toString(36)}${randomBytes(3).toString("hex")}.js`)
-    if (!params.scriptPath) await writeFile(scriptPath, source, "utf-8")
+    let scriptPath: string
+    if (params.resumeFromRunId) {
+      scriptPath = params.scriptPath ?? "(resumed)"
+    } else {
+      const dir = path.join(Global.Path.data, "workflows", ctx.sessionID)
+      await mkdir(dir, { recursive: true })
+      scriptPath =
+        params.scriptPath ?? path.join(dir, `wf_${Date.now().toString(36)}${randomBytes(5).toString("hex")}.js`)
+      if (!params.scriptPath) await writeFile(scriptPath, source, "utf-8")
+    }
 
     const { runId, done } = await WorkflowRun.start({
       sessionID: ctx.sessionID,
@@ -43,7 +48,7 @@ export const WorkflowTool = Tool.define("workflow", {
       args: params.args,
       resumeFromRunId: params.resumeFromRunId,
       abort: ctx.abort,
-    })
+    }, meta)
 
     BackgroundTasks.register({
       taskID: runId,

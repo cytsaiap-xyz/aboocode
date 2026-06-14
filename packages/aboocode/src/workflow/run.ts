@@ -84,14 +84,17 @@ export namespace WorkflowRun {
     }
   }
 
-  export async function start(input: ExecuteInput): Promise<{ runId: string; done: Promise<ExecuteResult> }> {
-    const meta = WorkflowRuntime.parseMeta(input.source)
+  export async function start(
+    input: ExecuteInput,
+    meta?: WorkflowRuntime.Meta,
+  ): Promise<{ runId: string; done: Promise<ExecuteResult> }> {
+    const m = meta ?? WorkflowRuntime.parseMeta(input.source)
 
     const runId =
       input.resumeFromRunId ??
       (await WorkflowJournal.createRun({
         sessionID: input.sessionID,
-        name: meta.name,
+        name: m.name,
         scriptPath: input.scriptPath,
         model: input.model ? `${input.model.providerID}/${input.model.modelID}` : undefined,
         args: input.args,
@@ -99,7 +102,7 @@ export namespace WorkflowRun {
 
     if (input.resumeFromRunId) WorkflowJournal.setStatus(runId, "running")
 
-    const done = drive(runId, meta.name, input)
+    const done = drive(runId, m.name, input)
     return { runId, done }
   }
 
