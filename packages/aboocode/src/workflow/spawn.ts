@@ -3,6 +3,9 @@ import { SessionPrompt } from "../session/prompt"
 import { Provider } from "../provider/provider"
 import { WorkflowSchema } from "./schema"
 import type { WorkflowTypes } from "./types"
+import { Log } from "../util/log"
+
+const log = Log.create({ service: "workflow.spawn" })
 
 export namespace WorkflowSpawn {
   export interface Deps {
@@ -41,7 +44,8 @@ export namespace WorkflowSpawn {
       // Defensive accessor handles both the real shape and the test fake shape (info.tokens.output)
       const tokens = result.info?.tokens?.output ?? result.info?.tokens?.total ?? 0
       return { text, tokens }
-    } catch {
+    } catch (err) {
+      log.error("spawn failed", { error: err instanceof Error ? err.message : String(err) })
       return null
     }
   }
