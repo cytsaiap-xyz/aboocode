@@ -19,6 +19,10 @@ export namespace WorkflowEngine {
         if (cached) await ctx.journal.invalidateFrom(seq)
       }
 
+      // Soft cap under concurrency: concurrent agent() calls each pass this check before
+      // any spend is recorded, so the workflow can overshoot by up to
+      // (semaphore.limit - 1) * tokens_per_call. The purpose of this guard is to stop
+      // *issuing new* calls once already overspent, not to hard-reserve tokens.
       if (ctx.budget.total !== null && ctx.budget.remaining() <= 0)
         throw new Error("workflow budget exceeded")
       ctx.guardSpawn()
@@ -37,6 +41,7 @@ export namespace WorkflowEngine {
           try {
             value = WorkflowSchema.parseResult(res.text)
           } catch {
+            ctx.budget.add(res.tokens)
             await ctx.journal.record({ seq, callKey, label: opts.label, phase, prompt, opts, result: null, tokens: res.tokens, status: "failed" })
             ctx.emit({ kind: "agent", runId: ctx.runId, seq, label: opts.label, phase, status: "failed", tokens: res.tokens })
             return null
