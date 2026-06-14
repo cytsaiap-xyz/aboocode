@@ -30,22 +30,8 @@ export namespace WorkflowRun {
     error?: string
   }
 
-  export async function execute(input: ExecuteInput): Promise<ExecuteResult> {
-    const meta = WorkflowRuntime.parseMeta(input.source)
-
-    const runId =
-      input.resumeFromRunId ??
-      (await WorkflowJournal.createRun({
-        sessionID: input.sessionID,
-        name: meta.name,
-        scriptPath: input.scriptPath,
-        model: input.model ? `${input.model.providerID}/${input.model.modelID}` : undefined,
-        args: input.args,
-      }))
-
-    if (input.resumeFromRunId) WorkflowJournal.setStatus(runId, "running")
-
-    Bus.publish(WorkflowEvents.Started, { runId, sessionID: input.sessionID, name: meta.name })
+  async function drive(runId: string, name: string, input: ExecuteInput): Promise<ExecuteResult> {
+    Bus.publish(WorkflowEvents.Started, { runId, sessionID: input.sessionID, name })
 
     let seq = 0
     let spawned = 0
@@ -96,5 +82,29 @@ export namespace WorkflowRun {
       Bus.publish(WorkflowEvents.Completed, { runId, status: "failed", tokens: run?.tokens_total ?? 0 })
       return { runId, status: "failed", error }
     }
+  }
+
+  export async function start(input: ExecuteInput): Promise<{ runId: string; done: Promise<ExecuteResult> }> {
+    const meta = WorkflowRuntime.parseMeta(input.source)
+
+    const runId =
+      input.resumeFromRunId ??
+      (await WorkflowJournal.createRun({
+        sessionID: input.sessionID,
+        name: meta.name,
+        scriptPath: input.scriptPath,
+        model: input.model ? `${input.model.providerID}/${input.model.modelID}` : undefined,
+        args: input.args,
+      }))
+
+    if (input.resumeFromRunId) WorkflowJournal.setStatus(runId, "running")
+
+    const done = drive(runId, meta.name, input)
+    return { runId, done }
+  }
+
+  export async function execute(input: ExecuteInput): Promise<ExecuteResult> {
+    const { done } = await start(input)
+    return done
   }
 }

@@ -31,6 +31,7 @@ import { Truncate } from "./truncation"
 import { ApplyPatchTool } from "./apply_patch"
 import { ToolSearchTool } from "./toolsearch"
 import { VerifyTool } from "./verify"
+import { WorkflowTool } from "../workflow/tool"
 import { CronCreateTool } from "./cron-create"
 import { CronDeleteTool } from "./cron-delete"
 import { CronListTool } from "./cron-list"
@@ -194,6 +195,7 @@ export namespace ToolRegistry {
       DiscussTool,
       ToolSearchTool,
       VerifyTool,
+      ...(config.experimental?.workflows === true ? [WorkflowTool] : []),
       // Phase 12: scheduling + notifications
       CronCreateTool,
       CronDeleteTool,
