@@ -14,16 +14,57 @@ export namespace WorkflowRuntime {
   export type Meta = z.infer<typeof Meta>
 
   /**
-   * Find the balanced `{…}` object literal that starts at `startIndex` in `source`.
+   * Find the balanced object literal that starts at startIndex in source.
    * Returns the literal string (including braces) or null if not found.
+   *
+   * The scanner is string/comment-aware: it skips characters inside
+   * single-quoted, double-quoted, and template-literal strings (respecting
+   * backslash escapes), and inside line comments (//) and block comments.
+   * Only structural brace characters count toward the depth.
    */
   function extractBalancedObject(source: string, startIndex: number): string | null {
     let depth = 0
     let i = startIndex
     const start = startIndex
     while (i < source.length) {
-      if (source[i] === "{") depth++
-      else if (source[i] === "}") {
+      const ch = source[i]
+
+      // Skip // line comments
+      if (ch === "/" && source[i + 1] === "/") {
+        i += 2
+        while (i < source.length && source[i] !== "\n") i++
+        continue
+      }
+
+      // Skip /* … */ block comments
+      if (ch === "/" && source[i + 1] === "*") {
+        i += 2
+        while (i < source.length && !(source[i] === "*" && source[i + 1] === "/")) i++
+        i += 2 // consume closing */
+        continue
+      }
+
+      // Skip single-quoted, double-quoted, and template-literal strings
+      if (ch === "'" || ch === '"' || ch === "`") {
+        const quote = ch
+        i++
+        while (i < source.length) {
+          if (source[i] === "\\") {
+            i += 2 // skip escaped character
+            continue
+          }
+          if (source[i] === quote) {
+            i++ // consume closing quote
+            break
+          }
+          i++
+        }
+        continue
+      }
+
+      // Count structural braces
+      if (ch === "{") depth++
+      else if (ch === "}") {
         depth--
         if (depth === 0) return source.slice(start, i + 1)
       }
@@ -104,7 +145,13 @@ export namespace WorkflowRuntime {
     DateGuard.now = () => {
       throw new Error("Date.now() is not allowed in workflows (non-deterministic; breaks resume)")
     }
+    // Forward deterministic Date statics to the real Date
+    DateGuard.parse = Date.parse.bind(Date)
+    DateGuard.UTC = Date.UTC.bind(Date)
+    // Injected hooks (agent/log/args) come FIRST so that the determinism
+    // guards below always win — callers cannot shadow Date or Math.
     return {
+      ...injected,
       JSON,
       Math: mathProxy,
       Date: DateGuard,
@@ -125,13 +172,13 @@ export namespace WorkflowRuntime {
       parseFloat,
       structuredClone,
       console: { log: (...a: unknown[]) => void a },
-      ...injected,
     }
   }
 
   // Strip the meta declaration, wrap the rest as an async function body, and run it
   // in a fresh vm context with only the safe globals visible.
   // vm.createContext isolates the script from host globals (require, process, fetch, …).
+  // Note: long-running/async scripts are bounded by the caller's abort signal (to be wired in the run lifecycle).
   export async function evaluate(source: string, injected: Record<string, unknown>): Promise<any> {
     const body = stripMetaDeclaration(source)
     const context = vm.createContext(safeGlobals(injected))
