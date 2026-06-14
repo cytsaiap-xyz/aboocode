@@ -374,4 +374,40 @@ The engine ships drivable via the `Workflow` tool and the SDK in the interim.
 - **Deterministic `seq` under concurrency**: invocation order is deterministic given
   deterministic control flow, but the engine must assign `seq` at the synchronous moment
   `agent()` is *entered*, not when it resolves. Tests must lock this.
+
+---
+
+## 14. Post-implementation status (2026-06-15)
+
+Implemented behind `experimental.workflows` (off by default) across 13 source files +
+12 test files, **33 tests passing**. A final holistic review confirmed the runtime,
+engine, journal/resume, concurrency caps, gating, and sandbox match §§3–10. The structured
+output path was fixed to read `result.info.structured` (the real field where
+`SessionPrompt.prompt` stores a `json_schema` answer) rather than a text part.
+
+### Deferred follow-ups before the flag graduates from experimental
+
+These are accepted gaps for the dark launch; address before enabling by default:
+
+1. **acceptEdits posture for spawned child sessions** (§5). `spawn` does not yet create
+   children in acceptEdits, so a headless run can block on permission prompts for
+   Bash/Edit. `SessionPrompt.prompt` has no mode-override input — the child session must be
+   created with the right permission posture.
+2. **Wire `ctx.abort`** into `engine.agent` (check before `nextSeq`/spawn) and into
+   `spawn`/`SessionPrompt.prompt`, so stopping the session actually halts an in-flight run.
+3. **Seed the resume budget** from the persisted `workflow_run.tokens_total` so
+   budget-gated control flow (`while (budget.remaining() > X)`) is deterministic across
+   resume (currently the in-memory budget restarts at 0 on resume).
+4. **Completion re-injection to the session** (§9.2): today completion fires the
+   `workflow.completed` bus event and writes `BackgroundTasks` output; verify the launching
+   session actually surfaces the final result as a `task-notification`-style reminder.
+5. **Resume status guard**: `start()` should refuse (or reset) when `resumeFromRunId`
+   points at a still-`running` run, to prevent double-driving the same journal rows.
+6. **`workflow()` composition** and **`worktree` isolation** — the two intentionally
+   stubbed/unwired items — before advertising full parity.
+7. **Awaited DB writes**: `setStatus`/`createRun` use fire-and-forget `Database.use`
+   (sync under bun:sqlite today); make the async signatures honest. Validate/normalize
+   `opts` at the script boundary (it is `any`, so a non-JSON value would throw in `callKey`).
+8. **Real-spawn integration test** for the `schema` case (current tests inject fakes; a
+   test against the production spawn path would have caught the `info.structured` bug).
 ```
