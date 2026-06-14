@@ -1,7 +1,7 @@
 import type { MessageV2 } from "../session/message-v2"
 
 export namespace WorkflowSchema {
-  export function toFormat(schema: Record<string, any>): MessageV2.OutputFormat {
+  export function toFormat(schema: Record<string, any>): Extract<MessageV2.OutputFormat, { type: "json_schema" }> {
     return { type: "json_schema", schema, retryCount: 2 }
   }
 
