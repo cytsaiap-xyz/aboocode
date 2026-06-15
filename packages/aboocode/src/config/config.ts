@@ -1240,6 +1240,7 @@ export namespace Config {
             .positive()
             .optional()
             .describe("Timeout in milliseconds for model context protocol (MCP) requests"),
+          workflows: z.boolean().optional().describe("Enable the dynamic Workflow tool (experimental)"),
         })
         .optional(),
       memory: z
