@@ -1,3 +1,4 @@
+import path from "path"
 import { Bus } from "../bus"
 import { WorkflowRuntime } from "./runtime"
 import { WorkflowEngine } from "./engine"
@@ -6,10 +7,19 @@ import { WorkflowBudget } from "./budget"
 import { WorkflowConcurrency } from "./concurrency"
 import { WorkflowSpawn } from "./spawn"
 import { WorkflowEvents } from "./events"
+import { Instance } from "../project/instance"
 import type { WorkflowTypes } from "./types"
 
 export namespace WorkflowRun {
   const MAX_AGENTS = 1000
+
+  export async function resolveRef(ref: string | { scriptPath: string }): Promise<{ source: string; scriptPath: string }> {
+    const scriptPath =
+      typeof ref === "string" ? path.join(Instance.directory, ".aboocode", "workflows", `${ref}.js`) : ref.scriptPath
+    const file = Bun.file(scriptPath)
+    if (!(await file.exists())) throw new Error(`workflow not found: ${typeof ref === "string" ? ref : scriptPath}`)
+    return { source: await file.text(), scriptPath }
+  }
 
   export interface ExecuteInput {
     sessionID: string
@@ -67,6 +77,37 @@ export namespace WorkflowRun {
           status: "status" in ev ? ev.status : undefined,
           tokens: "tokens" in ev ? ev.tokens : undefined,
         }),
+      child: async (ref, childArgs) => {
+        if (ctx.depth >= 1) throw new Error("workflow() nesting is limited to one level")
+        const resolved = await resolveRef(ref)
+        const childMeta = WorkflowRuntime.parseMeta(resolved.source)
+        const childRunId = await WorkflowJournal.createRun({
+          sessionID: input.sessionID,
+          name: childMeta.name,
+          scriptPath: resolved.scriptPath,
+          model: input.model ? `${input.model.providerID}/${input.model.modelID}` : undefined,
+          args: childArgs,
+        })
+        let childSeq = 0
+        const childCtx: WorkflowTypes.RunContext = {
+          ...ctx,
+          runId: childRunId,
+          args: childArgs,
+          resume: false,
+          depth: ctx.depth + 1,
+          nextSeq: () => childSeq++,
+          journal: WorkflowJournal.bind(childRunId),
+          child: () => Promise.reject(new Error("workflow() nesting is limited to one level")),
+        }
+        try {
+          const value = await WorkflowRuntime.evaluate(resolved.source, WorkflowEngine.build(childCtx) as any)
+          await WorkflowJournal.setStatus(childRunId, "done")
+          return value
+        } catch (e) {
+          await WorkflowJournal.setStatus(childRunId, ctx.abort.aborted ? "stopped" : "failed")
+          throw e
+        }
+      },
     }
 
     const globals = WorkflowEngine.build(ctx)

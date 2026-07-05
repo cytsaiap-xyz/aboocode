@@ -93,10 +93,8 @@ export namespace WorkflowEngine {
       ctx.emit({ kind: "log", runId: ctx.runId, message })
     }
 
-    // workflow() composition is wired in a later task (needs the run loader); placeholder
-    // that errors keeps the global present and the contract explicit until then.
-    async function workflow(): Promise<any> {
-      throw new Error("workflow() composition is not available yet")
+    async function workflow(ref: string | { scriptPath: string }, args?: any): Promise<any> {
+      return ctx.child(ref, args)
     }
 
     return { agent, parallel, pipeline, phase, log, workflow, budget: ctx.budget, args: ctx.args }

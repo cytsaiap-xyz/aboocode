@@ -34,6 +34,7 @@ function fakeCtx(spawn: WorkflowTypes.SpawnFn, over: Partial<WorkflowTypes.RunCo
     },
     spawn,
     emit: () => {},
+    child: async () => null,
     ...over,
   }
 }

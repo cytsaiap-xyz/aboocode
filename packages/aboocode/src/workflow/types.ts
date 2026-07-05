@@ -60,5 +60,6 @@ export namespace WorkflowTypes {
     journal: JournalBinding
     spawn: SpawnFn
     emit(ev: WorkflowEvent): void
+    child(ref: string | { scriptPath: string }, args?: any): Promise<any>
   }
 }

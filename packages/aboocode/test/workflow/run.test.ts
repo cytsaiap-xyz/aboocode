@@ -112,3 +112,61 @@ test("resume refuses a run that is still running", async () => {
     },
   })
 })
+
+const CHILD_SCRIPT = `export const meta = { name: "child", description: "c" }
+const r = await agent("inner: " + args.q)
+return { r }
+`
+
+const PARENT_SCRIPT = (childPath: string) => `export const meta = { name: "parent", description: "p" }
+const out = await workflow({ scriptPath: ${JSON.stringify(childPath)} }, { q: "hi" })
+return out
+`
+
+test("workflow() runs a child by scriptPath, sharing the parent budget", async () => {
+  await using tmp = await tmpdir({ git: true })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      const childPath = `${tmp.path}/child.js`
+      await Bun.write(childPath, CHILD_SCRIPT)
+      const result = await WorkflowRun.execute({
+        sessionID: "ses_demo",
+        source: PARENT_SCRIPT(childPath),
+        scriptPath: "/tmp/parent.js",
+        args: undefined,
+        budgetTotal: 100,
+        spawn: async (prompt: string) => ({ text: "R(" + prompt + ")", tokens: 9 }),
+      })
+      expect(result.status).toBe("done")
+      expect(result.value).toEqual({ r: "R(inner: hi)" })
+    },
+  })
+})
+
+test("workflow() nesting beyond one level throws", async () => {
+  await using tmp = await tmpdir({ git: true })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      const grandchildPath = `${tmp.path}/gc.js`
+      await Bun.write(grandchildPath, CHILD_SCRIPT)
+      const childPath = `${tmp.path}/mid.js`
+      await Bun.write(
+        childPath,
+        `export const meta = { name: "mid", description: "m" }
+return workflow({ scriptPath: ${JSON.stringify(grandchildPath)} }, { q: "x" })
+`,
+      )
+      const result = await WorkflowRun.execute({
+        sessionID: "ses_demo",
+        source: PARENT_SCRIPT(childPath),
+        scriptPath: "/tmp/parent.js",
+        args: undefined,
+        spawn: async () => ({ text: "t", tokens: 1 }),
+      })
+      expect(result.status).toBe("failed")
+      expect(result.error).toContain("one level")
+    },
+  })
+})
