@@ -26,4 +26,14 @@ describe("session.loop-detect.repeated", () => {
     const calls = [read("/a"), read("/b"), read("/c"), read("/d")]
     expect(LoopDetect.repeated(calls)).toBeUndefined()
   })
+
+  test("stale repeats of another tool do not mask the current call's loop", () => {
+    const calls = [read("/a"), read("/a"), read("/a"), bash("ls"), bash("ls"), bash("ls")]
+    expect(LoopDetect.repeated(calls)?.tool).toBe("bash")
+  })
+
+  test("returns undefined when only an earlier tool repeated, not the current call", () => {
+    const calls = [read("/a"), read("/a"), read("/a"), bash("ls")]
+    expect(LoopDetect.repeated(calls)).toBeUndefined()
+  })
 })
