@@ -17,6 +17,7 @@ import { Bus } from "../bus"
 import { ProviderTransform } from "../provider/transform"
 import { SystemPrompt } from "./system"
 import { InstructionPrompt } from "./instruction"
+import { SessionLimits } from "./limits"
 import { Plugin } from "../plugin"
 import { HookLifecycle } from "../hook/lifecycle"
 import PROMPT_PLAN from "../session/prompt/plan.txt"
@@ -752,7 +753,7 @@ export namespace SessionPrompt {
       // normal processing
       const agent = await Agent.get(lastUser.agent)
       if (!agent) throw new Error(`Agent "${lastUser.agent}" not found. It may have been removed or renamed.`)
-      const maxSteps = agent.steps ?? Infinity
+      const maxSteps = SessionLimits.resolveMaxSteps(agent.steps)
       const isLastStep = step >= maxSteps
       msgs = await insertReminders({
         messages: msgs,
