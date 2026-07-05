@@ -411,3 +411,20 @@ These are accepted gaps for the dark launch; address before enabling by default:
 8. **Real-spawn integration test** for the `schema` case (current tests inject fakes; a
    test against the production spawn path would have caught the `info.structured` bug).
 ```
+
+### Follow-up status (2026-07-05)
+
+All 8 deferred items closed: (1) child sessions get headless permission posture
+(allow edit/write/bash/webfetch, deny todos/task/workflow); (2) abort wired through
+engine.agent and spawn (SessionPrompt.cancel), aborted runs persist status "stopped";
+(3) resume budget seeded from workflow_run.tokens_total and invalidateFrom now
+decrements it; (4) completion notification carries the run's return value
+(WorkflowResultFormat.summarize, 4k cap); (5) start() refuses resume of missing or
+still-running runs; (6) workflow() composition (one level, shared budget/caps/abort,
+name refs resolve from .aboocode/workflows/<name>.js) and worktree isolation via
+AgentIsolation; (7) setStatus is honestly async and agent() opts are validated
+(zod strict + JSON probe) at the sandbox boundary; (8) integration tests lock the
+schema spawn path to the real MessageV2.Assistant shape.
+
+Remaining before default-on: bake time under real use; child-run resume semantics
+(children re-run live when the parent's workflow() call re-executes) are accepted.
