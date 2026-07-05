@@ -42,6 +42,7 @@ export namespace Transition {
       | "compaction_task" // processing compaction task
       | "subtask" // processing subtask parts
       | "overflow_compact" // overflow detected at finish-step
+      | "model_fallback" // persistent provider failure, outer loop swaps to config.fallback_model
       | (string & {})
   }
 

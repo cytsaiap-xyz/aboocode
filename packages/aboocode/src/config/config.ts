@@ -1072,6 +1072,9 @@ export namespace Config {
       small_model: ModelId.describe(
         "Small model to use for tasks like title generation in the format of provider/model",
       ).optional(),
+      fallback_model: ModelId.describe(
+        "Model to switch to after repeated provider overload/rate-limit failures, e.g. anthropic/claude-sonnet-5",
+      ).optional(),
       default_agent: z
         .string()
         .optional()

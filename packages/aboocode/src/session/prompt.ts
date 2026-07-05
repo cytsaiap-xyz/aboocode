@@ -34,6 +34,7 @@ import { spawn } from "child_process"
 import { Command } from "../command"
 import { $, fileURLToPath, pathToFileURL } from "bun"
 import { ConfigMarkdown } from "../config/markdown"
+import { Config } from "../config/config"
 import { SessionSummary } from "./summary"
 import { NamedError } from "@aboocode/util/error"
 import { fn } from "@/util/fn"
@@ -407,6 +408,7 @@ export namespace SessionPrompt {
     // on the user message and will be retrieved from lastUser below
     let structuredOutput: unknown | undefined
 
+    let modelOverride: { providerID: string; modelID: string } | undefined
     let step = 0
     let outputRecoveryAttempts = 0
     let compactRetries = 0
@@ -460,7 +462,8 @@ export namespace SessionPrompt {
           history: msgs,
         })
 
-      const model = await Provider.getModel(lastUser.model.providerID, lastUser.model.modelID).catch((e) => {
+      const requestedModel = modelOverride ?? lastUser.model
+      const model = await Provider.getModel(requestedModel.providerID, requestedModel.modelID).catch((e) => {
         if (Provider.ModelNotFoundError.isInstance(e)) {
           const hint = e.data.suggestions?.length ? ` Did you mean: ${e.data.suggestions.join(", ")}?` : ""
           Bus.publish(Session.Event.Error, {
@@ -1118,6 +1121,15 @@ export namespace SessionPrompt {
             text: "Output limit hit. Continue exactly where you left off.",
             synthetic: true,
           } satisfies MessageV2.TextPart)
+          continue
+        }
+
+        case "model_fallback": {
+          const config = await Config.get()
+          if (!config.fallback_model) continue
+          const [providerID, ...rest] = config.fallback_model.split("/")
+          modelOverride = { providerID, modelID: rest.join("/") }
+          log.warn("switching to fallback model", { sessionID, model: config.fallback_model })
           continue
         }
 

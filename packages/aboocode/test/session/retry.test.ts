@@ -198,3 +198,29 @@ describe("session.message-v2.fromError", () => {
     expect(result.data.isRetryable).toBe(true)
   })
 })
+
+describe("session.retry.shouldFallback", () => {
+  test("false when no fallback configured", () => {
+    expect(SessionRetry.shouldFallback({ attempt: 5, current: "anthropic/claude-opus-4-8", fallback: undefined })).toBe(
+      false,
+    )
+  })
+
+  test("false before the attempt threshold", () => {
+    expect(
+      SessionRetry.shouldFallback({ attempt: 2, current: "anthropic/claude-opus-4-8", fallback: "anthropic/claude-sonnet-5" }),
+    ).toBe(false)
+  })
+
+  test("false when already on the fallback model", () => {
+    expect(
+      SessionRetry.shouldFallback({ attempt: 5, current: "anthropic/claude-sonnet-5", fallback: "anthropic/claude-sonnet-5" }),
+    ).toBe(false)
+  })
+
+  test("true at threshold with a different fallback configured", () => {
+    expect(
+      SessionRetry.shouldFallback({ attempt: 3, current: "anthropic/claude-opus-4-8", fallback: "anthropic/claude-sonnet-5" }),
+    ).toBe(true)
+  })
+})

@@ -15,6 +15,15 @@ export namespace SessionRetry {
     return attempt >= MAX_ATTEMPTS
   }
 
+  /** After this many consecutive retryable failures, switch to config.fallback_model if set. */
+  export const FALLBACK_AFTER_ATTEMPTS = 3
+
+  export function shouldFallback(input: { attempt: number; current: string; fallback?: string }) {
+    if (!input.fallback) return false
+    if (input.attempt < FALLBACK_AFTER_ATTEMPTS) return false
+    return input.current !== input.fallback
+  }
+
   export async function sleep(ms: number, signal: AbortSignal): Promise<void> {
     return new Promise((resolve, reject) => {
       const abortHandler = () => {

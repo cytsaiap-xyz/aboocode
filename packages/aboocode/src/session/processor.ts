@@ -391,6 +391,18 @@ export namespace SessionProcessor {
             // Existing retry logic (enhanced with failure classification)
             const retry = SessionRetry.retryable(error)
             if ((retry !== undefined || recovery.action === "retry") && !SessionRetry.exhausted(attempt)) {
+              const { Config } = await import("../config/config")
+              const config = await Config.get()
+              if (
+                SessionRetry.shouldFallback({
+                  attempt,
+                  current: `${input.model.providerID}/${input.model.id}`,
+                  fallback: config.fallback_model,
+                })
+              ) {
+                log.info("transition", { sessionID: input.sessionID, kind: "continue", reason: "model_fallback", attempt })
+                return Transition.cont("model_fallback")
+              }
               attempt++
               const delay = recovery.delay ?? SessionRetry.delay(attempt, error.name === "APIError" ? error : undefined)
               SessionStatus.set(input.sessionID, {
