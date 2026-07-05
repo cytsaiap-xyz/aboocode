@@ -50,5 +50,7 @@ test("workflow tool rejects a script with no meta", async () => {
 
 test("background task output includes the run's return value", async () => {
   expect(WorkflowResultFormat.summarize({ runId: "wfr_1", status: "done", value: { bugs: 3 } })).toContain('"bugs": 3')
-  expect(WorkflowResultFormat.summarize({ runId: "wfr_1", status: "failed", error: "boom" })).toBe("workflow wfr_1 failed: boom")
+  expect(WorkflowResultFormat.summarize({ runId: "wfr_1", status: "failed", error: "boom" })).toBe(
+    "workflow wfr_1 failed: boom",
+  )
 })
