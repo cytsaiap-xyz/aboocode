@@ -71,3 +71,38 @@ test("child sessions get headless permission posture", async () => {
   for (const p of ["edit", "write", "bash", "webfetch"]) expect(rule(p)).toEqual({ permission: p, pattern: "*", action: "allow" })
   for (const p of ["todowrite", "todoread", "task", "workflow"]) expect(rule(p)).toEqual({ permission: p, pattern: "*", action: "deny" })
 })
+
+test("worktree isolation is created before prompt and released after", async () => {
+  const events: string[] = []
+  const deps = {
+    createSession: async () => ({ id: "ses_child" }),
+    prompt: async () => {
+      events.push("prompt")
+      return { info: { tokens: { output: 1 } }, parts: [{ type: "text", text: "ok" }] }
+    },
+    parseModel: (m: string) => ({ providerID: "p", modelID: m }),
+    cancel: () => {},
+    isolate: async (id: string) => {
+      events.push(`isolate:${id}`)
+      return { release: async () => void events.push(`release:${id}`) }
+    },
+  }
+  await WorkflowSpawn.run("x", { isolation: "worktree" }, { sessionID: "ses_parent" } as any, deps)
+  expect(events).toEqual(["isolate:ses_child", "prompt", "release:ses_child"])
+})
+
+test("no isolation dep call without opts.isolation", async () => {
+  let isolated = 0
+  const deps = {
+    createSession: async () => ({ id: "ses_child" }),
+    prompt: async () => ({ info: { tokens: { output: 1 } }, parts: [{ type: "text", text: "ok" }] }),
+    parseModel: (m: string) => ({ providerID: "p", modelID: m }),
+    cancel: () => {},
+    isolate: async () => {
+      isolated++
+      return { release: async () => {} }
+    },
+  }
+  await WorkflowSpawn.run("x", {}, { sessionID: "ses_parent" } as any, deps)
+  expect(isolated).toBe(0)
+})

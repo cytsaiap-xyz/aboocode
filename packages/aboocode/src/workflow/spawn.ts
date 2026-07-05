@@ -22,6 +22,7 @@ export namespace WorkflowSpawn {
     prompt: (input: any) => Promise<{ info: any; parts: any[] }>
     parseModel: (m: string) => { providerID: string; modelID: string }
     cancel?: (sessionID: string) => void
+    isolate?: (sessionID: string) => Promise<{ release: () => Promise<void> }>
   }
 
   const defaults: Deps = {
@@ -29,6 +30,17 @@ export namespace WorkflowSpawn {
     prompt: (input) => SessionPrompt.prompt(input),
     parseModel: (m) => Provider.parseModel(m),
     cancel: (sessionID) => SessionPrompt.cancel(sessionID),
+    isolate: async (sessionID) => {
+      const { AgentIsolation } = await import("../agent/isolation")
+      const isolation = await AgentIsolation.create("worktree", sessionID)
+      AgentIsolation.register(sessionID, isolation)
+      return {
+        release: async () => {
+          AgentIsolation.unregister(sessionID)
+          await isolation.cleanup()
+        },
+      }
+    },
   }
 
   export async function run(
@@ -45,6 +57,8 @@ export namespace WorkflowSpawn {
       })
       const model = opts.model ? deps.parseModel(opts.model) : ctx.model
       const cancel = deps.cancel ?? defaults.cancel!
+      const isolate = deps.isolate ?? defaults.isolate!
+      const isolation = opts.isolation === "worktree" ? await isolate(child.id) : undefined
       const onAbort = () => cancel(child.id)
       ctx.abort?.addEventListener("abort", onAbort, { once: true })
       let result: { info: any; parts: any[] }
@@ -58,6 +72,7 @@ export namespace WorkflowSpawn {
         })
       } finally {
         ctx.abort?.removeEventListener("abort", onAbort)
+        if (isolation) await isolation.release().catch((e) => log.error("isolation release failed", { error: e }))
       }
       // When a json_schema output format is used, SessionPrompt.prompt stores the parsed
       // structured result in result.info.structured (MessageV2.Assistant.structured: z.any().optional()).
