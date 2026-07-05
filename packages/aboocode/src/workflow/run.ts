@@ -90,6 +90,13 @@ export namespace WorkflowRun {
   ): Promise<{ runId: string; done: Promise<ExecuteResult> }> {
     const m = meta ?? WorkflowRuntime.parseMeta(input.source)
 
+    if (input.resumeFromRunId) {
+      const existing = await WorkflowJournal.getRun(input.resumeFromRunId)
+      if (!existing) throw new Error(`workflow run not found: ${input.resumeFromRunId}`)
+      if (existing.status === "running")
+        throw new Error(`workflow run ${input.resumeFromRunId} is still running; stop it before resuming`)
+    }
+
     const runId =
       input.resumeFromRunId ??
       (await WorkflowJournal.createRun({

@@ -68,3 +68,47 @@ test("resume replays cached calls without re-spawning", async () => {
     },
   })
 })
+
+test("resume refuses a run id that does not exist", async () => {
+  await using tmp = await tmpdir({ git: true })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      await expect(
+        WorkflowRun.execute({
+          sessionID: "ses_demo",
+          source: SCRIPT,
+          scriptPath: "/tmp/demo.js",
+          args: undefined,
+          resumeFromRunId: "wfr_nope",
+          spawn: async () => ({ text: "x", tokens: 1 }),
+        }),
+      ).rejects.toThrow("workflow run not found")
+    },
+  })
+})
+
+test("resume refuses a run that is still running", async () => {
+  await using tmp = await tmpdir({ git: true })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      const runId = await WorkflowJournal.createRun({
+        sessionID: "ses_demo",
+        name: "demo",
+        scriptPath: "/tmp/demo.js",
+        args: undefined,
+      })
+      await expect(
+        WorkflowRun.execute({
+          sessionID: "ses_demo",
+          source: SCRIPT,
+          scriptPath: "/tmp/demo.js",
+          args: undefined,
+          resumeFromRunId: runId,
+          spawn: async () => ({ text: "x", tokens: 1 }),
+        }),
+      ).rejects.toThrow("still running")
+    },
+  })
+})
