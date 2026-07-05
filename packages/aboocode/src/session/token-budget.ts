@@ -69,6 +69,20 @@ export namespace TokenBudget {
   }
 
   /**
+   * Exact context size as reported by the provider on the last assistant
+   * turn. Prefer this over char-based estimation whenever available —
+   * reasoning tokens are excluded because they do not persist in context.
+   */
+  export function fromUsage(tokens: {
+    input: number
+    output: number
+    reasoning: number
+    cache: { read: number; write: number }
+  }): number {
+    return tokens.input + tokens.output + tokens.cache.read + tokens.cache.write
+  }
+
+  /**
    * Check if proactive compaction should trigger.
    */
   export function shouldCompact(state: State): boolean {

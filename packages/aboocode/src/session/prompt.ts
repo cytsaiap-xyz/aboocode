@@ -893,7 +893,14 @@ export namespace SessionPrompt {
       const { TokenBudget } = await import("./token-budget")
       const budget = await TokenBudget.fromModel(model)
       const modelMessages = MessageV2.toModelMessages(msgs, model)
-      budget.currentEstimate = TokenBudget.estimate(modelMessages)
+      if (lastFinished?.tokens && lastFinished.summary !== true) {
+        // Exact usage from the last assistant turn + estimate of everything newer
+        const newer = msgs.filter((m) => m.info.id > lastFinished.id)
+        budget.currentEstimate =
+          TokenBudget.fromUsage(lastFinished.tokens) + TokenBudget.estimate(MessageV2.toModelMessages(newer, model))
+      } else {
+        budget.currentEstimate = TokenBudget.estimate(modelMessages)
+      }
       TokenBudget.logStatus(budget)
       // Publish budget state in session status so UI/API can observe it
       SessionStatus.set(sessionID, {
