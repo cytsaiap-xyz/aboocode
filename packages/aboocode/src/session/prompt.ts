@@ -919,7 +919,7 @@ export namespace SessionPrompt {
       const { TokenBudget } = await import("./token-budget")
       const budget = await TokenBudget.fromModel(model)
       const modelMessages = MessageV2.toModelMessages(msgs, model)
-      if (lastFinished?.tokens && lastFinished.summary !== true) {
+      if (lastFinished?.tokens && lastFinished.summary !== true && microPruned === 0) {
         // Exact usage from the last assistant turn + estimate of everything newer
         const newer = msgs.filter((m) => m.info.id > lastFinished.id)
         budget.currentEstimate =
