@@ -5,6 +5,8 @@ import { WorkflowRun } from "../../src/workflow/run"
 import { WorkflowJournal } from "../../src/workflow/journal"
 import { WorkflowEvents } from "../../src/workflow/events"
 import { Bus } from "../../src/bus"
+import { WorkflowSpawn } from "../../src/workflow/spawn"
+import { WorkflowEngine } from "../../src/workflow/engine"
 
 const SCRIPT = `export const meta = { name: "audit", description: "two-phase demo", phases: [{ title: "Find" }, { title: "Verify" }] }
 phase("Find")
@@ -63,4 +65,65 @@ test("two-phase workflow runs, emits progress, journals, and resumes from cache"
       unsub()
     },
   })
+})
+
+const realShapeDeps = (structured: unknown) => ({
+  createSession: async () => ({ id: "ses_child" }),
+  prompt: async () => ({
+    // Real MessageV2.Assistant shape: structured lives on info, text parts are
+    // intermediate tool-use narration only — NOT the final JSON answer.
+    info: {
+      structured,
+      tokens: { total: 120, input: 80, output: 40, reasoning: 0, cache: { read: 0, write: 0 } },
+    },
+    parts: [{ type: "text", text: "I will now analyze the data..." }],
+  }),
+  parseModel: (m: string) => ({ providerID: "p", modelID: m }),
+  cancel: () => {},
+  isolate: async () => ({ release: async () => {} }),
+})
+
+test("schema agent reads structured output from info.structured, not text parts", async () => {
+  const res = await WorkflowSpawn.run(
+    "count bugs",
+    { schema: { type: "object", properties: { bugs: { type: "number" } } } },
+    { sessionID: "ses_parent" } as any,
+    realShapeDeps({ bugs: 3 }),
+  )
+  expect(res).not.toBeNull()
+  expect(JSON.parse(res!.text)).toEqual({ bugs: 3 })
+  expect(res!.tokens).toBe(40)
+})
+
+test("schema agent through the engine yields the parsed object", async () => {
+  const ctx: any = {
+    runId: "wfr_i",
+    sessionID: "ses_parent",
+    args: undefined,
+    resume: false,
+    depth: 0,
+    abort: new AbortController().signal,
+    budget: { total: null, spent: () => 0, remaining: () => Infinity, add: () => {} },
+    semaphore: { acquire: async () => {}, release: () => {} },
+    nextSeq: () => 0,
+    guardSpawn: () => {},
+    journal: { lookup: async () => undefined, record: async () => {}, invalidateFrom: async () => {} },
+    spawn: (p: string, o: any, c: any) => WorkflowSpawn.run(p, o, c, realShapeDeps({ bugs: 3 })),
+    emit: () => {},
+    child: async () => null,
+  }
+  const g = WorkflowEngine.build(ctx)
+  const value = await g.agent("count bugs", { schema: { type: "object" } })
+  expect(value).toEqual({ bugs: 3 })
+})
+
+test("schema agent with missing structured output fails closed (returns null)", async () => {
+  const res = await WorkflowSpawn.run(
+    "count bugs",
+    { schema: { type: "object" } },
+    { sessionID: "ses_parent" } as any,
+    realShapeDeps(undefined),
+  )
+  // structured undefined → falls back to text parts, which are narration, not JSON
+  expect(res!.text).toBe("I will now analyze the data...")
 })
