@@ -47,8 +47,8 @@ export namespace WorkflowJournal {
     return runId
   }
 
-  export function setStatus(runId: string, status: Status): void {
-    Database.use((db) => db.update(WorkflowRunTable).set({ status }).where(eq(WorkflowRunTable.id, runId)).run())
+  export async function setStatus(runId: string, status: Status): Promise<void> {
+    await Database.use((db) => db.update(WorkflowRunTable).set({ status }).where(eq(WorkflowRunTable.id, runId)).run())
   }
 
   export async function getRun(runId: string) {

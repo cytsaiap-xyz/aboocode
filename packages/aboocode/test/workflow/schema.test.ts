@@ -18,3 +18,16 @@ test("parseResult parses fenced or raw JSON", () => {
 test("parseResult throws on non-JSON", () => {
   expect(() => WorkflowSchema.parseResult("not json")).toThrow()
 })
+
+test("validateOpts accepts known JSON-serializable opts", () => {
+  const opts = { label: "x", phase: "P", model: "sonnet", schema: { type: "object" }, agentType: "general" }
+  expect(WorkflowSchema.validateOpts(opts)).toEqual(opts)
+})
+
+test("validateOpts rejects unknown keys", () => {
+  expect(() => WorkflowSchema.validateOpts({ labell: "typo" })).toThrow("agent() opts invalid")
+})
+
+test("validateOpts rejects non-serializable values", () => {
+  expect(() => WorkflowSchema.validateOpts({ label: (() => {}) as any })).toThrow("agent() opts invalid")
+})

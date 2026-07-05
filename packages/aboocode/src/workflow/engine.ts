@@ -8,7 +8,8 @@ export namespace WorkflowEngine {
   export function build(ctx: WorkflowTypes.RunContext) {
     let currentPhase: string | undefined
 
-    async function agent(prompt: string, opts: WorkflowTypes.AgentOpts = {}): Promise<any> {
+    async function agent(prompt: string, rawOpts: WorkflowTypes.AgentOpts = {}): Promise<any> {
+      const opts = WorkflowSchema.validateOpts(rawOpts)
       const seq = ctx.nextSeq()
       const phase = opts.phase ?? currentPhase
       const callKey = WorkflowJournal.callKey(seq, prompt, opts)

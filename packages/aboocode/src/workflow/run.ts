@@ -71,13 +71,13 @@ export namespace WorkflowRun {
     const globals = WorkflowEngine.build(ctx)
     try {
       const value = await WorkflowRuntime.evaluate(input.source, globals as any)
-      WorkflowJournal.setStatus(runId, "done")
+      await WorkflowJournal.setStatus(runId, "done")
       const run = await WorkflowJournal.getRun(runId)
       Bus.publish(WorkflowEvents.Completed, { runId, status: "done", tokens: run?.tokens_total ?? 0 })
       return { runId, status: "done", value }
     } catch (e) {
       const error = (e as Error).message
-      WorkflowJournal.setStatus(runId, "failed")
+      await WorkflowJournal.setStatus(runId, "failed")
       const run = await WorkflowJournal.getRun(runId)
       Bus.publish(WorkflowEvents.Completed, { runId, status: "failed", tokens: run?.tokens_total ?? 0 })
       return { runId, status: "failed", error }
@@ -107,7 +107,7 @@ export namespace WorkflowRun {
         args: input.args,
       }))
 
-    if (input.resumeFromRunId) WorkflowJournal.setStatus(runId, "running")
+    if (input.resumeFromRunId) await WorkflowJournal.setStatus(runId, "running")
 
     const done = drive(runId, m.name, input)
     return { runId, done }
