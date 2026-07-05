@@ -13,7 +13,9 @@ import type { WorkflowTypes } from "./types"
 export namespace WorkflowRun {
   const MAX_AGENTS = 1000
 
-  export async function resolveRef(ref: string | { scriptPath: string }): Promise<{ source: string; scriptPath: string }> {
+  export async function resolveRef(
+    ref: string | { scriptPath: string },
+  ): Promise<{ source: string; scriptPath: string }> {
     const scriptPath =
       typeof ref === "string" ? path.join(Instance.directory, ".aboocode", "workflows", `${ref}.js`) : ref.scriptPath
     const file = Bun.file(scriptPath)
