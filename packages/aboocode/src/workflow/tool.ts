@@ -9,6 +9,21 @@ import { WorkflowRun } from "./run"
 import { BackgroundTasks } from "../session/background"
 import DESCRIPTION from "./tool.txt"
 
+export namespace WorkflowResultFormat {
+  export function summarize(r: { runId: string; status: string; value?: any; error?: string }): string {
+    let out = `workflow ${r.runId} ${r.status}`
+    if (r.error) out += `: ${r.error}`
+    if (r.value !== undefined) {
+      try {
+        out += `\n<result>\n${JSON.stringify(r.value, null, 2).slice(0, 4000)}\n</result>`
+      } catch {
+        out += `\n<result>[unserializable]</result>`
+      }
+    }
+    return out
+  }
+}
+
 export const WorkflowTool = Tool.define("workflow", {
   description: DESCRIPTION,
   parameters: z.object({
@@ -56,7 +71,7 @@ export const WorkflowTool = Tool.define("workflow", {
       parentSessionID: ctx.sessionID,
       description: `workflow: ${meta.name}`,
       agentType: "workflow",
-      promise: done.then((r) => `workflow ${r.runId} ${r.status}` + (r.error ? `: ${r.error}` : "")),
+      promise: done.then((r) => WorkflowResultFormat.summarize(r)),
     })
 
     return {

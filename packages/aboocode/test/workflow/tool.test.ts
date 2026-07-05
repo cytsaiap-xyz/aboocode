@@ -1,7 +1,7 @@
 import { test, expect } from "bun:test"
 import { Instance } from "../../src/project/instance"
 import { tmpdir } from "../fixture/fixture"
-import { WorkflowTool } from "../../src/workflow/tool"
+import { WorkflowTool, WorkflowResultFormat } from "../../src/workflow/tool"
 import { BackgroundTasks } from "../../src/session/background"
 
 const SCRIPT = `export const meta = { name: "demo", description: "d" }
@@ -46,4 +46,9 @@ test("workflow tool rejects a script with no meta", async () => {
       await expect(tool.execute({ script: `return 1` }, ctx())).rejects.toThrow(/meta/i)
     },
   })
+})
+
+test("background task output includes the run's return value", async () => {
+  expect(WorkflowResultFormat.summarize({ runId: "wfr_1", status: "done", value: { bugs: 3 } })).toContain('"bugs": 3')
+  expect(WorkflowResultFormat.summarize({ runId: "wfr_1", status: "failed", error: "boom" })).toBe("workflow wfr_1 failed: boom")
 })
