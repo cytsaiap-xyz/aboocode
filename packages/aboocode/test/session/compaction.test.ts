@@ -441,3 +441,29 @@ describe("session.compaction.breaker", () => {
     expect(SessionCompaction.breakerTripped(id)).toBe(false)
   })
 })
+
+describe("session.compaction.shouldMicroCompact", () => {
+  const now = 1_750_000_000_000
+
+  test("skips when cache is warm and pressure is low", () => {
+    expect(
+      SessionCompaction.shouldMicroCompact({ lastCompleted: now - 60_000, now, ratio: 0.3 }),
+    ).toBe(false)
+  })
+
+  test("runs when the cache has gone cold", () => {
+    expect(
+      SessionCompaction.shouldMicroCompact({ lastCompleted: now - SessionCompaction.CACHE_TTL_MS, now, ratio: 0.3 }),
+    ).toBe(true)
+  })
+
+  test("runs under context pressure even with a warm cache", () => {
+    expect(
+      SessionCompaction.shouldMicroCompact({ lastCompleted: now - 10_000, now, ratio: SessionCompaction.MICRO_COMPACT_PRESSURE }),
+    ).toBe(true)
+  })
+
+  test("skips on first step (no prior assistant message, low pressure)", () => {
+    expect(SessionCompaction.shouldMicroCompact({ lastCompleted: undefined, now, ratio: 0.1 })).toBe(false)
+  })
+})

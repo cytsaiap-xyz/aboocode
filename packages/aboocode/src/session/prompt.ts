@@ -705,8 +705,18 @@ export namespace SessionPrompt {
         }
       }
 
-      // Phase 0: Micro-compact old tool results before building model messages
-      await SessionCompaction.microCompact({ sessionID })
+      // Phase 0: Micro-compact old tool results — but only when the provider
+      // prompt cache is already cold or context pressure demands it, so we
+      // don't invalidate a warm cache prefix on every step.
+      if (
+        SessionCompaction.shouldMicroCompact({
+          lastCompleted: lastFinished?.time.completed,
+          now: Date.now(),
+          ratio: lastFinished?.tokens ? SessionCompaction.usageRatio({ tokens: lastFinished.tokens, model }) : 0,
+        })
+      ) {
+        await SessionCompaction.microCompact({ sessionID })
+      }
 
       // context overflow, needs compaction
       if (

@@ -53,6 +53,35 @@ export namespace SessionCompaction {
   const COMPACTION_BUFFER = 20_000
 
   // --- Phase 0: Micro-Compaction ---
+
+  /**
+   * Provider prompt caches expire after ~5 minutes. Rewriting old tool
+   * results while the cache is warm forces a full uncached re-read of the
+   * prefix, so micro-compaction only runs when the cache is already cold
+   * or when context pressure makes shrinking necessary regardless.
+   */
+  export const CACHE_TTL_MS = 5 * 60 * 1000
+  export const MICRO_COMPACT_PRESSURE = 0.75
+
+  export function shouldMicroCompact(input: { lastCompleted?: number; now: number; ratio: number }) {
+    if (input.ratio >= MICRO_COMPACT_PRESSURE) return true
+    if (input.lastCompleted === undefined) return false
+    return input.now - input.lastCompleted >= CACHE_TTL_MS
+  }
+
+  export function usageRatio(input: { tokens: MessageV2.Assistant["tokens"]; model: Provider.Model }) {
+    const context = input.model.limit.context
+    if (context === 0) return 0
+    const count =
+      input.tokens.total ||
+      input.tokens.input + input.tokens.output + input.tokens.cache.read + input.tokens.cache.write
+    const usable = input.model.limit.input
+      ? input.model.limit.input
+      : context - ProviderTransform.maxOutputTokens(input.model)
+    if (usable <= 0) return 0
+    return count / usable
+  }
+
   const MICRO_COMPACTABLE_TOOLS = new Set([
     "bash",
     "read",
