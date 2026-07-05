@@ -35,6 +35,7 @@ export namespace SessionProcessor {
     let attempt = 0
     let needsCompaction = false
     let outputTruncated = false
+    let fallbackRequested = false
 
     const result = {
       get message() {
@@ -47,6 +48,7 @@ export namespace SessionProcessor {
         log.info("process")
         needsCompaction = false
         outputTruncated = false
+        fallbackRequested = false
         const shouldBreak = (await Config.get()).experimental?.continue_loop_on_deny !== true
         while (true) {
           try {
@@ -395,32 +397,30 @@ export namespace SessionProcessor {
                   fallback: config.fallback_model,
                 })
               ) {
-                log.info("transition", {
-                  sessionID: input.sessionID,
-                  kind: "continue",
-                  reason: "model_fallback",
+                fallbackRequested = true
+              } else {
+                attempt++
+                const delay =
+                  recovery.delay ?? SessionRetry.delay(attempt, error.name === "APIError" ? error : undefined)
+                SessionStatus.set(input.sessionID, {
+                  type: "retry",
                   attempt,
+                  message: retry ?? failure.message,
+                  next: Date.now() + delay,
                 })
-                return Transition.cont("model_fallback")
+                await SessionRetry.sleep(delay, input.abort).catch(() => {})
+                continue
               }
-              attempt++
-              const delay = recovery.delay ?? SessionRetry.delay(attempt, error.name === "APIError" ? error : undefined)
-              SessionStatus.set(input.sessionID, {
-                type: "retry",
-                attempt,
-                message: retry ?? failure.message,
-                next: Date.now() + delay,
-              })
-              await SessionRetry.sleep(delay, input.abort).catch(() => {})
-              continue
             }
-            if (SessionRetry.exhausted(attempt)) log.error("retry attempts exhausted", { attempt })
-            input.assistantMessage.error = error
-            Bus.publish(Session.Event.Error, {
-              sessionID: input.assistantMessage.sessionID,
-              error: input.assistantMessage.error,
-            })
-            SessionStatus.set(input.sessionID, { type: "idle" })
+            if (!fallbackRequested) {
+              if (SessionRetry.exhausted(attempt)) log.error("retry attempts exhausted", { attempt })
+              input.assistantMessage.error = error
+              Bus.publish(Session.Event.Error, {
+                sessionID: input.assistantMessage.sessionID,
+                error: input.assistantMessage.error,
+              })
+              SessionStatus.set(input.sessionID, { type: "idle" })
+            }
           }
           if (snapshot) {
             const patch = await Snapshot.patch(snapshot)
@@ -469,6 +469,10 @@ export namespace SessionProcessor {
           if (blocked) {
             transitionLog("terminal", "permission_blocked")
             return Transition.terminal("permission_blocked")
+          }
+          if (fallbackRequested) {
+            transitionLog("continue", "model_fallback")
+            return Transition.cont("model_fallback")
           }
           if (input.assistantMessage.error) {
             transitionLog("terminal", "model_error")

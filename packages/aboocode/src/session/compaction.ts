@@ -29,10 +29,13 @@ export namespace SessionCompaction {
   }
 
   /**
-   * Circuit breaker for automatic compaction. Repeated auto-compaction
-   * failures (summarize -> still overflowing -> summarize ...) must not
-   * spiral; after MAX_AUTO_FAILURES consecutive failures the session
-   * surfaces prompt_too_long instead of trying again.
+   * Circuit breaker for automatic compaction. Counts consecutive loop
+   * iterations that required auto-compaction; any iteration that passes all
+   * compaction checks cleanly resets it. If MAX_AUTO_FAILURES consecutive
+   * iterations each trigger auto-compaction (summarize -> still overflowing
+   * -> summarize ...) the session surfaces prompt_too_long instead of
+   * spiraling. breakerRecord(id, false) counts a trigger; breakerReset (or
+   * breakerRecord(id, true)) clears the count on a healthy turn.
    */
   export const MAX_AUTO_FAILURES = 3
   const breaker = new Map<string, number>()
@@ -72,9 +75,7 @@ export namespace SessionCompaction {
   export function usageRatio(input: { tokens: MessageV2.Assistant["tokens"]; model: Provider.Model }) {
     const context = input.model.limit.context
     if (context === 0) return 0
-    const count =
-      input.tokens.total ||
-      input.tokens.input + input.tokens.output + input.tokens.cache.read + input.tokens.cache.write
+    const count = input.tokens.input + input.tokens.output + input.tokens.cache.read + input.tokens.cache.write
     const usable = input.model.limit.input
       ? input.model.limit.input
       : context - ProviderTransform.maxOutputTokens(input.model)
@@ -102,9 +103,9 @@ export namespace SessionCompaction {
    * MessageV2.toModelMessages() replaces compacted parts with
    * "[Old tool result content cleared]".
    */
-  export async function microCompact(input: { sessionID: string; keepRecent?: number }) {
+  export async function microCompact(input: { sessionID: string; keepRecent?: number }): Promise<number> {
     const config = await Config.get()
-    if ((config.compaction as any)?.microCompact === false) return
+    if ((config.compaction as any)?.microCompact === false) return 0
 
     const keepRecent = input.keepRecent ?? 5
     const msgs = await Session.messages({ sessionID: input.sessionID })
@@ -137,6 +138,7 @@ export namespace SessionCompaction {
         }
       }
     }
+    return toPrune.length
   }
 
   export async function isOverflow(input: { tokens: MessageV2.Assistant["tokens"]; model: Provider.Model }) {

@@ -416,6 +416,8 @@ export namespace SessionPrompt {
     let stopHookBlocks = 0
     const MAX_STOP_HOOK_BLOCKS = 3
     let terminalReason: Transition.Terminal["reason"] = "completed"
+    // A new user prompt deserves a fresh auto-compaction circuit breaker
+    SessionCompaction.breakerReset(sessionID)
     const { HarnessTrace } = await import("./harness-trace")
     await HarnessTrace.loopStart(sessionID, sessionAgent, "pending")
     while (true) {
@@ -708,14 +710,20 @@ export namespace SessionPrompt {
       // Phase 0: Micro-compact old tool results — but only when the provider
       // prompt cache is already cold or context pressure demands it, so we
       // don't invalidate a warm cache prefix on every step.
-      if (
-        SessionCompaction.shouldMicroCompact({
-          lastCompleted: lastFinished?.time.completed,
-          now: Date.now(),
-          ratio: lastFinished?.tokens ? SessionCompaction.usageRatio({ tokens: lastFinished.tokens, model }) : 0,
-        })
-      ) {
-        await SessionCompaction.microCompact({ sessionID })
+      const microPruned = SessionCompaction.shouldMicroCompact({
+        lastCompleted: lastFinished?.time.completed,
+        now: Date.now(),
+        ratio:
+          lastFinished?.tokens && lastFinished.summary !== true
+            ? SessionCompaction.usageRatio({ tokens: lastFinished.tokens, model })
+            : 0,
+      })
+        ? await SessionCompaction.microCompact({ sessionID })
+        : 0
+      // microCompact cleared old tool results in the DB — reload so in-memory
+      // msgs and the usage-based estimate below reflect the pruned context.
+      if (microPruned > 0) {
+        msgs = await MessageV2.filterCompacted(MessageV2.stream(sessionID))
       }
 
       // context overflow, needs compaction
@@ -729,15 +737,13 @@ export namespace SessionPrompt {
           terminalReason = "prompt_too_long"
           break
         }
-        const ok = await SessionCompaction.create({
+        SessionCompaction.breakerRecord(sessionID, false)
+        await SessionCompaction.create({
           sessionID,
           agent: lastUser.agent,
           model: lastUser.model,
           auto: true,
         })
-          .then(() => true)
-          .catch(() => false)
-        SessionCompaction.breakerRecord(sessionID, ok)
         continue
       }
 
@@ -775,6 +781,11 @@ export namespace SessionPrompt {
       if (!agent) throw new Error(`Agent "${lastUser.agent}" not found. It may have been removed or renamed.`)
       const maxSteps = SessionLimits.resolveMaxSteps(agent.steps)
       const isLastStep = step >= maxSteps
+      if (step > maxSteps + 5) {
+        log.error("hard step cap exceeded", { sessionID, step, maxSteps })
+        terminalReason = "max_turns"
+        break
+      }
       msgs = await insertReminders({
         messages: msgs,
         agent,
@@ -839,15 +850,30 @@ export namespace SessionPrompt {
         TodoReminder.tick(sessionID)
         const reminder = await TodoReminder.build(sessionID)
         if (reminder) {
-          const reminderTarget = msgs.findLast((m) => m.info.role === "user")
-          reminderTarget?.parts.push({
-            id: Identifier.ascending("part"),
-            messageID: reminderTarget.info.id,
-            sessionID,
-            type: "text",
-            text: reminder,
-            synthetic: true,
-          } satisfies MessageV2.TextPart)
+          // Append a NEW ephemeral user message at the END of msgs instead of
+          // mutating an older message mid-prefix — that would invalidate the
+          // provider prompt cache. This message is in-memory only (never persisted).
+          const reminderMessageID = Identifier.ascending("message")
+          msgs.push({
+            info: {
+              id: reminderMessageID,
+              role: "user",
+              sessionID,
+              time: { created: Date.now() },
+              agent: lastUser.agent,
+              model: lastUser.model,
+            },
+            parts: [
+              {
+                id: Identifier.ascending("part"),
+                messageID: reminderMessageID,
+                sessionID,
+                type: "text",
+                text: reminder,
+                synthetic: true,
+              } satisfies MessageV2.TextPart,
+            ],
+          })
         }
       }
 
@@ -911,22 +937,20 @@ export namespace SessionPrompt {
           percentage: budget.maxInputTokens > 0 ? Math.round((budget.currentEstimate / budget.maxInputTokens) * 100) : 0,
         },
       })
-      if (TokenBudget.shouldReactiveCompact(budget)) {
+      if (TokenBudget.shouldReactiveCompact(budget) && lastFinished?.summary !== true) {
         if (SessionCompaction.breakerTripped(sessionID)) {
           log.error("auto-compaction breaker tripped", { sessionID })
           terminalReason = "prompt_too_long"
           break
         }
         log.info("reactive compaction triggered by token budget", { sessionID })
-        const ok = await SessionCompaction.create({
+        SessionCompaction.breakerRecord(sessionID, false)
+        await SessionCompaction.create({
           sessionID,
           agent: lastUser.agent,
           model: lastUser.model,
           auto: true,
         })
-          .then(() => true)
-          .catch(() => false)
-        SessionCompaction.breakerRecord(sessionID, ok)
         continue
       }
       if (TokenBudget.shouldCompact(budget) && !lastFinished?.summary) {
@@ -934,18 +958,19 @@ export namespace SessionPrompt {
           log.warn("auto-compaction breaker tripped, skipping proactive compaction", { sessionID })
         } else {
           log.info("proactive compaction triggered by token budget", { sessionID })
-          const ok = await SessionCompaction.create({
+          SessionCompaction.breakerRecord(sessionID, false)
+          await SessionCompaction.create({
             sessionID,
             agent: lastUser.agent,
             model: lastUser.model,
             auto: true,
           })
-            .then(() => true)
-            .catch(() => false)
-          SessionCompaction.breakerRecord(sessionID, ok)
           continue
         }
       }
+      // All auto-compaction checks passed cleanly this iteration — a healthy
+      // turn resets the trigger-counting circuit breaker.
+      SessionCompaction.breakerReset(sessionID)
 
       // Build system prompt, adding structured output instruction if needed
       const memoryContext = await (async () => {
@@ -1154,15 +1179,13 @@ export namespace SessionPrompt {
             terminalReason = "prompt_too_long"
             break
           }
-          const ok = await SessionCompaction.create({
+          SessionCompaction.breakerRecord(sessionID, false)
+          await SessionCompaction.create({
             sessionID,
             agent: lastUser.agent,
             model: lastUser.model,
             auto: true,
           })
-            .then(() => true)
-            .catch(() => false)
-          SessionCompaction.breakerRecord(sessionID, ok)
           continue
         }
 
