@@ -8,6 +8,13 @@ export namespace SessionRetry {
   export const RETRY_MAX_DELAY_NO_HEADERS = 30_000 // 30 seconds
   export const RETRY_MAX_DELAY = 2_147_483_647 // max 32-bit signed integer for setTimeout
 
+  /** Hard cap on API-error retry attempts. Past this, the error surfaces as model_error. */
+  export const MAX_ATTEMPTS = 10
+
+  export function exhausted(attempt: number) {
+    return attempt >= MAX_ATTEMPTS
+  }
+
   export async function sleep(ms: number, signal: AbortSignal): Promise<void> {
     return new Promise((resolve, reject) => {
       const abortHandler = () => {

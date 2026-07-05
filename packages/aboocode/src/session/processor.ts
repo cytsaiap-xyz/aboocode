@@ -390,7 +390,7 @@ export namespace SessionProcessor {
 
             // Existing retry logic (enhanced with failure classification)
             const retry = SessionRetry.retryable(error)
-            if (retry !== undefined || recovery.action === "retry") {
+            if ((retry !== undefined || recovery.action === "retry") && !SessionRetry.exhausted(attempt)) {
               attempt++
               const delay = recovery.delay ?? SessionRetry.delay(attempt, error.name === "APIError" ? error : undefined)
               SessionStatus.set(input.sessionID, {
@@ -402,6 +402,7 @@ export namespace SessionProcessor {
               await SessionRetry.sleep(delay, input.abort).catch(() => {})
               continue
             }
+            if (SessionRetry.exhausted(attempt)) log.error("retry attempts exhausted", { attempt })
             input.assistantMessage.error = error
             Bus.publish(Session.Event.Error, {
               sessionID: input.assistantMessage.sessionID,

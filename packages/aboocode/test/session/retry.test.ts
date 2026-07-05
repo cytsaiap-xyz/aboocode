@@ -123,6 +123,18 @@ describe("session.retry.retryable", () => {
   })
 })
 
+describe("session.retry.exhausted", () => {
+  test("allows attempts below the cap", () => {
+    expect(SessionRetry.exhausted(1)).toBe(false)
+    expect(SessionRetry.exhausted(SessionRetry.MAX_ATTEMPTS - 1)).toBe(false)
+  })
+
+  test("exhausts at the cap", () => {
+    expect(SessionRetry.exhausted(SessionRetry.MAX_ATTEMPTS)).toBe(true)
+    expect(SessionRetry.exhausted(SessionRetry.MAX_ATTEMPTS + 5)).toBe(true)
+  })
+})
+
 describe("session.message-v2.fromError", () => {
   test.concurrent(
     "converts ECONNRESET socket errors to retryable APIError",
