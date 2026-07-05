@@ -28,6 +28,28 @@ export namespace SessionCompaction {
     ),
   }
 
+  /**
+   * Circuit breaker for automatic compaction. Repeated auto-compaction
+   * failures (summarize -> still overflowing -> summarize ...) must not
+   * spiral; after MAX_AUTO_FAILURES consecutive failures the session
+   * surfaces prompt_too_long instead of trying again.
+   */
+  export const MAX_AUTO_FAILURES = 3
+  const breaker = new Map<string, number>()
+
+  export function breakerTripped(sessionID: string) {
+    return (breaker.get(sessionID) ?? 0) >= MAX_AUTO_FAILURES
+  }
+
+  export function breakerRecord(sessionID: string, ok: boolean) {
+    if (ok) breaker.delete(sessionID)
+    else breaker.set(sessionID, (breaker.get(sessionID) ?? 0) + 1)
+  }
+
+  export function breakerReset(sessionID: string) {
+    breaker.delete(sessionID)
+  }
+
   const COMPACTION_BUFFER = 20_000
 
   // --- Phase 0: Micro-Compaction ---

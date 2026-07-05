@@ -413,6 +413,8 @@ export namespace SessionPrompt {
     let step = 0
     let outputRecoveryAttempts = 0
     let compactRetries = 0
+    let stopHookBlocks = 0
+    const MAX_STOP_HOOK_BLOCKS = 3
     let terminalReason: Transition.Terminal["reason"] = "completed"
     const { HarnessTrace } = await import("./harness-trace")
     await HarnessTrace.loopStart(sessionID, sessionAgent, "pending")
@@ -712,12 +714,20 @@ export namespace SessionPrompt {
         lastFinished.summary !== true &&
         (await SessionCompaction.isOverflow({ tokens: lastFinished.tokens, model }))
       ) {
-        await SessionCompaction.create({
+        if (SessionCompaction.breakerTripped(sessionID)) {
+          log.error("auto-compaction breaker tripped", { sessionID })
+          terminalReason = "prompt_too_long"
+          break
+        }
+        const ok = await SessionCompaction.create({
           sessionID,
           agent: lastUser.agent,
           model: lastUser.model,
           auto: true,
         })
+          .then(() => true)
+          .catch(() => false)
+        SessionCompaction.breakerRecord(sessionID, ok)
         continue
       }
 
@@ -867,24 +877,39 @@ export namespace SessionPrompt {
         },
       })
       if (TokenBudget.shouldReactiveCompact(budget)) {
+        if (SessionCompaction.breakerTripped(sessionID)) {
+          log.error("auto-compaction breaker tripped", { sessionID })
+          terminalReason = "prompt_too_long"
+          break
+        }
         log.info("reactive compaction triggered by token budget", { sessionID })
-        await SessionCompaction.create({
+        const ok = await SessionCompaction.create({
           sessionID,
           agent: lastUser.agent,
           model: lastUser.model,
           auto: true,
         })
+          .then(() => true)
+          .catch(() => false)
+        SessionCompaction.breakerRecord(sessionID, ok)
         continue
       }
       if (TokenBudget.shouldCompact(budget) && !lastFinished?.summary) {
-        log.info("proactive compaction triggered by token budget", { sessionID })
-        await SessionCompaction.create({
-          sessionID,
-          agent: lastUser.agent,
-          model: lastUser.model,
-          auto: true,
-        })
-        continue
+        if (SessionCompaction.breakerTripped(sessionID)) {
+          log.warn("auto-compaction breaker tripped, skipping proactive compaction", { sessionID })
+        } else {
+          log.info("proactive compaction triggered by token budget", { sessionID })
+          const ok = await SessionCompaction.create({
+            sessionID,
+            agent: lastUser.agent,
+            model: lastUser.model,
+            auto: true,
+          })
+            .then(() => true)
+            .catch(() => false)
+          SessionCompaction.breakerRecord(sessionID, ok)
+          continue
+        }
       }
 
       // Build system prompt, adding structured output instruction if needed
@@ -1049,7 +1074,8 @@ export namespace SessionPrompt {
               },
             )
             await HarnessTrace.stopHook(sessionID, stopResult.action)
-            if (stopResult.action === "block" && stopResult.message) {
+            if (stopResult.action === "block" && stopResult.message && stopHookBlocks < MAX_STOP_HOOK_BLOCKS) {
+              stopHookBlocks++
               const blockMsg: MessageV2.User = {
                 id: Identifier.ascending("message"),
                 sessionID,
@@ -1081,6 +1107,11 @@ export namespace SessionPrompt {
 
       switch (result.reason) {
         case "reactive_compact": {
+          if (SessionCompaction.breakerTripped(sessionID)) {
+            log.error("auto-compaction breaker tripped", { sessionID })
+            terminalReason = "prompt_too_long"
+            break
+          }
           compactRetries++
           await HarnessTrace.compaction(sessionID, compactRetries)
           if (compactRetries > 2) {
@@ -1088,12 +1119,15 @@ export namespace SessionPrompt {
             terminalReason = "prompt_too_long"
             break
           }
-          await SessionCompaction.create({
+          const ok = await SessionCompaction.create({
             sessionID,
             agent: lastUser.agent,
             model: lastUser.model,
             auto: true,
           })
+            .then(() => true)
+            .catch(() => false)
+          SessionCompaction.breakerRecord(sessionID, ok)
           continue
         }
 

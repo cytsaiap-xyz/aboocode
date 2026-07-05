@@ -421,3 +421,23 @@ describe("session.getUsage", () => {
     },
   )
 })
+
+describe("session.compaction.breaker", () => {
+  test("trips after MAX_AUTO_FAILURES consecutive failures", () => {
+    const id = "ses_breaker_test_1"
+    SessionCompaction.breakerReset(id)
+    expect(SessionCompaction.breakerTripped(id)).toBe(false)
+    for (let i = 0; i < SessionCompaction.MAX_AUTO_FAILURES; i++) SessionCompaction.breakerRecord(id, false)
+    expect(SessionCompaction.breakerTripped(id)).toBe(true)
+  })
+
+  test("success resets the counter", () => {
+    const id = "ses_breaker_test_2"
+    SessionCompaction.breakerReset(id)
+    SessionCompaction.breakerRecord(id, false)
+    SessionCompaction.breakerRecord(id, false)
+    SessionCompaction.breakerRecord(id, true)
+    SessionCompaction.breakerRecord(id, false)
+    expect(SessionCompaction.breakerTripped(id)).toBe(false)
+  })
+})
