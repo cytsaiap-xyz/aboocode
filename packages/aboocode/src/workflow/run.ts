@@ -12,6 +12,7 @@ import type { WorkflowTypes } from "./types"
 
 export namespace WorkflowRun {
   const MAX_AGENTS = 1000
+  const liveRuns = new Set<string>()
 
   export async function resolveRef(
     ref: string | { scriptPath: string },
@@ -43,6 +44,7 @@ export namespace WorkflowRun {
   }
 
   async function drive(runId: string, name: string, input: ExecuteInput): Promise<ExecuteResult> {
+    liveRuns.add(runId)
     Bus.publish(WorkflowEvents.Started, { runId, sessionID: input.sessionID, name })
 
     let seq = 0
@@ -118,6 +120,7 @@ export namespace WorkflowRun {
       await WorkflowJournal.setStatus(runId, "done")
       const run = await WorkflowJournal.getRun(runId)
       Bus.publish(WorkflowEvents.Completed, { runId, status: "done", tokens: run?.tokens_total ?? 0 })
+      liveRuns.delete(runId)
       return { runId, status: "done", value }
     } catch (e) {
       const error = (e as Error).message
@@ -125,6 +128,7 @@ export namespace WorkflowRun {
       await WorkflowJournal.setStatus(runId, status)
       const run = await WorkflowJournal.getRun(runId)
       Bus.publish(WorkflowEvents.Completed, { runId, status, tokens: run?.tokens_total ?? 0 })
+      liveRuns.delete(runId)
       return { runId, status, error }
     }
   }
@@ -138,8 +142,12 @@ export namespace WorkflowRun {
     if (input.resumeFromRunId) {
       const existing = await WorkflowJournal.getRun(input.resumeFromRunId)
       if (!existing) throw new Error(`workflow run not found: ${input.resumeFromRunId}`)
-      if (existing.status === "running")
-        throw new Error(`workflow run ${input.resumeFromRunId} is still running; stop it before resuming`)
+      if (existing.status === "running") {
+        if (liveRuns.has(input.resumeFromRunId))
+          throw new Error(`workflow run ${input.resumeFromRunId} is still running; stop it before resuming`)
+        // Stale "running" row from a crashed process — reset so resume can proceed.
+        await WorkflowJournal.setStatus(input.resumeFromRunId, "failed")
+      }
     }
 
     const runId =

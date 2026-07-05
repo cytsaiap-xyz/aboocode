@@ -37,6 +37,7 @@ export namespace WorkflowEngine {
       ctx.emit({ kind: "agent", runId: ctx.runId, seq, label: opts.label, phase, status: "started" })
       try {
         const res = await ctx.spawn(prompt, opts, ctx)
+        if (ctx.abort.aborted) throw new Error("workflow aborted")
         if (!res) {
           await ctx.journal.record({ seq, callKey, label: opts.label, phase, prompt, opts, result: null, tokens: 0, status: "failed" })
           ctx.emit({ kind: "agent", runId: ctx.runId, seq, label: opts.label, phase, status: "failed" })

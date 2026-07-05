@@ -117,7 +117,7 @@ test("schema agent through the engine yields the parsed object", async () => {
   expect(value).toEqual({ bugs: 3 })
 })
 
-test("schema agent with missing structured output fails closed (returns null)", async () => {
+test("schema agent falls back to text-part narration when structured output is missing", async () => {
   const res = await WorkflowSpawn.run(
     "count bugs",
     { schema: { type: "object" } },

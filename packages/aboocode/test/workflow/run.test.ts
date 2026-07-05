@@ -88,16 +88,51 @@ test("resume refuses a run id that does not exist", async () => {
   })
 })
 
-test("resume refuses a run that is still running", async () => {
+test("resume resets a stale running row from a crashed process and proceeds", async () => {
   await using tmp = await tmpdir({ git: true })
   await Instance.provide({
     directory: tmp.path,
     fn: async () => {
+      // A "running" row with no in-process live run models a crashed process.
       const runId = await WorkflowJournal.createRun({
         sessionID: "ses_demo",
         name: "demo",
         scriptPath: "/tmp/demo.js",
         args: undefined,
+      })
+      const resumed = await WorkflowRun.execute({
+        sessionID: "ses_demo",
+        source: SCRIPT,
+        scriptPath: "/tmp/demo.js",
+        args: undefined,
+        resumeFromRunId: runId,
+        spawn: async (prompt: string) => ({ text: "R(" + prompt + ")", tokens: 1 }),
+      })
+      expect(resumed.status).toBe("done")
+      const run = await WorkflowJournal.getRun(runId)
+      expect(run?.status).toBe("done")
+    },
+  })
+})
+
+test("resume refuses a run that is live in this process", async () => {
+  await using tmp = await tmpdir({ git: true })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      let release: () => void = () => {}
+      const blocker = new Promise<void>((resolve) => {
+        release = resolve
+      })
+      const { runId, done } = await WorkflowRun.start({
+        sessionID: "ses_demo",
+        source: SCRIPT,
+        scriptPath: "/tmp/demo.js",
+        args: undefined,
+        spawn: async (prompt: string) => {
+          await blocker
+          return { text: "R(" + prompt + ")", tokens: 1 }
+        },
       })
       await expect(
         WorkflowRun.execute({
@@ -109,6 +144,9 @@ test("resume refuses a run that is still running", async () => {
           spawn: async () => ({ text: "x", tokens: 1 }),
         }),
       ).rejects.toThrow("still running")
+      release()
+      const result = await done
+      expect(result.status).toBe("done")
     },
   })
 })
@@ -167,6 +205,31 @@ return workflow({ scriptPath: ${JSON.stringify(grandchildPath)} }, { q: "x" })
       })
       expect(result.status).toBe("failed")
       expect(result.error).toContain("one level")
+    },
+  })
+})
+
+test("aborting a run persists stopped status and journals no interrupted call", async () => {
+  await using tmp = await tmpdir({ git: true })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      const controller = new AbortController()
+      const result = await WorkflowRun.execute({
+        sessionID: "ses_abort",
+        source: SCRIPT,
+        scriptPath: "/tmp/abort.js",
+        args: undefined,
+        abort: controller.signal,
+        spawn: async (prompt: string) => {
+          controller.abort()
+          return { text: "partial: " + prompt, tokens: 3 }
+        },
+      })
+      expect(result.status).toBe("stopped")
+      const run = await WorkflowJournal.getRun(result.runId)
+      expect(run?.status).toBe("stopped")
+      expect(run?.tokens_total).toBe(0)
     },
   })
 })

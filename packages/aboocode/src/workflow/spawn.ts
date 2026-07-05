@@ -61,6 +61,11 @@ export namespace WorkflowSpawn {
       const isolation = opts.isolation === "worktree" ? await isolate(child.id) : undefined
       const onAbort = () => cancel(child.id)
       ctx.abort?.addEventListener("abort", onAbort, { once: true })
+      if (ctx.abort?.aborted) {
+        ctx.abort?.removeEventListener("abort", onAbort)
+        if (isolation) await isolation.release().catch(() => {})
+        throw new Error("workflow aborted")
+      }
       let result: { info: any; parts: any[] }
       try {
         result = await deps.prompt({
