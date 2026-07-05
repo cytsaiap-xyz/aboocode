@@ -78,10 +78,11 @@ export namespace WorkflowRun {
       return { runId, status: "done", value }
     } catch (e) {
       const error = (e as Error).message
-      await WorkflowJournal.setStatus(runId, "failed")
+      const status: WorkflowJournal.Status = ctx.abort.aborted ? "stopped" : "failed"
+      await WorkflowJournal.setStatus(runId, status)
       const run = await WorkflowJournal.getRun(runId)
-      Bus.publish(WorkflowEvents.Completed, { runId, status: "failed", tokens: run?.tokens_total ?? 0 })
-      return { runId, status: "failed", error }
+      Bus.publish(WorkflowEvents.Completed, { runId, status, tokens: run?.tokens_total ?? 0 })
+      return { runId, status, error }
     }
   }
 

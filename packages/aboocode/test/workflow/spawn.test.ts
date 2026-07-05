@@ -36,3 +36,21 @@ test("run returns null when the prompt throws", async () => {
   const ctx: any = { sessionID: "ses_parent" }
   expect(await WorkflowSpawn.run("x", {}, ctx, deps)).toBeNull()
 })
+
+test("abort mid-prompt cancels the child session", async () => {
+  const controller = new AbortController()
+  const cancelled: string[] = []
+  const deps = {
+    createSession: async () => ({ id: "ses_child" }),
+    prompt: async () => {
+      controller.abort()
+      await new Promise((r) => setTimeout(r, 5))
+      return { info: { tokens: { output: 1 } }, parts: [{ type: "text", text: "late" }] }
+    },
+    parseModel: (m: string) => ({ providerID: "p", modelID: m }),
+    cancel: (id: string) => cancelled.push(id),
+  }
+  const ctx: any = { sessionID: "ses_parent", abort: controller.signal }
+  await WorkflowSpawn.run("x", {}, ctx, deps)
+  expect(cancelled).toEqual(["ses_child"])
+})

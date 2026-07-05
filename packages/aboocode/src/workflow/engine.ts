@@ -10,6 +10,7 @@ export namespace WorkflowEngine {
 
     async function agent(prompt: string, rawOpts: WorkflowTypes.AgentOpts = {}): Promise<any> {
       const opts = WorkflowSchema.validateOpts(rawOpts)
+      if (ctx.abort.aborted) throw new Error("workflow aborted")
       const seq = ctx.nextSeq()
       const phase = opts.phase ?? currentPhase
       const callKey = WorkflowJournal.callKey(seq, prompt, opts)
@@ -29,6 +30,10 @@ export namespace WorkflowEngine {
       ctx.guardSpawn()
 
       await ctx.semaphore.acquire()
+      if (ctx.abort.aborted) {
+        ctx.semaphore.release()
+        throw new Error("workflow aborted")
+      }
       ctx.emit({ kind: "agent", runId: ctx.runId, seq, label: opts.label, phase, status: "started" })
       try {
         const res = await ctx.spawn(prompt, opts, ctx)

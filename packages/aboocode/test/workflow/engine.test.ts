@@ -121,3 +121,30 @@ test("agent() rejects unknown opts keys before spending a seq", async () => {
   await expect(g.agent("p", { bogus: 1 } as any)).rejects.toThrow("agent() opts invalid")
   expect(seqCalls).toBe(0)
 })
+
+test("agent() throws immediately when the run is already aborted", async () => {
+  const controller = new AbortController()
+  controller.abort()
+  let spawned = 0
+  const ctx: any = {
+    runId: "wfr_t",
+    sessionID: "ses_t",
+    args: undefined,
+    resume: false,
+    depth: 0,
+    abort: controller.signal,
+    budget: { total: null, spent: () => 0, remaining: () => Infinity, add: () => {} },
+    semaphore: { acquire: async () => {}, release: () => {} },
+    nextSeq: () => 0,
+    guardSpawn: () => {},
+    journal: { lookup: async () => undefined, record: async () => {}, invalidateFrom: async () => {} },
+    spawn: async () => {
+      spawned++
+      return { text: "ok", tokens: 1 }
+    },
+    emit: () => {},
+  }
+  const g = WorkflowEngine.build(ctx)
+  await expect(g.agent("p")).rejects.toThrow("workflow aborted")
+  expect(spawned).toBe(0)
+})
