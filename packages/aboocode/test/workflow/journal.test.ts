@@ -37,7 +37,28 @@ test("record, lookup, and invalidateFrom round-trip through the db", async () =>
       expect(await j.lookup(0)).toBeTruthy()
 
       const run = await WorkflowJournal.getRun(runId)
-      expect(run?.tokens_total).toBe(15)
+      expect(run?.tokens_total).toBe(10)
+    },
+  })
+})
+
+test("invalidateFrom subtracts the deleted rows' tokens from tokens_total", async () => {
+  await using tmp = await tmpdir({ git: true })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      const runId = await WorkflowJournal.createRun({
+        sessionID: "ses_j",
+        name: "n",
+        scriptPath: "/tmp/n.js",
+        args: undefined,
+      })
+      const j = WorkflowJournal.bind(runId)
+      await j.record({ seq: 0, callKey: "k0", prompt: "a", opts: {}, result: "r0", tokens: 10, status: "done" })
+      await j.record({ seq: 1, callKey: "k1", prompt: "b", opts: {}, result: "r1", tokens: 7, status: "done" })
+      await j.invalidateFrom(1)
+      const run = await WorkflowJournal.getRun(runId)
+      expect(run?.tokens_total).toBe(10)
     },
   })
 })

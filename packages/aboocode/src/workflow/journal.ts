@@ -95,12 +95,24 @@ export namespace WorkflowJournal {
         })
       },
       async invalidateFrom(seq) {
-        Database.use((db) =>
-          db
-            .delete(WorkflowAgentCallTable)
+        Database.transaction((db) => {
+          const doomed = db
+            .select()
+            .from(WorkflowAgentCallTable)
             .where(and(eq(WorkflowAgentCallTable.run_id, runId), gte(WorkflowAgentCallTable.seq, seq)))
-            .run(),
-        )
+            .all()
+          const freed = doomed.reduce((sum, row) => sum + (row.tokens ?? 0), 0)
+          db.delete(WorkflowAgentCallTable)
+            .where(and(eq(WorkflowAgentCallTable.run_id, runId), gte(WorkflowAgentCallTable.seq, seq)))
+            .run()
+          if (freed > 0) {
+            const run = db.select().from(WorkflowRunTable).where(eq(WorkflowRunTable.id, runId)).all()[0]
+            db.update(WorkflowRunTable)
+              .set({ tokens_total: Math.max(0, (run?.tokens_total ?? 0) - freed) })
+              .where(eq(WorkflowRunTable.id, runId))
+              .run()
+          }
+        })
       },
     }
   }

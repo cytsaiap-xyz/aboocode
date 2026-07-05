@@ -17,3 +17,9 @@ test("finite total tracks spend and clamps remaining at 0", () => {
   expect(b.spent()).toBe(600)
   expect(b.remaining()).toBe(0)
 })
+
+test("create seeds prior spend so remaining() is deterministic across resume", () => {
+  const b = WorkflowBudget.create(1000, 300)
+  expect(b.spent()).toBe(300)
+  expect(b.remaining()).toBe(700)
+})

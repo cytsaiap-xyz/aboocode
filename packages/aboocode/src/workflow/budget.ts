@@ -1,8 +1,8 @@
 import type { WorkflowTypes } from "./types"
 
 export namespace WorkflowBudget {
-  export function create(total: number | null): WorkflowTypes.Budget {
-    let used = 0
+  export function create(total: number | null, initialUsed = 0): WorkflowTypes.Budget {
+    let used = Math.max(0, initialUsed)
     return {
       total,
       spent: () => used,

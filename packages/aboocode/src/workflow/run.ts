@@ -36,6 +36,7 @@ export namespace WorkflowRun {
     let seq = 0
     let spawned = 0
     const spawnFn = input.spawn ?? ((p, o, c) => WorkflowSpawn.run(p, o, c))
+    const priorTokens = input.resumeFromRunId ? ((await WorkflowJournal.getRun(runId))?.tokens_total ?? 0) : 0
 
     const ctx: WorkflowTypes.RunContext = {
       runId,
@@ -45,7 +46,7 @@ export namespace WorkflowRun {
       resume: Boolean(input.resumeFromRunId),
       depth: 0,
       abort: input.abort ?? new AbortController().signal,
-      budget: WorkflowBudget.create(input.budgetTotal ?? null),
+      budget: WorkflowBudget.create(input.budgetTotal ?? null, priorTokens),
       semaphore: WorkflowConcurrency.create(),
       nextSeq: () => seq++,
       guardSpawn: () => {
