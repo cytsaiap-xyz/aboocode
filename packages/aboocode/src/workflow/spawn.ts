@@ -7,9 +7,18 @@ import { Log } from "../util/log"
 
 const log = Log.create({ service: "workflow.spawn" })
 
+// Headless posture for workflow children: the user approved the `workflow`
+// permission for the whole run at the tool boundary, so children must not
+// block on interactive prompts. Mutating tools are pre-approved; todo tools
+// and recursive spawning are denied (mirrors the task tool's child rules).
+const CHILD_PERMISSIONS = [
+  ...["edit", "write", "bash", "webfetch"].map((p) => ({ permission: p, pattern: "*", action: "allow" as const })),
+  ...["todowrite", "todoread", "task", "workflow"].map((p) => ({ permission: p, pattern: "*", action: "deny" as const })),
+]
+
 export namespace WorkflowSpawn {
   export interface Deps {
-    createSession: (input: { parentID: string; title: string }) => Promise<{ id: string }>
+    createSession: (input: { parentID: string; title: string; permission: typeof CHILD_PERMISSIONS }) => Promise<{ id: string }>
     prompt: (input: any) => Promise<{ info: any; parts: any[] }>
     parseModel: (m: string) => { providerID: string; modelID: string }
     cancel?: (sessionID: string) => void
@@ -32,6 +41,7 @@ export namespace WorkflowSpawn {
       const child = await deps.createSession({
         parentID: ctx.sessionID,
         title: opts.label ?? "workflow agent",
+        permission: CHILD_PERMISSIONS,
       })
       const model = opts.model ? deps.parseModel(opts.model) : ctx.model
       const cancel = deps.cancel ?? defaults.cancel!

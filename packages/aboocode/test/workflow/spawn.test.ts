@@ -54,3 +54,20 @@ test("abort mid-prompt cancels the child session", async () => {
   await WorkflowSpawn.run("x", {}, ctx, deps)
   expect(cancelled).toEqual(["ses_child"])
 })
+
+test("child sessions get headless permission posture", async () => {
+  let created: any
+  const deps = {
+    createSession: async (input: any) => {
+      created = input
+      return { id: "ses_child" }
+    },
+    prompt: async () => ({ info: { tokens: { output: 1 } }, parts: [{ type: "text", text: "ok" }] }),
+    parseModel: (m: string) => ({ providerID: "p", modelID: m }),
+    cancel: () => {},
+  }
+  await WorkflowSpawn.run("x", {}, { sessionID: "ses_parent" } as any, deps)
+  const rule = (perm: string) => created.permission.find((r: any) => r.permission === perm)
+  for (const p of ["edit", "write", "bash", "webfetch"]) expect(rule(p)).toEqual({ permission: p, pattern: "*", action: "allow" })
+  for (const p of ["todowrite", "todoread", "task", "workflow"]) expect(rule(p)).toEqual({ permission: p, pattern: "*", action: "deny" })
+})
