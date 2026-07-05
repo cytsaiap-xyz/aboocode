@@ -23,6 +23,9 @@ export const TodoWriteTool = Tool.define("todowrite", {
       todos: params.todos,
     })
 
+    const { TodoReminder } = await import("../session/todo-reminder")
+    TodoReminder.recordWrite(ctx.sessionID)
+
     // Phase 13.6: emit TodoUpdated lifecycle event so external hooks
     // can mirror the todo list (audit trails, dashboards, summary
     // banners). Failure is non-fatal — the todo write already succeeded.

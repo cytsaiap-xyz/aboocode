@@ -823,6 +823,24 @@ export namespace SessionPrompt {
         messages: msgs,
       })
 
+      // Re-anchor long tasks on their todo list (ephemeral, not persisted)
+      if (tools["todowrite"]) {
+        const { TodoReminder } = await import("./todo-reminder")
+        TodoReminder.tick(sessionID)
+        const reminder = await TodoReminder.build(sessionID)
+        if (reminder) {
+          const reminderTarget = msgs.findLast((m) => m.info.role === "user")
+          reminderTarget?.parts.push({
+            id: Identifier.ascending("part"),
+            messageID: reminderTarget.info.id,
+            sessionID,
+            type: "text",
+            text: reminder,
+            synthetic: true,
+          } satisfies MessageV2.TextPart)
+        }
+      }
+
       // Inject StructuredOutput tool if JSON schema mode enabled
       if (lastUser.format?.type === "json_schema") {
         tools["StructuredOutput"] = createStructuredOutputTool({
