@@ -18,7 +18,6 @@ import { Question } from "@/question"
 import { Transition } from "./transition"
 
 export namespace SessionProcessor {
-  const DOOM_LOOP_THRESHOLD = 3
   const log = Log.create({ service: "session.processor" })
 
   export type Info = Awaited<ReturnType<typeof create>>
@@ -152,18 +151,14 @@ export namespace SessionProcessor {
                     toolcalls[value.toolCallId] = part as MessageV2.ToolPart
 
                     const parts = await MessageV2.parts(input.assistantMessage.id)
-                    const lastThree = parts.slice(-DOOM_LOOP_THRESHOLD)
-
-                    if (
-                      lastThree.length === DOOM_LOOP_THRESHOLD &&
-                      lastThree.every(
-                        (p) =>
-                          p.type === "tool" &&
-                          p.tool === value.toolName &&
-                          p.state.status !== "pending" &&
-                          JSON.stringify(p.state.input) === JSON.stringify(value.input),
-                      )
-                    ) {
+                    const { LoopDetect } = await import("./loop-detect")
+                    // Session.updatePart above already persisted this call as "running",
+                    // so it's already present in `parts` — pushing it again would double-count.
+                    const calls = parts.flatMap((p) =>
+                      p.type === "tool" && p.state.status !== "pending" ? [{ tool: p.tool, input: p.state.input }] : [],
+                    )
+                    const repeat = LoopDetect.repeated(calls)
+                    if (repeat && repeat.tool === value.toolName) {
                       const agent = await Agent.get(input.assistantMessage.agent)
                       await PermissionNext.ask({
                         permission: "doom_loop",
@@ -400,7 +395,12 @@ export namespace SessionProcessor {
                   fallback: config.fallback_model,
                 })
               ) {
-                log.info("transition", { sessionID: input.sessionID, kind: "continue", reason: "model_fallback", attempt })
+                log.info("transition", {
+                  sessionID: input.sessionID,
+                  kind: "continue",
+                  reason: "model_fallback",
+                  attempt,
+                })
                 return Transition.cont("model_fallback")
               }
               attempt++
