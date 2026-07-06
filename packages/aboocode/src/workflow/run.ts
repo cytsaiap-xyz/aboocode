@@ -98,7 +98,8 @@ export namespace WorkflowRun {
         child: async (ref, childArgs) => {
           if (ctx.depth >= 1) throw new Error("workflow() nesting is limited to one level")
           const seq = ctx.nextSeq()
-          const callKey = WorkflowJournal.callKey(seq, `workflow:${ref}`, { args: childArgs } as any)
+          const refKey = typeof ref === "string" ? ref : ref.scriptPath
+          const callKey = WorkflowJournal.callKey(seq, `workflow:${refKey}`, { args: childArgs } as any)
           if (ctx.resume) {
             const cached = await ctx.journal.lookup(seq)
             if (cached && cached.callKey === callKey && cached.status !== "failed") return cached.result
@@ -135,7 +136,7 @@ export namespace WorkflowRun {
               callKey,
               label: undefined,
               phase: undefined,
-              prompt: `workflow:${ref}`,
+              prompt: `workflow:${refKey}`,
               opts: { args: childArgs } as any,
               result: value,
               tokens: 0,

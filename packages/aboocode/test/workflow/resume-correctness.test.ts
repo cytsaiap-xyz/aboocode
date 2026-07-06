@@ -161,3 +161,87 @@ return { out, b }
     },
   })
 })
+
+test("child() callKey distinguishes object-ref workflow targets by scriptPath (#7 memoization fix)", () => {
+  const args = { args: { q: "hi" } } as any
+  // Old buggy form: `workflow:${ref}` on an object ref stringifies to the same
+  // "[object Object]" no matter what scriptPath the ref points at, so two
+  // different child scripts collapse onto one callKey and resume would replay
+  // the stale child's cached result instead of re-running the new one.
+  const buggyKeyA = WorkflowJournal.callKey(0, `workflow:${{ scriptPath: "/a.js" } as any}`, args)
+  const buggyKeyB = WorkflowJournal.callKey(0, `workflow:${{ scriptPath: "/b.js" } as any}`, args)
+  expect(buggyKeyA).toBe(buggyKeyB)
+  expect(buggyKeyA).toBe(WorkflowJournal.callKey(0, "workflow:[object Object]", args))
+
+  // Fixed form: key on the resolved refKey (scriptPath), so different child
+  // scripts at the same seq/args produce different callKeys.
+  const fixedKeyA = WorkflowJournal.callKey(0, "workflow:/a.js", args)
+  const fixedKeyB = WorkflowJournal.callKey(0, "workflow:/b.js", args)
+  expect(fixedKeyA).not.toBe(fixedKeyB)
+  expect(fixedKeyA).not.toBe(buggyKeyA)
+})
+
+test("resume re-runs child workflow when object-ref scriptPath diverges from journaled call (#7)", async () => {
+  await using tmp = await tmpdir({ git: true })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      const childAPath = `${tmp.path}/child-a.js`
+      const childBPath = `${tmp.path}/child-b.js`
+      await Bun.write(
+        childAPath,
+        `export const meta = { name: "child-a", description: "a" }
+const r = await agent("A: " + args.q)
+return { r }
+`,
+      )
+      await Bun.write(
+        childBPath,
+        `export const meta = { name: "child-b", description: "b" }
+const r = await agent("B: " + args.q)
+return { r }
+`,
+      )
+      const parentSource = (scriptPath: string) =>
+        `export const meta = { name: "parent-divergent", description: "p" }
+const out = await workflow({ scriptPath: ${JSON.stringify(scriptPath)} }, { q: "hi" })
+return { out }
+`
+
+      let spawnCount = 0
+      const first = await WorkflowRun.execute({
+        sessionID: "ses_child_divergent",
+        source: parentSource(childAPath),
+        scriptPath: "/tmp/parent-divergent.js",
+        args: undefined,
+        spawn: async (prompt: string) => {
+          spawnCount++
+          return { text: "R(" + prompt + ")", tokens: 1 }
+        },
+      })
+      expect(first.status).toBe("done")
+      expect(first.value).toEqual({ out: { r: "R(A: hi)" } })
+      const spawnsAfterFirst = spawnCount
+
+      // Same seq position, same args — but the parent script now points the child
+      // ref at a DIFFERENT scriptPath. Resume must detect the divergence and
+      // re-run child-b instead of replaying child-a's cached result.
+      const resumed = await WorkflowRun.execute({
+        sessionID: "ses_child_divergent",
+        source: parentSource(childBPath),
+        scriptPath: "/tmp/parent-divergent.js",
+        args: undefined,
+        resumeFromRunId: first.runId,
+        spawn: async (prompt: string) => {
+          spawnCount++
+          return { text: "LIVE(" + prompt + ")", tokens: 1 }
+        },
+      })
+      expect(resumed.status).toBe("done")
+      // Must re-run: a fresh spawn happened, and the result reflects child-b, not
+      // the stale child-a cached value.
+      expect(spawnCount).toBe(spawnsAfterFirst + 1)
+      expect(resumed.value).toEqual({ out: { r: "LIVE(B: hi)" } })
+    },
+  })
+})
