@@ -162,6 +162,67 @@ return { out, b }
   })
 })
 
+test("parent tokens_total rolls up the child workflow's token spend, not just its own (#17)", async () => {
+  await using tmp = await tmpdir({ git: true })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      const childPath = `${tmp.path}/child-rollup.js`
+      await Bun.write(
+        childPath,
+        `export const meta = { name: "child-rollup", description: "c" }
+const r = await agent("inner: " + args.q)
+return { r }
+`,
+      )
+      const PARENT = `export const meta = { name: "parent-rollup", description: "p" }
+const out = await workflow({ scriptPath: ${JSON.stringify(childPath)} }, { q: "hi" })
+const b = await agent("after")
+return { out, b }
+`
+      const first = await WorkflowRun.execute({
+        sessionID: "ses_rollup",
+        source: PARENT,
+        scriptPath: "/tmp/parent-rollup.js",
+        args: undefined,
+        budgetTotal: 100,
+        spawn: async (prompt: string) => {
+          // child's inner agent() spends 40, parent's trailing agent() spends 5.
+          if (prompt.startsWith("inner")) return { text: "R(" + prompt + ")", tokens: 40 }
+          return { text: "R(" + prompt + ")", tokens: 5 }
+        },
+      })
+      expect(first.status).toBe("done")
+
+      const run = await WorkflowJournal.getRun(first.runId)
+      // Must include the child's 40 tokens, not just the parent's own 5.
+      expect(run?.tokens_total).toBe(45)
+
+      // On resume, priorTokens seeds the budget from the (now correctly rolled-up)
+      // parent tokens_total, so a resumed run's remaining budget accounts for the
+      // child's prior spend instead of undercounting it.
+      let resumeSpawnCount = 0
+      const resumed = await WorkflowRun.execute({
+        sessionID: "ses_rollup",
+        source: PARENT,
+        scriptPath: "/tmp/parent-rollup.js",
+        args: undefined,
+        budgetTotal: 100,
+        resumeFromRunId: first.runId,
+        spawn: async (prompt: string) => {
+          resumeSpawnCount++
+          return { text: "LIVE(" + prompt + ")", tokens: 1 }
+        },
+      })
+      expect(resumed.status).toBe("done")
+      // Both calls are memo-hits on resume — nothing should re-spawn.
+      expect(resumeSpawnCount).toBe(0)
+      const resumedRun = await WorkflowJournal.getRun(first.runId)
+      expect(resumedRun?.tokens_total).toBe(45)
+    },
+  })
+})
+
 test("child() callKey distinguishes object-ref workflow targets by scriptPath (#7 memoization fix)", () => {
   const args = { args: { q: "hi" } } as any
   // Old buggy form: `workflow:${ref}` on an object ref stringifies to the same
@@ -242,6 +303,91 @@ return { out }
       // the stale child-a cached value.
       expect(spawnCount).toBe(spawnsAfterFirst + 1)
       expect(resumed.value).toEqual({ out: { r: "LIVE(B: hi)" } })
+    },
+  })
+})
+
+test("parent tokens_total is correct after a divergent child workflow re-runs on resume (#17 divergence)", async () => {
+  await using tmp = await tmpdir({ git: true })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      const childAPath = `${tmp.path}/child-divergent-tokens-a.js`
+      const childBPath = `${tmp.path}/child-divergent-tokens-b.js`
+      await Bun.write(
+        childAPath,
+        `export const meta = { name: "child-divergent-tokens-a", description: "a" }
+const r = await agent("A: " + args.q)
+return { r }
+`,
+      )
+      await Bun.write(
+        childBPath,
+        `export const meta = { name: "child-divergent-tokens-b", description: "b" }
+const r = await agent("B: " + args.q)
+return { r }
+`,
+      )
+      // The parent's own agent() call comes BEFORE the workflow() child call, so it
+      // sits at a lower seq than the child and survives the divergence untouched —
+      // only the child's journal row (and its tokens) should be reclaimed and redone.
+      const parentSource = (childScriptPath: string) =>
+        `export const meta = { name: "parent-divergent-tokens", description: "p" }
+const first = await agent("first")
+const out = await workflow({ scriptPath: ${JSON.stringify(childScriptPath)} }, { q: "hi" })
+return { first, out }
+`
+
+      const first = await WorkflowRun.execute({
+        sessionID: "ses_child_divergent_tokens",
+        source: parentSource(childAPath),
+        scriptPath: "/tmp/parent-divergent-tokens.js",
+        args: undefined,
+        budgetTotal: 200,
+        spawn: async (prompt: string) => {
+          // parent's own call spends 5, the old (child-a) call spends 40.
+          if (prompt === "first") return { text: "R(first)", tokens: 5 }
+          if (prompt.startsWith("A:")) return { text: "R(" + prompt + ")", tokens: 40 }
+          throw new Error("unexpected prompt in first run: " + prompt)
+        },
+      })
+      expect(first.status).toBe("done")
+      expect(first.value).toEqual({ first: "R(first)", out: { r: "R(A: hi)" } })
+
+      const run = await WorkflowJournal.getRun(first.runId)
+      // 5 (parent's own agent) + 40 (child-a's rolled-up spend).
+      expect(run?.tokens_total).toBe(45)
+
+      // Resume with the child ref pointed at a DIFFERENT script, same seq/args as
+      // the #7 divergence test above — child()'s callKey no longer matches, so
+      // invalidateFrom reclaims the stale child-a 40 tokens from both the DB row
+      // and the live budget (ctx.budget.sub), then the child re-runs against
+      // child-b and spends a different, distinguishable amount (70).
+      let resumeSpawnCount = 0
+      const resumed = await WorkflowRun.execute({
+        sessionID: "ses_child_divergent_tokens",
+        source: parentSource(childBPath),
+        scriptPath: "/tmp/parent-divergent-tokens.js",
+        args: undefined,
+        budgetTotal: 200,
+        resumeFromRunId: first.runId,
+        spawn: async (prompt: string) => {
+          resumeSpawnCount++
+          if (prompt.startsWith("B:")) return { text: "LIVE(" + prompt + ")", tokens: 70 }
+          throw new Error("unexpected prompt on resume: " + prompt)
+        },
+      })
+      expect(resumed.status).toBe("done")
+      // Parent's leading agent("first") stays a memo hit; only the diverged child re-runs.
+      expect(resumeSpawnCount).toBe(1)
+      expect(resumed.value).toEqual({ first: "R(first)", out: { r: "LIVE(B: hi)" } })
+
+      const resumedRun = await WorkflowJournal.getRun(first.runId)
+      // Old child spend (40) must be reclaimed exactly once and new child spend (70)
+      // added exactly once: 5 (parent, untouched) + 70 (new child) = 75. A double-count
+      // (>=110), an under-count (missing the +70, i.e. 5), or a stale value (45) would
+      // all be wrong and distinguishable from the correct 75.
+      expect(resumedRun?.tokens_total).toBe(75)
     },
   })
 })

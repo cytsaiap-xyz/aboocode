@@ -131,6 +131,7 @@ export namespace WorkflowRun {
           try {
             const value = await WorkflowRuntime.evaluate(resolved.source, WorkflowEngine.build(childCtx) as any)
             await WorkflowJournal.setStatus(childRunId, "done")
+            const childTokens = (await WorkflowJournal.getRun(childRunId))?.tokens_total ?? 0
             await ctx.journal.record({
               seq,
               callKey,
@@ -139,7 +140,7 @@ export namespace WorkflowRun {
               prompt: `workflow:${refKey}`,
               opts: { args: childArgs } as any,
               result: value,
-              tokens: 0,
+              tokens: childTokens,
               status: "done",
             })
             return value
