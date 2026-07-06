@@ -1,14 +1,8 @@
 import { test, expect } from "bun:test"
-import path from "path"
 import fs from "fs/promises"
 import { Log } from "../../src/util/log"
 
 // Log.init writes errors.log under Global.Path.log; ABOOCODE_TEST_HOME redirects the data dir.
-async function freshHome() {
-  const dir = path.join(process.cwd(), ".test-errlog-" + Math.random().toString(36).slice(2))
-  await fs.mkdir(dir, { recursive: true })
-  return dir
-}
 
 test("recordError appends a structured line with category and cause chain", async () => {
   await Log.init({ print: false })

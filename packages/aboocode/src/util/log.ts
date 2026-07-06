@@ -92,6 +92,8 @@ export namespace Log {
     )
     await fs.truncate(logpath).catch(() => {})
     const stream = createWriteStream(logpath, { flags: "a" })
+    // best-effort: a failed log write must never crash the app
+    stream.on("error", () => {})
     write = async (msg: any) => {
       return new Promise((resolve, reject) => {
         stream.write(msg, (err) => {
@@ -112,6 +114,8 @@ export namespace Log {
       await fs.rename(errorpath, errorpath + ".1").catch(() => {})
     }
     const errorStream = createWriteStream(errorpath, { flags: "a" })
+    // best-effort: a failed log write must never crash the app
+    errorStream.on("error", () => {})
     writeError = (msg: any) => {
       errorStream.write(msg, () => {})
     }
