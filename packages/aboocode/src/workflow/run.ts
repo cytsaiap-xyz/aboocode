@@ -14,6 +14,17 @@ export namespace WorkflowRun {
   const MAX_AGENTS = 1000
   const liveRuns = new Set<string>()
 
+  // Synchronous claim: returns false if runId is already claimed/live in this process.
+  // Called BEFORE any await in start() so two concurrent resumes cannot both proceed.
+  export function __claimResume(runId: string): boolean {
+    if (liveRuns.has(runId)) return false
+    liveRuns.add(runId)
+    return true
+  }
+  export function __releaseResume(runId: string): void {
+    liveRuns.delete(runId)
+  }
+
   export async function resolveRef(
     ref: string | { scriptPath: string },
   ): Promise<{ source: string; scriptPath: string }> {
@@ -44,7 +55,9 @@ export namespace WorkflowRun {
   }
 
   async function drive(runId: string, name: string, input: ExecuteInput): Promise<ExecuteResult> {
-    liveRuns.add(runId)
+    // Resume claims happen synchronously in start() before its first await; only fresh
+    // (non-resume) runs still need to be added here.
+    if (!input.resumeFromRunId) liveRuns.add(runId)
     try {
       Bus.publish(WorkflowEvents.Started, { runId, sessionID: input.sessionID, name })
 
@@ -131,7 +144,7 @@ export namespace WorkflowRun {
         return { runId, status, error }
       }
     } finally {
-      liveRuns.delete(runId)
+      __releaseResume(runId)
     }
   }
 
@@ -142,13 +155,20 @@ export namespace WorkflowRun {
     const m = meta ?? WorkflowRuntime.parseMeta(input.source)
 
     if (input.resumeFromRunId) {
-      const existing = await WorkflowJournal.getRun(input.resumeFromRunId)
-      if (!existing) throw new Error(`workflow run not found: ${input.resumeFromRunId}`)
-      if (existing.status === "running") {
-        if (liveRuns.has(input.resumeFromRunId))
-          throw new Error(`workflow run ${input.resumeFromRunId} is still running; stop it before resuming`)
-        // Stale "running" row from a crashed process — reset so resume can proceed.
-        await WorkflowJournal.setStatus(input.resumeFromRunId, "failed")
+      // Claim SYNCHRONOUSLY, before any await, so two concurrent resumes of the same
+      // runId cannot both observe a resumable status and both proceed to drive().
+      if (!__claimResume(input.resumeFromRunId))
+        throw new Error(`workflow run ${input.resumeFromRunId} is still running; stop it before resuming`)
+      try {
+        const existing = await WorkflowJournal.getRun(input.resumeFromRunId)
+        if (!existing) throw new Error(`workflow run not found: ${input.resumeFromRunId}`)
+        if (existing.status === "running") {
+          // Stale "running" row from a crashed process — reset so resume can proceed.
+          await WorkflowJournal.setStatus(input.resumeFromRunId, "failed")
+        }
+      } catch (e) {
+        __releaseResume(input.resumeFromRunId)
+        throw e
       }
     }
 
