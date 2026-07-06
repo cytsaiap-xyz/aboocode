@@ -97,7 +97,13 @@ await $`cd ./dist/${pkg.name} && bun pm pack && npm publish *.tgz --access publi
 await $`cd ${mainPkgDir} && bun pm pack && npm publish *.tgz --access public --tag latest`
 
 // registries
-if (!Script.preview) {
+//
+// ABOOCODE_SKIP_REGISTRIES=1 skips the AUR + Homebrew tap updates that
+// follow npm publish. Useful when:
+//   - the publisher doesn't have an AUR SSH key on aur.archlinux.org
+//   - GITHUB_TOKEN isn't set (needed only for the Homebrew tap push)
+// npm publish above is unaffected — packages still ship to the registry.
+if (!Script.preview && !process.env.ABOOCODE_SKIP_REGISTRIES) {
   // Calculate SHA values
   const arm64Sha = await $`sha256sum ./dist/aboocode-linux-arm64.tar.gz | cut -d' ' -f1`.text().then((x) => x.trim())
   const x64Sha = await $`sha256sum ./dist/aboocode-linux-x64.tar.gz | cut -d' ' -f1`.text().then((x) => x.trim())
