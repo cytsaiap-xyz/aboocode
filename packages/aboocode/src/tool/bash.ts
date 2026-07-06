@@ -204,6 +204,19 @@ export const BashTool = Tool.define("bash", async () => {
             output: blocked,
           }
         }
+        // Skip when the command is pure `cd` navigation (patterns stays
+        // empty — see the loop above): cd doesn't execute anything itself,
+        // and its target directory is already vetted via the
+        // external_directory ask. Enforcing the classifier's verdict here
+        // only matters once there's an actual command to scrutinize.
+        if (decision.action === "ask" && patterns.size > 0) {
+          await ctx.ask({
+            permission: "bash",
+            patterns: [params.command],
+            always: [],
+            metadata: { classifier: decision.verdict },
+          })
+        }
       }
 
       if (patterns.size > 0) {
