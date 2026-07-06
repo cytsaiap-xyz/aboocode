@@ -84,7 +84,9 @@ export const TaskTool = Tool.define<typeof parameters, { sessionId?: string; mod
       const agent = await Agent.get(params.subagent_type)
       if (!agent) throw new Error(`Unknown agent type: ${params.subagent_type} is not a valid agent type`)
 
-      const hasTaskPermission = PermissionNext.evaluate("task", "*", agent.permission).action !== "deny"
+      const hasTaskPermission =
+        agent.permission.some((rule) => rule.permission === "task") &&
+        PermissionNext.evaluate("task", "*", agent.permission).action !== "deny"
 
       const session = await iife(async () => {
         if (params.task_id) {
