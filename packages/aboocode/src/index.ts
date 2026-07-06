@@ -74,6 +74,9 @@ let cli = yargs(hideBin(process.argv))
       })(),
     })
 
+    const { SessionErrorLog } = await import("./session/error-log")
+    SessionErrorLog.init()
+
     process.env.AGENT = "1"
     process.env.OPENCODE = "1"
 
