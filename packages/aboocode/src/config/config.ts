@@ -1361,7 +1361,8 @@ export namespace Config {
               throw new InvalidError({ path: source, message: errMsg }, { cause: error })
             })
         ).trim()
-        text = text.replace(match, () => JSON.stringify(fileContent).slice(1, -1))
+        const escaped = match.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+        text = text.replace(new RegExp(escaped, "g"), () => JSON.stringify(fileContent).slice(1, -1))
       }
     }
 

@@ -2458,7 +2458,7 @@ NOTE: At any point in time through this workflow you should feel free to ask the
       return args[argIndex]
     })
     const usesArgumentsPlaceholder = templateCommand.includes("$ARGUMENTS")
-    let template = withArgs.replaceAll("$ARGUMENTS", input.arguments)
+    let template = withArgs.replace(/\$ARGUMENTS/g, () => input.arguments)
 
     // If command doesn't explicitly handle arguments (no $N or $ARGUMENTS placeholders)
     // but user provided arguments, append them to the template
