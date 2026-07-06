@@ -122,7 +122,7 @@ export namespace Command {
     WORKFLOW: "workflow",
   } as const
 
-  const state = Instance.state(async () => {
+  async function build(): Promise<Record<string, Info>> {
     const cfg = await Config.get()
 
     const result: Record<string, Info> = {
@@ -341,108 +341,16 @@ export namespace Command {
     }
 
     return result
-  })
+  }
+
+  const state = Instance.state(() => build())
 
   export async function reload() {
     const s = await state()
     for (const key of Object.keys(s)) {
       delete s[key]
     }
-
-    const cfg = await Config.get()
-
-    s[Default.INIT] = {
-      name: Default.INIT,
-      description: "create/update AGENTS.md",
-      source: "command",
-      get template() {
-        return PROMPT_INITIALIZE.replace("${path}", Instance.worktree)
-      },
-      hints: hints(PROMPT_INITIALIZE),
-    }
-    s[Default.REVIEW] = {
-      name: Default.REVIEW,
-      description: "review changes [commit|branch|pr], defaults to uncommitted",
-      source: "command",
-      get template() {
-        return PROMPT_REVIEW.replace("${path}", Instance.worktree)
-      },
-      subtask: true,
-      hints: hints(PROMPT_REVIEW),
-    }
-    s[Default.MEMORY] = {
-      name: Default.MEMORY,
-      description: "show memory system status and loaded instructions",
-      source: "command",
-      get template() {
-        return PROMPT_MEMORY
-      },
-      hints: hints(PROMPT_MEMORY),
-    }
-
-    if (cfg.experimental?.workflows === true) {
-      s[Default.WORKFLOW] = {
-        name: Default.WORKFLOW,
-        description: "run, author, or resume a dynamic workflow",
-        source: "command",
-        get template() {
-          return PROMPT_WORKFLOW
-        },
-        hints: hints(PROMPT_WORKFLOW),
-      }
-    }
-
-    for (const [name, command] of Object.entries(cfg.command ?? {})) {
-      s[name] = {
-        name,
-        agent: command.agent,
-        model: command.model,
-        description: command.description,
-        source: "command",
-        get template() {
-          return command.template
-        },
-        subtask: command.subtask,
-        hints: hints(command.template),
-      }
-    }
-    for (const [name, prompt] of Object.entries(await MCP.prompts())) {
-      s[name] = {
-        name,
-        source: "mcp",
-        description: prompt.description,
-        get template() {
-          return new Promise<string>(async (resolve, reject) => {
-            const template = await MCP.getPrompt(
-              prompt.client,
-              prompt.name,
-              prompt.arguments
-                ? Object.fromEntries(prompt.arguments?.map((argument, i) => [argument.name, `$${i + 1}`]))
-                : {},
-            ).catch(reject)
-            resolve(
-              template?.messages
-                .map((message) => (message.content.type === "text" ? message.content.text : ""))
-                .join("\n") || "",
-            )
-          })
-        },
-        hints: prompt.arguments?.map((_, i) => `$${i + 1}`) ?? [],
-      }
-    }
-
-    for (const skill of await Skill.all()) {
-      if (s[skill.name]) continue
-      s[skill.name] = {
-        name: skill.name,
-        description: skill.description,
-        source: "skill",
-        get template() {
-          return skill.content
-        },
-        hints: [],
-      }
-    }
+    Object.assign(s, await build())
   }
 
   export async function get(name: string) {

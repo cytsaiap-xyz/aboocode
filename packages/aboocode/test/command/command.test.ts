@@ -44,3 +44,24 @@ test("workflow command survives Command.reload() when the flag is on", async () 
     },
   })
 })
+
+test("Command.reload() preserves all bundled commands", async () => {
+  await using tmp = await tmpdir({ config: {} })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      const before = (await Command.list())
+        .filter((c) => c.source === "command")
+        .map((c) => c.name)
+        .sort()
+      expect(before).toContain("undo")
+      expect(before).toContain("compact")
+      await Command.reload()
+      const after = (await Command.list())
+        .filter((c) => c.source === "command")
+        .map((c) => c.name)
+        .sort()
+      expect(after).toEqual(before)
+    },
+  })
+})
