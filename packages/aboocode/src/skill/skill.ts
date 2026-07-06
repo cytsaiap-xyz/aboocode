@@ -53,7 +53,7 @@ export namespace Skill {
   const ABOOCODE_SKILL_PATTERN = "{skill,skills}/**/SKILL.md"
   const SKILL_PATTERN = "**/SKILL.md"
 
-  export const state = Instance.state(async () => {
+  async function build() {
     const skills: Record<string, Info> = {}
     const dirs = new Set<string>()
 
@@ -216,65 +216,25 @@ export namespace Skill {
       skills,
       dirs: Array.from(dirs),
     }
-  })
+  }
+
+  export const state = Instance.state(() => build())
 
   export async function reload() {
     log.info("reloading skills")
     const s = await state()
-    // Clear and re-scan
+    // Rebuild from the SAME builder state() uses, so every source — disk,
+    // config paths/urls, bundled, and MCP — is re-merged (a hand-rolled
+    // re-scan here previously dropped bundled/MCP skills until restart).
+    // Build the replacement before mutating so a concurrent get()/all()
+    // never observes a partially-filled registry.
+    const next = await build()
     for (const key of Object.keys(s.skills)) {
       delete s.skills[key]
     }
+    Object.assign(s.skills, next.skills)
     s.dirs.length = 0
-
-    const addSkill = async (match: string) => {
-      const md = await ConfigMarkdown.parse(match).catch((err) => {
-        log.error("failed to load skill", { skill: match, err })
-        return undefined
-      })
-      if (!md) return
-      const parsed = Info.pick({ name: true, description: true }).safeParse(md.data)
-      if (!parsed.success) return
-      s.dirs.push(path.dirname(match))
-      s.skills[parsed.data.name] = {
-        name: parsed.data.name,
-        description: parsed.data.description,
-        location: match,
-        content: md.content,
-      }
-    }
-
-    // Re-scan all skill sources
-    if (!Flag.ABOOCODE_DISABLE_EXTERNAL_SKILLS) {
-      for (const dir of EXTERNAL_DIRS) {
-        const root = path.join(Global.Path.home, dir)
-        if (!(await Filesystem.isDir(root))) continue
-        const matches = await Glob.scan(EXTERNAL_SKILL_PATTERN, {
-          cwd: root, absolute: true, include: "file", dot: true, symlink: true,
-        })
-        await Promise.all(matches.map(addSkill))
-      }
-      for await (const root of Filesystem.up({
-        targets: EXTERNAL_DIRS,
-        start: Instance.directory,
-        stop: Instance.worktree,
-      })) {
-        const matches = await Glob.scan(EXTERNAL_SKILL_PATTERN, {
-          cwd: root, absolute: true, include: "file", dot: true, symlink: true,
-        })
-        await Promise.all(matches.map(addSkill))
-      }
-    }
-
-    for (const dir of await Config.directories()) {
-      const matches = await Glob.scan(ABOOCODE_SKILL_PATTERN, {
-        cwd: dir, absolute: true, include: "file", symlink: true,
-      })
-      for (const match of matches) {
-        await addSkill(match)
-      }
-    }
-
+    s.dirs.push(...next.dirs)
     log.info("reloaded skills", { count: Object.keys(s.skills).length })
   }
 
