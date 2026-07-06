@@ -204,19 +204,6 @@ export const BashTool = Tool.define("bash", async () => {
             output: blocked,
           }
         }
-        // Only the "destructive" verdict is enforced via ctx.ask here.
-        // "readonly" also maps to action "ask" in normal mode (git log,
-        // git status, unknown binaries, etc.), but that would prompt on
-        // every benign read — those fall through to the declarative
-        // ruleset below instead, same as before this classifier existed.
-        if (decision.action === "ask" && decision.verdict === "destructive") {
-          await ctx.ask({
-            permission: "bash",
-            patterns: [params.command],
-            always: [],
-            metadata: { classifier: decision.verdict },
-          })
-        }
       }
 
       if (patterns.size > 0) {
