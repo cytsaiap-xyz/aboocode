@@ -97,6 +97,16 @@ export namespace WorkflowRun {
           }),
         child: async (ref, childArgs) => {
           if (ctx.depth >= 1) throw new Error("workflow() nesting is limited to one level")
+          const seq = ctx.nextSeq()
+          const callKey = WorkflowJournal.callKey(seq, `workflow:${ref}`, { args: childArgs } as any)
+          if (ctx.resume) {
+            const cached = await ctx.journal.lookup(seq)
+            if (cached && cached.callKey === callKey && cached.status !== "failed") return cached.result
+            if (cached) {
+              const freed = await ctx.journal.invalidateFrom(seq)
+              ctx.budget.sub(freed)
+            }
+          }
           const resolved = await resolveRef(ref)
           const childMeta = WorkflowRuntime.parseMeta(resolved.source)
           const childRunId = await WorkflowJournal.createRun({
@@ -120,6 +130,17 @@ export namespace WorkflowRun {
           try {
             const value = await WorkflowRuntime.evaluate(resolved.source, WorkflowEngine.build(childCtx) as any)
             await WorkflowJournal.setStatus(childRunId, "done")
+            await ctx.journal.record({
+              seq,
+              callKey,
+              label: undefined,
+              phase: undefined,
+              prompt: `workflow:${ref}`,
+              opts: { args: childArgs } as any,
+              result: value,
+              tokens: 0,
+              status: "done",
+            })
             return value
           } catch (e) {
             await WorkflowJournal.setStatus(childRunId, ctx.abort.aborted ? "stopped" : "failed")
