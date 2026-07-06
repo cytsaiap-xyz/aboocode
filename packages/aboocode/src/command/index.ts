@@ -347,10 +347,13 @@ export namespace Command {
 
   export async function reload() {
     const s = await state()
+    // Build the replacement before mutating so a concurrent get()/list()
+    // never observes an empty or partially-filled registry.
+    const next = await build()
     for (const key of Object.keys(s)) {
       delete s[key]
     }
-    Object.assign(s, await build())
+    Object.assign(s, next)
   }
 
   export async function get(name: string) {
