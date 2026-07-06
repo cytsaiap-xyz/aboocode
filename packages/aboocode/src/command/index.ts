@@ -327,6 +327,9 @@ export namespace Command {
 
     // Add skills as invokable commands
     for (const skill of await Skill.all()) {
+      // MCP-prompt skills have an empty template here (content is fetched
+      // lazily); they're already registered correctly above as <client>:<prompt>.
+      if (skill.source === "mcp") continue
       // Skip if a command with this name already exists
       if (result[skill.name]) continue
       result[skill.name] = {

@@ -7,7 +7,7 @@ import type { WorkflowTypes } from "../../src/workflow/types"
 function fakeCtx(spawn: WorkflowTypes.SpawnFn, over: Partial<WorkflowTypes.RunContext> = {}): WorkflowTypes.RunContext {
   let seq = 0
   let spawned = 0
-  const store = new Map<number, { callKey: string; result: any }>()
+  const store = new Map<number, { callKey: string; result: any; status: "done" | "failed"; tokens: number }>()
   return {
     runId: "wfr_test",
     sessionID: "ses",
@@ -28,9 +28,18 @@ function fakeCtx(spawn: WorkflowTypes.SpawnFn, over: Partial<WorkflowTypes.RunCo
         return store.get(s)
       },
       async record(e) {
-        store.set(e.seq, { callKey: e.callKey, result: e.result })
+        store.set(e.seq, { callKey: e.callKey, result: e.result, status: e.status, tokens: e.tokens })
       },
-      async invalidateFrom() {},
+      async invalidateFrom(seq) {
+        let freed = 0
+        for (const [s, entry] of store) {
+          if (s >= seq) {
+            freed += entry.tokens
+            store.delete(s)
+          }
+        }
+        return freed
+      },
     },
     spawn,
     emit: () => {},

@@ -66,7 +66,11 @@ export namespace WorkflowJournal {
             .all()[0],
         )
         if (!row) return undefined
-        return { callKey: row.call_key, result: row.result_json === null ? null : JSON.parse(row.result_json) }
+        return {
+          callKey: row.call_key,
+          result: row.result_json === null ? null : JSON.parse(row.result_json),
+          status: row.status as "done" | "failed",
+        }
       },
       async record(entry) {
         Database.transaction((db) => {
@@ -95,7 +99,7 @@ export namespace WorkflowJournal {
         })
       },
       async invalidateFrom(seq) {
-        Database.transaction((db) => {
+        return Database.transaction((db) => {
           const doomed = db
             .select()
             .from(WorkflowAgentCallTable)
@@ -112,6 +116,7 @@ export namespace WorkflowJournal {
               .where(eq(WorkflowRunTable.id, runId))
               .run()
           }
+          return freed
         })
       },
     }

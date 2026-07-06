@@ -21,6 +21,10 @@ export namespace Skill {
     description: z.string(),
     location: z.string(),
     content: z.string(),
+    // Tags where the skill came from. Disk-scanned skills leave this unset;
+    // "mcp" is used by command/index.ts to skip registering MCP-prompt
+    // skills as slash commands (they're already registered as <client>:<prompt>).
+    source: z.enum(["user", "bundled", "mcp"]).optional(),
   })
   export type Info = z.infer<typeof Info>
 
@@ -181,6 +185,7 @@ export namespace Skill {
           description: bundled.description,
           location: `bundled://${bundled.name}`,
           content: bundled.content,
+          source: bundled.source,
         }
       }
     } catch (err) {
@@ -200,6 +205,7 @@ export namespace Skill {
           description: mcp.description,
           location: mcp.location,
           content: mcp.content,
+          source: mcp.source,
         }
       }
     } catch (err) {

@@ -13,6 +13,7 @@ export namespace WorkflowTypes {
     spent(): number
     remaining(): number
     add(tokens: number): void
+    sub(tokens: number): void
   }
 
   export interface SpawnResult {
@@ -35,9 +36,9 @@ export namespace WorkflowTypes {
   }
 
   export interface JournalBinding {
-    lookup(seq: number): Promise<{ callKey: string; result: any } | undefined>
+    lookup(seq: number): Promise<{ callKey: string; result: any; status: "done" | "failed" } | undefined>
     record(entry: JournalEntry): Promise<void>
-    invalidateFrom(seq: number): Promise<void>
+    invalidateFrom(seq: number): Promise<number>
   }
 
   export type WorkflowEvent =

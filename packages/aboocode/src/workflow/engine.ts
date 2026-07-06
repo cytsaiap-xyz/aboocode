@@ -17,8 +17,12 @@ export namespace WorkflowEngine {
 
       if (ctx.resume) {
         const cached = await ctx.journal.lookup(seq)
-        if (cached && cached.callKey === callKey) return cached.result
-        if (cached) await ctx.journal.invalidateFrom(seq)
+        // Only replay a committed success. A failed row (transient error) must re-run.
+        if (cached && cached.callKey === callKey && cached.status !== "failed") return cached.result
+        if (cached) {
+          const freed = await ctx.journal.invalidateFrom(seq)
+          ctx.budget.sub(freed) // keep in-memory budget consistent with the DB (#11)
+        }
       }
 
       // Soft cap under concurrency: concurrent agent() calls each pass this check before

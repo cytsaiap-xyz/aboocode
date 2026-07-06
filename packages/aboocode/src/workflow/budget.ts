@@ -10,6 +10,9 @@ export namespace WorkflowBudget {
       add: (tokens: number) => {
         used += Math.max(0, tokens)
       },
+      sub: (tokens: number) => {
+        used = Math.max(0, used - tokens)
+      },
     }
   }
 }

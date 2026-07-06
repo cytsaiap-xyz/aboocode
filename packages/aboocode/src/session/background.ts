@@ -106,17 +106,14 @@ export namespace BackgroundTasks {
   }
 
   /**
-   * Kill a background task (mark as failed, does not abort the underlying promise).
+   * Kill a background task: cancel its session loop (aborting the LLM stream),
+   * then mark it failed. Awaits cancellation so callers don't report success early.
    */
-  export function kill(taskID: string): boolean {
+  export async function kill(taskID: string): Promise<boolean> {
     const task = state()[taskID]
     if (!task || task.status !== "running") return false
-    // Cancel the session prompt loop, which aborts the underlying LLM stream
-    import("./prompt").then(({ SessionPrompt }) => {
-      SessionPrompt.cancel(task.sessionID)
-    }).catch((e) => {
-      log.error("failed to cancel background session", { taskID, error: e })
-    })
+    const { SessionPrompt } = await import("./prompt")
+    SessionPrompt.cancel(task.sessionID)
     task.status = "failed"
     task.error = "Task killed by user"
     task.endTime = Date.now()

@@ -90,6 +90,9 @@ export namespace SessionPrompt {
     async (current) => {
       for (const item of Object.values(current)) {
         item.abort.abort()
+        for (const cb of item.callbacks ?? []) {
+          cb.reject(new Error("instance disposed"))
+        }
       }
     },
   )
@@ -373,9 +376,22 @@ export namespace SessionPrompt {
       return
     }
     match.abort.abort()
+    for (const cb of match.callbacks ?? []) {
+      cb.reject(new Error("session cancelled"))
+    }
     delete s[sessionID]
     SessionStatus.set(sessionID, { type: "idle" })
     return
+  }
+
+  // Test-only: park a reject callback on a synthetic session entry.
+  export function __test_parkCallback(sessionID: string, reject: (e: any) => void) {
+    const s = state()
+    s[sessionID] = {
+      ...(s[sessionID] ?? {}),
+      abort: s[sessionID]?.abort ?? new AbortController(),
+      callbacks: [...(s[sessionID]?.callbacks ?? []), { resolve: () => {}, reject }],
+    } as any
   }
 
   export const LoopInput = z.object({
@@ -2442,7 +2458,7 @@ NOTE: At any point in time through this workflow you should feel free to ask the
       return args[argIndex]
     })
     const usesArgumentsPlaceholder = templateCommand.includes("$ARGUMENTS")
-    let template = withArgs.replaceAll("$ARGUMENTS", input.arguments)
+    let template = withArgs.replace(/\$ARGUMENTS/g, () => input.arguments)
 
     // If command doesn't explicitly handle arguments (no $N or $ARGUMENTS placeholders)
     // but user provided arguments, append them to the template

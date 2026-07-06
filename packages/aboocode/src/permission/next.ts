@@ -121,6 +121,7 @@ export namespace PermissionNext {
         info: Request
         resolve: () => void
         reject: (e: any) => void
+        ruleset: Ruleset
       }
     > = {}
 
@@ -166,13 +167,12 @@ export namespace PermissionNext {
         throw new DeniedError(ruleset.filter((r) => Wildcard.match(request.permission, r.permission)))
       }
 
+      let needsAsk = false
       for (const pattern of request.patterns ?? []) {
-        let rule = evaluate(request.permission, pattern, ruleset, s.approved)
-        log.info("evaluated", { permission: request.permission, pattern, action: rule })
-        if (rule.action === "deny") {
-          // Phase 11: PermissionDenied hook with retry contract. A hook
-          // can persist an allow-rule then return {retry: true}; we
-          // re-evaluate once before throwing.
+        // Config-only evaluation for deny: a config deny is absolute and cannot
+        // be masked by a runtime-approved allow appended to s.approved.
+        let denyRule = evaluate(request.permission, pattern, ruleset)
+        if (denyRule.action === "deny") {
           const denyDecision = await HookLifecycle.dispatch({
             event: "PermissionDenied",
             sessionID: request.sessionID,
@@ -184,38 +184,31 @@ export namespace PermissionNext {
             reason: `denied by ruleset for pattern ${pattern}`,
           })
           if (denyDecision.hookSpecificOutput?.retry) {
-            rule = evaluate(request.permission, pattern, ruleset, s.approved)
+            denyRule = evaluate(request.permission, pattern, ruleset, s.approved)
             log.info("permission re-evaluated after hook retry", {
               permission: request.permission,
               pattern,
-              action: rule.action,
+              action: denyRule.action,
             })
-            if (rule.action === "allow") continue
-            if (rule.action === "ask") {
-              // fall through into the ask branch below
-            } else {
+            if (denyRule.action === "deny")
               throw new DeniedError(ruleset.filter((r) => Wildcard.match(request.permission, r.permission)))
-            }
-          } else {
-            throw new DeniedError(ruleset.filter((r) => Wildcard.match(request.permission, r.permission)))
+            if (denyRule.action === "ask") needsAsk = true
+            continue
           }
+          throw new DeniedError(ruleset.filter((r) => Wildcard.match(request.permission, r.permission)))
         }
-        if (rule.action === "ask") {
-          const id = input.id ?? Identifier.ascending("permission")
-          return new Promise<void>((resolve, reject) => {
-            const info: Request = {
-              id,
-              ...request,
-            }
-            s.pending[id] = {
-              info,
-              resolve,
-              reject,
-            }
-            Bus.publish(Event.Asked, info)
-          })
-        }
-        if (rule.action === "allow") continue
+        // No config deny for this pattern — approved rules may upgrade ask→allow.
+        const rule = evaluate(request.permission, pattern, ruleset, s.approved)
+        if (rule.action === "ask") needsAsk = true
+        // allow → nothing to do
+      }
+      if (needsAsk) {
+        const id = input.id ?? Identifier.ascending("permission")
+        return new Promise<void>((resolve, reject) => {
+          const info: Request = { id, ...request }
+          s.pending[id] = { info, resolve, reject, ruleset }
+          Bus.publish(Event.Asked, info)
+        })
       }
     },
   )
@@ -259,6 +252,8 @@ export namespace PermissionNext {
       }
       if (input.reply === "always") {
         for (const pattern of existing.info.always) {
+          // Never grant an allow that contradicts a config deny (#2).
+          if (evaluate(existing.info.permission, pattern, existing.ruleset).action === "deny") continue
           s.approved.push({
             permission: existing.info.permission,
             pattern,
