@@ -31,3 +31,16 @@ test("workflow command is absent when the flag is off", async () => {
     },
   })
 })
+
+test("workflow command survives Command.reload() when the flag is on", async () => {
+  await using tmp = await tmpdir({ config: { experimental: { workflows: true } } })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      await Command.reload()
+      const cmd = await Command.get("workflow")
+      expect(cmd).toBeDefined()
+      expect(cmd!.hints).toContain("$ARGUMENTS")
+    },
+  })
+})

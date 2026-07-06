@@ -10,7 +10,7 @@ The dynamic workflow tool runs a JavaScript orchestration script in the backgrou
 
 2. Names an existing script: if the arguments are a path to an existing .js file, or a bare name <name> where .aboocode/workflows/<name>.js exists in the project root, call the workflow tool with scriptPath set to that file. Execute the script AS-IS — do not rewrite or edit it. Any remaining text after the name/path becomes the tool's args parameter (parse it as JSON when it looks like JSON, else pass the raw string).
 
-3. Any other non-empty text: treat it as a task description. Author a workflow script that fulfills it — begin with `export const meta = { name, description, phases }`, orchestrate with agent()/parallel()/pipeline()/phase()/log(), respect the determinism rules (no Date.now(), no argless new Date(), no Math.random()) — and call the workflow tool with the script inline.
+3. Any other non-empty text: treat it as a task description. Author a workflow script that fulfills it — begin with `export const meta = { name, description, phases }`, orchestrate with agent()/parallel()/pipeline()/phase()/log(), respect the determinism rules (no Date.now(), no argless new Date(), no Math.random()) — and call the workflow tool with the script text in the `script` parameter.
 
 4. Empty arguments: do NOT execute anything. List the saved workflows (files in .aboocode/workflows/ if that directory exists, else say there are none) and show usage:
    /workflow <task description>   author and run a new workflow
