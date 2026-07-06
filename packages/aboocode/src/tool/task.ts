@@ -56,7 +56,7 @@ export const TaskTool = Tool.define<typeof parameters, { sessionId?: string; mod
       // Handle kill request
       if (params.kill_task_id) {
         const { BackgroundTasks } = await import("../session/background")
-        const killed = BackgroundTasks.kill(params.kill_task_id)
+        const killed = await BackgroundTasks.kill(params.kill_task_id)
         return {
           title: killed ? `Killed: ${params.kill_task_id}` : `Not found: ${params.kill_task_id}`,
           metadata: {},
