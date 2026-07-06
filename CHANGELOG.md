@@ -5,6 +5,22 @@ All notable changes to Aboocode are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.11.4] - 2026-07-07
+
+### Added
+
+- **Persistent `errors.log`.** A dedicated error log at
+  `~/.local/share/aboocode/log/errors.log` aggregates every `WARN`/`ERROR` log
+  line and every `session.error` event across runs (the per-run log is
+  truncated on start and auto-pruned, so errors were previously hard to review
+  after the fact). It rotates to `errors.log.1` past 10 MB and is fully
+  additive — the per-run log, the TUI, and the `session.error` event are
+  unchanged. All writes are best-effort and can never crash the app.
+
+  Note: an error whose publish site also calls `log.error` appears as two
+  lines — a human-readable tagged line (the tee) and a terse structured line
+  (`source=session.error … category=<name>`); both framings are intentional.
+
 ## [0.11.3] - 2026-07-06
 
 Registry-reload and workflow-accounting follow-up fixes.
@@ -132,6 +148,7 @@ graduation of the dynamic workflow engine.
 
 Baseline release preceding the changes recorded above.
 
+[0.11.4]: https://github.com/cytsaiap-xyz/aboocode/compare/v0.11.3...v0.11.4
 [0.11.3]: https://github.com/cytsaiap-xyz/aboocode/compare/v0.11.2...v0.11.3
 [0.11.2]: https://github.com/cytsaiap-xyz/aboocode/compare/v0.11.1...v0.11.2
 [0.11.1]: https://github.com/cytsaiap-xyz/aboocode/compare/v0.11.0...v0.11.1
