@@ -37,6 +37,7 @@ import PROMPT_PRD from "./template/prd.txt"
 import PROMPT_EXPLAIN from "./template/explain.txt"
 import PROMPT_ONBOARD from "./template/onboard.txt"
 import PROMPT_UNDO from "./template/undo.txt"
+import PROMPT_WORKFLOW from "./template/workflow.txt"
 import { MCP } from "../mcp"
 import { Skill } from "../skill"
 
@@ -118,6 +119,7 @@ export namespace Command {
     EXPLAIN: "explain",
     ONBOARD: "onboard",
     UNDO: "undo",
+    WORKFLOW: "workflow",
   } as const
 
   const state = Instance.state(async () => {
@@ -267,6 +269,21 @@ export namespace Command {
       [Default.UNDO]: { name: Default.UNDO, description: "undo the agent's last change", source: "command", get template() { return PROMPT_UNDO }, hints: hints(PROMPT_UNDO) },
     }
 
+    // Gated like the workflow tool itself (tool/registry.ts): the command only
+    // exists while the engine is enabled, so /workflow never autocompletes
+    // when the tool it drives is unregistered.
+    if (cfg.experimental?.workflows === true) {
+      result[Default.WORKFLOW] = {
+        name: Default.WORKFLOW,
+        description: "run, author, or resume a dynamic workflow",
+        source: "command",
+        get template() {
+          return PROMPT_WORKFLOW
+        },
+        hints: hints(PROMPT_WORKFLOW),
+      }
+    }
+
     for (const [name, command] of Object.entries(cfg.command ?? {})) {
       result[name] = {
         name,
@@ -361,6 +378,18 @@ export namespace Command {
         return PROMPT_MEMORY
       },
       hints: hints(PROMPT_MEMORY),
+    }
+
+    if (cfg.experimental?.workflows === true) {
+      s[Default.WORKFLOW] = {
+        name: Default.WORKFLOW,
+        description: "run, author, or resume a dynamic workflow",
+        source: "command",
+        get template() {
+          return PROMPT_WORKFLOW
+        },
+        hints: hints(PROMPT_WORKFLOW),
+      }
     }
 
     for (const [name, command] of Object.entries(cfg.command ?? {})) {
