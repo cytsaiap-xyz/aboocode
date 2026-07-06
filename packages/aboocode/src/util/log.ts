@@ -57,6 +57,31 @@ export namespace Log {
     return msg.length
   }
 
+  let errorpath = ""
+  export function errorFile() {
+    return errorpath
+  }
+  let writeError = (_msg: any) => {}
+
+  export function recordError(entry: {
+    source?: string
+    sessionID?: string
+    category?: string
+    message: string
+    cause?: unknown
+  }) {
+    const parts = [
+      new Date().toISOString().split(".")[0],
+      "ERROR",
+      entry.source ? `source=${entry.source}` : undefined,
+      entry.sessionID ? `sessionID=${entry.sessionID}` : undefined,
+      entry.category ? `category=${entry.category}` : undefined,
+      entry.message,
+      entry.cause instanceof Error ? "Caused by: " + formatError(entry.cause) : undefined,
+    ].filter(Boolean)
+    writeError(parts.join(" ") + "\n")
+  }
+
   export async function init(options: Options) {
     if (options.level) level = options.level
     cleanup(Global.Path.log)
@@ -74,6 +99,21 @@ export namespace Log {
           else resolve(msg.length)
         })
       })
+    }
+
+    errorpath = path.join(Global.Path.log, "errors.log")
+    // Persistent across runs (append, not truncated). Rotate when it grows past the cap.
+    const MAX_ERROR_LOG_BYTES = 10 * 1024 * 1024
+    const size = await fs
+      .stat(errorpath)
+      .then((s) => s.size)
+      .catch(() => 0)
+    if (size > MAX_ERROR_LOG_BYTES) {
+      await fs.rename(errorpath, errorpath + ".1").catch(() => {})
+    }
+    const errorStream = createWriteStream(errorpath, { flags: "a" })
+    writeError = (msg: any) => {
+      errorStream.write(msg, () => {})
     }
   }
 
@@ -139,12 +179,16 @@ export namespace Log {
       },
       error(message?: any, extra?: Record<string, any>) {
         if (shouldLog("ERROR")) {
-          write("ERROR " + build(message, extra))
+          const line = "ERROR " + build(message, extra)
+          write(line)
+          writeError(line)
         }
       },
       warn(message?: any, extra?: Record<string, any>) {
         if (shouldLog("WARN")) {
-          write("WARN  " + build(message, extra))
+          const line = "WARN  " + build(message, extra)
+          write(line)
+          writeError(line)
         }
       },
       tag(key: string, value: string) {
