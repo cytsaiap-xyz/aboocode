@@ -162,6 +162,67 @@ return { out, b }
   })
 })
 
+test("parent tokens_total rolls up the child workflow's token spend, not just its own (#17)", async () => {
+  await using tmp = await tmpdir({ git: true })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      const childPath = `${tmp.path}/child-rollup.js`
+      await Bun.write(
+        childPath,
+        `export const meta = { name: "child-rollup", description: "c" }
+const r = await agent("inner: " + args.q)
+return { r }
+`,
+      )
+      const PARENT = `export const meta = { name: "parent-rollup", description: "p" }
+const out = await workflow({ scriptPath: ${JSON.stringify(childPath)} }, { q: "hi" })
+const b = await agent("after")
+return { out, b }
+`
+      const first = await WorkflowRun.execute({
+        sessionID: "ses_rollup",
+        source: PARENT,
+        scriptPath: "/tmp/parent-rollup.js",
+        args: undefined,
+        budgetTotal: 100,
+        spawn: async (prompt: string) => {
+          // child's inner agent() spends 40, parent's trailing agent() spends 5.
+          if (prompt.startsWith("inner")) return { text: "R(" + prompt + ")", tokens: 40 }
+          return { text: "R(" + prompt + ")", tokens: 5 }
+        },
+      })
+      expect(first.status).toBe("done")
+
+      const run = await WorkflowJournal.getRun(first.runId)
+      // Must include the child's 40 tokens, not just the parent's own 5.
+      expect(run?.tokens_total).toBe(45)
+
+      // On resume, priorTokens seeds the budget from the (now correctly rolled-up)
+      // parent tokens_total, so a resumed run's remaining budget accounts for the
+      // child's prior spend instead of undercounting it.
+      let resumeSpawnCount = 0
+      const resumed = await WorkflowRun.execute({
+        sessionID: "ses_rollup",
+        source: PARENT,
+        scriptPath: "/tmp/parent-rollup.js",
+        args: undefined,
+        budgetTotal: 100,
+        resumeFromRunId: first.runId,
+        spawn: async (prompt: string) => {
+          resumeSpawnCount++
+          return { text: "LIVE(" + prompt + ")", tokens: 1 }
+        },
+      })
+      expect(resumed.status).toBe("done")
+      // Both calls are memo-hits on resume — nothing should re-spawn.
+      expect(resumeSpawnCount).toBe(0)
+      const resumedRun = await WorkflowJournal.getRun(first.runId)
+      expect(resumedRun?.tokens_total).toBe(45)
+    },
+  })
+})
+
 test("child() callKey distinguishes object-ref workflow targets by scriptPath (#7 memoization fix)", () => {
   const args = { args: { q: "hi" } } as any
   // Old buggy form: `workflow:${ref}` on an object ref stringifies to the same
