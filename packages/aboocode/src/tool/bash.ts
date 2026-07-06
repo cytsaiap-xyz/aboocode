@@ -204,12 +204,12 @@ export const BashTool = Tool.define("bash", async () => {
             output: blocked,
           }
         }
-        // Skip when the command is pure `cd` navigation (patterns stays
-        // empty — see the loop above): cd doesn't execute anything itself,
-        // and its target directory is already vetted via the
-        // external_directory ask. Enforcing the classifier's verdict here
-        // only matters once there's an actual command to scrutinize.
-        if (decision.action === "ask" && patterns.size > 0) {
+        // Only the "destructive" verdict is enforced via ctx.ask here.
+        // "readonly" also maps to action "ask" in normal mode (git log,
+        // git status, unknown binaries, etc.), but that would prompt on
+        // every benign read — those fall through to the declarative
+        // ruleset below instead, same as before this classifier existed.
+        if (decision.action === "ask" && decision.verdict === "destructive") {
           await ctx.ask({
             permission: "bash",
             patterns: [params.command],

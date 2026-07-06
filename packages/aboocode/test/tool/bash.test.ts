@@ -236,14 +236,9 @@ describe("tool.bash permissions", () => {
           },
           testCtx,
         )
-        // `git log` classifies as "readonly" by the Bash classifier, so it now
-        // also produces a classifier-driven ask (empty `always`, a one-off
-        // confirmation) ahead of the regular pattern-based ask that carries
-        // the auto-approval globs.
-        expect(requests.length).toBe(2)
-        const patternReq = requests.find((r) => r.always.length > 0)
-        expect(patternReq).toBeDefined()
-        expect(patternReq!.always.some((p) => p.endsWith("*"))).toBe(true)
+        expect(requests.length).toBe(1)
+        expect(requests[0].always.length).toBeGreaterThan(0)
+        expect(requests[0].always.some((p) => p.endsWith("*"))).toBe(true)
       },
     })
   })
