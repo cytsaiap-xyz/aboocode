@@ -216,6 +216,12 @@ export namespace Failure {
         }
 
       case "model_api_error":
+        // Medium recovery: retry, delay omitted so the caller falls through to
+        // SessionRetry.delay (Retry-After header parsing + exponential backoff)
+        return {
+          action: "retry",
+        }
+
       case "mcp_connect_error":
         // Medium recovery: retry with backoff
         return {
