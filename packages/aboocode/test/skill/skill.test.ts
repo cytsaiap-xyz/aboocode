@@ -386,3 +386,21 @@ description: A skill in the .aboocode/skills directory.
     },
   })
 })
+
+test("Skill.reload() preserves bundled (and MCP) skills, not just disk skills", async () => {
+  await using tmp = await tmpdir({ config: {} })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      const before = (await Skill.all()).map((s) => s.name).sort()
+      // Bundled skills must be present before reload (guards against a vacuous test).
+      expect(before).toContain("commit")
+      await Skill.reload()
+      const after = (await Skill.all()).map((s) => s.name).sort()
+      // Pre-fix, reload() re-scanned only disk sources and dropped bundled/MCP
+      // skills, so "commit" would vanish here.
+      expect(after).toContain("commit")
+      expect(after).toEqual(before)
+    },
+  })
+})
