@@ -44,8 +44,20 @@ test('reply("always") never grants an allow for a config-denied pattern', async 
       })
       await PermissionNext.reply({ requestID: "per_always", reply: "always" })
       await pending
-      // curl must still evaluate to deny under config, not allow via approved.
-      expect(PermissionNext.evaluate("bash", "curl evil", rs).action).toBe("deny")
+      // A fresh `ask` for curl must still be denied. This reads through the
+      // same instance-scoped `s.approved` populated by the "always" reply above,
+      // so if that reply had wrongly written an allow for "curl *" into approved,
+      // and the config deny could be masked by it, this would resolve instead
+      // of reject.
+      const recheck = PermissionNext.ask({
+        sessionID: "ses_always",
+        permission: "bash",
+        patterns: ["curl evil"],
+        always: ["curl *"],
+        ruleset: rs,
+        metadata: {},
+      })
+      await expect(recheck).rejects.toThrow()
     },
   })
 })
