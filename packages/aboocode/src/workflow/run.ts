@@ -182,7 +182,16 @@ export namespace WorkflowRun {
         args: input.args,
       }))
 
-    if (input.resumeFromRunId) await WorkflowJournal.setStatus(runId, "running")
+    if (input.resumeFromRunId) {
+      // Still inside the claimed window: if this throws, drive() (and its finally-owned
+      // release) never runs, so start() must release the claim itself before rethrowing.
+      try {
+        await WorkflowJournal.setStatus(runId, "running")
+      } catch (e) {
+        __releaseResume(runId)
+        throw e
+      }
+    }
 
     const done = drive(runId, m.name, input)
     return { runId, done }
