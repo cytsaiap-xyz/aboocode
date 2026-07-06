@@ -637,17 +637,13 @@ export function replace(content: string, oldString: string, newString: string, r
       if (index === -1) continue
       notFound = false
       if (replaceAll) {
-        // Replace this concrete match everywhere it appears; keep scanning the
-        // generator so whitespace-divergent occurrences are also covered.
-        content = content.replaceAll(search, newString)
-        continue
+        return content.replaceAll(search, newString)
       }
       const lastIndex = content.lastIndexOf(search)
       if (index !== lastIndex) continue
       return content.substring(0, index) + newString + content.substring(index + search.length)
     }
   }
-  if (replaceAll && !notFound) return content
 
   if (notFound) {
     throw new Error(

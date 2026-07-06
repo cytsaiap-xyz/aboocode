@@ -85,7 +85,7 @@ export const GrepTool = Tool.define("grep", {
       if (!line) continue
 
       const [filePath, lineNumStr, ...lineTextParts] = line.split("|")
-      if (!filePath || !lineNumStr) continue
+      if (!filePath || !lineNumStr || lineTextParts.length === 0) continue
 
       const lineNum = parseInt(lineNumStr, 10)
       const lineText = lineTextParts.join("|")
