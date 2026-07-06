@@ -38,7 +38,7 @@ const log = Log.create({ service: "mcp.claude-code-compat" })
  * the live Config.Info.mcp without importing the full zod schema here.
  */
 export interface CompatMcpEntry {
-  type: "local" | "remote" | "sse" | "http"
+  type: "local" | "remote"
   enabled?: boolean
   command?: string[]
   environment?: Record<string, string>
@@ -79,7 +79,7 @@ export function candidatePaths(projectDir: string): string[] {
  * Convert a single Claude Code MCP server entry to aboocode's CompatMcpEntry
  * shape. Returns null if the entry is unrecognizable.
  */
-function convert(entry: ClaudeCodeMcpServer): CompatMcpEntry | null {
+export function convert(entry: ClaudeCodeMcpServer): CompatMcpEntry | null {
   const rawType = (entry.type ?? "stdio").toLowerCase()
   if (rawType === "stdio" || (!entry.type && entry.command)) {
     if (!entry.command) return null
@@ -89,13 +89,9 @@ function convert(entry: ClaudeCodeMcpServer): CompatMcpEntry | null {
       environment: entry.env,
     }
   }
-  if (rawType === "sse") {
+  if (rawType === "sse" || rawType === "http" || rawType === "streamable" || rawType === "streamable-http") {
     if (!entry.url) return null
-    return { type: "sse", url: entry.url, headers: entry.headers }
-  }
-  if (rawType === "http" || rawType === "streamable" || rawType === "streamable-http") {
-    if (!entry.url) return null
-    return { type: "http", url: entry.url, headers: entry.headers }
+    return { type: "remote", url: entry.url, headers: entry.headers }
   }
   log.warn("unrecognized mcp entry type", { type: rawType })
   return null
