@@ -132,7 +132,15 @@ export namespace Config {
 
     const directories = [
       Global.Path.config,
-      // Only scan project .aboocode/ directories when project discovery is enabled
+      // Home ~/.aboocode is scanned BEFORE project so project .aboocode wins on merge (later-wins).
+      ...(await Array.fromAsync(
+        Filesystem.up({
+          targets: [".aboocode"],
+          start: Global.Path.home,
+          stop: Global.Path.home,
+        }),
+      )),
+      // Project .aboocode directories (highest priority) — scanned last.
       ...(!Flag.ABOOCODE_DISABLE_PROJECT_CONFIG
         ? await Array.fromAsync(
             Filesystem.up({
@@ -142,14 +150,6 @@ export namespace Config {
             }),
           )
         : []),
-      // Always scan ~/.aboocode/ (user home directory)
-      ...(await Array.fromAsync(
-        Filesystem.up({
-          targets: [".aboocode"],
-          start: Global.Path.home,
-          stop: Global.Path.home,
-        }),
-      )),
     ]
 
     // .aboocode directory config overrides (project and global) config sources.
