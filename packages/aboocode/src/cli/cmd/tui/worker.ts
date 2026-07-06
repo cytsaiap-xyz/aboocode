@@ -20,6 +20,9 @@ await Log.init({
   })(),
 })
 
+const { SessionErrorLog } = await import("@/session/error-log")
+SessionErrorLog.init()
+
 process.on("unhandledRejection", (e) => {
   Log.Default.error("rejection", {
     e: e instanceof Error ? e.message : e,
